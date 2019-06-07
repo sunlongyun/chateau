@@ -1,8 +1,11 @@
 package com.caichao.chateau.app.miniProgram.annotaion;
 
-import com.caichao.chateau.app.miniProgram.request.LoginReq;
+import com.caichao.chateau.app.miniProgram.response.ParentResponse;
 import com.caichao.chateau.app.utils.JsonUtils;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
@@ -24,8 +27,11 @@ public class ResUtil {
 		Object obj = null;
 		try {
 			obj = clazz.newInstance();
-			Field[] fields = clazz.getDeclaredFields();
-			for(Field field : fields) {
+			List<Field> fieldList = new ArrayList<>();
+			fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+			fieldList.addAll(Arrays.asList(ParentResponse.class.getDeclaredFields()));
+
+			for(Field field : fieldList) {
 				field.setAccessible(true);
 				String filedName = field.getName();
 				MiniFiled miniFiled = field.getAnnotation(MiniFiled.class);

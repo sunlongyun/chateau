@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2019-06-07 16:23
  */
 @Data
-public class LoginResponse {
+public class LoginResponse extends ParentResponse {
 
 	/**
 	 * 用户唯一标识
@@ -24,20 +24,15 @@ public class LoginResponse {
 	 */
 	@MiniFiled("unionid")
 	private String unionId;
-	/**
-	 * 错误码
-	 * errcode 的合法值
-	 值	说明	最低版本
-	 -1	系统繁忙，此时请开发者稍候再试
-	 0	请求成功
-	 40029	code 无效
-	 45011	频率限制，每个用户每分钟100次
-	 */
-	@MiniFiled("errcode")
-	private Number errCode;
-	/**
-	 * 错误信息
-	 */
-	@MiniFiled("errmsg")
-	private String errMsg;
+
+	@Override
+	public String toString() {
+		return "LoginResponse{" +
+			"openid='" + openid + '\'' +
+			", sessionKey='" + sessionKey + '\'' +
+			", unionId='" + unionId + '\'' +
+			", errCode=" + errCode +
+			", errMsg='" + errMsg + '\'' +
+			'}';
+	}
 }
