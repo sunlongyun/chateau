@@ -31,5 +31,5 @@ public class LoginReq {
 	 返回值
 	 */
 	@MiniFiled("grant_type")
-	private String grantType;
+	private String grantType ="authorization_code";
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,6 +31,19 @@ public class MyWebMvcConfg implements WebMvcConfigurer{
 	@Value("${spring.datasource.username}")
 	private String userName;
 
+	/**
+	 * 获取RestTemplate
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public RestTemplate  getRestTemplate(){
+		return new RestTemplate();
+	}
+	/**
+	 * datasource
+	 * @return
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public DataSource getDatasource(){
