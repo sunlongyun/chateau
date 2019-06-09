@@ -81,7 +81,9 @@ public class AuthBizServiceImpl implements AuthBizService {
 		List<CustomerInfoDto> customerInfoDtoList = customerInfoService.getList(customerInfoExample);
 		if(CollectionUtils.isEmpty(customerInfoDtoList)){
 			CustomerInfoDto customerInfoDto = new CustomerInfoDto();
-			BeanUtils.copyProperties(loginResponse,customerInfoDto);
+			customerInfoDto.setUnionId(loginResponse.getUnionId());
+			customerInfoDto.setOpenId(loginResponse.getOpenid());
+//			BeanUtils.copyProperties(loginResponse,customerInfoDto);
 			customerInfoService.save(customerInfoDto);
 		}else{
 			CustomerInfoDto customerInfoDto =	customerInfoDtoList.get(0);

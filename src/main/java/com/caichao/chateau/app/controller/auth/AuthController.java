@@ -25,8 +25,8 @@ public class AuthController {
 	 * 登录接口
 	 */
 	@RequestMapping("/login")
-	public CCResponse login(String jsCode) {
-		String userCode = authBizService.login(jsCode);
+	public CCResponse login(String code) {
+		String userCode = authBizService.login(code);
 		return CCResponse.success(userCode);
 	}
 
