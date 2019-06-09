@@ -1,7 +1,9 @@
 package com.caichao.chateau.app.controller.auth;
 
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.service.AuthBizService;
+import com.caichao.chateau.app.utils.LoginUserInfoUtil;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class AuthController {
 	@RequestMapping("/login")
 	public CCResponse login(String code) {
 		String userCode = authBizService.login(code);
+		LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
+		Map<String,Object> userMap = new HashMap<>();
+		userMap.put("userCode",userCode);
+		userMap.put("openId",loginResponse.getOpenid());
+
 		return CCResponse.success(userCode);
 	}
 
