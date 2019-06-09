@@ -10,8 +10,8 @@ public enum Validity {
 	int code;
 	String value;
 	Validity(int code, String value){
-		this.code = code;
 		this.value = value;
+		this.code = code;
 	}
 
 	public int code(){
