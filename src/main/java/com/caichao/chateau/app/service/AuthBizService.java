@@ -7,4 +7,11 @@ public interface AuthBizService {
 	 * @return
 	 */
 	public String getAccessToken();
+
+	/**
+	 * 登录获取userCode
+	 * @param jsCode
+	 * @return
+	 */
+	public String login(String jsCode);
 }

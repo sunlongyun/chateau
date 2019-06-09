@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-07
+* @date 2019-06-09
 */
 @Data
 public class CustomerInfoExample implements Serializable {
@@ -268,67 +268,6 @@ public class CustomerInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andPassWordIn(List<String> values) {
-            addCriterion("pass_word in", values, "passWord");
-            return (Criteria) this;
-        }
-        public Criteria andPassWordNotIn(List<String> values) {
-            addCriterion("pass_word not in", values, "passWord");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andPassWordBetween(String value1, String value2) {
-            addCriterion("pass_word between", value1, value2, "passWord");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andPassWordLike(String value) {
-            addCriterion("pass_word like", value, "passWord");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andPassWordEqualTo(String value) {
-            addCriterion("pass_word =", value, "passWord");
-            return (Criteria) this;
-        }
-        public Criteria andPassWordNotEqualTo(String value) {
-            addCriterion("pass_word <>", value, "passWord");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andPassWordGreaterThan(String value) {
-            addCriterion("pass_word >", value, "passWord");
-            return (Criteria) this;
-        }
-        public Criteria andPassWordGreaterThanOrEqualTo(String value) {
-            addCriterion("pass_word >=", value, "passWord");
-            return (Criteria) this;
-        }
-        public Criteria andPassWordLessThan(String value) {
-            addCriterion("pass_word <", value, "passWord");
-            return (Criteria) this;
-        }
-        public Criteria andPassWordLessThanOrEqualTo(String value) {
-            addCriterion("pass_word <=", value, "passWord");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andPassWordIsNull() {
-            addCriterion("pass_word is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassWordIsNotNull() {
-            addCriterion("pass_word is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
         public Criteria andMobileIn(List<String> values) {
             addCriterion("mobile in", values, "mobile");
             return (Criteria) this;
@@ -390,64 +329,125 @@ public class CustomerInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andUnionIdIn(List<String> values) {
+            addCriterion("union_id in", values, "unionId");
+            return (Criteria) this;
+        }
+        public Criteria andUnionIdNotIn(List<String> values) {
+            addCriterion("union_id not in", values, "unionId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andUnionIdBetween(String value1, String value2) {
+            addCriterion("union_id between", value1, value2, "unionId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andUnionIdLike(String value) {
+            addCriterion("union_id like", value, "unionId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andUnionIdEqualTo(String value) {
+            addCriterion("union_id =", value, "unionId");
+            return (Criteria) this;
+        }
+        public Criteria andUnionIdNotEqualTo(String value) {
+            addCriterion("union_id <>", value, "unionId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andUnionIdGreaterThan(String value) {
+            addCriterion("union_id >", value, "unionId");
+            return (Criteria) this;
+        }
+        public Criteria andUnionIdGreaterThanOrEqualTo(String value) {
+            addCriterion("union_id >=", value, "unionId");
+            return (Criteria) this;
+        }
+        public Criteria andUnionIdLessThan(String value) {
+            addCriterion("union_id <", value, "unionId");
+            return (Criteria) this;
+        }
+        public Criteria andUnionIdLessThanOrEqualTo(String value) {
+            addCriterion("union_id <=", value, "unionId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andUnionIdIsNull() {
+            addCriterion("union_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionIdIsNotNull() {
+            addCriterion("union_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andOpenIdIn(List<String> values) {
-            addCriterion("openId in", values, "openId");
+            addCriterion("open_id in", values, "openId");
             return (Criteria) this;
         }
         public Criteria andOpenIdNotIn(List<String> values) {
-            addCriterion("openId not in", values, "openId");
+            addCriterion("open_id not in", values, "openId");
             return (Criteria) this;
         }
 
         //between
         public Criteria andOpenIdBetween(String value1, String value2) {
-            addCriterion("openId between", value1, value2, "openId");
+            addCriterion("open_id between", value1, value2, "openId");
             return (Criteria) this;
         }
 
         //like
         public Criteria andOpenIdLike(String value) {
-            addCriterion("openId like", value, "openId");
+            addCriterion("open_id like", value, "openId");
             return (Criteria) this;
         }
 
         // = <>
         public Criteria andOpenIdEqualTo(String value) {
-            addCriterion("openId =", value, "openId");
+            addCriterion("open_id =", value, "openId");
             return (Criteria) this;
         }
         public Criteria andOpenIdNotEqualTo(String value) {
-            addCriterion("openId <>", value, "openId");
+            addCriterion("open_id <>", value, "openId");
             return (Criteria) this;
         }
 
 
         // > >= < <=
         public Criteria andOpenIdGreaterThan(String value) {
-            addCriterion("openId >", value, "openId");
+            addCriterion("open_id >", value, "openId");
             return (Criteria) this;
         }
         public Criteria andOpenIdGreaterThanOrEqualTo(String value) {
-            addCriterion("openId >=", value, "openId");
+            addCriterion("open_id >=", value, "openId");
             return (Criteria) this;
         }
         public Criteria andOpenIdLessThan(String value) {
-            addCriterion("openId <", value, "openId");
+            addCriterion("open_id <", value, "openId");
             return (Criteria) this;
         }
         public Criteria andOpenIdLessThanOrEqualTo(String value) {
-            addCriterion("openId <=", value, "openId");
+            addCriterion("open_id <=", value, "openId");
             return (Criteria) this;
         }
 
         //null  not null
         public Criteria andOpenIdIsNull() {
-            addCriterion("openId is null");
+            addCriterion("open_id is null");
             return (Criteria) this;
         }
 
         public Criteria andOpenIdIsNotNull() {
-            addCriterion("openId is not null");
+            addCriterion("open_id is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -573,17 +573,17 @@ public class CustomerInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andValidityIn(List<Boolean> values) {
+        public Criteria andValidityIn(List<Integer> values) {
             addCriterion("validity in", values, "validity");
             return (Criteria) this;
         }
-        public Criteria andValidityNotIn(List<Boolean> values) {
+        public Criteria andValidityNotIn(List<Integer> values) {
             addCriterion("validity not in", values, "validity");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andValidityBetween(Boolean value1, Boolean value2) {
+        public Criteria andValidityBetween(Integer value1, Integer value2) {
             addCriterion("validity between", value1, value2, "validity");
             return (Criteria) this;
         }
@@ -595,30 +595,30 @@ public class CustomerInfoExample implements Serializable {
         }
 
         // = <>
-        public Criteria andValidityEqualTo(Boolean value) {
+        public Criteria andValidityEqualTo(Integer value) {
             addCriterion("validity =", value, "validity");
             return (Criteria) this;
         }
-        public Criteria andValidityNotEqualTo(Boolean value) {
+        public Criteria andValidityNotEqualTo(Integer value) {
             addCriterion("validity <>", value, "validity");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andValidityGreaterThan(Boolean value) {
+        public Criteria andValidityGreaterThan(Integer value) {
             addCriterion("validity >", value, "validity");
             return (Criteria) this;
         }
-        public Criteria andValidityGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andValidityGreaterThanOrEqualTo(Integer value) {
             addCriterion("validity >=", value, "validity");
             return (Criteria) this;
         }
-        public Criteria andValidityLessThan(Boolean value) {
+        public Criteria andValidityLessThan(Integer value) {
             addCriterion("validity <", value, "validity");
             return (Criteria) this;
         }
-        public Criteria andValidityLessThanOrEqualTo(Boolean value) {
+        public Criteria andValidityLessThanOrEqualTo(Integer value) {
             addCriterion("validity <=", value, "validity");
             return (Criteria) this;
         }

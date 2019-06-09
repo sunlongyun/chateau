@@ -7,7 +7,9 @@ import com.caichao.chateau.app.miniProgram.response.AccessCodeResponse;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.service.AuthService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.lianshang.generator.commons.GenerateFileTypeEnum;
 import com.lianshang.utils.LsCodeGeneratorUtil;
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,6 @@ class ChateauApplicationTests {
 		CustomerInfoDto customerInfoDto = new CustomerInfoDto();
 		customerInfoDto.setMobile("13681967316");
 		customerInfoDto.setOpenId("openId");
-		customerInfoDto.setPassWord("hello");
 		customerInfoDto.setUserName("孙龙云");
 		customerInfoService.save(customerInfoDto);
 	}
@@ -41,7 +42,8 @@ class ChateauApplicationTests {
 	void test1() {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%",
+			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.ENTITY, GenerateFileTypeEnum.EXAMPLE,
+				GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML),
 			"customer_info");
 	}
 

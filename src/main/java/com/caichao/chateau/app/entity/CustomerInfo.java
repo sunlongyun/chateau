@@ -10,7 +10,7 @@ import lombok.Data;
 * 顾客信息表
 * </p>
 * @author 孙龙云
-* @date 2019-06-07
+* @date 2019-06-09
 */
 @Data
 public class CustomerInfo implements Serializable {
@@ -31,14 +31,14 @@ public class CustomerInfo implements Serializable {
     private  String userName;
 
     /**
-    * 密码
-     */
-    private  String passWord;
-
-    /**
     * 手机号
      */
     private  String mobile;
+
+    /**
+    * union_id
+     */
+    private  String unionId;
 
     /**
     * openId
@@ -58,6 +58,6 @@ public class CustomerInfo implements Serializable {
     /**
     * 是否有效
      */
-    private  Boolean validity;
+    private  Integer validity;
 
 }
