@@ -21,14 +21,29 @@ public class CustomerInfo implements Serializable {
     private  Long id;
 
     /**
-    * 真实姓名
+    * 昵称
      */
-    private  String realName;
+    private  String nickName;
 
     /**
-    * 账号
+    * 国家
      */
-    private  String userName;
+    private  String country;
+
+    /**
+    * 省份
+     */
+    private  String province;
+
+    /**
+    * 城市
+     */
+    private  String city;
+
+    /**
+    * 头像
+     */
+    private  String avatarUrl;
 
     /**
     * 手机号

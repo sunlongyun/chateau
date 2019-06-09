@@ -34,7 +34,7 @@ class ChateauApplicationTests {
 		CustomerInfoDto customerInfoDto = new CustomerInfoDto();
 		customerInfoDto.setMobile("13681967316");
 		customerInfoDto.setOpenId("openId");
-		customerInfoDto.setUserName("孙龙云");
+		customerInfoDto.setNickName("孙龙云");
 		customerInfoService.save(customerInfoDto);
 	}
 

@@ -1,6 +1,7 @@
 package com.caichao.chateau.app.miniProgram.response;
 
 import com.caichao.chateau.app.miniProgram.annotaion.MiniFiled;
+import lombok.Data;
 
 /**
  * 描述:
@@ -8,6 +9,7 @@ import com.caichao.chateau.app.miniProgram.annotaion.MiniFiled;
  * @AUTHOR 孙龙云
  * @date 2019-06-07 18:18
  */
+@Data
 public class ParentResponse {
 
 	/**
