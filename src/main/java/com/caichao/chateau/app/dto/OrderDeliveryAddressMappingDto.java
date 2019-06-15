@@ -6,57 +6,37 @@ import java.util.Date;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 订单--收货地址映射表
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfoDto implements Serializable {
+public class OrderDeliveryAddressMappingDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
     /**
-    * 昵称
+    * 订单id
      */
-    private String nickName;
+    private Long orderId;
 
     /**
-    * 国家
+    * 订单号
      */
-    private String country;
+    private String orderNo;
 
     /**
-    * 省份
+    * 收货地址
      */
-    private String province;
+    private Integer addressId;
 
     /**
-    * 城市
+    * 物流单号
      */
-    private String city;
-
-    /**
-    * 头像
-     */
-    private String avatarUrl;
-
-    /**
-    * 手机号
-     */
-    private String mobile;
-
-    /**
-    * union_id
-     */
-    private String unionId;
-
-    /**
-    * openId
-     */
-    private String openId;
+    private String logisticsNumber;
 
     /**
     * 创建时间
@@ -64,7 +44,7 @@ public class CustomerInfoDto implements Serializable {
     private Date createTime;
 
     /**
-    * 修改时间
+    * 更新时间
      */
     private Date updateTime;
 

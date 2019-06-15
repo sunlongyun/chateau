@@ -7,58 +7,58 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfo implements Serializable {
+public class OrderInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * 订单
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
 
     /**
-    * 昵称
+    * 订单号
      */
-    private  String nickName;
+    private  String orderNo;
 
     /**
-    * 国家
+    * 客户姓名
      */
-    private  String country;
+    private  String customerName;
 
     /**
-    * 省份
-     */
-    private  String province;
-
-    /**
-    * 城市
-     */
-    private  String city;
-
-    /**
-    * 头像
-     */
-    private  String avatarUrl;
-
-    /**
-    * 手机号
+    * 客户手机号
      */
     private  String mobile;
 
-    /**
-    * union_id
-     */
-    private  String unionId;
+    private  String customerId;
 
     /**
-    * openId
+    * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;
      */
-    private  String openId;
+    private  Integer status;
+
+    /**
+    * 物流单号
+     */
+    private  String logisticsNumber;
+
+    /**
+    * 支付流水号，支付成功的支付流水号
+     */
+    private  String payNo;
+
+    /**
+    * 订单总金额 单位：分
+     */
+    private  Long totalAmount;
 
     /**
     * 创建时间
@@ -71,7 +71,7 @@ public class CustomerInfo implements Serializable {
     private  Date updateTime;
 
     /**
-    * 是否有效
+    * 是否有效 1-有效；0-无效
      */
     private  Integer validity;
 

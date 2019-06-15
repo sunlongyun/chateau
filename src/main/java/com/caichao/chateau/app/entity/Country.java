@@ -7,58 +7,51 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 国家
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfo implements Serializable {
+public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * 主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
-    private  Long id;
+    private  Integer id;
 
     /**
-    * 昵称
+    * 编码
      */
-    private  String nickName;
+    private  String code;
 
     /**
-    * 国家
+    * 国家名称
      */
-    private  String country;
+    private  String name;
 
     /**
-    * 省份
+    * 图片地址
      */
-    private  String province;
+    private  String picUrl;
 
     /**
-    * 城市
+    * 缩略图地址
      */
-    private  String city;
+    private  String minPicUrl;
 
     /**
-    * 头像
+    * 标题
      */
-    private  String avatarUrl;
+    private  String title;
 
     /**
-    * 手机号
+    * 介绍
      */
-    private  String mobile;
-
-    /**
-    * union_id
-     */
-    private  String unionId;
-
-    /**
-    * openId
-     */
-    private  String openId;
+    private  String description;
 
     /**
     * 创建时间
@@ -66,12 +59,12 @@ public class CustomerInfo implements Serializable {
     private  Date createTime;
 
     /**
-    * 修改时间
+    * 更新时间
      */
     private  Date updateTime;
 
     /**
-    * 是否有效
+    * 是否有效 1-有效；0-无效
      */
     private  Integer validity;
 

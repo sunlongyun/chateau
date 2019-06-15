@@ -7,58 +7,51 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfo implements Serializable {
+public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * 支付流水号
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
 
     /**
-    * 昵称
+    * 支付订单号
      */
-    private  String nickName;
+    private  String payOrderNo;
 
     /**
-    * 国家
+    * 支付流水号
      */
-    private  String country;
+    private  String payNo;
 
     /**
-    * 省份
+    * 第三方支付流水号，微信/支付宝流水号
      */
-    private  String province;
+    private  String thirdPayNo;
 
     /**
-    * 城市
+    * 支付状态 0-提交；1-成功；2-失败；
      */
-    private  String city;
+    private  Integer status;
 
     /**
-    * 头像
+    * 支付时间
      */
-    private  String avatarUrl;
+    private  Date payTime;
 
     /**
-    * 手机号
+    * 支付成功时间
      */
-    private  String mobile;
-
-    /**
-    * union_id
-     */
-    private  String unionId;
-
-    /**
-    * openId
-     */
-    private  String openId;
+    private  Date paySuccessTime;
 
     /**
     * 创建时间
@@ -66,12 +59,12 @@ public class CustomerInfo implements Serializable {
     private  Date createTime;
 
     /**
-    * 修改时间
+    * 更新时间
      */
     private  Date updateTime;
 
     /**
-    * 是否有效
+    * 是否有效 1-有效；0-无效
      */
     private  Integer validity;
 

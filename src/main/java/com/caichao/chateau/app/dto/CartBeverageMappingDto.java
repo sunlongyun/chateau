@@ -6,57 +6,50 @@ import java.util.Date;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 购物车-酒水关联表
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfoDto implements Serializable {
+public class CartBeverageMappingDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    /**
+    * 主键
+     */
+    private Integer id;
 
     /**
-    * 昵称
+    * 购物车id
      */
-    private String nickName;
+    private Integer cartId;
 
     /**
-    * 国家
+    * 酒水id
      */
-    private String country;
+    private Long beverageId;
 
     /**
-    * 省份
+    * 数量
      */
-    private String province;
+    private Integer num;
 
     /**
-    * 城市
+    * 单价
      */
-    private String city;
+    private Long price;
 
     /**
-    * 头像
+    * 总价
      */
-    private String avatarUrl;
+    private Long totalPrice;
 
     /**
-    * 手机号
+    * 缩略图
      */
-    private String mobile;
-
-    /**
-    * union_id
-     */
-    private String unionId;
-
-    /**
-    * openId
-     */
-    private String openId;
+    private String minPicUrl;
 
     /**
     * 创建时间
@@ -64,7 +57,7 @@ public class CustomerInfoDto implements Serializable {
     private Date createTime;
 
     /**
-    * 修改时间
+    * 更新时间
      */
     private Date updateTime;
 

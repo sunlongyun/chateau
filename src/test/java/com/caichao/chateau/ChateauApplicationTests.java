@@ -1,15 +1,16 @@
 package com.caichao.chateau;
 
-import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.constants.enums.Validity;
+import com.caichao.chateau.app.dto.CountryDto;
+import com.caichao.chateau.app.example.CountryExample;
 import com.caichao.chateau.app.miniProgram.request.AcccessCodeReq;
 import com.caichao.chateau.app.miniProgram.request.LoginReq;
 import com.caichao.chateau.app.miniProgram.response.AccessCodeResponse;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.service.AuthService;
+import com.caichao.chateau.app.service.CountryService;
 import com.caichao.chateau.app.service.CustomerInfoService;
-import com.lianshang.generator.commons.GenerateFileTypeEnum;
-import com.lianshang.utils.LsCodeGeneratorUtil;
-import java.util.Arrays;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ class ChateauApplicationTests {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 	@Autowired
+	private CountryService countryService;
+	@Autowired
 	private AuthService authService;
 
 	@Value("${appid}")
@@ -30,22 +33,32 @@ class ChateauApplicationTests {
 	@Value("${secret}")
 	private String secret;
 
+	@Test
 	public void test2() {
-		CustomerInfoDto customerInfoDto = new CustomerInfoDto();
-		customerInfoDto.setMobile("13681967316");
-		customerInfoDto.setOpenId("openId");
-		customerInfoDto.setNickName("孙龙云");
-		customerInfoService.save(customerInfoDto);
+		CountryExample countryExample = new CountryExample();
+		countryExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code());
+		List<CountryDto> countryDtoList = countryService.getList(countryExample);
+
+		log.info("countryDtoList:{}", countryDtoList);
 	}
 
-	@Test
-	void test1() {
-		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
-				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.ENTITY, GenerateFileTypeEnum.EXAMPLE,
-				GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML),
-			"customer_info");
-	}
+//	@Test
+//	void test1() {
+//		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
+//				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
+//			"chisong", "csz123$%", "cart_beverage_mapping",
+//			"country",
+//			"country_chateau",
+//			"country_chateau_beverage",
+//			"customer_delivery_address",
+//			"customer_info",
+//			"order_delivery_address_mapping",
+//			"order_detail",
+//			"order_info",
+//			"payment",
+//			"pictures",
+//			"shopping_cart");
+//	}
 
 	@Test
 	public void test3() {

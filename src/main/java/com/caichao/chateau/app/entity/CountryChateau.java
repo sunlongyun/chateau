@@ -7,58 +7,66 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 国家--酒庄
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfo implements Serializable {
+public class CountryChateau implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * 主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
-    private  Long id;
+    private  Integer id;
 
     /**
-    * 昵称
+    * 酒庄名称
      */
-    private  String nickName;
+    private  String title;
 
     /**
-    * 国家
+    * 酒庄编码
      */
-    private  String country;
+    private  String code;
 
     /**
-    * 省份
+    * 图片地址
      */
-    private  String province;
+    private  String picUrl;
 
     /**
-    * 城市
+    * 缩略图地址
      */
-    private  String city;
+    private  String minPicUrl;
 
     /**
-    * 头像
+    * 酒庄视频地址
      */
-    private  String avatarUrl;
+    private  String video;
 
     /**
-    * 手机号
+    * 酒庄日常直播地址
      */
-    private  String mobile;
+    private  String dailyBroadcast;
 
     /**
-    * union_id
+    * 庄主日常直播地址
      */
-    private  String unionId;
+    private  String masterBroadcast;
 
     /**
-    * openId
+    * 国家id
      */
-    private  String openId;
+    private  Integer countryId;
+
+    /**
+    * 酒庄介绍
+     */
+    private  String description;
 
     /**
     * 创建时间
@@ -66,12 +74,12 @@ public class CustomerInfo implements Serializable {
     private  Date createTime;
 
     /**
-    * 修改时间
+    * 更新时间
      */
     private  Date updateTime;
 
     /**
-    * 是否有效
+    * 是否有效 1-有效；0-无效
      */
     private  Integer validity;
 

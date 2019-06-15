@@ -7,58 +7,73 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 顾客信息表
+* 酒水
 * </p>
 * @author 孙龙云
 * @date 2019-06-15
 */
 @Data
-public class CustomerInfo implements Serializable {
+public class CountryChateauBeverage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * id
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
 
     /**
-    * 昵称
+    * 标题
      */
-    private  String nickName;
+    private  String title;
 
     /**
-    * 国家
+    * 商品编码
      */
-    private  String country;
+    private  String skuCode;
 
     /**
-    * 省份
+    * 英文标题
      */
-    private  String province;
+    private  String enTitle;
+
+    private  String picUrl;
 
     /**
-    * 城市
+    * 缩略图地址
      */
-    private  String city;
+    private  String minPicUrl;
 
     /**
-    * 头像
+    * 详细介绍图片
      */
-    private  String avatarUrl;
+    private  String detailPicUrl;
 
     /**
-    * 手机号
+    * 说明
      */
-    private  String mobile;
+    private  String description;
 
     /**
-    * union_id
+    * 进价 单位：分
      */
-    private  String unionId;
+    private  Long originPrice;
 
     /**
-    * openId
+    * 销售价格，跨境完税价  单位：分
      */
-    private  String openId;
+    private  Long price;
+
+    /**
+    * 年份
+     */
+    private  String year;
+
+    /**
+    * 库存
+     */
+    private  Integer stock;
 
     /**
     * 创建时间
