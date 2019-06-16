@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-16
 */
 @Data
 public class OrderDetailExample implements Serializable {
@@ -265,6 +265,67 @@ public class OrderDetailExample implements Serializable {
 
         public Criteria andNumIsNotNull() {
             addCriterion("num is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andMinPicUrlIn(List<String> values) {
+            addCriterion("min_pic_url in", values, "minPicUrl");
+            return (Criteria) this;
+        }
+        public Criteria andMinPicUrlNotIn(List<String> values) {
+            addCriterion("min_pic_url not in", values, "minPicUrl");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andMinPicUrlBetween(String value1, String value2) {
+            addCriterion("min_pic_url between", value1, value2, "minPicUrl");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andMinPicUrlLike(String value) {
+            addCriterion("min_pic_url like", value, "minPicUrl");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andMinPicUrlEqualTo(String value) {
+            addCriterion("min_pic_url =", value, "minPicUrl");
+            return (Criteria) this;
+        }
+        public Criteria andMinPicUrlNotEqualTo(String value) {
+            addCriterion("min_pic_url <>", value, "minPicUrl");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andMinPicUrlGreaterThan(String value) {
+            addCriterion("min_pic_url >", value, "minPicUrl");
+            return (Criteria) this;
+        }
+        public Criteria andMinPicUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("min_pic_url >=", value, "minPicUrl");
+            return (Criteria) this;
+        }
+        public Criteria andMinPicUrlLessThan(String value) {
+            addCriterion("min_pic_url <", value, "minPicUrl");
+            return (Criteria) this;
+        }
+        public Criteria andMinPicUrlLessThanOrEqualTo(String value) {
+            addCriterion("min_pic_url <=", value, "minPicUrl");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andMinPicUrlIsNull() {
+            addCriterion("min_pic_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinPicUrlIsNotNull() {
+            addCriterion("min_pic_url is not null");
             return (Criteria) this;
         }
         // in,   not in

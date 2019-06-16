@@ -9,7 +9,7 @@ import lombok.Data;
 * 订单详情
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-16
 */
 @Data
 public class OrderDetailDto implements Serializable {
@@ -27,6 +27,11 @@ public class OrderDetailDto implements Serializable {
     * 数量
      */
     private Integer num;
+
+    /**
+    * 缩略图
+     */
+    private String minPicUrl;
 
     /**
     * 单价  单位:分

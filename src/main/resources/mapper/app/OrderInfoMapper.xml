@@ -10,6 +10,8 @@
         <result column="mobile" property="mobile" />
         <result column="customer_id" property="customerId" />
         <result column="status" property="status" />
+        <result column="cancel_opt" property="cancelOpt" />
+        <result column="cancel_remark" property="cancelRemark" />
         <result column="logistics_number" property="logisticsNumber" />
         <result column="pay_no" property="payNo" />
         <result column="total_amount" property="totalAmount" />
@@ -20,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_no, customer_name, mobile, customer_id, status, logistics_number, pay_no, total_amount, create_time, update_time, validity
+        id, order_no, customer_name, mobile, customer_id, status, cancel_opt, cancel_remark, logistics_number, pay_no, total_amount, create_time, update_time, validity
     </sql>
 
 

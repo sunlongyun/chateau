@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-16
 */
 @Data
 public class CountryChateauBeverageExample implements Serializable {
@@ -814,6 +814,67 @@ public class CountryChateauBeverageExample implements Serializable {
 
         public Criteria andStockIsNotNull() {
             addCriterion("stock is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andChateauIdIn(List<Integer> values) {
+            addCriterion("chateau_id in", values, "chateauId");
+            return (Criteria) this;
+        }
+        public Criteria andChateauIdNotIn(List<Integer> values) {
+            addCriterion("chateau_id not in", values, "chateauId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andChateauIdBetween(Integer value1, Integer value2) {
+            addCriterion("chateau_id between", value1, value2, "chateauId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andChateauIdLike(String value) {
+            addCriterion("chateau_id like", value, "chateauId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andChateauIdEqualTo(Integer value) {
+            addCriterion("chateau_id =", value, "chateauId");
+            return (Criteria) this;
+        }
+        public Criteria andChateauIdNotEqualTo(Integer value) {
+            addCriterion("chateau_id <>", value, "chateauId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andChateauIdGreaterThan(Integer value) {
+            addCriterion("chateau_id >", value, "chateauId");
+            return (Criteria) this;
+        }
+        public Criteria andChateauIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("chateau_id >=", value, "chateauId");
+            return (Criteria) this;
+        }
+        public Criteria andChateauIdLessThan(Integer value) {
+            addCriterion("chateau_id <", value, "chateauId");
+            return (Criteria) this;
+        }
+        public Criteria andChateauIdLessThanOrEqualTo(Integer value) {
+            addCriterion("chateau_id <=", value, "chateauId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andChateauIdIsNull() {
+            addCriterion("chateau_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChateauIdIsNotNull() {
+            addCriterion("chateau_id is not null");
             return (Criteria) this;
         }
         // in,   not in

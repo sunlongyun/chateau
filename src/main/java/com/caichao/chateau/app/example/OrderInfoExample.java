@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-16
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -448,6 +448,128 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andStatusIsNotNull() {
             addCriterion("status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andCancelOptIn(List<Integer> values) {
+            addCriterion("cancel_opt in", values, "cancelOpt");
+            return (Criteria) this;
+        }
+        public Criteria andCancelOptNotIn(List<Integer> values) {
+            addCriterion("cancel_opt not in", values, "cancelOpt");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andCancelOptBetween(Integer value1, Integer value2) {
+            addCriterion("cancel_opt between", value1, value2, "cancelOpt");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andCancelOptLike(String value) {
+            addCriterion("cancel_opt like", value, "cancelOpt");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andCancelOptEqualTo(Integer value) {
+            addCriterion("cancel_opt =", value, "cancelOpt");
+            return (Criteria) this;
+        }
+        public Criteria andCancelOptNotEqualTo(Integer value) {
+            addCriterion("cancel_opt <>", value, "cancelOpt");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andCancelOptGreaterThan(Integer value) {
+            addCriterion("cancel_opt >", value, "cancelOpt");
+            return (Criteria) this;
+        }
+        public Criteria andCancelOptGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cancel_opt >=", value, "cancelOpt");
+            return (Criteria) this;
+        }
+        public Criteria andCancelOptLessThan(Integer value) {
+            addCriterion("cancel_opt <", value, "cancelOpt");
+            return (Criteria) this;
+        }
+        public Criteria andCancelOptLessThanOrEqualTo(Integer value) {
+            addCriterion("cancel_opt <=", value, "cancelOpt");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andCancelOptIsNull() {
+            addCriterion("cancel_opt is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelOptIsNotNull() {
+            addCriterion("cancel_opt is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andCancelRemarkIn(List<String> values) {
+            addCriterion("cancel_remark in", values, "cancelRemark");
+            return (Criteria) this;
+        }
+        public Criteria andCancelRemarkNotIn(List<String> values) {
+            addCriterion("cancel_remark not in", values, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andCancelRemarkBetween(String value1, String value2) {
+            addCriterion("cancel_remark between", value1, value2, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andCancelRemarkLike(String value) {
+            addCriterion("cancel_remark like", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andCancelRemarkEqualTo(String value) {
+            addCriterion("cancel_remark =", value, "cancelRemark");
+            return (Criteria) this;
+        }
+        public Criteria andCancelRemarkNotEqualTo(String value) {
+            addCriterion("cancel_remark <>", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andCancelRemarkGreaterThan(String value) {
+            addCriterion("cancel_remark >", value, "cancelRemark");
+            return (Criteria) this;
+        }
+        public Criteria andCancelRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("cancel_remark >=", value, "cancelRemark");
+            return (Criteria) this;
+        }
+        public Criteria andCancelRemarkLessThan(String value) {
+            addCriterion("cancel_remark <", value, "cancelRemark");
+            return (Criteria) this;
+        }
+        public Criteria andCancelRemarkLessThanOrEqualTo(String value) {
+            addCriterion("cancel_remark <=", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andCancelRemarkIsNull() {
+            addCriterion("cancel_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkIsNotNull() {
+            addCriterion("cancel_remark is not null");
             return (Criteria) this;
         }
         // in,   not in

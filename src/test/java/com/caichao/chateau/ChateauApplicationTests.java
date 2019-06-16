@@ -10,6 +10,9 @@ import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.service.AuthService;
 import com.caichao.chateau.app.service.CountryService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.lianshang.generator.commons.GenerateFileTypeEnum;
+import com.lianshang.utils.LsCodeGeneratorUtil;
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -42,23 +45,16 @@ class ChateauApplicationTests {
 		log.info("countryDtoList:{}", countryDtoList);
 	}
 
-//	@Test
-//	void test1() {
-//		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
-//				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-//			"chisong", "csz123$%", "cart_beverage_mapping",
-//			"country",
-//			"country_chateau",
-//			"country_chateau_beverage",
-//			"customer_delivery_address",
-//			"customer_info",
-//			"order_delivery_address_mapping",
-//			"order_detail",
-//			"order_info",
-//			"payment",
-//			"pictures",
-//			"shopping_cart");
-//	}
+	@Test
+	void test1() {
+		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
+				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
+			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.MAPPER_XML, GenerateFileTypeEnum.DTO,
+				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
+
+			"order_detail",
+			"order_info", "country_chateau_beverage");
+	}
 
 	@Test
 	public void test3() {
