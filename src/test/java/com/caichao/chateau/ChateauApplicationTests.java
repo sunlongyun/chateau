@@ -49,11 +49,9 @@ class ChateauApplicationTests {
 	void test1() {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.MAPPER_XML, GenerateFileTypeEnum.DTO,
+			"chisong", "csz123$%", Arrays.asList( GenerateFileTypeEnum.DTO,
 				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-
-			"order_detail",
-			"order_info", "country_chateau_beverage");
+			"country_chateau_beverage");
 	}
 
 	@Test

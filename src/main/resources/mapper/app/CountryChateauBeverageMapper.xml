@@ -27,7 +27,26 @@
         id, title, sku_code, en_title, pic_url, min_pic_url, detail_pic_url, description, origin_price, price, year, stock, chateau_id, create_time, update_time, validity
     </sql>
 
-
+    <!-- 查询列表-->
+    <select id="getCountryChateauBeverageList" parameterType="com.caichao.chateau.app.controller.beverage.request.PageQueryReq" resultMap="BaseResultMap">
+        SELECT * FROM country_chateau_beverage
+        <trim prefix="where" prefixOverrides="and">
+            <if test="searchKey != null">
+                AND (
+                title like concat('%',#{seachKey},'%')
+                OR en_title like concat('%',#{seachKey},'%')
+                OR  chateau_title like concat('%',#{seachKey},'%')
+                OR country_name like concat('%',#{seachKey},'%')
+                )
+            </if>
+            <if test="chateauId != null">
+                and chateau_id = #{chateauId}
+            </if>
+        </trim>
+        <if test="sortKey != null">
+            ORDER  BY ${sortKey} ${sortType}
+        </if>
+    </select>
 
     <!-- example通用查询-->
     <select id="selectByExample" parameterType="com.caichao.chateau.app.example.CountryChateauBeverageExample" resultMap="BaseResultMap">
@@ -45,6 +64,8 @@
             order by ${orderByClause}
         </if>
     </select>
+
+
 
     <!-- 条件-->
     <sql id="Example_Where_Clause">

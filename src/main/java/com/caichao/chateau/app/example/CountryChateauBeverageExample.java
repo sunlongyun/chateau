@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-16
+* @date 2019-06-18
 */
 @Data
 public class CountryChateauBeverageExample implements Serializable {
@@ -326,6 +326,128 @@ public class CountryChateauBeverageExample implements Serializable {
 
         public Criteria andEnTitleIsNotNull() {
             addCriterion("en_title is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andChateauTitleIn(List<String> values) {
+            addCriterion("chateau_title in", values, "chateauTitle");
+            return (Criteria) this;
+        }
+        public Criteria andChateauTitleNotIn(List<String> values) {
+            addCriterion("chateau_title not in", values, "chateauTitle");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andChateauTitleBetween(String value1, String value2) {
+            addCriterion("chateau_title between", value1, value2, "chateauTitle");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andChateauTitleLike(String value) {
+            addCriterion("chateau_title like", value, "chateauTitle");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andChateauTitleEqualTo(String value) {
+            addCriterion("chateau_title =", value, "chateauTitle");
+            return (Criteria) this;
+        }
+        public Criteria andChateauTitleNotEqualTo(String value) {
+            addCriterion("chateau_title <>", value, "chateauTitle");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andChateauTitleGreaterThan(String value) {
+            addCriterion("chateau_title >", value, "chateauTitle");
+            return (Criteria) this;
+        }
+        public Criteria andChateauTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("chateau_title >=", value, "chateauTitle");
+            return (Criteria) this;
+        }
+        public Criteria andChateauTitleLessThan(String value) {
+            addCriterion("chateau_title <", value, "chateauTitle");
+            return (Criteria) this;
+        }
+        public Criteria andChateauTitleLessThanOrEqualTo(String value) {
+            addCriterion("chateau_title <=", value, "chateauTitle");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andChateauTitleIsNull() {
+            addCriterion("chateau_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChateauTitleIsNotNull() {
+            addCriterion("chateau_title is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andCountryNameIn(List<String> values) {
+            addCriterion("country_name in", values, "countryName");
+            return (Criteria) this;
+        }
+        public Criteria andCountryNameNotIn(List<String> values) {
+            addCriterion("country_name not in", values, "countryName");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andCountryNameBetween(String value1, String value2) {
+            addCriterion("country_name between", value1, value2, "countryName");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andCountryNameLike(String value) {
+            addCriterion("country_name like", value, "countryName");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andCountryNameEqualTo(String value) {
+            addCriterion("country_name =", value, "countryName");
+            return (Criteria) this;
+        }
+        public Criteria andCountryNameNotEqualTo(String value) {
+            addCriterion("country_name <>", value, "countryName");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andCountryNameGreaterThan(String value) {
+            addCriterion("country_name >", value, "countryName");
+            return (Criteria) this;
+        }
+        public Criteria andCountryNameGreaterThanOrEqualTo(String value) {
+            addCriterion("country_name >=", value, "countryName");
+            return (Criteria) this;
+        }
+        public Criteria andCountryNameLessThan(String value) {
+            addCriterion("country_name <", value, "countryName");
+            return (Criteria) this;
+        }
+        public Criteria andCountryNameLessThanOrEqualTo(String value) {
+            addCriterion("country_name <=", value, "countryName");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andCountryNameIsNull() {
+            addCriterion("country_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNameIsNotNull() {
+            addCriterion("country_name is not null");
             return (Criteria) this;
         }
         // in,   not in

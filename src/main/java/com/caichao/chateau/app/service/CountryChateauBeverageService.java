@@ -1,7 +1,10 @@
 package com.caichao.chateau.app.service;
 
+import com.caichao.chateau.app.controller.beverage.request.PageQueryReq;
 import com.lianshang.generator.commons.IService;
 import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
+import com.lianshang.generator.commons.PageInfo;
+
 /**
  * <p>
  * 酒水 服务类
@@ -12,4 +15,10 @@ import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
  */
 public interface CountryChateauBeverageService extends IService<CountryChateauBeverageDto> {
 
+	/**
+	 * 分页查询
+	 * @param pageQueryReq
+	 * @return
+	 */
+	public PageInfo<CountryChateauBeverageDto> getCountryChateauBeverageDtoPageInfo(PageQueryReq pageQueryReq);
 }
