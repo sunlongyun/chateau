@@ -1,12 +1,16 @@
 package com.caichao.chateau.app.service.impl;
 
+import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.entity.CustomerInfo;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.example.CustomerInfoExample;
 import com.caichao.chateau.app.mapper.CustomerInfoMapper;
 import com.caichao.chateau.app.service.CustomerInfoService;
 
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * <p>
@@ -19,4 +23,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper,CustomerInfo, CustomerInfoDto> implements CustomerInfoService {
 
+	@Override
+	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId) {
+		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
+		customerInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOpenIdEqualTo(openId);
+		List<CustomerInfoDto> list = getList(customerInfoExample);
+		if(!CollectionUtils.isEmpty(list)){
+			return list.get(0);
+		}
+		return null;
+	}
 }

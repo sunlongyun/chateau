@@ -31,4 +31,8 @@ public class FreshCustomerReq {
 	 * 头像
 	 */
 	private String avatarUrl;
+	/**
+	 * 手机号
+	 */
+	private String mobile;
 }

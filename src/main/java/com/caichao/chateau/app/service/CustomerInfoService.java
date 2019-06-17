@@ -12,4 +12,10 @@ import com.caichao.chateau.app.dto.CustomerInfoDto;
  */
 public interface CustomerInfoService extends IService<CustomerInfoDto> {
 
+	/**
+	 * 根据openId查询
+	 * @param openId
+	 * @return
+	 */
+	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId);
 }
