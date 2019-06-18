@@ -47,11 +47,14 @@ class ChateauApplicationTests {
 
 	@Test
 	void test1() {
+//		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
+//				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
+//			"chisong", "csz123$%", Arrays.asList( GenerateFileTypeEnum.DTO,
+//				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
+//			"country_chateau_beverage");
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList( GenerateFileTypeEnum.DTO,
-				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"country_chateau_beverage");
+			"chisong", "csz123$%", "cart_item");
 	}
 
 	@Test

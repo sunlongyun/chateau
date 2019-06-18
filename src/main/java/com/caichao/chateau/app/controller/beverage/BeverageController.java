@@ -2,6 +2,7 @@ package com.caichao.chateau.app.controller.beverage;
 
 import com.caichao.chateau.app.controller.beverage.request.PageQueryReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
 import com.caichao.chateau.app.service.CountryChateauBeverageService;
 import com.lianshang.generator.commons.PageInfo;
 import java.util.HashMap;
@@ -35,5 +36,16 @@ public class BeverageController {
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("pageInfo", pageInfo);
 		return CCResponse.success(dataMap);
+	}
+
+	/**
+	 * 查询酒水详情
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getDetail")
+	public CCResponse getDetail(Long id){
+		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(id);
+		return CCResponse.success(countryChateauBeverageDto);
 	}
 }
