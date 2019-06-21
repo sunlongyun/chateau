@@ -70,6 +70,10 @@ public class CustomerDeliveryAddressDto implements Serializable {
     * 默认地址
      */
     private Boolean tacitly;
+    /**
+     * 地址明细
+     */
+    private String detaiAddress;
 
     /**
     * 创建时间
