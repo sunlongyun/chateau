@@ -82,6 +82,12 @@ public class AddressController {
 		return CCResponse.success();
 	}
 
+	/**
+	 * 更新收货地址
+	 * @param customerDeliveryAddressDto
+	 * @return
+	 */
+	@RequestMapping("/updateAddress")
 	public CCResponse updateAddress(@RequestBody CustomerDeliveryAddressDto customerDeliveryAddressDto) {
 		if(null == customerDeliveryAddressDto.getId()) {
 			throw new RuntimeException("地址id不能为空");
