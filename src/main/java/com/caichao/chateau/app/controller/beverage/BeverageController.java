@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-06-18 7:17
  */
 @RestController
+@RequestMapping("/beverage")
 public class BeverageController {
 
 	@Autowired
@@ -31,7 +32,7 @@ public class BeverageController {
 	 * @return
 	 */
 	@RequestMapping("getList")
-	public CCResponse getList(@RequestBody PageQueryReq pageQueryReq) {
+	public CCResponse getList(PageQueryReq pageQueryReq) {
 		PageInfo pageInfo = countryChateauBeverageService.getCountryChateauBeverageDtoPageInfo(pageQueryReq);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("pageInfo", pageInfo);

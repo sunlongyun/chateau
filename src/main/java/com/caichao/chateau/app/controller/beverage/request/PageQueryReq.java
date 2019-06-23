@@ -14,7 +14,7 @@ public class PageQueryReq {
 	/**
 	 * 搜索关键字
 	 */
-	private String searhKey;
+	private String searchKey;
 	/**
 	 * 庄园id
 	 */

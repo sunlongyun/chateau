@@ -9,6 +9,10 @@ import com.caichao.chateau.app.example.CountryExample;
 import com.caichao.chateau.app.service.CountryChateauService;
 import com.caichao.chateau.app.service.CountryService;
 import com.lianshang.generator.commons.PageInfo;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +40,7 @@ public class CountryController {
 	public CCResponse getCountryChateauList() {
 		CountryExample countryExample = new CountryExample();
 		countryExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code());
-		countryService.getList(countryExample).stream().map(countryDto -> {
+		List<CountryInfoDto> countryInfoDtoList = countryService.getList(countryExample).stream().map(countryDto -> {
 			CountryInfoDto countryInfoDto = new CountryInfoDto();
 			BeanUtils.copyProperties(countryDto, countryInfoDto);
 
@@ -44,12 +48,15 @@ public class CountryController {
 			countryChateauExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCountryIdEqualTo
 				(countryDto.getId());
 
-			PageInfo<CountryChateauDto> pageInfo = countryChateauService.getPageInfo(1,4,countryChateauExample);
+			PageInfo<CountryChateauDto> pageInfo = countryChateauService.getPageInfo(1, 4, countryChateauExample);
 			countryInfoDto.setChateauNum(pageInfo.getTotal());
 			countryInfoDto.setChateauList(pageInfo.getDataList());
 			return countryInfoDto;
-		});
-		return CCResponse.success();
+		}).collect(Collectors.toList());
+
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("countryList", countryInfoDtoList);
+		return CCResponse.success(dataMap);
 	}
 
 }

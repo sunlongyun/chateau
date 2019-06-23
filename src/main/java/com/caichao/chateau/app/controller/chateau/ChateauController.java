@@ -31,6 +31,7 @@ public class ChateauController {
 	 * @param countryId
 	 * @return
 	 */
+	@RequestMapping("getList")
 	public CCResponse getList(Integer countryId) {
 		CountryChateauExample countryChateauExample = new CountryChateauExample();
 		countryChateauExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCountryIdEqualTo(countryId);

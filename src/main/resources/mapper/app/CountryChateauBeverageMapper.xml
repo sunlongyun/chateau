@@ -33,10 +33,10 @@
         <trim prefix="where" prefixOverrides="and">
             <if test="searchKey != null">
                 AND (
-                title like concat('%',#{seachKey},'%')
-                OR en_title like concat('%',#{seachKey},'%')
-                OR  chateau_title like concat('%',#{seachKey},'%')
-                OR country_name like concat('%',#{seachKey},'%')
+                title like concat('%',#{searchKey},'%')
+                OR en_title like concat('%',#{searchKey},'%')
+                OR  chateau_title like concat('%',#{searchKey},'%')
+                OR country_name like concat('%',#{searchKey},'%')
                 )
             </if>
             <if test="chateauId != null">
