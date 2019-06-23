@@ -9,7 +9,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-23
 */
 @Data
 public class CustomerDeliveryAddressDto implements Serializable {
@@ -67,13 +67,9 @@ public class CustomerDeliveryAddressDto implements Serializable {
     private String address;
 
     /**
-    * 默认地址
+    * 默认地址 1-是，0-否
      */
-    private Boolean tacitly;
-    /**
-     * 地址明细
-     */
-    private String detaiAddress;
+    private Integer tacitly;
 
     /**
     * 创建时间
@@ -89,5 +85,9 @@ public class CustomerDeliveryAddressDto implements Serializable {
     * 是否有效 1-有效；0-无效
      */
     private Integer validity;
+    /**
+     * 地址详情
+     */
+    private String detaiAddress;
 
 }

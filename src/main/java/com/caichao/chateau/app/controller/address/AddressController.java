@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,16 +58,56 @@ public class AddressController {
 
 	/**
 	 * 获取地址详情
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping("/detail/{id}")
-	public CCResponse getDetail(@PathVariable Integer id){
+	public CCResponse getDetail(@PathVariable Integer id) {
 		CustomerDeliveryAddressDto customerDeliveryAddressDto = customerDeliveryAddressService.getById(id);
 		buildDetailAddress(customerDeliveryAddressDto);
 		Map<String, Object> dataMap = new HashMap<>();
-		dataMap.put("adressInfo",customerDeliveryAddressDto);
+		dataMap.put("adressInfo", customerDeliveryAddressDto);
 		return CCResponse.success(dataMap);
+	}
+
+	/**
+	 * 添加收货地址
+	 */
+	@RequestMapping("addAddress")
+	public CCResponse addAddress(@RequestBody CustomerDeliveryAddressDto customerDeliveryAddressDto) {
+		LoginResponse loginResponse = CurrentUserUtils.get();
+		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
+		customerDeliveryAddressDto.setCustomerId(Integer.valueOf(customerInfoDto.getId() + ""));
+		freshTacitlyStatus(customerDeliveryAddressDto);
+
+		customerDeliveryAddressService.save(customerDeliveryAddressDto);
+		return CCResponse.success();
+	}
+
+	public CCResponse updateAddress(@RequestBody CustomerDeliveryAddressDto customerDeliveryAddressDto) {
+		if(null == customerDeliveryAddressDto.getId()) {
+			throw new RuntimeException("地址id不能为空");
+		}
+		CustomerDeliveryAddressDto customerDeliveryAddressDto1 = customerDeliveryAddressService.getById
+			(customerDeliveryAddressDto.getId());
+		BeanUtils.copyProperties(customerDeliveryAddressDto, customerDeliveryAddressDto1);
+		customerDeliveryAddressService.update(customerDeliveryAddressDto1);
+		return CCResponse.success();
+	}
+
+	/**
+	 * 刷新默认状态
+	 */
+	private void freshTacitlyStatus(@RequestBody CustomerDeliveryAddressDto customerDeliveryAddressDto) {
+		//如果当前地址设置为默认地址，则其他默认地址要设置为非默认地址
+		if(Integer.valueOf(1).equals(customerDeliveryAddressDto.getTacitly())) {
+			CustomerDeliveryAddressExample customerDeliveryAddressExample = new CustomerDeliveryAddressExample();
+			customerDeliveryAddressExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+				.andTacitlyEqualTo(1);
+			customerDeliveryAddressService.getList(customerDeliveryAddressExample).forEach
+				(customerDeliveryAddressDto1 -> {
+					customerDeliveryAddressDto1.setTacitly(0);
+					customerDeliveryAddressService.update(customerDeliveryAddressDto1);
+				});
+		}
 	}
 
 	private Consumer<CustomerDeliveryAddressDto> getCustomerDeliveryAddressDtoConsumer() {
@@ -89,7 +131,7 @@ public class AddressController {
 			addressBuilder.append(customerDeliveryAddressDto.getCity());
 		}
 
-		if(!StringUtils.isEmpty(customerDeliveryAddressDto.getAddress())){
+		if(!StringUtils.isEmpty(customerDeliveryAddressDto.getAddress())) {
 			addressBuilder.append(customerDeliveryAddressDto.getAddress());
 		}
 

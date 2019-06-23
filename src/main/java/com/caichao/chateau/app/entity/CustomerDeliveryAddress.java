@@ -10,7 +10,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-23
 */
 @Data
 public class CustomerDeliveryAddress implements Serializable {
@@ -69,9 +69,9 @@ public class CustomerDeliveryAddress implements Serializable {
     private  String address;
 
     /**
-    * 默认地址
+    * 默认地址 1-是，0-否
      */
-    private  Boolean tacitly;
+    private  Integer tacitly;
 
     /**
     * 创建时间

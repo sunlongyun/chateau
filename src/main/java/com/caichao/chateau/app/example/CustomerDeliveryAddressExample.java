@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-23
 */
 @Data
 public class CustomerDeliveryAddressExample implements Serializable {
@@ -695,17 +695,17 @@ public class CustomerDeliveryAddressExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andTacitlyIn(List<Boolean> values) {
+        public Criteria andTacitlyIn(List<Integer> values) {
             addCriterion("tacitly in", values, "tacitly");
             return (Criteria) this;
         }
-        public Criteria andTacitlyNotIn(List<Boolean> values) {
+        public Criteria andTacitlyNotIn(List<Integer> values) {
             addCriterion("tacitly not in", values, "tacitly");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andTacitlyBetween(Boolean value1, Boolean value2) {
+        public Criteria andTacitlyBetween(Integer value1, Integer value2) {
             addCriterion("tacitly between", value1, value2, "tacitly");
             return (Criteria) this;
         }
@@ -717,30 +717,30 @@ public class CustomerDeliveryAddressExample implements Serializable {
         }
 
         // = <>
-        public Criteria andTacitlyEqualTo(Boolean value) {
+        public Criteria andTacitlyEqualTo(Integer value) {
             addCriterion("tacitly =", value, "tacitly");
             return (Criteria) this;
         }
-        public Criteria andTacitlyNotEqualTo(Boolean value) {
+        public Criteria andTacitlyNotEqualTo(Integer value) {
             addCriterion("tacitly <>", value, "tacitly");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andTacitlyGreaterThan(Boolean value) {
+        public Criteria andTacitlyGreaterThan(Integer value) {
             addCriterion("tacitly >", value, "tacitly");
             return (Criteria) this;
         }
-        public Criteria andTacitlyGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andTacitlyGreaterThanOrEqualTo(Integer value) {
             addCriterion("tacitly >=", value, "tacitly");
             return (Criteria) this;
         }
-        public Criteria andTacitlyLessThan(Boolean value) {
+        public Criteria andTacitlyLessThan(Integer value) {
             addCriterion("tacitly <", value, "tacitly");
             return (Criteria) this;
         }
-        public Criteria andTacitlyLessThanOrEqualTo(Boolean value) {
+        public Criteria andTacitlyLessThanOrEqualTo(Integer value) {
             addCriterion("tacitly <=", value, "tacitly");
             return (Criteria) this;
         }
