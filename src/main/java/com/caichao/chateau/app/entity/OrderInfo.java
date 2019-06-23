@@ -10,7 +10,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-16
+* @date 2019-06-23
 */
 @Data
 public class OrderInfo implements Serializable {
@@ -38,7 +38,7 @@ public class OrderInfo implements Serializable {
      */
     private  String mobile;
 
-    private  String customerId;
+    private  Long customerId;
 
     /**
     * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;

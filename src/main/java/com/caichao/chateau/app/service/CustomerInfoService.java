@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.service;
 
+import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.lianshang.generator.commons.IService;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
 /**
@@ -18,4 +19,6 @@ public interface CustomerInfoService extends IService<CustomerInfoDto> {
 	 * @return
 	 */
 	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId);
+
+
 }

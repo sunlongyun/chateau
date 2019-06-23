@@ -3,13 +3,14 @@ package com.caichao.chateau.app.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.util.List;
 import lombok.Data;
 /**
 * <p>
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-16
+* @date 2019-06-23
 */
 @Data
 public class OrderInfoDto implements Serializable {
@@ -36,7 +37,7 @@ public class OrderInfoDto implements Serializable {
      */
     private String mobile;
 
-    private String customerId;
+    private Long customerId;
 
     /**
     * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;
@@ -82,5 +83,5 @@ public class OrderInfoDto implements Serializable {
     * 是否有效 1-有效；0-无效
      */
     private Integer validity;
-
+    private List<OrderDetailDto> orderDetailDtoList;
 }

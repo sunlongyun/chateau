@@ -1,6 +1,7 @@
 package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.constants.enums.Validity;
+import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.caichao.chateau.app.entity.CustomerInfo;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
 import com.caichao.chateau.app.example.CustomerInfoExample;
@@ -10,6 +11,7 @@ import com.caichao.chateau.app.service.CustomerInfoService;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -33,4 +35,6 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper,Cust
 		}
 		return null;
 	}
+
+
 }

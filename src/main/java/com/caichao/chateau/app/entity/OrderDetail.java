@@ -10,7 +10,7 @@ import lombok.Data;
 * 订单详情
 * </p>
 * @author 孙龙云
-* @date 2019-06-16
+* @date 2019-06-23
 */
 @Data
 public class OrderDetail implements Serializable {
@@ -24,6 +24,16 @@ public class OrderDetail implements Serializable {
     * 酒水id
      */
     private  Long beverageId;
+
+    /**
+    * 标题
+     */
+    private  String title;
+
+    /**
+    * 英文标题
+     */
+    private  String enTitle;
 
     /**
     * 数量

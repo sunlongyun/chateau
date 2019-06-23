@@ -11,5 +11,10 @@ import com.caichao.chateau.app.dto.OrderInfoDto;
  * @since 2019-06-15
  */
 public interface OrderInfoService extends IService<OrderInfoDto> {
-
+	/**
+	 * 创建购物订单
+	 * @param orderInfoDto
+	 * @return
+	 */
+	public String createOrder(OrderInfoDto orderInfoDto);
 }

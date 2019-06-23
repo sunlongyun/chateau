@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-16
+* @date 2019-06-23
 */
 @Data
 public class OrderDetailExample implements Serializable {
@@ -204,6 +204,128 @@ public class OrderDetailExample implements Serializable {
 
         public Criteria andBeverageIdIsNotNull() {
             addCriterion("beverage_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andTitleIn(List<String> values) {
+            addCriterion("title in", values, "title");
+            return (Criteria) this;
+        }
+        public Criteria andTitleNotIn(List<String> values) {
+            addCriterion("title not in", values, "title");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andTitleBetween(String value1, String value2) {
+            addCriterion("title between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andTitleLike(String value) {
+            addCriterion("title like", value, "title");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andTitleEqualTo(String value) {
+            addCriterion("title =", value, "title");
+            return (Criteria) this;
+        }
+        public Criteria andTitleNotEqualTo(String value) {
+            addCriterion("title <>", value, "title");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andTitleGreaterThan(String value) {
+            addCriterion("title >", value, "title");
+            return (Criteria) this;
+        }
+        public Criteria andTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("title >=", value, "title");
+            return (Criteria) this;
+        }
+        public Criteria andTitleLessThan(String value) {
+            addCriterion("title <", value, "title");
+            return (Criteria) this;
+        }
+        public Criteria andTitleLessThanOrEqualTo(String value) {
+            addCriterion("title <=", value, "title");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andTitleIsNull() {
+            addCriterion("title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleIsNotNull() {
+            addCriterion("title is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andEnTitleIn(List<String> values) {
+            addCriterion("en_title in", values, "enTitle");
+            return (Criteria) this;
+        }
+        public Criteria andEnTitleNotIn(List<String> values) {
+            addCriterion("en_title not in", values, "enTitle");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andEnTitleBetween(String value1, String value2) {
+            addCriterion("en_title between", value1, value2, "enTitle");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andEnTitleLike(String value) {
+            addCriterion("en_title like", value, "enTitle");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andEnTitleEqualTo(String value) {
+            addCriterion("en_title =", value, "enTitle");
+            return (Criteria) this;
+        }
+        public Criteria andEnTitleNotEqualTo(String value) {
+            addCriterion("en_title <>", value, "enTitle");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andEnTitleGreaterThan(String value) {
+            addCriterion("en_title >", value, "enTitle");
+            return (Criteria) this;
+        }
+        public Criteria andEnTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("en_title >=", value, "enTitle");
+            return (Criteria) this;
+        }
+        public Criteria andEnTitleLessThan(String value) {
+            addCriterion("en_title <", value, "enTitle");
+            return (Criteria) this;
+        }
+        public Criteria andEnTitleLessThanOrEqualTo(String value) {
+            addCriterion("en_title <=", value, "enTitle");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andEnTitleIsNull() {
+            addCriterion("en_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnTitleIsNotNull() {
+            addCriterion("en_title is not null");
             return (Criteria) this;
         }
         // in,   not in
