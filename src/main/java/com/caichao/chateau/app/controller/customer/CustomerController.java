@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-06-09 15:44
  */
 @RestController
-@RequestMapping
+@RequestMapping("customer")
 public class CustomerController {
 	@Autowired
 	private CustomerInfoService customerInfoService;

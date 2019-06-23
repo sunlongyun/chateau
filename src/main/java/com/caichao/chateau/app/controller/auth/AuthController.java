@@ -33,7 +33,7 @@ public class AuthController {
 		userMap.put("userCode",userCode);
 		userMap.put("openId",loginResponse.getOpenid());
 
-		return CCResponse.success(userCode);
+		return CCResponse.success(userMap);
 	}
 
 	/**

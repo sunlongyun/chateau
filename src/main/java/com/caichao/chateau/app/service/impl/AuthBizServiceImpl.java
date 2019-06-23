@@ -2,7 +2,10 @@ package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.dto.ShoppingCartDto;
+import com.caichao.chateau.app.entity.ShoppingCart;
 import com.caichao.chateau.app.example.CustomerInfoExample;
+import com.caichao.chateau.app.example.ShoppingCartExample;
 import com.caichao.chateau.app.miniProgram.request.AcccessCodeReq;
 import com.caichao.chateau.app.miniProgram.request.LoginReq;
 import com.caichao.chateau.app.miniProgram.response.AccessCodeResponse;
@@ -10,6 +13,7 @@ import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.service.AuthService;
 import com.caichao.chateau.app.service.AuthBizService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.caichao.chateau.app.service.ShoppingCartService;
 import com.caichao.chateau.app.utils.LoginUserInfoUtil;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -42,6 +46,8 @@ public class AuthBizServiceImpl implements AuthBizService {
 	private AuthService authService;
 	@Autowired
 	private CustomerInfoService customerInfoService;
+	@Autowired
+	private ShoppingCartService shoppingCartService;
 	@Override
 	public String getAccessToken() {
 		String accessToken = null;
@@ -79,17 +85,29 @@ public class AuthBizServiceImpl implements AuthBizService {
 		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
 		customerInfoExample.createCriteria().andOpenIdEqualTo(loginResponse.getOpenid());
 		List<CustomerInfoDto> customerInfoDtoList = customerInfoService.getList(customerInfoExample);
+		CustomerInfoDto customerInfoDto = new CustomerInfoDto();
 		if(CollectionUtils.isEmpty(customerInfoDtoList)){
-			CustomerInfoDto customerInfoDto = new CustomerInfoDto();
+
 			customerInfoDto.setUnionId(loginResponse.getUnionId());
 			customerInfoDto.setOpenId(loginResponse.getOpenid());
 //			BeanUtils.copyProperties(loginResponse,customerInfoDto);
 			customerInfoService.save(customerInfoDto);
 		}else{
-			CustomerInfoDto customerInfoDto =	customerInfoDtoList.get(0);
+			 customerInfoDto =	customerInfoDtoList.get(0);
 			customerInfoDto.setValidity(Validity.AVAIL.code());
 			customerInfoDto.setUnionId(loginResponse.getUnionId());
 			customerInfoService.update(customerInfoDto);
 		}
+
+		//购物车如果不存在，则创建购物车
+		ShoppingCartExample shoppingCartExample = new ShoppingCartExample();
+		shoppingCartExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCustomerInfoIdEqualTo
+			(Integer.valueOf(customerInfoDto.getId()+"") );
+		if(CollectionUtils.isEmpty(shoppingCartService.getList(shoppingCartExample))){
+			ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
+			shoppingCartDto.setCustomerInfoId(Integer.valueOf(customerInfoDto.getId()+""));
+			shoppingCartService.save(shoppingCartDto);
+		}
+
 	}
 }

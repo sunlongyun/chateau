@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListMap;
+import org.springframework.util.StringUtils;
 
 /**
  * 描述:
@@ -23,6 +24,9 @@ public class LoginUserInfoUtil {
 	 * @return
 	 */
 	public static LoginResponse getLoginResponse(String userCode){
+		if(StringUtils.isEmpty(userCode)){
+			return null;
+		}
 		return userInfoMap.get(userCode);
 	}
 
