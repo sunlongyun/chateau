@@ -46,14 +46,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper,OrderInfo,
 		}
 		long total = 0l;
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList){
-			total += orderDetailDto.getTotalPrice();
+
 			orderDetailDto.setOrderId(orderInfoDto.getId());
 			CountryChateauBeverageDto countryChateauBeverageDto =  countryChateauBeverageService.getById(orderDetailDto
 				.getBeverageId());
 			orderDetailDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
 			orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
+			orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
 			orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
+			total += orderDetailDto.getPrice() * orderDetailDto.getNum();
+
 			orderDetailService.save(orderDetailDto);
 
 			//如果购物项存在，则删除

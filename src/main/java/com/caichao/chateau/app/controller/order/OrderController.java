@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @AUTHOR 孙龙云
  * @date 2019-06-23 10:31
  */
+@RequestMapping("order")
 @RestController
 public class OrderController {
 
@@ -100,7 +101,7 @@ public class OrderController {
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
 
-
+		orderInfoService.createOrder(orderInfoDto);
 		return CCResponse.success();
 	}
 
