@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * 描述:
- *
+ * 登录请求参数
  * @AUTHOR 孙龙云
  * @date 2019-06-07 18:31
  */

@@ -6,6 +6,7 @@ import com.caichao.chateau.app.service.AuthBizService;
 import com.caichao.chateau.app.utils.LoginUserInfoUtil;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
 	@Autowired
@@ -27,6 +29,7 @@ public class AuthController {
 	 */
 	@RequestMapping("/login")
 	public CCResponse login(String code) {
+		log.info("登录开始i:{}",code);
 		String userCode = authBizService.login(code);
 		LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
 		Map<String,Object> userMap = new HashMap<>();

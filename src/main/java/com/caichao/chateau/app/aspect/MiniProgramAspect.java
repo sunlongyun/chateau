@@ -39,8 +39,10 @@ public class MiniProgramAspect {
 		try {
 			log.info("【小程序请求入参】className:{},methodName:{},args:{}", className, methodName,
 				JsonUtils.object2JsonString(args));
+
 			ParentResponse parentResponse = (ParentResponse) proceedingJoinPoint.proceed();
 
+			log.info("parentResponse:{}",parentResponse);
 			if(!StringUtils.isEmpty(parentResponse.getErrCode()) && 0 !=parentResponse.getErrCode().doubleValue() ){
 				throw new BizException(parentResponse.getErrCode()+"", parentResponse.getErrMsg());
 			}

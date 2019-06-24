@@ -36,7 +36,9 @@ public class AuthServiceImpl implements AuthService {
 	private static long endTime = 1l;
 	@Override
 	public LoginResponse codeToSession(LoginReq loginReq) {
+		log.info("loginReq:{}",loginReq);
 		String url = JS_CODE_2_SESSION_URL + ReqUtil.getStr(loginReq);
+		log.info("url:{}",url);
 		String forObject = restTemplate.getForObject(url, String.class);
 		LoginResponse loginResponse = ResUtil.getObj(LoginResponse.class, forObject);
 		return loginResponse;

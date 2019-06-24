@@ -69,6 +69,16 @@ public class AddressController {
 	}
 
 	/**
+	 * 删除地址信息
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("deleteAddress")
+	public CCResponse deleteAddress(Integer id){
+		customerDeliveryAddressService.deleteById(id);
+		return CCResponse.success();
+	}
+	/**
 	 * 添加收货地址
 	 */
 	@RequestMapping("addAddress")
@@ -82,6 +92,7 @@ public class AddressController {
 		return CCResponse.success();
 	}
 
+//	public
 	/**
 	 * 更新收货地址
 	 * @param customerDeliveryAddressDto
@@ -95,7 +106,20 @@ public class AddressController {
 		CustomerDeliveryAddressDto customerDeliveryAddressDto1 = customerDeliveryAddressService.getById
 			(customerDeliveryAddressDto.getId());
 		BeanUtils.copyProperties(customerDeliveryAddressDto, customerDeliveryAddressDto1);
+		//如果当前收货地址选中，则其他选中的收货地址设置为未选中
+		if(Integer.valueOf(1).equals(customerDeliveryAddressDto.getTacitly())){
+			CustomerDeliveryAddressExample customerDeliveryAddressExample = new CustomerDeliveryAddressExample();
+			customerDeliveryAddressExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+				.andTacitlyEqualTo(1);
+			customerDeliveryAddressService.getList(customerDeliveryAddressExample).forEach
+				(customerDeliveryAddressDto2 -> {
+					customerDeliveryAddressDto2.setTacitly(0);
+					customerDeliveryAddressService.update(customerDeliveryAddressDto2);
+				});
+		}
+
 		customerDeliveryAddressService.update(customerDeliveryAddressDto1);
+
 		return CCResponse.success();
 	}
 
