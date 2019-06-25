@@ -20,7 +20,6 @@ public class WpayUtil {
 	 * @return
 	 */
 	public static WXPay getWXPay(String notifyUrl) {
-		//final WXPayConfig config, final String notifyUrl, final boolean autoReport, final boolean useSandbox
 		WXPayConfig wxPayConfig = getWXPayConfig();
 		WXPay wxPay = null;
 		try {
