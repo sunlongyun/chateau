@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,12 +73,27 @@ public class OrderController {
 	/**
 	 * 订单详情
 	 */
-	@RequestMapping("orderDetail/{id}")
-	public CCResponse orderDetail(@PathVariable Long id) {
-		OrderInfoDto orderInfoDto = orderInfoService.getById(id);
+	@RequestMapping("detail")
+	public CCResponse orderDetail(Long orderId, String orderNo) {
+		OrderInfoDto orderInfoDto = null;
+		if(null != orderId) {
+			orderInfoDto = orderInfoService.getById(orderId);
+		} else if(!StringUtils.isEmpty(orderNo)) {
+			OrderInfoExample orderInfoExample = new OrderInfoExample();
+			orderInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOrderNoEqualTo(orderNo);
+			List<OrderInfoDto> orderInfoDtoList = orderInfoService.getList(orderInfoExample);
+			if(!CollectionUtils.isEmpty(orderInfoDtoList)){
+				orderInfoDto = orderInfoDtoList.get(0);
+			}
+		}
+		if(null == orderInfoDto){
+			return CCResponse.fail("未查询到符合条件的订单");
+		}
+
 		buildOrdderDetail(orderInfoDto);
 		return CCResponse.success(orderInfoDto);
 	}
+
 
 	/**
 	 * 创建订单
