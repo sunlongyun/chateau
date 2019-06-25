@@ -60,7 +60,6 @@ public class ReqUtil {
 		stringBuilder.append("?");
 		Iterator<String> it = dataMap.keySet().iterator();
 		int i=0;
-		int size = dataMap.size();
 		while(it.hasNext()){
 			String key = it.next();
 			Object value = dataMap.get(key);
@@ -75,12 +74,5 @@ public class ReqUtil {
 		}
 		return stringBuilder.toString();
 	}
-	public static void main(String[] args) {
-		LoginReq loginReq = new LoginReq();
-		loginReq.setAppId("appId1");
-		loginReq.setGrantType("granttype");
-		loginReq.setJsCode("jsCode");
 
-		log.info("str:{}",getStr(loginReq));
-	}
 }

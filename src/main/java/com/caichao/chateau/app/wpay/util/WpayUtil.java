@@ -15,18 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WpayUtil {
 
-	private static String notifyUrl;
-
 	/**
 	 * 获取支付sdk
 	 * @return
 	 */
-	public static WXPay getWXPay() {
+	public static WXPay getWXPay(String notifyUrl) {
 		//final WXPayConfig config, final String notifyUrl, final boolean autoReport, final boolean useSandbox
-		WXPayConfig wxPayConfig = null;
+		WXPayConfig wxPayConfig = getWXPayConfig();
 		WXPay wxPay = null;
 		try {
-			wxPay = new WXPay(wxPayConfig, notifyUrl, false, true);
+			wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -34,8 +32,8 @@ public class WpayUtil {
 	}
 
 	private static WXPayConfig getWXPayConfig(){
-
-		return  null;
+		WXPayConfig wxPayConfig = new CCWxPayConfig();
+		return  wxPayConfig;
 	}
 
 
