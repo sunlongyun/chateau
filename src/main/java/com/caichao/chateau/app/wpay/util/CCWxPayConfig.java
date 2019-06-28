@@ -13,20 +13,32 @@ import java.io.InputStream;
  */
 public class CCWxPayConfig extends WXPayConfig{
 
+	private String mchId;
+	private String appId;
+	private String key;
+	private  InputStream certStream;
+
+	public CCWxPayConfig(String mchId, String appId, String key, InputStream certStream) {
+		this.mchId = mchId;
+		this.appId = appId;
+		this.key = key;
+		this.certStream = certStream;
+	}
+
 	@Override
 	public String getMchID() {
-		return "1539835521";
+		return this.mchId;
 	}
 
 	@Override
 	public String getAppID() {
-		return "wxac4c162ada26ae0e";
+		return this.appId;
 	}
 
 
 	@Override
 	public String getKey() {
-		return "sunlongyun1478529630sunlongyun12";
+		return this.key;
 	}
 
 	@Override

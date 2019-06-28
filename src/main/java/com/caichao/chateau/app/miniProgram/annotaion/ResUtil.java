@@ -23,13 +23,15 @@ public class ResUtil {
 	/**
 	 * 获取对象
 	 */
-	public static <T> T getObj(Class<T> clazz, Map<String, Object> dataMap) {
+	public static <T> T getObj(Class<T> clazz, Map<String, String> dataMap) {
 		Object obj = null;
 		try {
 			obj = clazz.newInstance();
 			List<Field> fieldList = new ArrayList<>();
 			fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
-			fieldList.addAll(Arrays.asList(ParentResponse.class.getDeclaredFields()));
+			if(obj instanceof ParentResponse) {
+				fieldList.addAll(Arrays.asList(ParentResponse.class.getDeclaredFields()));
+			}
 
 			for(Field field : fieldList) {
 				field.setAccessible(true);
@@ -56,7 +58,7 @@ public class ResUtil {
 		if(StringUtils.isEmpty(json)) {
 			return null;
 		}
-		Map<String, Object> dataMap = JsonUtils.json2Object(json, Map.class);
+		Map<String, String> dataMap = JsonUtils.json2Object(json, Map.class);
 
 		return getObj(clazz, dataMap);
 	}

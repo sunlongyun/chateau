@@ -1,6 +1,5 @@
 package com.caichao.chateau.app.wpay.util;
 
-import com.github.wxpay.sdk.IWXPayDomain;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConfig;
 import java.io.InputStream;
@@ -14,27 +13,29 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class WpayUtil {
-
+	private  static ThreadLocal<WXPay> wxPayThreadLocal = new ThreadLocal<>();
 	/**
 	 * 获取支付sdk
-	 * @return
 	 */
-	public static WXPay getWXPay(String notifyUrl) {
-		WXPayConfig wxPayConfig = getWXPayConfig();
-		WXPay wxPay = null;
-		try {
-			wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
-		} catch(Exception e) {
-			e.printStackTrace();
+	public static WXPay getWXPay(String merchId, String appId, String key, InputStream certStream, String notifyUrl) {
+		WXPay wxPay = wxPayThreadLocal.get();
+		if(null == wxPay){
+			WXPayConfig wxPayConfig = getWXPayConfig(merchId, appId, key, certStream);
+			try {
+				wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
+				wxPayThreadLocal.set(wxPay);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return wxPay;
+
 	}
 
-	private static WXPayConfig getWXPayConfig(){
-		WXPayConfig wxPayConfig = new CCWxPayConfig();
-		return  wxPayConfig;
+	private static WXPayConfig getWXPayConfig(String merchId, String appId, String key, InputStream certStream) {
+		WXPayConfig wxPayConfig = new CCWxPayConfig(merchId, appId, key, certStream);
+		return wxPayConfig;
 	}
-
 
 
 }

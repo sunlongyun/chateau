@@ -51,7 +51,7 @@ public class MiniProgramAspect {
 		} catch(Exception ex) {
 			log.error("【小程序请求异常】", ex);
 
-			String errorMsg = ex.getCause().getMessage();
+			String errorMsg = ex.getCause()+"";
 			if(StringUtils.isEmpty(errorMsg)) {
 				errorMsg = "小程序请求服务异常";
 			}
