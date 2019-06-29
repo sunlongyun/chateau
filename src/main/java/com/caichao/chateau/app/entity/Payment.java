@@ -44,7 +44,7 @@ public class Payment implements Serializable {
     private  String thirdPayNo;
 
     /**
-    * 支付状态 0-提交；1-成功；2-失败；
+    * 支付状态 0-提交；1-成功；2-失败；3-超时未支付，4-未支付关闭
      */
     private  Integer status;
 
@@ -57,6 +57,11 @@ public class Payment implements Serializable {
     * 支付成功时间
      */
     private  Date paySuccessTime;
+
+    /**
+    * 拿到最终结果之前查询次数。超过一定的次数还不能查询到成功的结果，则认为是失败
+     */
+    private  Integer times;
 
     /**
     * 创建时间

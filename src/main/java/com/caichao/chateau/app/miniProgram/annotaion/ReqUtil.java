@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 描述:
@@ -32,9 +33,15 @@ public class ReqUtil {
 				if(null != miniFiled) {
 					fieldName = miniFiled.value();
 				}
-				String value = (String) (ReflectionUtils.getField(field, reqObj) + "");
+				Object v = ReflectionUtils.getField(field, reqObj);
+				if(null != v){
+					String value = (String) (v+ "");
+					if(!StringUtils.isEmpty(value)){
+						dataMap.put(fieldName, value);
+					}
+				}
 				field.setAccessible(false);
-				dataMap.put(fieldName, value);
+
 			}
 		}
 		return dataMap;

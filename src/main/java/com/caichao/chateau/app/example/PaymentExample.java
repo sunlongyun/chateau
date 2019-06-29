@@ -573,6 +573,67 @@ public class PaymentExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andTimesIn(List<Integer> values) {
+            addCriterion("times in", values, "times");
+            return (Criteria) this;
+        }
+        public Criteria andTimesNotIn(List<Integer> values) {
+            addCriterion("times not in", values, "times");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andTimesBetween(Integer value1, Integer value2) {
+            addCriterion("times between", value1, value2, "times");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andTimesLike(String value) {
+            addCriterion("times like", value, "times");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andTimesEqualTo(Integer value) {
+            addCriterion("times =", value, "times");
+            return (Criteria) this;
+        }
+        public Criteria andTimesNotEqualTo(Integer value) {
+            addCriterion("times <>", value, "times");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andTimesGreaterThan(Integer value) {
+            addCriterion("times >", value, "times");
+            return (Criteria) this;
+        }
+        public Criteria andTimesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("times >=", value, "times");
+            return (Criteria) this;
+        }
+        public Criteria andTimesLessThan(Integer value) {
+            addCriterion("times <", value, "times");
+            return (Criteria) this;
+        }
+        public Criteria andTimesLessThanOrEqualTo(Integer value) {
+            addCriterion("times <=", value, "times");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andTimesIsNull() {
+            addCriterion("times is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesIsNotNull() {
+            addCriterion("times is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andCreateTimeIn(List<Date> values) {
             addCriterion("create_time in", values, "createTime");
             return (Criteria) this;

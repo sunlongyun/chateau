@@ -3,19 +3,14 @@ package com.caichao.chateau;
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CountryDto;
 import com.caichao.chateau.app.example.CountryExample;
-import com.caichao.chateau.app.miniProgram.request.AcccessCodeReq;
-import com.caichao.chateau.app.miniProgram.request.LoginReq;
+import com.caichao.chateau.app.miniProgram.request.PayOrderQuery;
 import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
-import com.caichao.chateau.app.miniProgram.response.AccessCodeResponse;
-import com.caichao.chateau.app.miniProgram.response.LoginResponse;
+import com.caichao.chateau.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.miniProgram.service.AuthService;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
 import com.caichao.chateau.app.service.CountryService;
 import com.caichao.chateau.app.service.CustomerInfoService;
-import com.lianshang.generator.commons.GenerateFileTypeEnum;
-import com.lianshang.utils.LsCodeGeneratorUtil;
-import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -48,7 +43,13 @@ class ChateauApplicationTests {
 		prePayRequest.setSpbillCreateIp("127.0.0.1");
 		prePayRequest.setNotifyUrl("www.tom235.com");
 		PrePayResponse prePayResponse = wxPayService.prePay(prePayRequest);
-		log.info("返回的预支付流水:{}",prePayResponse);
+		log.info("返回的预支付流水:{}", prePayResponse);
+
+		PayOrderQuery payOrderQuery = new PayOrderQuery();
+		payOrderQuery.setOutTradeNo(outTradeNo);
+
+		PayOrderQueryResultResponse payOrderQueryResultResponse = wxPayService.queryPayOrder(payOrderQuery);
+		log.info("payOrderQueryResultResponse:{}", payOrderQueryResultResponse);
 	}
 
 	@Test
@@ -60,17 +61,17 @@ class ChateauApplicationTests {
 		log.info("countryDtoList:{}", countryDtoList);
 	}
 
-	@Test
-	void test1() {
-		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
-				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML,
-				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"payment");
+//	@Test
+//	void test1() {
 //		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 //				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-//			"chisong", "csz123$%", "cart_item");
-	}
+//			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML,
+//				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
+//			"payment");
+////		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
+////				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
+////			"chisong", "csz123$%", "cart_item");
+//	}
 
 
 }

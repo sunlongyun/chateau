@@ -12,6 +12,7 @@
         <result column="status" property="status" />
         <result column="pay_time" property="payTime" />
         <result column="pay_success_time" property="paySuccessTime" />
+        <result column="times" property="times" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
@@ -19,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, pay_order_no, pay_no, pre_pay_id, third_pay_no, status, pay_time, pay_success_time, create_time, update_time, validity
+        id, pay_order_no, pay_no, pre_pay_id, third_pay_no, status, pay_time, pay_success_time, times, create_time, update_time, validity
     </sql>
 
 

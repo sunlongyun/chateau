@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("order")
 @RestController
+@Slf4j
 public class OrderController {
 
 	@Autowired
@@ -78,7 +80,9 @@ public class OrderController {
 	 * 订单详情
 	 */
 	@RequestMapping("detail")
-	public CCResponse orderDetail(Long orderId, String orderNo) {
+	public CCResponse orderDetail(Long orderId, String orderNo, HttpServletRequest httpServletRequest) {
+		String ip = IPUtil.getIpAddr(httpServletRequest);
+		log.info("客户端IP:{}", ip);
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId) {
 			orderInfoDto = orderInfoService.getById(orderId);

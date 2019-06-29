@@ -2,7 +2,9 @@ package com.caichao.chateau.app.miniProgram.service.impl;
 
 import com.caichao.chateau.app.miniProgram.annotaion.ReqUtil;
 import com.caichao.chateau.app.miniProgram.annotaion.ResUtil;
+import com.caichao.chateau.app.miniProgram.request.PayOrderQuery;
 import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
+import com.caichao.chateau.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
 import com.caichao.chateau.app.wpay.util.WpayUtil;
@@ -37,10 +39,18 @@ public class WxPayServiceImpl implements WxPayService {
 	@Value("${key}")
 	private String key;
 
+	/**
+	 * 获取微信sdk
+	 * @return
+	 */
+	private WXPay getWxPay() {
+		return WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+	}
+
 	@Override
 	public PrePayResponse prePay(PrePayRequest prePayRequest) {
 		Map<String, String> dataMap = ReqUtil.getMap(prePayRequest);
-		WXPay wxPay = WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+		WXPay wxPay = getWxPay();
 		try {
 			Map<String, String> resultMap = wxPay.unifiedOrder(dataMap);
 			log.info("响应结果:{}",resultMap);
@@ -49,6 +59,21 @@ public class WxPayServiceImpl implements WxPayService {
 		} catch(Exception ex) {
 			log.error("支付接口调用失败:", ex);
 			throw new RuntimeException("微信支付失败:" + ex.getCause());
+		}
+	}
+
+	@Override
+	public PayOrderQueryResultResponse queryPayOrder(PayOrderQuery payOrderQuery) {
+		Map<String, String> dataMap = ReqUtil.getMap(payOrderQuery);
+		WXPay wxPay = getWxPay();
+		try{
+			Map<String,String> resultMap =  wxPay.orderQuery(dataMap);
+			PayOrderQueryResultResponse payOrderQueryResultResponse = ResUtil.getObj(PayOrderQueryResultResponse
+				.class,resultMap);
+			return  payOrderQueryResultResponse;
+		}catch(Exception ex){
+			log.error("支付查询接口调用失败:", ex);
+			throw new RuntimeException("微信支付查询异常:" + ex.getCause());
 		}
 	}
 }

@@ -1,6 +1,8 @@
 package com.caichao.chateau.app.miniProgram.service;
 
+import com.caichao.chateau.app.miniProgram.request.PayOrderQuery;
 import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
+import com.caichao.chateau.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 
 /**
@@ -17,4 +19,11 @@ public interface WxPayService {
 	 * @return
 	 */
 	public PrePayResponse prePay(PrePayRequest prePayRequest);
+
+	/**
+	 * 支付订单查询
+	 * @param payOrderQuery
+	 * @return
+	 */
+	public PayOrderQueryResultResponse queryPayOrder(PayOrderQuery payOrderQuery);
 }

@@ -13,19 +13,21 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class WpayUtil {
-	private  static ThreadLocal<WXPay> wxPayThreadLocal = new ThreadLocal<>();
+	private  static WXPay wxPay = null;
 	/**
 	 * 获取支付sdk
 	 */
 	public static WXPay getWXPay(String merchId, String appId, String key, InputStream certStream, String notifyUrl) {
-		WXPay wxPay = wxPayThreadLocal.get();
 		if(null == wxPay){
-			WXPayConfig wxPayConfig = getWXPayConfig(merchId, appId, key, certStream);
-			try {
-				wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
-				wxPayThreadLocal.set(wxPay);
-			} catch(Exception e) {
-				e.printStackTrace();
+			synchronized(WpayUtil.class){
+				if(null == wxPay){
+					WXPayConfig wxPayConfig = getWXPayConfig(merchId, appId, key, certStream);
+					try {
+						wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		return wxPay;

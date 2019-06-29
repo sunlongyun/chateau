@@ -41,7 +41,17 @@ public class ResUtil {
 					filedName = miniFiled.value();
 				}
 				Object value = dataMap.get(filedName);
-				ReflectionUtils.setField(field, obj, value);
+				if(null == value){
+					field.setAccessible(false);
+					continue;
+				}
+				//不同类型处理
+				if(field.getType() == Integer.class){
+					ReflectionUtils.setField(field, obj, Integer.valueOf(value+"") );
+				}else{
+					ReflectionUtils.setField(field, obj, value);
+				}
+
 				field.setAccessible(false);
 			}
 		} catch(Exception ex) {
