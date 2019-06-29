@@ -12,7 +12,9 @@ import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.service.CustomerInfoService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
+import com.caichao.chateau.app.service.PaymentService;
 import com.caichao.chateau.app.utils.CurrentUserUtils;
+import com.caichao.chateau.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +47,8 @@ public class OrderController {
 	private OrderDetailService orderDetailService;
 	@Autowired
 	private CustomerInfoService customerInfoService;
+	@Autowired
+	private PaymentService paymentService;
 
 	/**
 	 * 历史订单列表
@@ -82,11 +86,11 @@ public class OrderController {
 			OrderInfoExample orderInfoExample = new OrderInfoExample();
 			orderInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOrderNoEqualTo(orderNo);
 			List<OrderInfoDto> orderInfoDtoList = orderInfoService.getList(orderInfoExample);
-			if(!CollectionUtils.isEmpty(orderInfoDtoList)){
+			if(!CollectionUtils.isEmpty(orderInfoDtoList)) {
 				orderInfoDto = orderInfoDtoList.get(0);
 			}
 		}
-		if(null == orderInfoDto){
+		if(null == orderInfoDto) {
 			return CCResponse.fail("未查询到符合条件的订单");
 		}
 
@@ -99,13 +103,33 @@ public class OrderController {
 	 * 创建订单
 	 */
 	@RequestMapping("createOrder")
-	public CCResponse createOrder(@RequestBody List<OrderDetailReq> orderDetailReqList) {
+	public CCResponse createOrder(@RequestBody List<OrderDetailReq> orderDetailReqList,
+		HttpServletRequest httpServletRequest) {
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		if(CollectionUtils.isEmpty(orderDetailReqList)) {
 			throw new RuntimeException("购物明细不能为空");
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
+		String orderNo = createOrder(orderInfoDto, orderDetailReqList, loginResponse, customerInfoDto);
+		String clientIp = IPUtil.getIpAddr(httpServletRequest);
+		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
+
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("orderNo", orderNo);
+		dataMap.put("prePayId", prePayId);
+		dataMap.put("orderId", orderInfoDto.getId());
+
+		return CCResponse.success(dataMap);
+	}
+
+	/**
+	 * 创建订单
+	 */
+	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, LoginResponse
+		loginResponse,
+		CustomerInfoDto customerInfoDto) {
+
 		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
 			orderDetailDto.setBeverageId(orderDetailReq.getBeverageId());
@@ -117,8 +141,8 @@ public class OrderController {
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
 
-		orderInfoService.createOrder(orderInfoDto);
-		return CCResponse.success();
+		String orderNo = orderInfoService.createOrder(orderInfoDto);
+		return orderNo;
 	}
 
 	/**

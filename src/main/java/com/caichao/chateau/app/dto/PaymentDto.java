@@ -9,7 +9,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-29
 */
 @Data
 public class PaymentDto implements Serializable {
@@ -30,6 +30,11 @@ public class PaymentDto implements Serializable {
     * 支付流水号
      */
     private String payNo;
+
+    /**
+    * 预支付流水
+     */
+    private String prePayId;
 
     /**
     * 第三方支付流水号，微信/支付宝流水号

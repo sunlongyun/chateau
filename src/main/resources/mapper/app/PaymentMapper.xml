@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="pay_order_no" property="payOrderNo" />
         <result column="pay_no" property="payNo" />
+        <result column="pre_pay_id" property="prePayId" />
         <result column="third_pay_no" property="thirdPayNo" />
         <result column="status" property="status" />
         <result column="pay_time" property="payTime" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, pay_order_no, pay_no, third_pay_no, status, pay_time, pay_success_time, create_time, update_time, validity
+        id, pay_order_no, pay_no, pre_pay_id, third_pay_no, status, pay_time, pay_success_time, create_time, update_time, validity
     </sql>
 
 

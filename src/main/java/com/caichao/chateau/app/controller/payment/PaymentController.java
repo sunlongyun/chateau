@@ -1,12 +1,19 @@
 package com.caichao.chateau.app.controller.payment;
 
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.service.PaymentService;
+import com.caichao.chateau.app.utils.IPUtil;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 描述:
  * 支付管理controller
+ *
  * @AUTHOR 孙龙云
  * @date 2019-06-23 15:55
  */
@@ -14,13 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PaymentController {
 
+	@Autowired
+	private PaymentService paymentService;
 
 	/**
 	 * 支付
-	 * @return
 	 */
-	@RequestMapping
-	public CCResponse payOrder(String orderNo, Long orderId){
-		return CCResponse.success();
+	@RequestMapping("payOrder")
+	public CCResponse payOrder(String orderNo, Long orderId, HttpServletRequest httpServletRequest) {
+		String clientIp = IPUtil.getIpAddr(httpServletRequest);
+		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderId);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("prePayId", prePayId);
+		return CCResponse.success(dataMap);
 	}
 }

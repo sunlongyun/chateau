@@ -12,4 +12,10 @@ import com.caichao.chateau.app.dto.PaymentDto;
  */
 public interface PaymentService extends IService<PaymentDto> {
 
+	/**
+	 * 根据订单号或者订单id创建预支付流水
+	 * @param orderNo
+	 * @param orderId
+	 */
+	public String createPayOrder(String clientIP, String orderNo, Long orderId);
 }

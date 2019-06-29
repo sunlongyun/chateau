@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-06-29
 */
 @Data
 public class PaymentExample implements Serializable {
@@ -265,6 +265,67 @@ public class PaymentExample implements Serializable {
 
         public Criteria andPayNoIsNotNull() {
             addCriterion("pay_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPrePayIdIn(List<String> values) {
+            addCriterion("pre_pay_id in", values, "prePayId");
+            return (Criteria) this;
+        }
+        public Criteria andPrePayIdNotIn(List<String> values) {
+            addCriterion("pre_pay_id not in", values, "prePayId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPrePayIdBetween(String value1, String value2) {
+            addCriterion("pre_pay_id between", value1, value2, "prePayId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPrePayIdLike(String value) {
+            addCriterion("pre_pay_id like", value, "prePayId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPrePayIdEqualTo(String value) {
+            addCriterion("pre_pay_id =", value, "prePayId");
+            return (Criteria) this;
+        }
+        public Criteria andPrePayIdNotEqualTo(String value) {
+            addCriterion("pre_pay_id <>", value, "prePayId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPrePayIdGreaterThan(String value) {
+            addCriterion("pre_pay_id >", value, "prePayId");
+            return (Criteria) this;
+        }
+        public Criteria andPrePayIdGreaterThanOrEqualTo(String value) {
+            addCriterion("pre_pay_id >=", value, "prePayId");
+            return (Criteria) this;
+        }
+        public Criteria andPrePayIdLessThan(String value) {
+            addCriterion("pre_pay_id <", value, "prePayId");
+            return (Criteria) this;
+        }
+        public Criteria andPrePayIdLessThanOrEqualTo(String value) {
+            addCriterion("pre_pay_id <=", value, "prePayId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPrePayIdIsNull() {
+            addCriterion("pre_pay_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayIdIsNotNull() {
+            addCriterion("pre_pay_id is not null");
             return (Criteria) this;
         }
         // in,   not in

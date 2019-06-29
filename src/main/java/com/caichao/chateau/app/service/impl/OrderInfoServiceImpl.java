@@ -1,15 +1,18 @@
 package com.caichao.chateau.app.service.impl;
 
+import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.entity.OrderInfo;
 import com.caichao.chateau.app.dto.OrderInfoDto;
+import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.mapper.OrderInfoMapper;
 import com.caichao.chateau.app.service.CartItemService;
 import com.caichao.chateau.app.service.CountryChateauBeverageService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
 
+import com.caichao.chateau.app.service.PaymentService;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.List;
 import javax.xml.ws.soap.Addressing;
@@ -34,6 +37,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper,OrderInfo,
 	private OrderDetailService orderDetailService;
 	@Autowired
 	private CartItemService cartItemService;
+
 	@Override
 	@Transactional
 	public String createOrder(OrderInfoDto orderInfoDto) {
@@ -68,7 +72,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper,OrderInfo,
 		orderInfoDto.setTotalAmount(total);
 		//3.更新订单信息
 		this.update(orderInfoDto);
-		//4.发起支付 TODO 调用支付接口
 		return orderInfoDto.getOrderNo();
+	}
+
+	@Override
+	public OrderInfoDto getOrderByNo(String orderNo) {
+		OrderInfoExample orderInfoExample = new OrderInfoExample();
+		orderInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOrderNoEqualTo(orderNo);
+		List<OrderInfoDto> orderInfoDtoList = getList(orderInfoExample);
+		if(!CollectionUtils.isEmpty(orderInfoDtoList)){
+			return orderInfoDtoList.get(0);
+		}
+		return null;
 	}
 }
