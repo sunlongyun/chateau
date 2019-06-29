@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.controller.order;
 
+import com.caichao.chateau.app.constants.enums.OrderStatusEnum;
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.order.request.OrderDetailReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
@@ -53,6 +54,26 @@ public class OrderController {
 	private PaymentService paymentService;
 
 	/**
+	 * 查询订单状态
+	 * @param orderId
+	 * @param orderNo
+	 * @return
+	 */
+	@RequestMapping("getStatus")
+	public CCResponse getStatus(Long orderId, String orderNo){
+		OrderInfoDto orderInfoDto = getOrderInfoDto(orderId, orderNo);
+		if(null == orderInfoDto) {
+			return CCResponse.fail("未查询到符合条件的订单");
+		}
+		Integer status = orderInfoDto.getStatus();
+		String statusName = OrderStatusEnum.getValue(status);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("status",status);
+		dataMap.put("statusName", statusName);
+
+		return CCResponse.success(dataMap);
+	}
+	/**
 	 * 历史订单列表
 	 */
 	@RequestMapping("list")
@@ -82,6 +103,22 @@ public class OrderController {
 	@RequestMapping("detail")
 	public CCResponse orderDetail(Long orderId, String orderNo) {
 
+		OrderInfoDto orderInfoDto = getOrderInfoDto(orderId, orderNo);
+		if(null == orderInfoDto) {
+			return CCResponse.fail("未查询到符合条件的订单");
+		}
+
+		buildOrdderDetail(orderInfoDto);
+		return CCResponse.success(orderInfoDto);
+	}
+
+	/**
+	 * 查询订单基本信息
+	 * @param orderId
+	 * @param orderNo
+	 * @return
+	 */
+	private OrderInfoDto getOrderInfoDto(Long orderId, String orderNo) {
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId) {
 			orderInfoDto = orderInfoService.getById(orderId);
@@ -93,12 +130,7 @@ public class OrderController {
 				orderInfoDto = orderInfoDtoList.get(0);
 			}
 		}
-		if(null == orderInfoDto) {
-			return CCResponse.fail("未查询到符合条件的订单");
-		}
-
-		buildOrdderDetail(orderInfoDto);
-		return CCResponse.success(orderInfoDto);
+		return orderInfoDto;
 	}
 
 
@@ -113,7 +145,7 @@ public class OrderController {
 			throw new RuntimeException("购物明细不能为空");
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
-		String orderNo = createOrder(orderInfoDto, orderDetailReqList, loginResponse, customerInfoDto);
+		String orderNo = createOrder(orderInfoDto, orderDetailReqList);
 		String clientIp = IPUtil.getIpAddr();;
 		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
@@ -128,9 +160,7 @@ public class OrderController {
 	/**
 	 * 创建订单
 	 */
-	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, LoginResponse
-		loginResponse,
-		CustomerInfoDto customerInfoDto) {
+	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList) {
 
 		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
