@@ -29,7 +29,7 @@ public class PaymentController {
 	 */
 	@RequestMapping("payOrder")
 	public CCResponse payOrder(String orderNo, Long orderId, HttpServletRequest httpServletRequest) {
-		String clientIp = IPUtil.getIpAddr(httpServletRequest);
+		String clientIp = IPUtil.getIpAddr();
 		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderId);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("prePayId", prePayId);

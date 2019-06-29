@@ -80,9 +80,8 @@ public class OrderController {
 	 * 订单详情
 	 */
 	@RequestMapping("detail")
-	public CCResponse orderDetail(Long orderId, String orderNo, HttpServletRequest httpServletRequest) {
-		String ip = IPUtil.getIpAddr(httpServletRequest);
-		log.info("客户端IP:{}", ip);
+	public CCResponse orderDetail(Long orderId, String orderNo) {
+
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId) {
 			orderInfoDto = orderInfoService.getById(orderId);
@@ -107,8 +106,7 @@ public class OrderController {
 	 * 创建订单
 	 */
 	@RequestMapping("createOrder")
-	public CCResponse createOrder(@RequestBody List<OrderDetailReq> orderDetailReqList,
-		HttpServletRequest httpServletRequest) {
+	public CCResponse createOrder(@RequestBody List<OrderDetailReq> orderDetailReqList) {
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		if(CollectionUtils.isEmpty(orderDetailReqList)) {
@@ -116,7 +114,7 @@ public class OrderController {
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, orderDetailReqList, loginResponse, customerInfoDto);
-		String clientIp = IPUtil.getIpAddr(httpServletRequest);
+		String clientIp = IPUtil.getIpAddr();;
 		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
 		Map<String, Object> dataMap = new HashMap<>();

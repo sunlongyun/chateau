@@ -1,6 +1,8 @@
 package com.caichao.chateau.app.utils;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 描述:
@@ -15,7 +17,9 @@ public class IPUtil {
 	 *
 	 * @return ip
 	 */
-	public static String getIpAddr(HttpServletRequest request) {
+	public static String getIpAddr() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+			.getRequest();
 		String ip = request.getHeader("x-forwarded-for");
 		System.out.println("x-forwarded-for ip: " + ip);
 		if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {

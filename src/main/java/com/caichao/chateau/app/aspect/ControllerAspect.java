@@ -47,7 +47,8 @@ public class ControllerAspect {
 		String methodName = signature.getName();
 		Object result = null;
 		try {
-
+			log.info("【请求入参】className:[{}],methodName:[{}],args:[{}]", className, methodName,
+				JsonUtils.object2JsonString(args));
 			LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
 			if(null != loginResponse){
 				CurrentUserUtils.set(loginResponse);
