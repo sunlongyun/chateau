@@ -76,7 +76,7 @@ public class CartController {
 		}
 
 		cartItemDto.setNum(num);
-		cartItemDto.setTotalPrice(cartItemDto.getPrice()*num);
+		cartItemDto.setTotalPrice(cartItemDto.getPrice() * num);
 		cartItemService.update(cartItemDto);
 		return CCResponse.success();
 	}
@@ -110,34 +110,45 @@ public class CartController {
 
 	/**
 	 * 添加购物车
-	 * @param cartItemId
-	 * @param num
-	 * @param beverageId
-	 * @return
 	 */
 	@RequestMapping("addCartItem")
-	public CCResponse addCartItem(Integer cartItemId, Integer num, Long beverageId) {
+	public CCResponse addCartItem(Integer num, Long beverageId) {
 		ShoppingCartDto shoppingCartDto = getShoppingCartDto();
 		if(null == shoppingCartDto) {
 			throw new BizException(ResponseCodeEnum.FAIL.code(), "购物车获取失败");
 		}
-		CartItemDto cartItemDto = cartItemService.getById(cartItemId);
-		if(null != cartItemDto) {//购物项不存在则添加
+
+		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
+		if(null == countryChateauBeverageDto) {
+			throw new RuntimeException("酒水不存在");
+		}
+		CartItemDto cartItemDto = null;
+		//先校验该商品是否应在购物车，如果已经存在，则执行添加
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
+			.getId()).andBeverageIdEqualTo(beverageId);
+
+		List<CartItemDto> cartItemList = cartItemService.getList(cartItemExample);
+		if(!CollectionUtils.isEmpty(cartItemList)){
+			cartItemDto = cartItemList.get(0);
+			cartItemDto.setNum(cartItemDto.getNum()+num);
+			cartItemDto.setTotalPrice(cartItemDto.getPrice()*cartItemDto.getNum());
+			cartItemService.update(cartItemDto);
+		}else{
 			cartItemDto = new CartItemDto();
 			cartItemDto.setNum(num);
 			cartItemDto.setCartId(shoppingCartDto.getId());
-			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
 			cartItemDto.setBeverageId(beverageId);
 			cartItemDto.setPrice(countryChateauBeverageDto.getPrice());
 			cartItemDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
 			cartItemDto.setTitle(countryChateauBeverageDto.getTitle());
 			cartItemDto.setTotalPrice(countryChateauBeverageDto.getPrice() * num);
 			cartItemService.save(cartItemDto);
-		} else {//更新购物项
-			cartItemDto.setNum(num);
-			cartItemService.update(cartItemDto);
 		}
-		return CCResponse.success();
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("cartItemId", cartItemDto.getId());
+		return CCResponse.success(dataMap);
 	}
 
 	/**
@@ -157,4 +168,6 @@ public class CartController {
 		}
 		return shoppingCartDto;
 	}
+
+
 }
