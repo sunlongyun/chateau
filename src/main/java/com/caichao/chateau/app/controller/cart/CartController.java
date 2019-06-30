@@ -143,9 +143,10 @@ public class CartController {
 			cartItemDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
 			cartItemDto.setTitle(countryChateauBeverageDto.getTitle());
 			cartItemDto.setTotalPrice(countryChateauBeverageDto.getPrice() * num);
+
 			cartItemService.save(cartItemDto);
 		}
-		
+
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("cartItemId", cartItemDto.getId());
 		return CCResponse.success(dataMap);
