@@ -67,7 +67,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		orderDeliveryAddressMapping.setAddressId(addressId);
 		orderDeliveryAddressMapping.setOrderId(orderInfoDto.getId());
 		orderDeliveryAddressMapping.setOrderNo(orderInfoDto.getOrderNo());
-		
+
 		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 		return prePayResponse.getPrepayId();
 	}

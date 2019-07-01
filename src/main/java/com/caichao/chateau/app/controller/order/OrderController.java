@@ -152,7 +152,7 @@ public class OrderController {
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList());
 		String clientIp = IPUtil.getIpAddr();;
-		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
+		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId(),createOrderReq.getAddressId());
 
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("orderNo", orderNo);
