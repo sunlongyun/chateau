@@ -2,6 +2,7 @@ package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
+import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.entity.OrderInfo;
 import com.caichao.chateau.app.dto.OrderInfoDto;
@@ -9,16 +10,16 @@ import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.mapper.OrderInfoMapper;
 import com.caichao.chateau.app.service.CartItemService;
 import com.caichao.chateau.app.service.CountryChateauBeverageService;
+import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
 
-import com.caichao.chateau.app.service.PaymentService;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.List;
-import javax.xml.ws.soap.Addressing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -37,10 +38,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper,OrderInfo,
 	private OrderDetailService orderDetailService;
 	@Autowired
 	private CartItemService cartItemService;
+	@Autowired
+	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 
 	@Override
 	@Transactional
-	public String createOrder(OrderInfoDto orderInfoDto) {
+	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
 		//1.添加订单基本信息
 		save(orderInfoDto);
 		//2.添加订单明细信息
@@ -72,6 +75,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper,OrderInfo,
 		orderInfoDto.setTotalAmount(total);
 		//3.更新订单信息
 		this.update(orderInfoDto);
+		//3.保存收货地址
+		OrderDeliveryAddressMappingDto orderDeliveryAddressMapping = new OrderDeliveryAddressMappingDto();
+		orderDeliveryAddressMapping.setAddressId(addressId);
+		orderDeliveryAddressMapping.setOrderId(orderInfoDto.getId());
+		orderDeliveryAddressMapping.setOrderNo(orderInfoDto.getOrderNo());
+
+		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 		return orderInfoDto.getOrderNo();
 	}
 

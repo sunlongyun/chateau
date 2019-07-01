@@ -150,9 +150,9 @@ public class OrderController {
 			throw new RuntimeException("购物明细不能为空");
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
-		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList());
+		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(), createOrderReq.getAddressId());
 		String clientIp = IPUtil.getIpAddr();;
-		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId(),createOrderReq.getAddressId());
+		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("orderNo", orderNo);
@@ -165,7 +165,7 @@ public class OrderController {
 	/**
 	 * 创建订单
 	 */
-	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList) {
+	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, Integer addressId) {
 
 		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
@@ -178,7 +178,7 @@ public class OrderController {
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
 
-		String orderNo = orderInfoService.createOrder(orderInfoDto);
+		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId);
 		return orderNo;
 	}
 

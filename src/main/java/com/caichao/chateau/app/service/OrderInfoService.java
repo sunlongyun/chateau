@@ -16,7 +16,7 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @param orderInfoDto
 	 * @return
 	 */
-	public String createOrder(OrderInfoDto orderInfoDto);
+	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId);
 
 	/**
 	 * 根据订单号查询
