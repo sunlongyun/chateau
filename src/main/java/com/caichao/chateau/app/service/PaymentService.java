@@ -17,5 +17,5 @@ public interface PaymentService extends IService<PaymentDto> {
 	 * @param orderNo
 	 * @param orderId
 	 */
-	public String createPayOrder(String clientIP, String orderNo, Long orderId);
+	public String createPayOrder(String clientIP, String orderNo, Long orderId, Integer addressId);
 }

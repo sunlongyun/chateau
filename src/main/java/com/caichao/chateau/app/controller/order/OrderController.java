@@ -2,6 +2,7 @@ package com.caichao.chateau.app.controller.order;
 
 import com.caichao.chateau.app.constants.enums.OrderStatusEnum;
 import com.caichao.chateau.app.constants.enums.Validity;
+import com.caichao.chateau.app.controller.order.request.CreateOrderReq;
 import com.caichao.chateau.app.controller.order.request.OrderDetailReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
@@ -138,14 +139,18 @@ public class OrderController {
 	 * 创建订单
 	 */
 	@RequestMapping("createOrder")
-	public CCResponse createOrder(@RequestBody List<OrderDetailReq> orderDetailReqList) {
+	public CCResponse createOrder(@RequestBody CreateOrderReq createOrderReq) {
+		if(null == createOrderReq || CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())
+			|| null== createOrderReq.getAddressId()){
+			throw new RuntimeException("订单明细以及收货地址都不能为空");
+		}
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
-		if(CollectionUtils.isEmpty(orderDetailReqList)) {
+		if(CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())) {
 			throw new RuntimeException("购物明细不能为空");
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
-		String orderNo = createOrder(orderInfoDto, orderDetailReqList);
+		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList());
 		String clientIp = IPUtil.getIpAddr();;
 		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 

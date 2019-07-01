@@ -1,6 +1,8 @@
 package com.caichao.chateau.app.service.impl;
 
+import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
+import com.caichao.chateau.app.entity.OrderDeliveryAddressMapping;
 import com.caichao.chateau.app.entity.Payment;
 import com.caichao.chateau.app.dto.PaymentDto;
 import com.caichao.chateau.app.mapper.PaymentMapper;
@@ -8,6 +10,7 @@ import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
+import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
 import com.caichao.chateau.app.service.OrderInfoService;
 import com.caichao.chateau.app.service.PaymentService;
 
@@ -38,8 +41,10 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 	private WxPayService wxPayService;
 	@Value("${notifyUrl}")
 	private String notifyUrl;
+	@Autowired
+	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 	@Override
-	public String createPayOrder(String clientIP, String orderNo, Long orderId) {
+	public String createPayOrder(String clientIP, String orderNo, Long orderId,Integer addressId) {
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId){
 			orderInfoDto = orderInfoService.getById(orderId);
@@ -57,6 +62,13 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		//2.保存支付流水
 		savePayment(orderInfoDto, payNo, prePayResponse);
 
+		//3.保存收货地址
+		OrderDeliveryAddressMappingDto orderDeliveryAddressMapping = new OrderDeliveryAddressMappingDto();
+		orderDeliveryAddressMapping.setAddressId(addressId);
+		orderDeliveryAddressMapping.setOrderId(orderInfoDto.getId());
+		orderDeliveryAddressMapping.setOrderNo(orderInfoDto.getOrderNo());
+		
+		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 		return prePayResponse.getPrepayId();
 	}
 
