@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-18
+* @date 2019-07-02
 */
 @Data
 public class CountryChateauBeverageExample implements Serializable {
@@ -326,6 +326,128 @@ public class CountryChateauBeverageExample implements Serializable {
 
         public Criteria andEnTitleIsNotNull() {
             addCriterion("en_title is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierCompanyNameIn(List<String> values) {
+            addCriterion("supplier_company_name in", values, "supplierCompanyName");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierCompanyNameNotIn(List<String> values) {
+            addCriterion("supplier_company_name not in", values, "supplierCompanyName");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierCompanyNameBetween(String value1, String value2) {
+            addCriterion("supplier_company_name between", value1, value2, "supplierCompanyName");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierCompanyNameLike(String value) {
+            addCriterion("supplier_company_name like", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierCompanyNameEqualTo(String value) {
+            addCriterion("supplier_company_name =", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierCompanyNameNotEqualTo(String value) {
+            addCriterion("supplier_company_name <>", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierCompanyNameGreaterThan(String value) {
+            addCriterion("supplier_company_name >", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierCompanyNameGreaterThanOrEqualTo(String value) {
+            addCriterion("supplier_company_name >=", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierCompanyNameLessThan(String value) {
+            addCriterion("supplier_company_name <", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierCompanyNameLessThanOrEqualTo(String value) {
+            addCriterion("supplier_company_name <=", value, "supplierCompanyName");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierCompanyNameIsNull() {
+            addCriterion("supplier_company_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierCompanyNameIsNotNull() {
+            addCriterion("supplier_company_name is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierIdIn(List<Integer> values) {
+            addCriterion("supplier_id in", values, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdNotIn(List<Integer> values) {
+            addCriterion("supplier_id not in", values, "supplierId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierIdBetween(Integer value1, Integer value2) {
+            addCriterion("supplier_id between", value1, value2, "supplierId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierIdLike(String value) {
+            addCriterion("supplier_id like", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierIdEqualTo(Integer value) {
+            addCriterion("supplier_id =", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdNotEqualTo(Integer value) {
+            addCriterion("supplier_id <>", value, "supplierId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierIdGreaterThan(Integer value) {
+            addCriterion("supplier_id >", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supplier_id >=", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdLessThan(Integer value) {
+            addCriterion("supplier_id <", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdLessThanOrEqualTo(Integer value) {
+            addCriterion("supplier_id <=", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierIdIsNull() {
+            addCriterion("supplier_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdIsNotNull() {
+            addCriterion("supplier_id is not null");
             return (Criteria) this;
         }
         // in,   not in

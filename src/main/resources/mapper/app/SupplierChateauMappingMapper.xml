@@ -1,68 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.caichao.chateau.app.mapper.CountryChateauBeverageMapper">
+<mapper namespace="com.caichao.chateau.app.mapper.SupplierChateauMappingMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.CountryChateauBeverage">
+    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.SupplierChateauMapping">
         <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="sku_code" property="skuCode" />
-        <result column="en_title" property="enTitle" />
-        <result column="pic_url" property="picUrl" />
-        <result column="min_pic_url" property="minPicUrl" />
-        <result column="supplier_id" property="supplierId"/>
-        <result column="supplier_company_name" property="supplierCompanyName"/>
-        <result column="detail_pic_url" property="detailPicUrl" />
-        <result column="description" property="description" />
-        <result column="origin_price" property="originPrice" />
-        <result column="price" property="price" />
-        <result column="year" property="year" />
-        <result column="stock" property="stock" />
+        <result column="supplier_id" property="supplierId" />
         <result column="chateau_id" property="chateauId" />
+        <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
-        <result column="validity" property="validity" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, en_title, pic_url, min_pic_url, detail_pic_url, description, origin_price, price, year, stock, chateau_id, create_time, update_time, validity
+        id, supplier_id, chateau_id, validity, create_time, update_time
     </sql>
 
-    <!-- 查询列表-->
-    <select id="getCountryChateauBeverageList" parameterType="com.caichao.chateau.app.controller.beverage.request.PageQueryReq" resultMap="BaseResultMap">
-        SELECT * FROM country_chateau_beverage
-        <trim prefix="where" prefixOverrides="and">
-            <if test="searchKey != null">
-                AND (
-                title like concat('%',#{searchKey},'%')
-                OR en_title like concat('%',#{searchKey},'%')
-                OR  chateau_title like concat('%',#{searchKey},'%')
-                OR country_name like concat('%',#{searchKey},'%')
-                OR supplier_company_name like concat('%',#{searchKey},'%')
-                )
-            </if>
-            <if test="chateauId != null">
-                and chateau_id = #{chateauId}
-            </if>
-            <if test="supplierId != null">
-                and supplier_id = #{supplierId}
-            </if>
-        </trim>
-        <if test="sortKey != null">
-            ORDER  BY ${sortKey} ${sortType}
-        </if>
-    </select>
+
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.CountryChateauBeverageExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.SupplierChateauMappingExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from country_chateau_beverage
+        from supplier_chateau_mapping
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
@@ -70,8 +35,6 @@
             order by ${orderByClause}
         </if>
     </select>
-
-
 
     <!-- 条件-->
     <sql id="Example_Where_Clause">
