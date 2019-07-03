@@ -26,6 +26,11 @@ public class Supplier implements Serializable {
     private  String companyName;
 
     /**
+    * 供应商logo
+     */
+    private  String logo;
+
+    /**
     * 地址
      */
     private  String address;

@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.Supplier">
         <id column="id" property="id" />
         <result column="company_name" property="companyName" />
+        <result column="logo" property="logo" />
         <result column="address" property="address" />
         <result column="telephone" property="telephone" />
         <result column="linker" property="linker" />
@@ -17,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_name, address, telephone, linker, mobile, validity, create_time, update_time
+        id, company_name, logo, address, telephone, linker, mobile, validity, create_time, update_time
     </sql>
 
 
