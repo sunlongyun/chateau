@@ -67,6 +67,7 @@ class ChateauApplicationTests {
 		payMap.put("appid","wx92ead9e82f3d55e5");
 		payMap.put("time_stamp",(System.currentTimeMillis()/1000)+"");
 		payMap.put("package",packageStr);
+		payMap.put("total_fee","1000");
 		WXPay wxPay = WpayUtil.getWXPay(merchId,appId,key,null,null);
 		try {
 
