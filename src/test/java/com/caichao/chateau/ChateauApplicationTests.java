@@ -11,13 +11,19 @@ import com.caichao.chateau.app.miniProgram.service.AuthService;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
 import com.caichao.chateau.app.service.CountryService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.caichao.chateau.app.wpay.util.WpayUtil;
+import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.lianshang.generator.commons.GenerateFileTypeEnum;
 import com.lianshang.utils.LsCodeGeneratorUtil;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -33,9 +39,16 @@ class ChateauApplicationTests {
 
 	@Autowired
 	private WxPayService wxPayService;
+	@Value("${mchID}")
+	private String merchId;
+	@Value("${appid}")
+	private String appId;
+	@Value("${key}")
+	private String key;
 
 	@Test
 	public void payTest() {
+
 		PrePayRequest prePayRequest = new PrePayRequest();
 		prePayRequest.setBody("测试商品");
 		prePayRequest.setTradeType("JSAPI");
@@ -47,6 +60,21 @@ class ChateauApplicationTests {
 		prePayRequest.setNotifyUrl("www.tom235.com");
 		PrePayResponse prePayResponse = wxPayService.prePay(prePayRequest);
 		log.info("返回的预支付流水:{}", prePayResponse);
+
+		String packageStr="prePayId="+prePayResponse.getPrepayId();
+		Map<String,String> payMap = new HashMap<>();
+			payMap.put("package",packageStr);
+		payMap.put("appid","wx92ead9e82f3d55e5");
+		payMap.put("time_stamp",(System.currentTimeMillis()/1000)+"");
+		payMap.put("package",packageStr);
+		WXPay wxPay = WpayUtil.getWXPay(merchId,appId,key,null,null);
+		try {
+
+			Map<String, String> result = wxPay.microPayWithPos(payMap);
+			log.info("result:{}", result);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 
 		PayOrderQuery payOrderQuery = new PayOrderQuery();
 		payOrderQuery.setOutTradeNo(outTradeNo);
@@ -75,6 +103,9 @@ class ChateauApplicationTests {
 //				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
 //			"chisong", "csz123$%", "cart_item");
 	}
-
+	@Test
+public void test3(){
+		log.info((System.currentTimeMillis()/1000)+"");
+}
 
 }

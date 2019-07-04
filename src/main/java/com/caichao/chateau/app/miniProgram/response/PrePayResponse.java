@@ -23,4 +23,30 @@ public class PrePayResponse extends ParentResponse {
 	 */
 	@MiniFiled("code_url")
 	private String codeUrl;
+	/////////下面支付参数//////////
+	/**
+	 * 随机数
+	 */
+	private String nonceStr;
+	/**
+	 * package
+	 */
+	private String packageStr;
+	/**
+	 * 时间戳
+	 */
+	private String timeStamp;
+	/**
+	 * appid
+	 */
+	private String appId;
+	/**
+	 * 签名方式
+	 */
+	private String signType;
+	/**
+	 * 签名
+	 */
+	private String sign;
+
 }
