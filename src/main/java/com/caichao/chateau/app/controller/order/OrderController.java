@@ -11,6 +11,7 @@ import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.caichao.chateau.app.example.OrderDetailExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
+import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.service.CustomerInfoService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
@@ -152,12 +153,18 @@ public class OrderController {
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(), createOrderReq.getAddressId());
 		String clientIp = IPUtil.getIpAddr();;
-		String prePayId = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
+		PrePayResponse prePayResponse = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("orderNo", orderNo);
-		dataMap.put("prePayId", prePayId);
+		dataMap.put("prePayId", prePayResponse.getPrepayId());
 		dataMap.put("orderId", orderInfoDto.getId());
+		dataMap.put("packageStr", prePayResponse.getPackageStr());
+		dataMap.put("timeStamp", prePayResponse.getTimeStamp());
+		dataMap.put("signType", prePayResponse.getSignType());
+		dataMap.put("sign", prePayResponse.getSign());
+		dataMap.put("nonceStr", prePayResponse.getNonceStr());
+		dataMap.put("appId", prePayResponse.getAppId());
 
 		return CCResponse.success(dataMap);
 	}

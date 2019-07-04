@@ -56,20 +56,10 @@ public class WxPayServiceImpl implements WxPayService {
 			log.info("响应结果:{}", resultMap);
 			PrePayResponse prePayResponse = ResUtil.getObj(PrePayResponse.class, resultMap);
 
-			String prePayId = "prePayId=" + prePayResponse.getPrepayId();
+			String prePayId = "prepay_id=" + prePayResponse.getPrepayId();
 			Map<String, String> payMap = new HashMap<>();
 			payMap.put("package", prePayId);
-			payMap.put("appid", appid);
 			payMap.put("time_stamp", (System.currentTimeMillis() / 1000) + "");
-			/**
-			 * <nonce_str>5z9vpl8exaGWYXVMcjK1xZb6Bo0EEwpQ</nonce_str>
-			 <package>prePayId=wx04220105160063f0f49fd4751876577100</package>
-			 <time_stamp>1562248881</time_stamp>
-			 <appid>wx92ead9e82f3d55e5</appid>
-			 <sign>35F682A821983E85612EC02957CCB7193EC52B36DC91918166DE6E2ED104DEA4</sign>
-			 <mch_id>1539835521</mch_id>
-			 <sign_type>HMAC-SHA256</sign_type>
-			 */
 
 			Map<String, String> payParam = wxPay.fillRequestData(payMap);
 			String nonStr = payParam.get("nonce_str");

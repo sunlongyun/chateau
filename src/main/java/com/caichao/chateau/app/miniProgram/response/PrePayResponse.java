@@ -25,10 +25,6 @@ public class PrePayResponse extends ParentResponse {
 	private String codeUrl;
 	/////////下面支付参数//////////
 	/**
-	 * 随机数
-	 */
-	private String nonceStr;
-	/**
 	 * package
 	 */
 	private String packageStr;
@@ -44,9 +40,5 @@ public class PrePayResponse extends ParentResponse {
 	 * 签名方式
 	 */
 	private String signType;
-	/**
-	 * 签名
-	 */
-	private String sign;
 
 }

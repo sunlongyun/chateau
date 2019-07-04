@@ -44,7 +44,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 	@Autowired
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 	@Override
-	public String createPayOrder(String clientIP, String orderNo, Long orderId) {
+	public PrePayResponse createPayOrder(String clientIP, String orderNo, Long orderId) {
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId){
 			orderInfoDto = orderInfoService.getById(orderId);
@@ -62,8 +62,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		//2.保存支付流水
 		savePayment(orderInfoDto, payNo, prePayResponse);
 
-
-		return prePayResponse.getPrepayId();
+		return prePayResponse;
 	}
 
 	private void savePayment(OrderInfoDto orderInfoDto, String payNo, PrePayResponse prePayResponse) {
