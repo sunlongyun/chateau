@@ -11,6 +11,7 @@
         <result column="telephone" property="telephone" />
         <result column="linker" property="linker" />
         <result column="mobile" property="mobile" />
+        <result column="pic" property="pic" />
         <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_name, logo, address, telephone, linker, mobile, validity, create_time, update_time
+        id, company_name, logo, address, telephone, linker, mobile, pic, validity, create_time, update_time
     </sql>
 
 
