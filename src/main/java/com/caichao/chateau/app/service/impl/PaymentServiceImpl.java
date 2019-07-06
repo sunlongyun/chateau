@@ -84,7 +84,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		PrePayRequest prePayRequest = new PrePayRequest();
 
 		prePayRequest.setOutTradeNo(payNo);
-		long totalAmount = orderInfoDto.getTotalAmount();
+		long totalAmount = orderInfoDto.getTotalAmount() + orderInfoDto.getPostage();
 		//获取当前用户的openId
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		prePayRequest.setOpenid(loginResponse.getOpenid());
