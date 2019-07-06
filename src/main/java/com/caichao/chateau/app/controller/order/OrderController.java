@@ -5,15 +5,20 @@ import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.order.request.CreateOrderReq;
 import com.caichao.chateau.app.controller.order.request.OrderDetailReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.dto.CustomerDeliveryAddressDto;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
+import com.caichao.chateau.app.example.OrderDeliveryAddressMappingExample;
 import com.caichao.chateau.app.example.OrderDetailExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.example.OrderInfoExample.Criteria;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
+import com.caichao.chateau.app.service.CustomerDeliveryAddressService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
 import com.caichao.chateau.app.service.PaymentService;
@@ -26,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -55,15 +59,16 @@ public class OrderController {
 	private CustomerInfoService customerInfoService;
 	@Autowired
 	private PaymentService paymentService;
+	@Autowired
+	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
+	@Autowired
+	private CustomerDeliveryAddressService customerDeliveryAddressService;
 
 	/**
 	 * 查询订单状态
-	 * @param orderId
-	 * @param orderNo
-	 * @return
 	 */
 	@RequestMapping("getStatus")
-	public CCResponse getStatus(Long orderId, String orderNo){
+	public CCResponse getStatus(Long orderId, String orderNo) {
 		OrderInfoDto orderInfoDto = getOrderInfoDto(orderId, orderNo);
 		if(null == orderInfoDto) {
 			return CCResponse.fail("未查询到符合条件的订单");
@@ -71,27 +76,30 @@ public class OrderController {
 		Integer status = orderInfoDto.getStatus();
 		String statusName = OrderStatusEnum.getValue(status);
 		Map<String, Object> dataMap = new HashMap<>();
-		dataMap.put("status",status);
+		dataMap.put("status", status);
 		dataMap.put("statusName", statusName);
 
 		return CCResponse.success(dataMap);
 	}
+
 	/**
 	 * 历史订单列表
 	 */
 	@RequestMapping("list")
 	public CCResponse list(Integer pageNo, Integer pageSize, Integer status) {
 		OrderInfoExample orderInfoExample = new OrderInfoExample();
-		Criteria criteria =  orderInfoExample.createCriteria();
+		Criteria criteria = orderInfoExample.createCriteria();
 		criteria.andValidityEqualTo(Validity.AVAIL.code());
-		if(null != status){
+		if(null != status) {
 			criteria.andStatusEqualTo(status);
 		}
 
 		PageInfo<OrderInfoDto> pageInfo = orderInfoService.getPageInfo(pageNo, pageSize, orderInfoExample);
 		pageInfo.getDataList().forEach(orderInfoDto -> {
 			buildOrdderDetail(orderInfoDto);
+
 		});
+
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("pageInfo", pageInfo);
 		return CCResponse.success(dataMap);
@@ -116,14 +124,33 @@ public class OrderController {
 		}
 
 		buildOrdderDetail(orderInfoDto);
+		//收货地址
+		OrderDeliveryAddressMappingExample orderDeliveryAddressMappingExample = new
+			OrderDeliveryAddressMappingExample();
+		orderDeliveryAddressMappingExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+			.andOrderIdEqualTo(orderInfoDto.getId());
+
+		List<OrderDeliveryAddressMappingDto> orderDeliveryAddressMappingDtoList =
+			orderDeliveryAddressMappingService.getList
+				(orderDeliveryAddressMappingExample);
+
+		log.info("orderDeliveryAddressMappingDtoList:{}", orderDeliveryAddressMappingDtoList);
+
+		if(!CollectionUtils.isEmpty(orderDeliveryAddressMappingDtoList)) {
+			OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto = orderDeliveryAddressMappingDtoList
+				.get(0);
+			CustomerDeliveryAddressDto customerDeliveryAddressDto = customerDeliveryAddressService.getById
+				(orderDeliveryAddressMappingDto
+					.getAddressId());
+
+			orderInfoDto.setAddress(customerDeliveryAddressDto);
+		}
+
 		return CCResponse.success(orderInfoDto);
 	}
 
 	/**
 	 * 查询订单基本信息
-	 * @param orderId
-	 * @param orderNo
-	 * @return
 	 */
 	private OrderInfoDto getOrderInfoDto(Long orderId, String orderNo) {
 		OrderInfoDto orderInfoDto = null;
@@ -147,7 +174,7 @@ public class OrderController {
 	@RequestMapping("createOrder")
 	public CCResponse createOrder(@RequestBody CreateOrderReq createOrderReq) {
 		if(null == createOrderReq || CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())
-			|| null== createOrderReq.getAddressId()){
+			|| null == createOrderReq.getAddressId()) {
 			throw new RuntimeException("订单明细以及收货地址都不能为空");
 		}
 		LoginResponse loginResponse = CurrentUserUtils.get();
@@ -156,20 +183,22 @@ public class OrderController {
 			throw new RuntimeException("购物明细不能为空");
 		}
 		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
-		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(), createOrderReq.getAddressId());
-		String clientIp = IPUtil.getIpAddr();;
+		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
+			createOrderReq.getAddressId());
+		String clientIp = IPUtil.getIpAddr();
+		;
 		PrePayResponse prePayResponse = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("orderNo", orderNo);
 		dataMap.put("prePayId", prePayResponse.getPrepayId());
 		dataMap.put("orderId", orderInfoDto.getId());
-		dataMap.put("packageStr", prePayResponse.getPackageStr());
-		dataMap.put("timeStamp", prePayResponse.getTimeStamp());
-		dataMap.put("signType", prePayResponse.getSignType());
-		dataMap.put("sign", prePayResponse.getSign());
-		dataMap.put("nonceStr", prePayResponse.getNonceStr());
-		dataMap.put("appId", prePayResponse.getAppId());
+//		dataMap.put("packageStr", prePayResponse.getPackageStr());
+//		dataMap.put("timeStamp", prePayResponse.getTimeStamp());
+//		dataMap.put("signType", prePayResponse.getSignType());
+//		dataMap.put("sign", prePayResponse.getSign());
+//		dataMap.put("nonceStr", prePayResponse.getNonceStr());
+//		dataMap.put("appId", prePayResponse.getAppId());
 
 		return CCResponse.success(dataMap);
 	}

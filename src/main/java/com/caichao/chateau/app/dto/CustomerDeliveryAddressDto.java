@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
+import org.springframework.util.StringUtils;
+
 /**
 * <p>
 * 
@@ -90,4 +92,22 @@ public class CustomerDeliveryAddressDto implements Serializable {
      */
     private String detaiAddress;
 
+    public String getDetaiAddress() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if(!StringUtils.isEmpty(province)){
+            stringBuilder.append(province);
+        }
+        if(!StringUtils.isEmpty(city) && !city.equals(province)){
+            stringBuilder.append(city);
+        }
+
+        if(!StringUtils.isEmpty(area)){
+            stringBuilder.append(area);
+        }
+
+        if(!StringUtils.isEmpty(address)){
+            stringBuilder.append(address);
+        }
+        return stringBuilder.toString();
+    }
 }

@@ -16,6 +16,7 @@ import com.caichao.chateau.app.service.PaymentService;
 
 import com.caichao.chateau.app.utils.CurrentUserUtils;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,8 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		prePayRequest.setOpenid(loginResponse.getOpenid());
 		prePayRequest.setSpbillCreateIp(clientIP);
-		String title = orderInfoDto.getCustomerName()+"支付"+(totalAmount/10)+"元";
+		String title = orderInfoDto.getCustomerName()+"支付"+(new BigDecimal(totalAmount).divide(new BigDecimal(100)).doubleValue())
+			+"元【订单号:"+orderInfoDto.getOrderNo()+"】";
 		prePayRequest.setBody(title);
 		prePayRequest.setTradeType(TRADE_TYPE);
 		prePayRequest.setTotalFee(totalAmount+"");

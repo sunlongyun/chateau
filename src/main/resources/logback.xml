@@ -3,6 +3,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%X{lsReq} %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger -%line - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -12,6 +13,7 @@
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%X{lsReq} %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger -%line - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <MaxFileSize>10MB</MaxFileSize>

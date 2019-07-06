@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.dto;
 
+import com.caichao.chateau.app.entity.CustomerDeliveryAddress;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -92,4 +93,10 @@ public class OrderInfoDto implements Serializable {
      * 订单详情
      */
     private List<OrderDetailDto> orderDetailDtoList;
+
+    /**
+     * 收货地址
+     *
+     */
+    private CustomerDeliveryAddressDto address;
 }

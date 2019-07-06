@@ -70,6 +70,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//查询庄园，查询默认运费
 			CountryChateauDto countryChateauDto = countryChateauService
 				.getById(countryChateauBeverageDto.getChateauId());
+			if(null ==countryChateauDto.getPostage()) countryChateauDto.setPostage(0);
 			chateauPostage.put(countryChateauDto.getId(), countryChateauDto.getPostage());
 
 			orderDetailDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());

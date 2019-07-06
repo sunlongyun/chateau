@@ -8,6 +8,8 @@
         <result column="beverage_id" property="beverageId" />
         <result column="num" property="num" />
         <result column="min_pic_url" property="minPicUrl" />
+        <result column="title" property="title" />
+        <result column="en_title" property="enTitle" />
         <result column="price" property="price" />
         <result column="total_price" property="totalPrice" />
         <result column="order_no" property="orderNo" />
@@ -19,7 +21,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, beverage_id, num, min_pic_url, price, total_price, order_no, order_id, create_time, update_time, validity
+        id, beverage_id, num, min_pic_url, price, total_price, order_no, order_id,title,en_title, create_time,
+        update_time,
+        validity
     </sql>
 
 

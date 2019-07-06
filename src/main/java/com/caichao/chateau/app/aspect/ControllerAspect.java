@@ -53,11 +53,10 @@ public class ControllerAspect {
 			if(null != loginResponse){
 				CurrentUserUtils.set(loginResponse);
 			}
-			log.info("【请求入参】className:[{}],methodName:[{}],args:[{}]", className, methodName,
-				JsonUtils.object2JsonString(args));
-
 			result = proceedingJoinPoint.proceed();
+			return  result;
 		} catch(Exception ex) {
+			ex.printStackTrace();
 			log.error("【请求异常】", ex);
 			if(ex instanceof BizException) {
 				BizException bizException = (BizException) ex;
@@ -67,12 +66,11 @@ public class ControllerAspect {
 			if(StringUtils.isEmpty(errorMsg)) {
 				errorMsg = "请求服务异常";
 			}
-			result = CCResponse.fail(errorMsg);
+			return  CCResponse.fail(errorMsg);
 		} finally {
 			long end = System.currentTimeMillis();
 			log.info("【响应参数】耗时:[{}]，出参:[{}]", end - start, JsonUtils.object2JsonString(result));
 			CurrentUserUtils.remove();
-			return result;
 		}
 
 	}
