@@ -13,7 +13,6 @@ import com.caichao.chateau.app.miniProgram.service.WxPayService;
 import com.caichao.chateau.app.service.OrderInfoService;
 import com.caichao.chateau.app.service.PaymentService;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.sun.xml.internal.ws.api.message.stream.InputStreamMessage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
