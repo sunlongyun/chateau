@@ -21,4 +21,11 @@ public interface CountryChateauBeverageService extends IService<CountryChateauBe
 	 * @return
 	 */
 	public PageInfo<CountryChateauBeverageDto> getCountryChateauBeverageDtoPageInfo(PageQueryReq pageQueryReq);
+
+	/**
+	 * 获取商品详情
+	 * @param id
+	 * @return
+	 */
+	public CountryChateauBeverageDto getDetail(Long id);
 }

@@ -10,6 +10,7 @@ import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.caichao.chateau.app.example.OrderDetailExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
+import com.caichao.chateau.app.example.OrderInfoExample.Criteria;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.service.CustomerInfoService;
@@ -79,9 +80,13 @@ public class OrderController {
 	 * 历史订单列表
 	 */
 	@RequestMapping("list")
-	public CCResponse list(Integer pageNo, Integer pageSize) {
+	public CCResponse list(Integer pageNo, Integer pageSize, Integer status) {
 		OrderInfoExample orderInfoExample = new OrderInfoExample();
-		orderInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code());
+		Criteria criteria =  orderInfoExample.createCriteria();
+		criteria.andValidityEqualTo(Validity.AVAIL.code());
+		if(null != status){
+			criteria.andStatusEqualTo(status);
+		}
 
 		PageInfo<OrderInfoDto> pageInfo = orderInfoService.getPageInfo(pageNo, pageSize, orderInfoExample);
 		pageInfo.getDataList().forEach(orderInfoDto -> {

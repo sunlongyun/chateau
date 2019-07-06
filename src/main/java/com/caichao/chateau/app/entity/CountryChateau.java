@@ -10,7 +10,7 @@ import lombok.Data;
 * 国家--酒庄
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-07-06
 */
 @Data
 public class CountryChateau implements Serializable {
@@ -62,6 +62,11 @@ public class CountryChateau implements Serializable {
     * 国家id
      */
     private  Integer countryId;
+
+    /**
+    * 邮费
+     */
+    private  Integer postage;
 
     /**
     * 酒庄介绍

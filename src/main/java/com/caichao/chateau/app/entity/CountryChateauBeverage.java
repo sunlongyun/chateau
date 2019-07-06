@@ -114,5 +114,9 @@ public class CountryChateauBeverage implements Serializable {
     * 是否有效
      */
     private  Integer validity;
+    /**
+     * 商品规格
+     */
+    private String specs;
 
 }

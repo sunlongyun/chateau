@@ -16,6 +16,7 @@
         <result column="description" property="description" />
         <result column="origin_price" property="originPrice" />
         <result column="price" property="price" />
+        <result column="specs" property="specs"/>
         <result column="year" property="year" />
         <result column="stock" property="stock" />
         <result column="chateau_id" property="chateauId" />
@@ -26,7 +27,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, en_title, pic_url, min_pic_url, detail_pic_url, description, origin_price, price, year, stock, chateau_id, create_time, update_time, validity
+        id, title, sku_code, en_title, pic_url, min_pic_url, detail_pic_url, description, origin_price, price,specs,
+        year, stock, chateau_id, create_time, update_time, validity
     </sql>
 
     <!-- 查询列表-->

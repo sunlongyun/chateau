@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-23
+* @date 2019-07-06
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -570,6 +570,67 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andCancelRemarkIsNotNull() {
             addCriterion("cancel_remark is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPostageIn(List<Integer> values) {
+            addCriterion("postage in", values, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageNotIn(List<Integer> values) {
+            addCriterion("postage not in", values, "postage");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPostageBetween(Integer value1, Integer value2) {
+            addCriterion("postage between", value1, value2, "postage");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPostageLike(String value) {
+            addCriterion("postage like", value, "postage");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPostageEqualTo(Integer value) {
+            addCriterion("postage =", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageNotEqualTo(Integer value) {
+            addCriterion("postage <>", value, "postage");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPostageGreaterThan(Integer value) {
+            addCriterion("postage >", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageGreaterThanOrEqualTo(Integer value) {
+            addCriterion("postage >=", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageLessThan(Integer value) {
+            addCriterion("postage <", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageLessThanOrEqualTo(Integer value) {
+            addCriterion("postage <=", value, "postage");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPostageIsNull() {
+            addCriterion("postage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostageIsNotNull() {
+            addCriterion("postage is not null");
             return (Criteria) this;
         }
         // in,   not in

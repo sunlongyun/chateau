@@ -13,6 +13,7 @@
         <result column="daily_broadcast" property="dailyBroadcast" />
         <result column="master_broadcast" property="masterBroadcast" />
         <result column="country_id" property="countryId" />
+        <result column="postage" property="postage" />
         <result column="description" property="description" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -21,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, code, pic_url, min_pic_url, video, daily_broadcast, master_broadcast, country_id, description, create_time, update_time, validity
+        id, title, code, pic_url, min_pic_url, video, daily_broadcast, master_broadcast, country_id, postage, description, create_time, update_time, validity
     </sql>
 
 

@@ -1,8 +1,10 @@
 package com.caichao.chateau.app.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
+import java.util.List;
 import lombok.Data;
 /**
 * <p>
@@ -112,5 +114,18 @@ public class CountryChateauBeverageDto implements Serializable {
     * 是否有效
      */
     private Integer validity;
+
+    /**
+     * 商品规格
+     */
+    private String specs;
+    /**
+     * 商品详细头部图片列表
+     */
+    private List<String> topImages = new ArrayList<>();
+    /**
+     * 商品详情尾部商品列表--详情图片
+     */
+    private List<String> tailImages = new ArrayList<>();
 
 }

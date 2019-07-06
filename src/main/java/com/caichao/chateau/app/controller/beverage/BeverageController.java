@@ -46,7 +46,7 @@ public class BeverageController {
 	 */
 	@RequestMapping("/getDetail")
 	public CCResponse getDetail(Long id){
-		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(id);
+		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getDetail(id);
 		return CCResponse.success(countryChateauBeverageDto);
 	}
 }
