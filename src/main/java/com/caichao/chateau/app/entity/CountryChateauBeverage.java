@@ -57,6 +57,10 @@ public class CountryChateauBeverage implements Serializable {
     * 国家名称
      */
     private  String countryName;
+    /**
+     * 国家id
+     */
+    private Integer countryId;
 
     private  String picUrl;
 

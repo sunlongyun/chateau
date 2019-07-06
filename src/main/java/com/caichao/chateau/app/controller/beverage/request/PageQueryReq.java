@@ -20,6 +20,10 @@ public class PageQueryReq {
 	 */
 	private String chateauId;
 	/**
+	 * 国家id
+	 */
+	private Integer countryId;
+	/**
 	 * 供应商id
 	 */
 	private Integer supplierId;

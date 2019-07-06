@@ -19,6 +19,7 @@
         <result column="specs" property="specs"/>
         <result column="year" property="year" />
         <result column="stock" property="stock" />
+        <result column="country_id" property="countryId"/>
         <result column="chateau_id" property="chateauId" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -49,6 +50,9 @@
             </if>
             <if test="supplierId != null">
                 and supplier_id = #{supplierId}
+            </if>
+            <if test="countryId != null">
+                and country_id =#{countryId}
             </if>
         </trim>
         <if test="sortKey != null">

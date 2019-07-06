@@ -54,6 +54,10 @@ public class CountryChateauBeverageDto implements Serializable {
     private String chateauTitle;
 
     /**
+     * 国家id
+     */
+    private Integer countryId;
+    /**
     * 国家名称
      */
     private String countryName;
