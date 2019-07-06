@@ -2,8 +2,8 @@ package com.caichao.chateau.app.controller.callback;
 
 import com.caichao.chateau.app.constants.enums.OrderStatusEnum;
 import com.caichao.chateau.app.constants.enums.Validity;
-import com.caichao.chateau.app.controller.callback.request.NotifyRequest;
 import com.caichao.chateau.app.dto.OrderInfoDto;
+
 import com.caichao.chateau.app.dto.PaymentDto;
 import com.caichao.chateau.app.example.PaymentExample;
 import com.caichao.chateau.app.miniProgram.enums.PayStatusEnum;
