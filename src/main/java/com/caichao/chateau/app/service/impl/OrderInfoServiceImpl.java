@@ -1,12 +1,14 @@
 package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.constants.enums.Validity;
+import com.caichao.chateau.app.dto.CartItemDto;
 import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
 import com.caichao.chateau.app.dto.CountryChateauDto;
 import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.caichao.chateau.app.entity.OrderInfo;
+import com.caichao.chateau.app.example.CartItemExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.mapper.OrderInfoMapper;
 import com.caichao.chateau.app.service.CartItemService;
@@ -85,6 +87,16 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//如果购物项存在，则删除
 			if(null != orderDetailDto.getCartItemId()) {
 				cartItemService.deleteById(orderDetailDto.getCartItemId());
+			}else {
+				CartItemExample cartItemExample = new CartItemExample();
+				cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andBeverageIdEqualTo
+					(orderDetailDto.getBeverageId());
+				List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
+				if(!CollectionUtils.isEmpty(cartItemDtoList)){
+					cartItemDtoList.forEach(cartItemDto -> {
+						cartItemService.deleteById(cartItemDto.getId());
+					});
+				}
 			}
 		}
 		/**

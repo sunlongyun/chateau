@@ -93,7 +93,7 @@ public class OrderController {
 		if(null != status) {
 			criteria.andStatusEqualTo(status);
 		}
-
+		orderInfoExample.setOrderByClause("id desc");
 		PageInfo<OrderInfoDto> pageInfo = orderInfoService.getPageInfo(pageNo, pageSize, orderInfoExample);
 		pageInfo.getDataList().forEach(orderInfoDto -> {
 			buildOrdderDetail(orderInfoDto);
