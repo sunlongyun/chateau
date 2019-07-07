@@ -41,4 +41,15 @@ public class ChateauController {
 		dataMap.put("list", chateauDtoList);
 		return CCResponse.success(dataMap);
 	}
+
+	/**
+	 * 获取庄园详情
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getDetail")
+	public CCResponse getDetail(Integer id){
+		CountryChateauDto countryChateauDto = countryChateauService.getById(id);
+		return CCResponse.success(countryChateauDto);
+	}
 }
