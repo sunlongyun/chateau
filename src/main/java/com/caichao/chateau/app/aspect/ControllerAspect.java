@@ -62,7 +62,7 @@ public class ControllerAspect {
 				BizException bizException = (BizException) ex;
 				return CCResponse.fail(bizException.getCode(), bizException.getMsg());
 			}
-			String errorMsg = ex.getCause().getMessage();
+			String errorMsg = ex.getMessage();
 			if(StringUtils.isEmpty(errorMsg)) {
 				errorMsg = "请求服务异常";
 			}

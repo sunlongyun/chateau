@@ -167,7 +167,59 @@ public class OrderController {
 		return orderInfoDto;
 	}
 
+	/**
+	 * 取消订单
+	 */
+	@RequestMapping("cancelOrder")
+	public CCResponse cancelOrder(Long orderId) {
+		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
+		if(null == orderInfoDto){
+			throw new RuntimeException("订单不存在");
+		}
+		if(!OrderStatusEnum.UN_PAY.code().equals(orderInfoDto.getStatus())){
+			throw new RuntimeException("只有未支付订单才可以取消");
+		}
+		orderInfoDto.setStatus(OrderStatusEnum.CANCELED.code());
+		orderInfoService.update(orderInfoDto);
+		return CCResponse.success();
+	}
 
+	/**
+	 * 删除订单
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping("/deleteOrder")
+	public CCResponse deleteOrder(Long orderId){
+		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
+		if(null == orderInfoDto){
+			throw new RuntimeException("订单不存在");
+		}
+		if(OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())){
+			throw new RuntimeException("付款未收货的订单不可以删除");
+		}
+		orderInfoService.deleteById(orderId);
+		return CCResponse.success();
+	}
+
+	/**
+	 * 确认收货
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping("confirmReceiveOrder")
+	public CCResponse confirmReceiveOrder(Long orderId){
+		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
+		if(null == orderInfoDto){
+			throw new RuntimeException("订单不存在");
+		}
+		if(!OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())){
+			throw new RuntimeException("只有待收货的订单才可以确认收货");
+		}
+		orderInfoDto.setStatus(OrderStatusEnum.RECEIVED.code());
+		orderInfoService.update(orderInfoDto);
+		return CCResponse.success();
+	}
 	/**
 	 * 创建订单
 	 */
@@ -193,12 +245,6 @@ public class OrderController {
 		dataMap.put("orderNo", orderNo);
 		dataMap.put("prePayId", prePayResponse.getPrepayId());
 		dataMap.put("orderId", orderInfoDto.getId());
-//		dataMap.put("packageStr", prePayResponse.getPackageStr());
-//		dataMap.put("timeStamp", prePayResponse.getTimeStamp());
-//		dataMap.put("signType", prePayResponse.getSignType());
-//		dataMap.put("sign", prePayResponse.getSign());
-//		dataMap.put("nonceStr", prePayResponse.getNonceStr());
-//		dataMap.put("appId", prePayResponse.getAppId());
 
 		return CCResponse.success(dataMap);
 	}

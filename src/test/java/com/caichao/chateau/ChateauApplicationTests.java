@@ -13,7 +13,6 @@ import com.caichao.chateau.app.service.CountryService;
 import com.caichao.chateau.app.service.CustomerInfoService;
 import com.caichao.chateau.app.wpay.util.WpayUtil;
 import com.github.wxpay.sdk.WXPay;
-import com.github.wxpay.sdk.WXPayUtil;
 import com.lianshang.generator.commons.GenerateFileTypeEnum;
 import com.lianshang.utils.LsCodeGeneratorUtil;
 import java.util.Arrays;

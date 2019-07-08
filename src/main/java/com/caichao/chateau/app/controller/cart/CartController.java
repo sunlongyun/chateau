@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +45,20 @@ public class CartController {
 	@Autowired
 	private CountryChateauBeverageService countryChateauBeverageService;
 
+	/**
+	 * 批量删除购物车项
+	 * @param cartItemIdList
+	 * @return
+	 */
+	@RequestMapping("/batchDeleteItem")
+	public CCResponse batchDelete(@RequestBody List<Integer> cartItemIdList){
+		if(!CollectionUtils.isEmpty(cartItemIdList)){
+			cartItemIdList.forEach(cartItemId->{
+				cartItemService.deleteById(cartItemId);
+			});
+		}
+		return CCResponse.success();
+	}
 	/**
 	 * 我的购物车
 	 */

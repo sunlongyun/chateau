@@ -34,12 +34,7 @@ public class PaymentController {
 		PrePayResponse prePayResponse  = paymentService.createPayOrder(clientIp, orderNo, orderId);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("prePayId", prePayResponse.getPrepayId());
-		dataMap.put("packageStr", prePayResponse.getPackageStr());
-		dataMap.put("timeStamp", prePayResponse.getTimeStamp());
-		dataMap.put("signType", prePayResponse.getSignType());
-		dataMap.put("sign", prePayResponse.getSign());
-		dataMap.put("nonceStr", prePayResponse.getNonceStr());
-		dataMap.put("appId", prePayResponse.getAppId());
+
 		return CCResponse.success(dataMap);
 	}
 }
