@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-07-06
+* @date 2019-07-09
 */
 @Data
 public class CountryChateauExample implements Serializable {
@@ -448,6 +448,128 @@ public class CountryChateauExample implements Serializable {
 
         public Criteria andVideoIsNotNull() {
             addCriterion("video is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andDailyBroadcastIngIn(List<Integer> values) {
+            addCriterion("daily_broadcast_ing in", values, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andDailyBroadcastIngNotIn(List<Integer> values) {
+            addCriterion("daily_broadcast_ing not in", values, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andDailyBroadcastIngBetween(Integer value1, Integer value2) {
+            addCriterion("daily_broadcast_ing between", value1, value2, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andDailyBroadcastIngLike(String value) {
+            addCriterion("daily_broadcast_ing like", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andDailyBroadcastIngEqualTo(Integer value) {
+            addCriterion("daily_broadcast_ing =", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andDailyBroadcastIngNotEqualTo(Integer value) {
+            addCriterion("daily_broadcast_ing <>", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andDailyBroadcastIngGreaterThan(Integer value) {
+            addCriterion("daily_broadcast_ing >", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andDailyBroadcastIngGreaterThanOrEqualTo(Integer value) {
+            addCriterion("daily_broadcast_ing >=", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andDailyBroadcastIngLessThan(Integer value) {
+            addCriterion("daily_broadcast_ing <", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andDailyBroadcastIngLessThanOrEqualTo(Integer value) {
+            addCriterion("daily_broadcast_ing <=", value, "dailyBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andDailyBroadcastIngIsNull() {
+            addCriterion("daily_broadcast_ing is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyBroadcastIngIsNotNull() {
+            addCriterion("daily_broadcast_ing is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andMasterBroadcastIngIn(List<Integer> values) {
+            addCriterion("master_broadcast_ing in", values, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andMasterBroadcastIngNotIn(List<Integer> values) {
+            addCriterion("master_broadcast_ing not in", values, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andMasterBroadcastIngBetween(Integer value1, Integer value2) {
+            addCriterion("master_broadcast_ing between", value1, value2, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andMasterBroadcastIngLike(String value) {
+            addCriterion("master_broadcast_ing like", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andMasterBroadcastIngEqualTo(Integer value) {
+            addCriterion("master_broadcast_ing =", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andMasterBroadcastIngNotEqualTo(Integer value) {
+            addCriterion("master_broadcast_ing <>", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andMasterBroadcastIngGreaterThan(Integer value) {
+            addCriterion("master_broadcast_ing >", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andMasterBroadcastIngGreaterThanOrEqualTo(Integer value) {
+            addCriterion("master_broadcast_ing >=", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andMasterBroadcastIngLessThan(Integer value) {
+            addCriterion("master_broadcast_ing <", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+        public Criteria andMasterBroadcastIngLessThanOrEqualTo(Integer value) {
+            addCriterion("master_broadcast_ing <=", value, "masterBroadcastIng");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andMasterBroadcastIngIsNull() {
+            addCriterion("master_broadcast_ing is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMasterBroadcastIngIsNotNull() {
+            addCriterion("master_broadcast_ing is not null");
             return (Criteria) this;
         }
         // in,   not in

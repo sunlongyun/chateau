@@ -33,8 +33,8 @@ public class PaymentController {
 		String clientIp = IPUtil.getIpAddr();
 		PrePayResponse prePayResponse  = paymentService.createPayOrder(clientIp, orderNo, orderId);
 		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("orderNo", orderNo);
 		dataMap.put("prePayId", prePayResponse.getPrepayId());
-
 		return CCResponse.success(dataMap);
 	}
 }

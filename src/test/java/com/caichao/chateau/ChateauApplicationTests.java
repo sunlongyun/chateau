@@ -98,10 +98,7 @@ class ChateauApplicationTests {
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
 			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML,
 				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"customer_info");
-//		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
-//				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-//			"chisong", "csz123$%", "beverage_top_images", "beverage_tail_images");
+			"country_chateau");
 	}
 	@Test
 public void test3(){

@@ -1,5 +1,7 @@
 package com.caichao.chateau.app.controller.chateau;
 
+import com.caichao.chateau.app.constants.enums.BroadCastStatusEnum;
+import com.caichao.chateau.app.constants.enums.BroadCastTypeEnum;
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.response.CCResponse;
 import com.caichao.chateau.app.dto.CountryChateauDto;
@@ -27,9 +29,45 @@ public class ChateauController {
 	private CountryChateauService countryChateauService;
 
 	/**
+	 * 修改直播状态
+	 */
+	@RequestMapping("updateBroadCastStatus")
+	public CCResponse updateBroadCastStatus(Integer chateauId, Integer type, Integer status) {
+		CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
+		if(null == countryChateauDto){
+			throw new RuntimeException("酒庄不存在");
+		}
+		BroadCastTypeEnum broadCastTypeEnum = BroadCastTypeEnum.getBroadCastTypeEnum(type);
+		if(null == broadCastTypeEnum){
+			throw new RuntimeException("直播类型错误");
+		}
+
+		BroadCastStatusEnum broadCastStatusEnum = BroadCastStatusEnum.getBroadCastStatusEnum(status);
+		if(null == broadCastStatusEnum){
+			throw new RuntimeException("直播状态错误");
+		}
+
+		if(broadCastTypeEnum == BroadCastTypeEnum.DAILY){
+			if(broadCastStatusEnum == BroadCastStatusEnum.ING){
+				countryChateauDto.setDailyBroadcastIng(1);
+			}else if(broadCastStatusEnum == BroadCastStatusEnum.UN){
+				countryChateauDto.setDailyBroadcastIng(0);
+			}
+		}else if(broadCastTypeEnum == BroadCastTypeEnum.MASTER){
+			if(broadCastStatusEnum == BroadCastStatusEnum.ING){
+				countryChateauDto.setMasterBroadcastIng(1);
+			}else if(broadCastStatusEnum == BroadCastStatusEnum.UN){
+				countryChateauDto.setMasterBroadcastIng(0);
+			}
+		}
+
+		countryChateauService.update(countryChateauDto);
+		return CCResponse.success();
+	}
+
+
+	/**
 	 * 根据国家查询酒庄列表
-	 * @param countryId
-	 * @return
 	 */
 	@RequestMapping("getList")
 	public CCResponse getList(Integer countryId) {
@@ -44,11 +82,9 @@ public class ChateauController {
 
 	/**
 	 * 获取庄园详情
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping("/getDetail")
-	public CCResponse getDetail(Integer id){
+	public CCResponse getDetail(Integer id) {
 		CountryChateauDto countryChateauDto = countryChateauService.getById(id);
 		return CCResponse.success(countryChateauDto);
 	}

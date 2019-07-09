@@ -238,7 +238,6 @@ public class OrderController {
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
 			createOrderReq.getAddressId());
 		String clientIp = IPUtil.getIpAddr();
-		;
 		PrePayResponse prePayResponse = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
 		Map<String, Object> dataMap = new HashMap<>();

@@ -10,6 +10,8 @@
         <result column="pic_url" property="picUrl" />
         <result column="min_pic_url" property="minPicUrl" />
         <result column="video" property="video" />
+        <result column="daily_broadcast_ing" property="dailyBroadcastIng" />
+        <result column="master_broadcast_ing" property="masterBroadcastIng" />
         <result column="daily_broadcast" property="dailyBroadcast" />
         <result column="master_broadcast" property="masterBroadcast" />
         <result column="country_id" property="countryId" />
@@ -22,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, code, pic_url, min_pic_url, video, daily_broadcast, master_broadcast, country_id, postage, description, create_time, update_time, validity
+        id, title, code, pic_url, min_pic_url, video, daily_broadcast_ing, master_broadcast_ing, daily_broadcast, master_broadcast, country_id, postage, description, create_time, update_time, validity
     </sql>
 
 

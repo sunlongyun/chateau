@@ -9,7 +9,7 @@ import lombok.Data;
 * 国家--酒庄
 * </p>
 * @author 孙龙云
-* @date 2019-07-06
+* @date 2019-07-09
 */
 @Data
 public class CountryChateauDto implements Serializable {
@@ -45,6 +45,16 @@ public class CountryChateauDto implements Serializable {
     * 酒庄视频地址
      */
     private String video;
+
+    /**
+    * 是否正在直播  0-否；1-是
+     */
+    private Integer dailyBroadcastIng;
+
+    /**
+    * 是否正在直播 1-是；0-否
+     */
+    private Integer masterBroadcastIng;
 
     /**
     * 酒庄日常直播地址
