@@ -34,29 +34,29 @@ public class ChateauController {
 	@RequestMapping("updateBroadCastStatus")
 	public CCResponse updateBroadCastStatus(Integer chateauId, Integer type, Integer status) {
 		CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
-		if(null == countryChateauDto){
+		if(null == countryChateauDto) {
 			throw new RuntimeException("酒庄不存在");
 		}
 		BroadCastTypeEnum broadCastTypeEnum = BroadCastTypeEnum.getBroadCastTypeEnum(type);
-		if(null == broadCastTypeEnum){
+		if(null == broadCastTypeEnum) {
 			throw new RuntimeException("直播类型错误");
 		}
 
 		BroadCastStatusEnum broadCastStatusEnum = BroadCastStatusEnum.getBroadCastStatusEnum(status);
-		if(null == broadCastStatusEnum){
+		if(null == broadCastStatusEnum) {
 			throw new RuntimeException("直播状态错误");
 		}
 
-		if(broadCastTypeEnum == BroadCastTypeEnum.DAILY){
-			if(broadCastStatusEnum == BroadCastStatusEnum.ING){
+		if(broadCastTypeEnum == BroadCastTypeEnum.DAILY) {
+			if(broadCastStatusEnum == BroadCastStatusEnum.ING) {
 				countryChateauDto.setDailyBroadcastIng(1);
-			}else if(broadCastStatusEnum == BroadCastStatusEnum.UN){
+			} else if(broadCastStatusEnum == BroadCastStatusEnum.UN) {
 				countryChateauDto.setDailyBroadcastIng(0);
 			}
-		}else if(broadCastTypeEnum == BroadCastTypeEnum.MASTER){
-			if(broadCastStatusEnum == BroadCastStatusEnum.ING){
+		} else if(broadCastTypeEnum == BroadCastTypeEnum.MASTER) {
+			if(broadCastStatusEnum == BroadCastStatusEnum.ING) {
 				countryChateauDto.setMasterBroadcastIng(1);
-			}else if(broadCastStatusEnum == BroadCastStatusEnum.UN){
+			} else if(broadCastStatusEnum == BroadCastStatusEnum.UN) {
 				countryChateauDto.setMasterBroadcastIng(0);
 			}
 		}
@@ -87,5 +87,22 @@ public class ChateauController {
 	public CCResponse getDetail(Integer id) {
 		CountryChateauDto countryChateauDto = countryChateauService.getById(id);
 		return CCResponse.success(countryChateauDto);
+	}
+
+	/**
+	 * 获取推送地址
+	 */
+	@RequestMapping("/getPusherUrl")
+	public CCResponse getPusherUrl(Integer id, Integer type) {
+		Map<String, String> data = new HashMap<>();
+		String url = "";
+		if(type == 1) {
+			url = countryChateauService.getDailyPusherUlr(id);
+		} else {
+			url = countryChateauService.getMasterPusherUlr(id);
+		}
+		data.put("pusherUrl", url);
+
+		return CCResponse.success(data);
 	}
 }

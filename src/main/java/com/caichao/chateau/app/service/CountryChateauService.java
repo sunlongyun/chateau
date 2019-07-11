@@ -12,4 +12,17 @@ import com.caichao.chateau.app.dto.CountryChateauDto;
  */
 public interface CountryChateauService extends IService<CountryChateauDto> {
 
+	/**
+	 * 获取日常直播地址
+	 * @param id
+	 * @return
+	 */
+	public String getDailyPusherUlr(Integer id);
+
+	/**
+	 * 获取庄主直播地址
+	 * @param id
+	 * @return
+	 */
+	public String getMasterPusherUlr(Integer id);
 }
