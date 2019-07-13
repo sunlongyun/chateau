@@ -66,7 +66,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		Map<Integer, Integer> chateauPostage = new HashMap<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 
+			total += orderDetailDto.getPrice() * orderDetailDto.getNum();
+
 			orderDetailDto.setOrderId(orderInfoDto.getId());
+
 			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailDto
 				.getBeverageId());
 			//查询庄园，查询默认运费
@@ -80,7 +83,6 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
 			orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
-			total += orderDetailDto.getPrice() * orderDetailDto.getNum();
 
 			orderDetailService.save(orderDetailDto);
 

@@ -93,7 +93,7 @@ public class ChateauController {
 	 * 获取推送地址
 	 */
 	@RequestMapping("/getPusherUrl")
-	public CCResponse getPusherUrl(Integer id, Integer type) {
+	public String getPusherUrl(Integer id, Integer type) {
 		Map<String, String> data = new HashMap<>();
 		String url = "";
 		if(type == 1) {
@@ -103,6 +103,6 @@ public class ChateauController {
 		}
 		data.put("pusherUrl", url);
 
-		return CCResponse.success(data);
+		return url;
 	}
 }

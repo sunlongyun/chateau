@@ -5,6 +5,8 @@ import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.order.request.CreateOrderReq;
 import com.caichao.chateau.app.controller.order.request.OrderDetailReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
+import com.caichao.chateau.app.dto.CountryChateauDto;
 import com.caichao.chateau.app.dto.CustomerDeliveryAddressDto;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
 import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
@@ -16,6 +18,8 @@ import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.example.OrderInfoExample.Criteria;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
+import com.caichao.chateau.app.service.CountryChateauBeverageService;
+import com.caichao.chateau.app.service.CountryChateauService;
 import com.caichao.chateau.app.service.CustomerDeliveryAddressService;
 import com.caichao.chateau.app.service.CustomerInfoService;
 import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
@@ -63,6 +67,11 @@ public class OrderController {
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 	@Autowired
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
+
+	@Autowired
+	private CountryChateauBeverageService countryChateauBeverageService;
+	@Autowired
+	private CountryChateauService countryChateauService;
 
 	/**
 	 * 查询订单状态
@@ -173,10 +182,10 @@ public class OrderController {
 	@RequestMapping("cancelOrder")
 	public CCResponse cancelOrder(Long orderId) {
 		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
-		if(null == orderInfoDto){
+		if(null == orderInfoDto) {
 			throw new RuntimeException("订单不存在");
 		}
-		if(!OrderStatusEnum.UN_PAY.code().equals(orderInfoDto.getStatus())){
+		if(!OrderStatusEnum.UN_PAY.code().equals(orderInfoDto.getStatus())) {
 			throw new RuntimeException("只有未支付订单才可以取消");
 		}
 		orderInfoDto.setStatus(OrderStatusEnum.CANCELED.code());
@@ -186,16 +195,14 @@ public class OrderController {
 
 	/**
 	 * 删除订单
-	 * @param orderId
-	 * @return
 	 */
 	@RequestMapping("/deleteOrder")
-	public CCResponse deleteOrder(Long orderId){
+	public CCResponse deleteOrder(Long orderId) {
 		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
-		if(null == orderInfoDto){
+		if(null == orderInfoDto) {
 			throw new RuntimeException("订单不存在");
 		}
-		if(OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())){
+		if(OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())) {
 			throw new RuntimeException("付款未收货的订单不可以删除");
 		}
 		orderInfoService.deleteById(orderId);
@@ -204,22 +211,50 @@ public class OrderController {
 
 	/**
 	 * 确认收货
-	 * @param orderId
-	 * @return
 	 */
 	@RequestMapping("confirmReceiveOrder")
-	public CCResponse confirmReceiveOrder(Long orderId){
+	public CCResponse confirmReceiveOrder(Long orderId) {
 		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
-		if(null == orderInfoDto){
+		if(null == orderInfoDto) {
 			throw new RuntimeException("订单不存在");
 		}
-		if(!OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())){
+		if(!OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())) {
 			throw new RuntimeException("只有待收货的订单才可以确认收货");
 		}
 		orderInfoDto.setStatus(OrderStatusEnum.RECEIVED.code());
 		orderInfoService.update(orderInfoDto);
 		return CCResponse.success();
 	}
+
+	/**
+	 * 计算运费
+	 */
+	@RequestMapping("computePostage")
+	public CCResponse computePostage(@RequestBody List<OrderDetailReq> orderDetailReqList) {
+		int total = 0;
+		Map<String, Integer> postageMap = new HashMap<>();
+
+		Map<Integer, Integer> priceMap = new HashMap<>();
+		if(!CollectionUtils.isEmpty(orderDetailReqList)) {
+			for(OrderDetailReq orderDetailReq : orderDetailReqList) {
+				Long beverageId = orderDetailReq.getBeverageId();
+				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
+				if(null == countryChateauBeverageDto) {
+					continue;
+				}
+				Integer chateauId = countryChateauBeverageDto.getChateauId();
+				CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
+				if(null != countryChateauDto && null != countryChateauDto.getPostage()) {
+					priceMap
+						.put(chateauId, countryChateauDto.getPostage() == null ? 0 : countryChateauDto.getPostage());
+				}
+			}
+		}
+		total = priceMap.values().stream().reduce(0, (a, b) -> a + b);
+		postageMap.put("postage", total);
+		return CCResponse.success(postageMap);
+	}
+
 	/**
 	 * 创建订单
 	 */
