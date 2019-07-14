@@ -1,7 +1,9 @@
 package com.caichao.chateau.app.service.impl;
 
+import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CountryChateauDto;
 import com.caichao.chateau.app.entity.CountryChateau;
+import com.caichao.chateau.app.example.CountryChateauExample;
 import com.caichao.chateau.app.mapper.CountryChateauMapper;
 import com.caichao.chateau.app.service.CountryChateauService;
 import com.caichao.chateau.app.utils.BroadCastUtil;
@@ -9,9 +11,11 @@ import com.lianshang.generator.commons.ServiceImpl;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * <p>
@@ -83,5 +87,17 @@ public class CountryChateauServiceImpl extends
 			url = getUrl(roomId);
 		}
 		return url;
+	}
+
+	@Override
+	public CountryChateauDto getByCode(String code) {
+		CountryChateauExample countryChateauExample = new CountryChateauExample();
+		countryChateauExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCodeEqualTo(code);
+
+		List<CountryChateauDto> chateauDtoList = getList(countryChateauExample);
+		if(!CollectionUtils.isEmpty(chateauDtoList)){
+			return chateauDtoList.get(0);
+		}
+		return null;
 	}
 }

@@ -21,6 +21,7 @@ import com.lianshang.generator.commons.ServiceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ import org.springframework.util.CollectionUtils;
  * @since 2019-06-15
  */
 @Service
+@Slf4j
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo, OrderInfoDto> implements
 	OrderInfoService {
 
@@ -61,10 +63,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		}
 		long total = 0l;
 
-
 		//每个庄园，算一次运费
 		Map<Integer, Integer> chateauPostage = new HashMap<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
+			log.info("orderDetailDto:{}", orderDetailDto);
+			if(null == orderDetailDto) {
+				continue;
+			}
 
 			total += orderDetailDto.getPrice() * orderDetailDto.getNum();
 
@@ -75,7 +80,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//查询庄园，查询默认运费
 			CountryChateauDto countryChateauDto = countryChateauService
 				.getById(countryChateauBeverageDto.getChateauId());
-			if(null ==countryChateauDto.getPostage()) countryChateauDto.setPostage(0);
+			if(null == countryChateauDto.getPostage()) {
+				countryChateauDto.setPostage(0);
+			}
 			chateauPostage.put(countryChateauDto.getId(), countryChateauDto.getPostage());
 
 			orderDetailDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
@@ -89,12 +96,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//如果购物项存在，则删除
 			if(null != orderDetailDto.getCartItemId()) {
 				cartItemService.deleteById(orderDetailDto.getCartItemId());
-			}else {
+			} else {
 				CartItemExample cartItemExample = new CartItemExample();
 				cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andBeverageIdEqualTo
 					(orderDetailDto.getBeverageId());
 				List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
-				if(!CollectionUtils.isEmpty(cartItemDtoList)){
+				if(!CollectionUtils.isEmpty(cartItemDtoList)) {
 					cartItemDtoList.forEach(cartItemDto -> {
 						cartItemService.deleteById(cartItemDto.getId());
 					});
@@ -104,7 +111,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		/**
 		 * 订单运费
 		 */
-		Integer postage  = chateauPostage.values().stream().reduce((a,b)->a+b).orElse(0);
+		Integer postage = chateauPostage.values().stream().reduce((a, b) -> a + b).orElse(0);
 		orderInfoDto.setTotalAmount(total);
 		orderInfoDto.setPostage(postage);
 		//3.更新订单信息

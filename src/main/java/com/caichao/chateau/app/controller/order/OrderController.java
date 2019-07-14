@@ -96,9 +96,12 @@ public class OrderController {
 	 */
 	@RequestMapping("list")
 	public CCResponse list(Integer pageNo, Integer pageSize, Integer status) {
+		LoginResponse loginResponse = CurrentUserUtils.get();
+		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
+
 		OrderInfoExample orderInfoExample = new OrderInfoExample();
 		Criteria criteria = orderInfoExample.createCriteria();
-		criteria.andValidityEqualTo(Validity.AVAIL.code());
+		criteria.andValidityEqualTo(Validity.AVAIL.code()).andCustomerIdEqualTo(customerInfoDto.getId());
 		if(null != status) {
 			criteria.andStatusEqualTo(status);
 		}
@@ -269,7 +272,7 @@ public class OrderController {
 		if(CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())) {
 			throw new RuntimeException("购物明细不能为空");
 		}
-		OrderInfoDto orderInfoDto = buildOdrerInfo(loginResponse, customerInfoDto);
+		OrderInfoDto orderInfoDto = buildOdrerInfo(customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
 			createOrderReq.getAddressId());
 		String clientIp = IPUtil.getIpAddr();
@@ -294,6 +297,14 @@ public class OrderController {
 			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
 			orderDetailDto.setNum(orderDetailReq.getNum());
 			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
+			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailReq
+				.getBeverageId());
+			if(null != countryChateauBeverageDto){
+				orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
+				orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
+				orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
+			}
+
 			return orderDetailDto;
 		}).collect(Collectors.toList());
 
@@ -306,9 +317,10 @@ public class OrderController {
 	/**
 	 * 构建订单基本信息
 	 */
-	private OrderInfoDto buildOdrerInfo(LoginResponse loginResponse, CustomerInfoDto customerInfoDto) {
-		String seq = String.format("%03d", (int) (Math.random() * 1000));
-		String orderNo = loginResponse.getOpenid() + "+" + LocalDateTime.now().format(DateTimeFormatter.ofPattern
+	private OrderInfoDto buildOdrerInfo(CustomerInfoDto customerInfoDto) {
+		String seq = String.format("%04d", (int) (Math.random() * 10000));
+		String customerId = String.format("%04d", customerInfoDto.getId());
+		String orderNo = "CC" +customerId+"_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern
 			("yyyyMMddHHmmss")) + seq;
 
 		OrderInfoDto orderInfoDto = new OrderInfoDto();

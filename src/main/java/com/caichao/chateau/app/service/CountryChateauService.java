@@ -25,4 +25,11 @@ public interface CountryChateauService extends IService<CountryChateauDto> {
 	 * @return
 	 */
 	public String getMasterPusherUlr(Integer id);
+
+	/**
+	 * 根据code查询庄园信息
+	 * @param code
+	 * @return
+	 */
+	public CountryChateauDto getByCode(String code);
 }
