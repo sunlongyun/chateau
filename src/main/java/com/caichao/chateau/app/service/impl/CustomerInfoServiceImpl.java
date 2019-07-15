@@ -36,5 +36,14 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper,Cust
 		return null;
 	}
 
-
+	@Override
+	public CustomerInfoDto getAdminUserByUserName(String userName) {
+		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
+		customerInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andUserNameEqualTo(userName);
+		List<CustomerInfoDto> customerInfoDtoList = getList(customerInfoExample);
+		if(!CollectionUtils.isEmpty(customerInfoDtoList)){
+			return customerInfoDtoList.get(0);
+		}
+		return null;
+	}
 }

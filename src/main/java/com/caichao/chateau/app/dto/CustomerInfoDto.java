@@ -1,5 +1,9 @@
 package com.caichao.chateau.app.dto;
 
+import com.caichao.chateau.app.annotation.ServiceTypeAnnotation;
+import com.caichao.chateau.app.annotation.ServiceTypeAnnotation.Type;
+import com.caichao.chateau.app.constants.enums.UserStatusEnum;
+import com.caichao.chateau.app.constants.enums.UserTypeEnum;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +13,7 @@ import lombok.Data;
 * 顾客信息表
 * </p>
 * @author 孙龙云
-* @date 2019-07-07
+* @date 2019-07-15
 */
 @Data
 public class CustomerInfoDto implements Serializable {
@@ -23,14 +27,25 @@ public class CustomerInfoDto implements Serializable {
      */
     private String nickName;
 
+    private String password;
+
+    private String userName;
+
     /**
     * 国家
      */
     private String country;
 
     /**
+    * 状态 1：正常，2：冻结，
+     */
+    @ServiceTypeAnnotation(value = UserStatusEnum.class)
+    private Integer status;
+
+    /**
     * 用户类型 1-顾客；2-供应商；3-后台管理员
      */
+    @ServiceTypeAnnotation(value = UserTypeEnum.class,type = Type.VALUE)
     private Integer type;
 
     /**

@@ -44,7 +44,7 @@ public class MyWebMvcConfg implements WebMvcConfigurer{
 	 * datasource
 	 * @return
 	 */
-	@Bean
+	@Bean("myDataSource")
 	@ConditionalOnMissingBean
 	public DataSource getDatasource(){
 		DruidDataSource druidDataSource = new DruidDataSource();

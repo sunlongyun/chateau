@@ -20,5 +20,10 @@ public interface CustomerInfoService extends IService<CustomerInfoDto> {
 	 */
 	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId);
 
-
+	/**
+	 * 根据用户名称查询
+	 * @param userName
+	 * @return
+	 */
+	public CustomerInfoDto getAdminUserByUserName(String userName);
 }

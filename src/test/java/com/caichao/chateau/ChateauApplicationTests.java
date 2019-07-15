@@ -60,19 +60,19 @@ class ChateauApplicationTests {
 		PrePayResponse prePayResponse = wxPayService.prePay(prePayRequest);
 		log.info("返回的预支付流水:{}", prePayResponse);
 
-		String packageStr="prePayId="+prePayResponse.getPrepayId();
-		Map<String,String> payMap = new HashMap<>();
-			payMap.put("package",packageStr);
-		payMap.put("appid","wx92ead9e82f3d55e5");
-		payMap.put("time_stamp",(System.currentTimeMillis()/1000)+"");
-		payMap.put("package",packageStr);
-		payMap.put("total_fee","1000");
-		WXPay wxPay = WpayUtil.getWXPay(merchId,appId,key,null,null);
+		String packageStr = "prePayId=" + prePayResponse.getPrepayId();
+		Map<String, String> payMap = new HashMap<>();
+		payMap.put("package", packageStr);
+		payMap.put("appid", "wx92ead9e82f3d55e5");
+		payMap.put("time_stamp", (System.currentTimeMillis() / 1000) + "");
+		payMap.put("package", packageStr);
+		payMap.put("total_fee", "1000");
+		WXPay wxPay = WpayUtil.getWXPay(merchId, appId, key, null, null);
 		try {
 
 			Map<String, String> result = wxPay.microPayWithPos(payMap);
 			log.info("result:{}", result);
-		}catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 
@@ -96,13 +96,14 @@ class ChateauApplicationTests {
 	void test1() {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.MAPPER_XML,
+			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO, GenerateFileTypeEnum.MAPPER_XML,
 				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"country_chateau");
+			"customer_info");
 	}
+
 	@Test
-public void test3(){
-		log.info((System.currentTimeMillis()/1000)+"");
-}
+	public void test3() {
+		log.info((System.currentTimeMillis() / 1000) + "");
+	}
 
 }

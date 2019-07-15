@@ -6,6 +6,9 @@
     <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.CustomerInfo">
         <id column="id" property="id" />
         <result column="nick_name" property="nickName" />
+        <result column="password" property="password" />
+        <result column="user_name" property="userName" />
+        <result column="status" property="status" />
         <result column="country" property="country" />
         <result column="type" property="type" />
         <result column="province" property="province" />
@@ -21,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, nick_name, country, type, province, city, avatar_url, mobile, union_id, open_id, create_time, update_time, validity
+        id, nick_name, password, user_name, country, status, type, province, city, avatar_url, mobile, union_id, open_id, create_time, update_time, validity
     </sql>
 
 
