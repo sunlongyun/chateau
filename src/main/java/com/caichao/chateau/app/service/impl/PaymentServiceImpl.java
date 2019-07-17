@@ -90,8 +90,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		prePayRequest.setOpenid(loginResponse.getOpenid());
 		prePayRequest.setSpbillCreateIp(clientIP);
-		String title = orderInfoDto.getCustomerName()+"支付"+(new BigDecimal(totalAmount).divide(new BigDecimal(100)).doubleValue())
-			+"元【订单号:"+orderInfoDto.getOrderNo()+"】";
+		String title = "酒水饮品";
 		prePayRequest.setBody(title);
 		prePayRequest.setTradeType(TRADE_TYPE);
 		prePayRequest.setTotalFee(totalAmount+"");

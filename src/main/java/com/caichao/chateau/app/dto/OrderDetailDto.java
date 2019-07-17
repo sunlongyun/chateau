@@ -41,6 +41,14 @@ public class OrderDetailDto implements Serializable {
     * 数量
      */
     private Integer num;
+    /**
+     * 工艺上哪个航地址
+     */
+    private String supplierAddress;
+    /**
+     * 供应商id
+     */
+    private Integer supplierId;
 
     /**
     * 缩略图

@@ -1,5 +1,9 @@
 package com.caichao.chateau.app.dto;
 
+import com.caichao.chateau.app.annotation.AmountUnitChange;
+import com.caichao.chateau.app.annotation.ServiceTypeAnnotation;
+import com.caichao.chateau.app.constants.enums.OrderStatusEnum;
+import com.caichao.chateau.app.constants.enums.UserStatusEnum;
 import com.caichao.chateau.app.entity.CustomerDeliveryAddress;
 import java.io.Serializable;
 import java.util.Date;
@@ -43,6 +47,7 @@ public class OrderInfoDto implements Serializable {
     /**
     * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;
      */
+    @ServiceTypeAnnotation(value = OrderStatusEnum.class)
     private Integer status;
 
     /**
@@ -58,7 +63,8 @@ public class OrderInfoDto implements Serializable {
     /**
     * 邮费
      */
-    private Integer postage;
+    @AmountUnitChange(showUnit=true)
+    private Integer postage = 0;
 
     /**
     * 物流单号
@@ -73,6 +79,7 @@ public class OrderInfoDto implements Serializable {
     /**
     * 订单总金额 单位：分
      */
+    @AmountUnitChange(showUnit=true)
     private Long totalAmount;
 
     /**

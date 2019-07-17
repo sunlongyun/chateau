@@ -14,6 +14,13 @@ import com.caichao.chateau.app.dto.CustomerInfoDto;
 public interface CustomerInfoService extends IService<CustomerInfoDto> {
 
 	/**
+	 * 更新顾客状态
+	 * @param id
+	 * @param status
+	 */
+	public void changeStatus(Long id, Integer status);
+
+	/**
 	 * 根据openId查询
 	 * @param openId
 	 * @return

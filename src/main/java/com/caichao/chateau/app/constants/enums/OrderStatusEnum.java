@@ -1,6 +1,6 @@
 package com.caichao.chateau.app.constants.enums;
 
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements BaseServiceEnum{
 	UN_PAY(0,"下单未支付"),
 	PAYED(1,"下单已支付"),
 	DELIVERY(2, "卖家已发货"),

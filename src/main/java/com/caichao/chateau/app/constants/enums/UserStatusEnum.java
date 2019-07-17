@@ -8,6 +8,23 @@ public enum UserStatusEnum implements BaseServiceEnum{
 	FORZEN(2, "冻结");
 	private int code;
 	private String value;
+
+	/**
+	 * 获取枚举类型
+	 * @param code
+	 * @return
+	 */
+	public static UserStatusEnum getUserStatusEnum(Integer code){
+		if(null == code){
+			return null;
+		}
+		for(UserStatusEnum userStatusEnum : UserStatusEnum.values()){
+			if(userStatusEnum.code == code){
+				return userStatusEnum;
+			}
+		}
+		return null;
+	}
 	UserStatusEnum(int code, String value){
 		this.code = code;
 		this.value = value;

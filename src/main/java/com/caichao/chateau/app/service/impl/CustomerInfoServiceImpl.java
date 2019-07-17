@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.service.impl;
 
+import com.caichao.chateau.app.constants.enums.UserStatusEnum;
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.OrderInfoDto;
 import com.caichao.chateau.app.entity.CustomerInfo;
@@ -24,6 +25,19 @@ import org.springframework.util.CollectionUtils;
  */
 @Service
 public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper,CustomerInfo, CustomerInfoDto> implements CustomerInfoService {
+
+	@Override
+	public void changeStatus(Long id, Integer status) {
+		CustomerInfoDto customerInfoDto = getById(id);
+		if(null != customerInfoDto){
+			UserStatusEnum userStatusEnum = UserStatusEnum.getUserStatusEnum(status);
+			if(null == userStatusEnum){
+				throw new RuntimeException("状态错误");
+			}
+			customerInfoDto.setStatus(status);
+			this.update(customerInfoDto);
+		}
+	}
 
 	@Override
 	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId) {

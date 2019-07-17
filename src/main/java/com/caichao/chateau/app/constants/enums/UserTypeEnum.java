@@ -5,9 +5,9 @@ package com.caichao.chateau.app.constants.enums;
  * @author 孙龙云
  */
 public enum UserTypeEnum implements BaseServiceEnum {
-	ADMINPLATFORM(1,"顾客"),
-	SALER(2, "供应商"),
-	MERCHANT(3, "平台管理员");
+	CUSTOMER(1,"顾客"),
+	SUPPLIER(2, "供应商"),
+	ADMIN(3, "平台管理员");
 	private int code;
 	private String value;
 	UserTypeEnum(int code, String value){

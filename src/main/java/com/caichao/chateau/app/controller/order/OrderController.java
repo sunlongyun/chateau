@@ -12,6 +12,7 @@ import com.caichao.chateau.app.dto.CustomerInfoDto;
 import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
+import com.caichao.chateau.app.dto.SupplierDto;
 import com.caichao.chateau.app.example.OrderDeliveryAddressMappingExample;
 import com.caichao.chateau.app.example.OrderDetailExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
@@ -26,6 +27,7 @@ import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
 import com.caichao.chateau.app.service.PaymentService;
+import com.caichao.chateau.app.service.SupplierService;
 import com.caichao.chateau.app.utils.CurrentUserUtils;
 import com.caichao.chateau.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
@@ -72,6 +74,9 @@ public class OrderController {
 	private CountryChateauBeverageService countryChateauBeverageService;
 	@Autowired
 	private CountryChateauService countryChateauService;
+
+	@Autowired
+	private SupplierService supplierService;
 
 	/**
 	 * 查询订单状态
@@ -121,7 +126,21 @@ public class OrderController {
 		OrderDetailExample orderDetailExample = new OrderDetailExample();
 		orderDetailExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOrderIdEqualTo
 			(orderInfoDto.getId());
-		orderInfoDto.setOrderDetailDtoList(orderDetailService.getList(orderDetailExample));
+		List<OrderDetailDto> orderDetailDtoList = orderDetailService.getList(orderDetailExample);
+		if(null != orderDetailDtoList) {
+			for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
+				Long beverageId = orderDetailDto.getBeverageId();
+				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById
+					(beverageId);
+				Integer supplierId = countryChateauBeverageDto.getSupplierId();
+
+				SupplierDto supplierDto = supplierService.getById(supplierId);
+				log.info("supplierDto:{}", supplierDto);
+				orderDetailDto.setSupplierId(supplierId);
+				orderDetailDto.setSupplierAddress(supplierDto.getAddress());
+			}
+		}
+		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
 	}
 
 	/**
@@ -299,7 +318,7 @@ public class OrderController {
 			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
 			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailReq
 				.getBeverageId());
-			if(null != countryChateauBeverageDto){
+			if(null != countryChateauBeverageDto) {
 				orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
 				orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
 				orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
@@ -320,7 +339,7 @@ public class OrderController {
 	private OrderInfoDto buildOdrerInfo(CustomerInfoDto customerInfoDto) {
 		String seq = String.format("%04d", (int) (Math.random() * 10000));
 		String customerId = String.format("%04d", customerInfoDto.getId());
-		String orderNo = "CC" +customerId+"_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern
+		String orderNo = "CC" + customerId + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern
 			("yyyyMMddHHmmss")) + seq;
 
 		OrderInfoDto orderInfoDto = new OrderInfoDto();
