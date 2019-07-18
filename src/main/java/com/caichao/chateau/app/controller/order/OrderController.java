@@ -33,6 +33,7 @@ import com.caichao.chateau.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -254,9 +255,11 @@ public class OrderController {
 	@RequestMapping("computePostage")
 	public CCResponse computePostage(@RequestBody List<OrderDetailReq> orderDetailReqList) {
 		int total = 0;
-		Map<String, Integer> postageMap = new HashMap<>();
+		Map<String, Object> postageMap = new HashMap<>();
 
 		Map<Integer, Integer> priceMap = new HashMap<>();
+		List<Map<String, Object>> supplierDtoList = new ArrayList<>();
+
 		if(!CollectionUtils.isEmpty(orderDetailReqList)) {
 			for(OrderDetailReq orderDetailReq : orderDetailReqList) {
 				Long beverageId = orderDetailReq.getBeverageId();
@@ -265,6 +268,15 @@ public class OrderController {
 					continue;
 				}
 				Integer chateauId = countryChateauBeverageDto.getChateauId();
+				Integer supplierId = countryChateauBeverageDto.getSupplierId();
+				SupplierDto supplierDto = supplierService.getById(supplierId);
+
+				Map<String, Object> deliveryMap = new HashMap<>();
+				deliveryMap.put("supplierId", supplierId);
+				deliveryMap.put("beverageId", orderDetailReq.getBeverageId());
+				deliveryMap.put("supplierAddress", supplierDto.getAddress());
+
+				supplierDtoList.add(deliveryMap);
 				CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
 				if(null != countryChateauDto && null != countryChateauDto.getPostage()) {
 					priceMap
@@ -274,6 +286,8 @@ public class OrderController {
 		}
 		total = priceMap.values().stream().reduce(0, (a, b) -> a + b);
 		postageMap.put("postage", total);
+		postageMap.put("deliveryList", supplierDtoList);
+
 		return CCResponse.success(postageMap);
 	}
 
