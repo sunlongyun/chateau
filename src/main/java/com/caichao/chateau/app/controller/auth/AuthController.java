@@ -56,7 +56,7 @@ public class AuthController {
 	 */
 	@RequestMapping("/login")
 	public CCResponse login(String code) {
-		log.info("登录开始i:{}",code);
+		log.info("登录开始:{}",code);
 		String userCode = authBizService.login(code);
 		LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
 		Map<String,Object> userMap = new HashMap<>();

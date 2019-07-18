@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.dto;
 
+import com.caichao.chateau.app.annotation.AmountUnitChange;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,11 +83,13 @@ public class CountryChateauBeverageDto implements Serializable {
     /**
     * 进价 单位：分
      */
+    @AmountUnitChange(showUnit=true)
     private Long originPrice;
 
     /**
     * 销售价格，跨境完税价  单位：分
      */
+    @AmountUnitChange(showUnit=true)
     private Long price;
 
     /**
