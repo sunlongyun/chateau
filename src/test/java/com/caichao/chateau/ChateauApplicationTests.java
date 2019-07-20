@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -92,13 +92,14 @@ class ChateauApplicationTests {
 		log.info("countryDtoList:{}", countryDtoList);
 	}
 
+
 	@Test
-	void test1() {
+	void test4() {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
 			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO, GenerateFileTypeEnum.MAPPER_XML,
 				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"customer_info");
+			"country_chateau");
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package com.caichao.chateau.app.mapper;
 
 import com.caichao.chateau.app.entity.CountryChateau;
 import com.lianshang.generator.commons.LsBaseMapper;
+
 /**
  * <p>
  * 国家--酒庄 Mapper 接口
