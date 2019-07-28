@@ -2,6 +2,8 @@ package com.caichao.chateau.app.miniProgram.service;
 
 import com.caichao.chateau.app.miniProgram.request.PayOrderQuery;
 import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
+import com.caichao.chateau.app.miniProgram.request.RefundApplyReq;
+import com.caichao.chateau.app.miniProgram.response.ParentResponse;
 import com.caichao.chateau.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 
@@ -27,5 +29,10 @@ public interface WxPayService {
 	 */
 	public PayOrderQueryResultResponse queryPayOrder(PayOrderQuery payOrderQuery);
 
-
+	/**
+	 * 退款申请
+	 * @param refundApplyReq
+	 * @return
+	 */
+	public ParentResponse refundOrder(RefundApplyReq refundApplyReq);
 }

@@ -1,5 +1,6 @@
 package com.caichao.chateau.app.service;
 
+import com.caichao.chateau.app.miniProgram.response.ParentResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.lianshang.generator.commons.IService;
 import com.caichao.chateau.app.dto.PaymentDto;
@@ -19,4 +20,12 @@ public interface PaymentService extends IService<PaymentDto> {
 	 * @param orderId
 	 */
 	public PrePayResponse createPayOrder(String clientIP, String orderNo, Long orderId);
+
+	/**
+	 * 根据流水号查询
+	 * @param paymentNo
+	 * @return
+	 */
+	public PaymentDto getPaymentDto(String paymentNo);
+
 }

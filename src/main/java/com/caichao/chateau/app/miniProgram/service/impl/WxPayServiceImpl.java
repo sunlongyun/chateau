@@ -4,6 +4,8 @@ import com.caichao.chateau.app.miniProgram.annotaion.ReqUtil;
 import com.caichao.chateau.app.miniProgram.annotaion.ResUtil;
 import com.caichao.chateau.app.miniProgram.request.PayOrderQuery;
 import com.caichao.chateau.app.miniProgram.request.PrePayRequest;
+import com.caichao.chateau.app.miniProgram.request.RefundApplyReq;
+import com.caichao.chateau.app.miniProgram.response.ParentResponse;
 import com.caichao.chateau.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
@@ -112,6 +114,21 @@ public class WxPayServiceImpl implements WxPayService {
 			return payOrderQueryResultResponse;
 		} catch(Exception ex) {
 			log.error("支付查询接口调用失败:", ex);
+			throw new RuntimeException("微信支付查询异常:" + ex.getCause());
+		}
+	}
+
+	@Override
+	public ParentResponse refundOrder(RefundApplyReq refundApplyReq) {
+		Map<String, String> dataMap = ReqUtil.getMap(refundApplyReq);
+		WXPay wxPay = getWxPay();
+
+		try {
+			Map<String, String> resultMap = wxPay.refund(dataMap);
+			ParentResponse parentResponse = ResUtil.getObj(ParentResponse.class, resultMap);
+			return parentResponse;
+		} catch(Exception ex) {
+			log.error("支付退款接口调用失败:", ex);
 			throw new RuntimeException("微信支付查询异常:" + ex.getCause());
 		}
 	}

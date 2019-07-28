@@ -98,7 +98,7 @@ public class ChateauApplicationTests {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
 				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",
-			"refund_order");
+			"refund_payment");
 	}
 
 	@Test

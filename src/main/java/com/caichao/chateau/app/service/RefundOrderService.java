@@ -12,4 +12,10 @@ import com.caichao.chateau.app.dto.RefundOrderDto;
  */
 public interface RefundOrderService extends IService<RefundOrderDto> {
 
+	/**
+	 * 查询退款申请记录
+	 * @param applyNo
+	 * @return
+	 */
+	public RefundOrderDto getRefundOrderDto(String applyNo);
 }
