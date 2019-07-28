@@ -39,5 +39,4 @@ public class WpayUtil {
 		return wxPayConfig;
 	}
 
-
 }

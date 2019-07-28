@@ -19,6 +19,7 @@ import com.lianshang.generator.commons.ServiceImpl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import org.springframework.util.StringUtils;
  * @since 2019-06-15
  */
 @Service
+@Slf4j
 public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, PaymentDto> implements PaymentService {
 
 	public static final String TRADE_TYPE = "JSAPI";
@@ -46,10 +48,11 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper,Payment, Payme
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 	@Override
 	public PrePayResponse createPayOrder(String clientIP, String orderNo, Long orderId) {
+
 		OrderInfoDto orderInfoDto = null;
 		if(null != orderId){
 			orderInfoDto = orderInfoService.getById(orderId);
-		}else if(StringUtils.isEmpty(orderNo)){
+		}else if(!StringUtils.isEmpty(orderNo)){
 			orderInfoDto = orderInfoService.getOrderByNo(orderNo);
 		}
 

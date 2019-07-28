@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
-class ChateauApplicationTests {
+public class ChateauApplicationTests {
 
 	@Autowired
 	private CustomerInfoService customerInfoService;
@@ -94,12 +94,11 @@ class ChateauApplicationTests {
 
 
 	@Test
-	void test4() {
+	public void test4() {
 		LsCodeGeneratorUtil.generateCode("app", "com.caichao.chateau", "jdbc:mysql://www"
-				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.cj.jdbc.Driver",
-			"chisong", "csz123$%", Arrays.asList(GenerateFileTypeEnum.DTO, GenerateFileTypeEnum.MAPPER_XML,
-				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.ENTITY),
-			"country_chateau");
+				+ ".tom235.com:3306/chateau?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
+			"chisong", "csz123$%",
+			"refund_order");
 	}
 
 	@Test

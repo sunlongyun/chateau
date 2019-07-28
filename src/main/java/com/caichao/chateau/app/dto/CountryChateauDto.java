@@ -67,6 +67,14 @@ public class CountryChateauDto implements Serializable {
     private String masterBroadcast;
 
     /**
+     * 日常直播推送地址
+     */
+    private String dailyBroadcastPusher;
+    /**
+     * 庄主直播地址
+     */
+    private String masterBroadcastPusher;
+    /**
     * 国家id
      */
     private Integer countryId;

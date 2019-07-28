@@ -9,6 +9,9 @@ import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
 import com.caichao.chateau.app.miniProgram.service.WxPayService;
 import com.caichao.chateau.app.wpay.util.WpayUtil;
 import com.github.wxpay.sdk.WXPay;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -40,11 +43,27 @@ public class WxPayServiceImpl implements WxPayService {
 	@Value("${key}")
 	private String key;
 
+	@Value("${crt_path}")
+	private String cerPath;
 	/**
 	 * 获取微信sdk
 	 */
 	private WXPay getWxPay() {
-		return WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+		try {
+			String certPath = cerPath+"/apiclient_cert.p12";
+			File file = new File(certPath);
+			InputStream certStream = new FileInputStream(file);
+			byte[] bytes  = new byte[(int) file.length()];
+			certStream.read(bytes);
+			WXPay wxPay =  WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+			certStream.close();
+			return  wxPay;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			log.error("获取WXPay失败:",ex);
+			throw new RuntimeException("获取WXPay失败");
+		}
+
 	}
 
 	@Override

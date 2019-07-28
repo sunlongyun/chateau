@@ -26,4 +26,6 @@ public interface WxPayService {
 	 * @return
 	 */
 	public PayOrderQueryResultResponse queryPayOrder(PayOrderQuery payOrderQuery);
+
+
 }
