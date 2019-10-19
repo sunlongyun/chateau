@@ -40,24 +40,18 @@
                 AND (
                 title like concat('%',#{searchKey},'%')
                 OR en_title like concat('%',#{searchKey},'%')
-                OR  chateau_title like concat('%',#{searchKey},'%')
                 OR country_name like concat('%',#{searchKey},'%')
                 OR supplier_company_name like concat('%',#{searchKey},'%')
                 )
             </if>
-            <if test="chateauId != null">
-                and chateau_id = #{chateauId}
-            </if>
             <if test="supplierId != null">
                 and supplier_id = #{supplierId}
-            </if>
-            <if test="countryId != null">
-                and country_id =#{countryId}
             </if>
         </trim>
         <if test="sortKey != null">
             ORDER  BY ${sortKey} ${sortType}
         </if>
+
     </select>
 
     <!-- example通用查询-->

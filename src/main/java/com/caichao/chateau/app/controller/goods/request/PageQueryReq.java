@@ -10,7 +10,10 @@ import lombok.Data;
  */
 @Data
 public class PageQueryReq {
-
+	/**
+	 * 是否是热门推荐
+	 */
+	private Integer hot=0;
 	/**
 	 * 搜索关键字
 	 */
