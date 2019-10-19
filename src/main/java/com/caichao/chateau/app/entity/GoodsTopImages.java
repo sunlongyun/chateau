@@ -7,13 +7,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 /**
 * <p>
-* 商品详情尾部图片，详情图片
+* 酒水头部图片，用于商品详情展示
 * </p>
 * @author 孙龙云
-* @date 2019-07-06
+* @date 2019-10-19
 */
 @Data
-public class BeverageTailImages implements Serializable {
+public class GoodsTopImages implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class BeverageTailImages implements Serializable {
     /**
     * 酒水id
      */
-    private  Long beverageId;
+    private  Long goodsId;
 
     /**
     * 图片地址
@@ -41,7 +41,7 @@ public class BeverageTailImages implements Serializable {
     private  Date updateTime;
 
     /**
-    * 是否有效 1-有效；0-无效
+    * 是否有效  1-有效；0-无效
      */
     private  Integer validity;
 

@@ -1,6 +1,6 @@
 package com.caichao.chateau.app.mapper;
 
-import com.caichao.chateau.app.entity.BeverageTopImages;
+import com.caichao.chateau.app.entity.GoodsTopImages;
 import com.lianshang.generator.commons.LsBaseMapper;
 /**
  * <p>
@@ -10,6 +10,6 @@ import com.lianshang.generator.commons.LsBaseMapper;
  * @author 孙龙云
  * @since 2019-07-06
  */
-public interface BeverageTopImagesMapper extends LsBaseMapper<BeverageTopImages> {
+public interface GoodsTopImagesMapper extends LsBaseMapper<GoodsTopImages> {
 
 }

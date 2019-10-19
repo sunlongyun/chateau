@@ -22,4 +22,11 @@ public interface GoodsService extends IService<GoodsDto> {
      * @return
      */
     public PageInfo<GoodsDto> getGoodsInfo(PageQueryReq pageQueryReq);
+
+    /**
+     * 根据id查询商品详情
+     * @param id
+     * @return
+     */
+    public GoodsDto getDetailById(Long id);
 }

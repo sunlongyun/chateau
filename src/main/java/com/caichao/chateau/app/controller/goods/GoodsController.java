@@ -23,9 +23,9 @@ import java.util.Map;
 @RequestMapping("/goods")
 public class GoodsController {
 
+
 	@Autowired
 	private GoodsService goodsService;
-
 	/**
 	 * 分页查询
 	 * @param pageQueryReq
@@ -46,7 +46,8 @@ public class GoodsController {
 	 */
 	@RequestMapping("/getDetail")
 	public CCResponse getDetail(Long id){
-		GoodsDto goodsDto = goodsService.getById(id);
+		GoodsDto goodsDto = goodsService.getDetailById(id);
+
 		return CCResponse.success(goodsDto);
 	}
 }

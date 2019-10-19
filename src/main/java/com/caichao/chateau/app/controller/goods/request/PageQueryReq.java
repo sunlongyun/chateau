@@ -15,14 +15,7 @@ public class PageQueryReq {
 	 * 搜索关键字
 	 */
 	private String searchKey;
-	/**
-	 * 庄园id
-	 */
-	private String chateauId;
-	/**
-	 * 国家id
-	 */
-	private Integer countryId;
+
 	/**
 	 * 供应商id
 	 */

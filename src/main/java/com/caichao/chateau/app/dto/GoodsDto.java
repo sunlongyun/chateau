@@ -1,7 +1,9 @@
 package com.caichao.chateau.app.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 /**
@@ -112,5 +114,12 @@ public class GoodsDto implements Serializable {
     * 是否有效
      */
     private Integer validity;
-
+    /**
+     * 商品尾部图片
+     */
+    private List<String> tailImages = new ArrayList<>();
+    /**
+     * 商品头部图片
+     */
+    private List<String> topImages = new ArrayList<>();
 }

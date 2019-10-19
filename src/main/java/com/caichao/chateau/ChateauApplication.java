@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan("com.caichao.chateau.*.mapper")
 @EnableScheduling
-@PropertySource("file:${chateau_path_file}")
+@PropertySource("file:${green_farm_path_file}")
 public class ChateauApplication {
 
 	public static void main(String[] args) {

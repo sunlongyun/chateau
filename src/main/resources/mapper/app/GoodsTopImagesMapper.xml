@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.caichao.chateau.app.mapper.BeverageTopImagesMapper">
+<mapper namespace="com.caichao.chateau.app.mapper.GoodsTopImagesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.BeverageTopImages">
+    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.GoodsTopImages">
         <result column="id" property="id" />
-        <result column="beverage_id" property="beverageId" />
+        <result column="goods_id" property="goodsId" />
         <result column="image_url" property="imageUrl" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -14,20 +14,20 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, beverage_id, image_url, create_time, update_time, validity
+        id, goods_id, image_url, create_time, update_time, validity
     </sql>
 
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.BeverageTopImagesExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.GoodsTopImagesExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from beverage_top_images
+        from goods_top_images
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
