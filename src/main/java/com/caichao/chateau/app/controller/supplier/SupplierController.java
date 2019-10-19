@@ -2,12 +2,10 @@ package com.caichao.chateau.app.controller.supplier;
 
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.response.CCResponse;
-import com.caichao.chateau.app.dto.SupplierChateauMappingDto;
 import com.caichao.chateau.app.dto.SupplierDto;
 import com.caichao.chateau.app.example.SupplierChateauMappingExample;
 import com.caichao.chateau.app.example.SupplierExample;
 import com.caichao.chateau.app.example.SupplierExample.Criteria;
-import com.caichao.chateau.app.service.SupplierChateauMappingService;
 import com.caichao.chateau.app.service.SupplierService;
 import com.lianshang.generator.commons.PageInfo;
 import java.util.List;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SupplierController {
 
 	@Autowired
-	private SupplierChateauMappingService supplierChateauMappingService;
-	@Autowired
 	private SupplierService supplierService;
 
 	/**
@@ -40,14 +36,7 @@ public class SupplierController {
 	public CCResponse getPageInfo(Integer pageNo, Integer pageSize, String supplierName, Integer chateauId) {
 		SupplierExample supplierExample = new SupplierExample();
 		Criteria criteria = supplierExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code());
-		if(null != chateauId) {
-			SupplierChateauMappingExample supplierChateauMappingExample = new SupplierChateauMappingExample();
-			supplierChateauMappingExample.createCriteria().andValidityEqualTo(chateauId);
-			List<Integer> supplierIdList = supplierChateauMappingService.getList(supplierChateauMappingExample).stream()
-				.map
-					(SupplierChateauMappingDto::getSupplierId).collect(Collectors.toList());
-			criteria.andIdIn(supplierIdList);
-		}
+
 		if(!StringUtils.isEmpty(supplierName)){
 			criteria.andCompanyNameLike("%"+supplierName+"%");
 		}

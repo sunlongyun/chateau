@@ -1,7 +1,7 @@
 package com.caichao.chateau.app.service;
 
 import com.lianshang.generator.commons.IService;
-import com.caichao.chateau.app.dto.BeverageTailImagesDto;
+import com.caichao.chateau.app.dto.GoodsTailImagesDto;
 /**
  * <p>
  * 商品详情尾部图片，详情图片 服务类
@@ -10,6 +10,6 @@ import com.caichao.chateau.app.dto.BeverageTailImagesDto;
  * @author 孙龙云
  * @since 2019-07-06
  */
-public interface BeverageTailImagesService extends IService<BeverageTailImagesDto> {
+public interface GoodsTailImagesService extends IService<GoodsTailImagesDto> {
 
 }

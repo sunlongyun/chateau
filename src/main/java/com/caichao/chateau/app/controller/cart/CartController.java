@@ -4,15 +4,15 @@ import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.response.CCResponse;
 import com.caichao.chateau.app.controller.response.enums.ResponseCodeEnum;
 import com.caichao.chateau.app.dto.CartItemDto;
-import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
 import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.dto.GoodsDto;
 import com.caichao.chateau.app.dto.ShoppingCartDto;
 import com.caichao.chateau.app.example.CartItemExample;
 import com.caichao.chateau.app.example.ShoppingCartExample;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.service.CartItemService;
-import com.caichao.chateau.app.service.CountryChateauBeverageService;
 import com.caichao.chateau.app.service.CustomerInfoService;
+import com.caichao.chateau.app.service.GoodsService;
 import com.caichao.chateau.app.service.ShoppingCartService;
 import com.caichao.chateau.app.utils.CurrentUserUtils;
 import com.caichao.chateau.exception.BizException;
@@ -43,7 +43,7 @@ public class CartController {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 	@Autowired
-	private CountryChateauBeverageService countryChateauBeverageService;
+	private GoodsService goodsService;
 
 	/**
 	 * 批量删除购物车项
@@ -133,9 +133,9 @@ public class CartController {
 			throw new BizException(ResponseCodeEnum.FAIL.code(), "购物车获取失败");
 		}
 
-		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
-		if(null == countryChateauBeverageDto) {
-			throw new RuntimeException("酒水不存在");
+		GoodsDto goodsDto = goodsService.getById(beverageId);
+		if(null == goodsDto) {
+			throw new RuntimeException("商品不存在");
 		}
 		CartItemDto cartItemDto = null;
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
@@ -154,10 +154,10 @@ public class CartController {
 			cartItemDto.setNum(num);
 			cartItemDto.setCartId(shoppingCartDto.getId());
 			cartItemDto.setBeverageId(beverageId);
-			cartItemDto.setPrice(countryChateauBeverageDto.getPrice());
-			cartItemDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
-			cartItemDto.setTitle(countryChateauBeverageDto.getTitle());
-			cartItemDto.setTotalPrice(countryChateauBeverageDto.getPrice() * num);
+			cartItemDto.setPrice(goodsDto.getPrice());
+			cartItemDto.setMinPicUrl(goodsDto.getMinPicUrl());
+			cartItemDto.setTitle(goodsDto.getTitle());
+			cartItemDto.setTotalPrice(goodsDto.getPrice() * num);
 
 			cartItemService.save(cartItemDto);
 		}

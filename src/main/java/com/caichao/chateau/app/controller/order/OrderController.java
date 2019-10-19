@@ -5,29 +5,14 @@ import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.controller.order.request.CreateOrderReq;
 import com.caichao.chateau.app.controller.order.request.OrderDetailReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
-import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
-import com.caichao.chateau.app.dto.CountryChateauDto;
-import com.caichao.chateau.app.dto.CustomerDeliveryAddressDto;
-import com.caichao.chateau.app.dto.CustomerInfoDto;
-import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
-import com.caichao.chateau.app.dto.OrderDetailDto;
-import com.caichao.chateau.app.dto.OrderInfoDto;
-import com.caichao.chateau.app.dto.SupplierDto;
+import com.caichao.chateau.app.dto.*;
 import com.caichao.chateau.app.example.OrderDeliveryAddressMappingExample;
 import com.caichao.chateau.app.example.OrderDetailExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.example.OrderInfoExample.Criteria;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
 import com.caichao.chateau.app.miniProgram.response.PrePayResponse;
-import com.caichao.chateau.app.service.CountryChateauBeverageService;
-import com.caichao.chateau.app.service.CountryChateauService;
-import com.caichao.chateau.app.service.CustomerDeliveryAddressService;
-import com.caichao.chateau.app.service.CustomerInfoService;
-import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
-import com.caichao.chateau.app.service.OrderDetailService;
-import com.caichao.chateau.app.service.OrderInfoService;
-import com.caichao.chateau.app.service.PaymentService;
-import com.caichao.chateau.app.service.SupplierService;
+import com.caichao.chateau.app.service.*;
 import com.caichao.chateau.app.utils.CurrentUserUtils;
 import com.caichao.chateau.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
@@ -70,11 +55,8 @@ public class OrderController {
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
 	@Autowired
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
-
-	@Autowired
-	private CountryChateauBeverageService countryChateauBeverageService;
-	@Autowired
-	private CountryChateauService countryChateauService;
+    @Autowired
+	private GoodsService goodsService;
 
 	@Autowired
 	private SupplierService supplierService;
@@ -131,9 +113,9 @@ public class OrderController {
 		if(null != orderDetailDtoList) {
 			for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 				Long beverageId = orderDetailDto.getBeverageId();
-				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById
+				GoodsDto goodsDto = goodsService.getById
 					(beverageId);
-				Integer supplierId = countryChateauBeverageDto.getSupplierId();
+				Integer supplierId = goodsDto.getSupplierId();
 
 				SupplierDto supplierDto = supplierService.getById(supplierId);
 				log.info("supplierDto:{}", supplierDto);
@@ -260,30 +242,30 @@ public class OrderController {
 		Map<Integer, Integer> priceMap = new HashMap<>();
 		List<Map<String, Object>> supplierDtoList = new ArrayList<>();
 
-		if(!CollectionUtils.isEmpty(orderDetailReqList)) {
-			for(OrderDetailReq orderDetailReq : orderDetailReqList) {
-				Long beverageId = orderDetailReq.getBeverageId();
-				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
-				if(null == countryChateauBeverageDto) {
-					continue;
-				}
-				Integer chateauId = countryChateauBeverageDto.getChateauId();
-				Integer supplierId = countryChateauBeverageDto.getSupplierId();
-				SupplierDto supplierDto = supplierService.getById(supplierId);
-
-				Map<String, Object> deliveryMap = new HashMap<>();
-				deliveryMap.put("supplierId", supplierId);
-				deliveryMap.put("beverageId", orderDetailReq.getBeverageId());
-				deliveryMap.put("supplierAddress", supplierDto.getAddress());
-
-				supplierDtoList.add(deliveryMap);
-				CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
-				if(null != countryChateauDto && null != countryChateauDto.getPostage()) {
-					priceMap
-						.put(chateauId, countryChateauDto.getPostage() == null ? 0 : countryChateauDto.getPostage());
-				}
-			}
-		}
+//		if(!CollectionUtils.isEmpty(orderDetailReqList)) {
+//			for(OrderDetailReq orderDetailReq : orderDetailReqList) {
+//				Long beverageId = orderDetailReq.getBeverageId();
+//				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
+//				if(null == countryChateauBeverageDto) {
+//					continue;
+//				}
+//				Integer chateauId = countryChateauBeverageDto.getChateauId();
+//				Integer supplierId = countryChateauBeverageDto.getSupplierId();
+//				SupplierDto supplierDto = supplierService.getById(supplierId);
+//
+//				Map<String, Object> deliveryMap = new HashMap<>();
+//				deliveryMap.put("supplierId", supplierId);
+//				deliveryMap.put("beverageId", orderDetailReq.getBeverageId());
+//				deliveryMap.put("supplierAddress", supplierDto.getAddress());
+//
+//				supplierDtoList.add(deliveryMap);
+//				CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
+//				if(null != countryChateauDto && null != countryChateauDto.getPostage()) {
+//					priceMap
+//						.put(chateauId, countryChateauDto.getPostage() == null ? 0 : countryChateauDto.getPostage());
+//				}
+//			}
+//		}
 		total = priceMap.values().stream().reduce(0, (a, b) -> a + b);
 		postageMap.put("postage", total);
 		postageMap.put("deliveryList", supplierDtoList);
@@ -330,12 +312,12 @@ public class OrderController {
 			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
 			orderDetailDto.setNum(orderDetailReq.getNum());
 			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
-			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailReq
+			GoodsDto goodsDto = goodsService.getById(orderDetailReq
 				.getBeverageId());
-			if(null != countryChateauBeverageDto) {
-				orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
-				orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
-				orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
+			if(null != goodsDto) {
+				orderDetailDto.setPrice(goodsDto.getPrice());
+				orderDetailDto.setTitle(goodsDto.getTitle());
+				orderDetailDto.setEnTitle(goodsDto.getEnTitle());
 			}
 
 			return orderDetailDto;

@@ -1,21 +1,18 @@
 package com.caichao.chateau.app.dto;
 
-import com.caichao.chateau.app.annotation.AmountUnitChange;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
-import java.util.List;
 import lombok.Data;
 /**
 * <p>
 * 酒水
 * </p>
 * @author 孙龙云
-* @date 2019-07-02
+* @date 2019-10-19
 */
 @Data
-public class CountryChateauBeverageDto implements Serializable {
+public class GoodsDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,15 +47,6 @@ public class CountryChateauBeverageDto implements Serializable {
     private Integer supplierId;
 
     /**
-    * 庄园名称
-     */
-    private String chateauTitle;
-
-    /**
-     * 国家id
-     */
-    private Integer countryId;
-    /**
     * 国家名称
      */
     private String countryName;
@@ -81,15 +69,18 @@ public class CountryChateauBeverageDto implements Serializable {
     private String description;
 
     /**
+    * 规格
+     */
+    private String specs;
+
+    /**
     * 进价 单位：分
      */
-    @AmountUnitChange(showUnit=true)
     private Long originPrice;
 
     /**
     * 销售价格，跨境完税价  单位：分
      */
-    @AmountUnitChange(showUnit=true)
     private Long price;
 
     /**
@@ -121,18 +112,5 @@ public class CountryChateauBeverageDto implements Serializable {
     * 是否有效
      */
     private Integer validity;
-
-    /**
-     * 商品规格
-     */
-    private String specs;
-    /**
-     * 商品详细头部图片列表
-     */
-    private List<String> topImages = new ArrayList<>();
-    /**
-     * 商品详情尾部商品列表--详情图片
-     */
-    private List<String> tailImages = new ArrayList<>();
 
 }

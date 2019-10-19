@@ -1,16 +1,16 @@
-package com.caichao.chateau.app.controller.beverage;
+package com.caichao.chateau.app.controller.goods;
 
-import com.caichao.chateau.app.controller.beverage.request.PageQueryReq;
+import com.caichao.chateau.app.controller.goods.request.PageQueryReq;
 import com.caichao.chateau.app.controller.response.CCResponse;
-import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
-import com.caichao.chateau.app.service.CountryChateauBeverageService;
+import com.caichao.chateau.app.dto.GoodsDto;
+import com.caichao.chateau.app.service.GoodsService;
 import com.lianshang.generator.commons.PageInfo;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 描述:
@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-06-18 7:17
  */
 @RestController
-@RequestMapping("/beverage")
-public class BeverageController {
+@RequestMapping("/goods")
+public class GoodsController {
 
 	@Autowired
-	private CountryChateauBeverageService countryChateauBeverageService;
+	private GoodsService goodsService;
 
 	/**
 	 * 分页查询
@@ -33,7 +33,7 @@ public class BeverageController {
 	 */
 	@RequestMapping("getList")
 	public CCResponse getList(PageQueryReq pageQueryReq) {
-		PageInfo pageInfo = countryChateauBeverageService.getCountryChateauBeverageDtoPageInfo(pageQueryReq);
+		PageInfo pageInfo = goodsService.getGoodsInfo(pageQueryReq);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("pageInfo", pageInfo);
 		return CCResponse.success(dataMap);
@@ -46,7 +46,7 @@ public class BeverageController {
 	 */
 	@RequestMapping("/getDetail")
 	public CCResponse getDetail(Long id){
-		CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getDetail(id);
-		return CCResponse.success(countryChateauBeverageDto);
+		GoodsDto goodsDto = goodsService.getById(id);
+		return CCResponse.success(goodsDto);
 	}
 }

@@ -12,7 +12,7 @@ import lombok.Data;
 * @date 2019-07-06
 */
 @Data
-public class BeverageTailImagesDto implements Serializable {
+public class GoodsTailImagesDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

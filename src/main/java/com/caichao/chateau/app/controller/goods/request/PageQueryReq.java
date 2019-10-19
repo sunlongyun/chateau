@@ -1,4 +1,4 @@
-package com.caichao.chateau.app.controller.beverage.request;
+package com.caichao.chateau.app.controller.goods.request;
 
 import lombok.Data;
 

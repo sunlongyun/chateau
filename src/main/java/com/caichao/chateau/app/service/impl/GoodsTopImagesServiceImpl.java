@@ -1,9 +1,9 @@
 package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.entity.BeverageTopImages;
-import com.caichao.chateau.app.dto.BeverageTopImagesDto;
+import com.caichao.chateau.app.dto.GoodsTopImagesDto;
 import com.caichao.chateau.app.mapper.BeverageTopImagesMapper;
-import com.caichao.chateau.app.service.BeverageTopImagesService;
+import com.caichao.chateau.app.service.GoodsTopImagesService;
 
 import com.lianshang.generator.commons.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-07-06
  */
 @Service
-public class BeverageTopImagesServiceImpl extends ServiceImpl<BeverageTopImagesMapper,BeverageTopImages, BeverageTopImagesDto> implements BeverageTopImagesService {
+public class GoodsTopImagesServiceImpl extends ServiceImpl<BeverageTopImagesMapper,BeverageTopImages, GoodsTopImagesDto> implements GoodsTopImagesService {
 
 }

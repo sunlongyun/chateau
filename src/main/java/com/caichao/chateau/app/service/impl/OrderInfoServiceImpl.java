@@ -2,8 +2,6 @@ package com.caichao.chateau.app.service.impl;
 
 import com.caichao.chateau.app.constants.enums.Validity;
 import com.caichao.chateau.app.dto.CartItemDto;
-import com.caichao.chateau.app.dto.CountryChateauBeverageDto;
-import com.caichao.chateau.app.dto.CountryChateauDto;
 import com.caichao.chateau.app.dto.OrderDeliveryAddressMappingDto;
 import com.caichao.chateau.app.dto.OrderDetailDto;
 import com.caichao.chateau.app.dto.OrderInfoDto;
@@ -12,8 +10,6 @@ import com.caichao.chateau.app.example.CartItemExample;
 import com.caichao.chateau.app.example.OrderInfoExample;
 import com.caichao.chateau.app.mapper.OrderInfoMapper;
 import com.caichao.chateau.app.service.CartItemService;
-import com.caichao.chateau.app.service.CountryChateauBeverageService;
-import com.caichao.chateau.app.service.CountryChateauService;
 import com.caichao.chateau.app.service.OrderDeliveryAddressMappingService;
 import com.caichao.chateau.app.service.OrderDetailService;
 import com.caichao.chateau.app.service.OrderInfoService;
@@ -40,10 +36,6 @@ import org.springframework.util.CollectionUtils;
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo, OrderInfoDto> implements
 	OrderInfoService {
 
-	@Autowired
-	private CountryChateauBeverageService countryChateauBeverageService;
-	@Autowired
-	private CountryChateauService countryChateauService;
 	@Autowired
 	private OrderDetailService orderDetailService;
 	@Autowired
@@ -75,20 +67,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
 			orderDetailDto.setOrderId(orderInfoDto.getId());
 
-			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailDto
-				.getBeverageId());
-			//查询庄园，查询默认运费
-			CountryChateauDto countryChateauDto = countryChateauService
-				.getById(countryChateauBeverageDto.getChateauId());
-			if(null == countryChateauDto.getPostage()) {
-				countryChateauDto.setPostage(0);
-			}
-			chateauPostage.put(countryChateauDto.getId(), countryChateauDto.getPostage());
-
-			orderDetailDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
-			orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
-			orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
-			orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
+//			CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(orderDetailDto
+//				.getBeverageId());
+//			//查询庄园，查询默认运费
+//			CountryChateauDto countryChateauDto = countryChateauService
+//				.getById(countryChateauBeverageDto.getChateauId());
+//			if(null == countryChateauDto.getPostage()) {
+//				countryChateauDto.setPostage(0);
+//			}
+//			chateauPostage.put(countryChateauDto.getId(), countryChateauDto.getPostage());
+//
+//			orderDetailDto.setMinPicUrl(countryChateauBeverageDto.getMinPicUrl());
+//			orderDetailDto.setTitle(countryChateauBeverageDto.getTitle());
+//			orderDetailDto.setPrice(countryChateauBeverageDto.getPrice());
+//			orderDetailDto.setEnTitle(countryChateauBeverageDto.getEnTitle());
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
 
 			orderDetailService.save(orderDetailDto);

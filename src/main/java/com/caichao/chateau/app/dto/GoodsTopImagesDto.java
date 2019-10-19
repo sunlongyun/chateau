@@ -6,32 +6,27 @@ import java.util.Date;
 import lombok.Data;
 /**
 * <p>
-* 供应商庄园映射关系
+* 酒水头部图片，用于商品详情展示
 * </p>
 * @author 孙龙云
-* @date 2019-07-02
+* @date 2019-07-06
 */
 @Data
-public class SupplierChateauMappingDto implements Serializable {
+public class GoodsTopImagesDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
     /**
-    * 供应商id
+    * 酒水id
      */
-    private Integer supplierId;
+    private Long beverageId;
 
     /**
-    * 庄园id
+    * 图片地址
      */
-    private Integer chateauId;
-
-    /**
-    * 是否有效 1-有效；0-无效
-     */
-    private Integer validity;
+    private String imageUrl;
 
     /**
     * 创建时间
@@ -39,8 +34,13 @@ public class SupplierChateauMappingDto implements Serializable {
     private Date createTime;
 
     /**
-    * 更新时间
+    * 修改时间
      */
     private Date updateTime;
+
+    /**
+    * 是否有效  1-有效；0-无效
+     */
+    private Integer validity;
 
 }
