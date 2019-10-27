@@ -35,7 +35,10 @@ public class CustomerInfoDto implements Serializable {
     * 国家
      */
     private String country;
-
+    /**
+     * 推荐人id
+     */
+    private Long recommendId;
     /**
     * 状态 1：正常，2：冻结，
      */

@@ -40,6 +40,19 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper,Cust
 	}
 
 	@Override
+	public void setRecommendId(Long id, Long recommendId) {
+		CustomerInfoDto customerInfoDto = getById(id);
+		customerInfoDto.setRecommendId(recommendId);
+		long times = System.currentTimeMillis() - customerInfoDto.getCreateTime().getTime();
+
+		if(times > 30 * 60 *1000L || (customerInfoDto.getRecommendId() != null
+		&& customerInfoDto.getRecommendId() != -1)){//大于30分钟的不更新,已经有推荐人的 不更新
+			return ;
+		}
+		this.update(customerInfoDto);
+	}
+
+	@Override
 	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId) {
 		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
 		customerInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOpenIdEqualTo(openId);

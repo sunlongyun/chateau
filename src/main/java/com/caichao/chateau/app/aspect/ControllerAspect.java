@@ -1,7 +1,10 @@
 package com.caichao.chateau.app.aspect;
 
 import com.caichao.chateau.app.controller.response.CCResponse;
+import com.caichao.chateau.app.dto.CustomerInfoDto;
+import com.caichao.chateau.app.entity.CustomerInfo;
 import com.caichao.chateau.app.miniProgram.response.LoginResponse;
+import com.caichao.chateau.app.service.CustomerInfoService;
 import com.caichao.chateau.app.utils.CurrentUserUtils;
 import com.caichao.chateau.app.utils.JsonUtils;
 import com.caichao.chateau.app.utils.LoginUserInfoUtil;
@@ -13,6 +16,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,6 +32,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Aspect
 @Slf4j
 public class ControllerAspect {
+	@Autowired
+	private CustomerInfoService customerInfoService;
 
 	@Pointcut("execution(* com.caichao..*Controller.*(..))")
 	private void aroundMethod() {
@@ -52,6 +58,8 @@ public class ControllerAspect {
 			LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
 			if(null != loginResponse){
 				CurrentUserUtils.set(loginResponse);
+				//已经登录的，尝试设置推荐人
+				trySetRecommend(request, loginResponse);
 			}
 			result = proceedingJoinPoint.proceed();
 			return  result;
@@ -73,5 +81,19 @@ public class ControllerAspect {
 			CurrentUserUtils.remove();
 		}
 
+	}
+
+	private void trySetRecommend(HttpServletRequest request, LoginResponse loginResponse) {
+		String recommendId =  (String) request.getParameter("recommendId");
+		log.info("recommendId:{}", recommendId);
+		//之前推荐人为空，并且账号是半个内创建，当前推荐人不为空，那么设置推荐人
+		if(!StringUtils.isEmpty(recommendId)){
+            CustomerInfoDto customerInfoDto =  customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
+            if((null == customerInfoDto.getRecommendId() || -1 == customerInfoDto.getRecommendId())
+            && (System.currentTimeMillis() -  customerInfoDto.getCreateTime().getTime()) <(30*60*1000L) ){
+                customerInfoDto.setRecommendId(Long.parseLong(recommendId));
+                customerInfoService.update(customerInfoDto);
+            }
+        }
 	}
 }

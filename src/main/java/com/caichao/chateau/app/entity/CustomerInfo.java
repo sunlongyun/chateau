@@ -19,6 +19,10 @@ public class CustomerInfo implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
+    /**
+     * 推荐人id
+     */
+    private Long recommendId;
 
     /**
     * 昵称

@@ -35,4 +35,8 @@ public class FreshCustomerReq {
 	 * 手机号
 	 */
 	private String mobile;
+	/**
+	 * 推荐人id
+	 */
+	private String recommendId;
 }

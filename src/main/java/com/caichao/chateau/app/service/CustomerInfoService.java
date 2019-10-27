@@ -21,6 +21,13 @@ public interface CustomerInfoService extends IService<CustomerInfoDto> {
 	public void changeStatus(Long id, Integer status);
 
 	/**
+	 * 设置推荐人
+	 * @param id
+	 * @param recommendId
+	 */
+	public void setRecommendId(Long id, Long recommendId);
+
+	/**
 	 * 根据openId查询
 	 * @param openId
 	 * @return

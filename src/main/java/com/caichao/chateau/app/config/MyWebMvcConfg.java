@@ -2,14 +2,15 @@ package com.caichao.chateau.app.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import javax.sql.DataSource;
-import org.mybatis.spring.annotation.MapperScan;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class MyWebMvcConfg implements WebMvcConfigurer{
+
 	@Value("${spring.datasource.url}")
 	private String url;
 
@@ -59,4 +61,5 @@ public class MyWebMvcConfg implements WebMvcConfigurer{
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/*").allowedOrigins("*").allowedHeaders("*").allowedMethods("*");
 	}
+
 }

@@ -121,6 +121,8 @@ public class OrderController {
 				log.info("supplierDto:{}", supplierDto);
 				orderDetailDto.setSupplierId(supplierId);
 				orderDetailDto.setSupplierAddress(supplierDto.getAddress());
+
+				orderDetailDto.setMinPicUrl(goodsDto.getMinPicUrl());
 			}
 		}
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);

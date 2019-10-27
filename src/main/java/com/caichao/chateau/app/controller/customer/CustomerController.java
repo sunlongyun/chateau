@@ -31,25 +31,34 @@ public class CustomerController {
 	public CCResponse freshCustomerInfo(FreshCustomerReq freshCustomerReq){
 		LoginResponse loginResponse = CurrentUserUtils.get();
 
+
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
-		if(!StringUtils.isEmpty(freshCustomerReq.getNickName())){
+
+		if(null != freshCustomerReq.getRecommendId()
+		&& !"undefined".equals(freshCustomerReq.getRecommendId())
+		&& (customerInfoDto.getRecommendId() == null || customerInfoDto.getRecommendId()==-1)){
+			customerInfoService.setRecommendId(customerInfoDto.getId(), Long.valueOf(freshCustomerReq.getRecommendId()));
+		}
+
+		if(!StringUtils.isEmpty(freshCustomerReq.getNickName()) && !"undefined".equals(freshCustomerReq.getNickName())){
 			customerInfoDto.setNickName(freshCustomerReq.getNickName());
 		}
-		if(!StringUtils.isEmpty(freshCustomerReq.getCountry())){
+		if(!StringUtils.isEmpty(freshCustomerReq.getCountry()) && !"undefined".equals(freshCustomerReq.getNickName())){
 			customerInfoDto.setCountry(freshCustomerReq.getCountry());
 		}
-		if(!StringUtils.isEmpty(freshCustomerReq.getProvince())){
-			customerInfoDto.setProvince(freshCustomerReq.getProvince());
+		if(!StringUtils.isEmpty(freshCustomerReq.getProvince()) && !"undefined".equals(freshCustomerReq.getCity())){
+			customerInfoDto.setProvince(freshCustomerReq.getCity());
 		}
-		if(!StringUtils.isEmpty(freshCustomerReq.getCity())){
+		if(!StringUtils.isEmpty(freshCustomerReq.getCity()) && !"undefined".equals(freshCustomerReq.getCity())){
 			customerInfoDto.setCity(freshCustomerReq.getCity());
 		}
-		if(!StringUtils.isEmpty(freshCustomerReq.getAvatarUrl())){
+		if(!StringUtils.isEmpty(freshCustomerReq.getAvatarUrl()) && !"undefined".equals(freshCustomerReq.getAvatarUrl())){
 			customerInfoDto.setAvatarUrl(freshCustomerReq.getAvatarUrl());
 		}
-		if(!StringUtils.isEmpty(freshCustomerReq.getMobile())){
+		if(!StringUtils.isEmpty(freshCustomerReq.getMobile()) && !"undefined".equals(freshCustomerReq.getMobile())){
 			customerInfoDto.setMobile(freshCustomerReq.getMobile());
 		}
+
 		customerInfoService.update(customerInfoDto);
 
 		return CCResponse.success();
