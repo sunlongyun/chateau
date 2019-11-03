@@ -1,5 +1,10 @@
 package com.chisong.green.farm.app.dto;
 
+import com.chisong.green.farm.app.annotation.AmountUnitChange;
+import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
+import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
+import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
+import com.chisong.green.farm.app.constants.enums.UserTypeEnum;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,12 +83,19 @@ public class GoodsDto implements Serializable {
     /**
     * 进价 单位：分
      */
+    @AmountUnitChange(showUnit=true)
     private Long originPrice;
 
     /**
     * 销售价格，跨境完税价  单位：分
      */
+    @AmountUnitChange(showUnit=true)
     private Long price;
+    /**
+     * 上下架状态
+     */
+    @ServiceTypeAnnotation(value = GoodsStatusEnum.class,type = Type.ALL)
+    private Integer status;
 
     /**
     * 年份
@@ -113,6 +125,7 @@ public class GoodsDto implements Serializable {
     /**
     * 是否有效
      */
+
     private Integer validity;
     /**
      * 商品尾部图片

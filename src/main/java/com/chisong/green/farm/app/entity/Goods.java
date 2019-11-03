@@ -22,7 +22,10 @@ public class Goods implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
-
+    /**
+     * 上下架状态
+     */
+    private Integer status;
     /**
     * 标题
      */

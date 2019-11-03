@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.Goods">
         <id column="id" property="id" />
         <result column="title" property="title" />
+        <result column="status" property="status"/>
         <result column="sku_code" property="skuCode" />
         <result column="en_title" property="enTitle" />
         <result column="supplier_company_name" property="supplierCompanyName" />
@@ -29,7 +30,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, en_title, supplier_company_name, supplier_id, country_name, pic_url, min_pic_url, detail_pic_url, description, specs, origin_price, price, year, stock, chateau_id, create_time, update_time, validity
+        id, title, sku_code, en_title,status, supplier_company_name, supplier_id, country_name, pic_url, min_pic_url,
+        detail_pic_url, description, specs, origin_price, price, year, stock, chateau_id, create_time, update_time, validity
     </sql>
 
     <!-- 查询列表-->
@@ -46,6 +48,9 @@
             </if>
             <if test="supplierId != null">
                 and supplier_id = #{supplierId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
             </if>
         </trim>
         <if test="sortKey != null">
