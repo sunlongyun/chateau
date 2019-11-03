@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.caichao.chateau.app.mapper.PicturesMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.PicturesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.Pictures">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.Pictures">
         <id column="id" property="id" />
         <result column="pic_url" property="picUrl" />
         <result column="href" property="href" />
@@ -21,7 +21,7 @@
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.PicturesExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.PicturesExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct

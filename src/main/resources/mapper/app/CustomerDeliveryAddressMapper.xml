@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.caichao.chateau.app.mapper.CustomerDeliveryAddressMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.CustomerDeliveryAddressMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.caichao.chateau.app.entity.CustomerDeliveryAddress">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.CustomerDeliveryAddress">
         <id column="id" property="id" />
         <result column="customer_id" property="customerId" />
         <result column="contact" property="contact" />
@@ -28,7 +28,7 @@
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.caichao.chateau.app.example.CustomerDeliveryAddressExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.CustomerDeliveryAddressExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
