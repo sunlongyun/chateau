@@ -34,7 +34,7 @@ public class ControllerAspect {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 
-	@Pointcut("execution(* com.caichao..*Controller.*(..))")
+	@Pointcut("execution(* com.chisong.green.farm.app.controller.*Controller.*(..))")
 	private void aroundMethod() {
 
 	}

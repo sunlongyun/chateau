@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public class MiniProgramAspect {
 
-	@Pointcut("execution(* com.caichao.chateau.app.miniProgram.service..*.*(..))")
+	@Pointcut("execution(* com.chisong.green.farm.app.miniProgram.service..*.*(..))")
 	private void aroundMethod() {
 
 	}
