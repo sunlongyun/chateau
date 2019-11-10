@@ -45,6 +45,12 @@ public class SupplierDto implements Serializable {
      */
     private String mobile;
 
+    private Integer areaId;
+
+    private Integer cityId;
+
+    private Integer provinceId;
+
     private String area;
 
     private String city;
@@ -52,9 +58,14 @@ public class SupplierDto implements Serializable {
     private String province;
 
     /**
+    * 创建人姓名
+     */
+    private String creatorName;
+
+    /**
     * 创建人
      */
-    private Integer creatorId;
+    private Long creatorId;
 
     /**
     * 公司大图

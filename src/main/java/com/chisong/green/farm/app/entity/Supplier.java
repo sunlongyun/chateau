@@ -47,11 +47,22 @@ public class Supplier implements Serializable {
      */
     private  String mobile;
 
+    private  Integer areaId;
+
+    private  Integer cityId;
+
+    private  Integer provinceId;
+
     private  String area;
 
     private  String city;
 
     private  String province;
+
+    /**
+    * 创建人姓名
+     */
+    private  String creatorName;
 
     /**
     * 创建人

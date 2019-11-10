@@ -11,9 +11,13 @@
         <result column="telephone" property="telephone" />
         <result column="linker" property="linker" />
         <result column="mobile" property="mobile" />
+        <result column="area_id" property="areaId" />
+        <result column="city_id" property="cityId" />
+        <result column="province_id" property="provinceId" />
         <result column="area" property="area" />
         <result column="city" property="city" />
         <result column="province" property="province" />
+        <result column="creator_name" property="creatorName" />
         <result column="creator_id" property="creatorId" />
         <result column="pic" property="pic" />
         <result column="validity" property="validity" />
@@ -23,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_name, logo, address, telephone, linker, mobile, area, city, province, creator_id, pic, validity, create_time, update_time
+        id, company_name, logo, address, telephone, linker, mobile, area_id, city_id, province_id, area, city, province, creator_name, creator_id, pic, validity, create_time, update_time
     </sql>
 
 
