@@ -67,7 +67,7 @@ public class Supplier implements Serializable {
     /**
     * 创建人
      */
-    private  Integer creatorId;
+    private  Long creatorId;
 
     /**
     * 公司大图
