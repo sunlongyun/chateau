@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-07-15
+* @date 2019-11-10
 */
 @Data
 public class CustomerInfoExample implements Serializable {
@@ -390,6 +390,67 @@ public class CustomerInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andRecommendIdIn(List<Long> values) {
+            addCriterion("recommend_id in", values, "recommendId");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendIdNotIn(List<Long> values) {
+            addCriterion("recommend_id not in", values, "recommendId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRecommendIdBetween(Long value1, Long value2) {
+            addCriterion("recommend_id between", value1, value2, "recommendId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRecommendIdLike(String value) {
+            addCriterion("recommend_id like", value, "recommendId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRecommendIdEqualTo(Long value) {
+            addCriterion("recommend_id =", value, "recommendId");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendIdNotEqualTo(Long value) {
+            addCriterion("recommend_id <>", value, "recommendId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRecommendIdGreaterThan(Long value) {
+            addCriterion("recommend_id >", value, "recommendId");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("recommend_id >=", value, "recommendId");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendIdLessThan(Long value) {
+            addCriterion("recommend_id <", value, "recommendId");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendIdLessThanOrEqualTo(Long value) {
+            addCriterion("recommend_id <=", value, "recommendId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRecommendIdIsNull() {
+            addCriterion("recommend_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendIdIsNotNull() {
+            addCriterion("recommend_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andStatusIn(List<Integer> values) {
             addCriterion("status in", values, "status");
             return (Criteria) this;
@@ -448,6 +509,67 @@ public class CustomerInfoExample implements Serializable {
 
         public Criteria andStatusIsNotNull() {
             addCriterion("status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierIdIn(List<Integer> values) {
+            addCriterion("supplier_id in", values, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdNotIn(List<Integer> values) {
+            addCriterion("supplier_id not in", values, "supplierId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierIdBetween(Integer value1, Integer value2) {
+            addCriterion("supplier_id between", value1, value2, "supplierId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierIdLike(String value) {
+            addCriterion("supplier_id like", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierIdEqualTo(Integer value) {
+            addCriterion("supplier_id =", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdNotEqualTo(Integer value) {
+            addCriterion("supplier_id <>", value, "supplierId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierIdGreaterThan(Integer value) {
+            addCriterion("supplier_id >", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supplier_id >=", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdLessThan(Integer value) {
+            addCriterion("supplier_id <", value, "supplierId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdLessThanOrEqualTo(Integer value) {
+            addCriterion("supplier_id <=", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierIdIsNull() {
+            addCriterion("supplier_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdIsNotNull() {
+            addCriterion("supplier_id is not null");
             return (Criteria) this;
         }
         // in,   not in

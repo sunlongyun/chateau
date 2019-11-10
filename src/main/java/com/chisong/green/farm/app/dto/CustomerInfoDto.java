@@ -1,9 +1,5 @@
 package com.chisong.green.farm.app.dto;
 
-import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
-import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
-import com.chisong.green.farm.app.constants.enums.UserStatusEnum;
-import com.chisong.green.farm.app.constants.enums.UserTypeEnum;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,7 +9,7 @@ import lombok.Data;
 * 顾客信息表
 * </p>
 * @author 孙龙云
-* @date 2019-07-15
+* @date 2019-11-10
 */
 @Data
 public class CustomerInfoDto implements Serializable {
@@ -35,20 +31,25 @@ public class CustomerInfoDto implements Serializable {
     * 国家
      */
     private String country;
+
     /**
-     * 推荐人id
+    * 推荐人id
      */
     private Long recommendId;
+
     /**
     * 状态 1：正常，2：冻结，
      */
-    @ServiceTypeAnnotation(value = UserStatusEnum.class)
     private Integer status;
+
+    /**
+    * 供应商id，如果顾客是供应商，请填写供应商id
+     */
+    private Integer supplierId;
 
     /**
     * 用户类型 1-顾客；2-供应商；3-后台管理员
      */
-    @ServiceTypeAnnotation(value = UserTypeEnum.class,type = Type.VALUE)
     private Integer type;
 
     /**

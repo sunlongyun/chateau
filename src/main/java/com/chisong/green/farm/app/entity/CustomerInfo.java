@@ -10,7 +10,7 @@ import lombok.Data;
 * 顾客信息表
 * </p>
 * @author 孙龙云
-* @date 2019-07-15
+* @date 2019-11-10
 */
 @Data
 public class CustomerInfo implements Serializable {
@@ -19,10 +19,6 @@ public class CustomerInfo implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
-    /**
-     * 推荐人id
-     */
-    private Long recommendId;
 
     /**
     * 昵称
@@ -39,9 +35,19 @@ public class CustomerInfo implements Serializable {
     private  String country;
 
     /**
+    * 推荐人id
+     */
+    private  Long recommendId;
+
+    /**
     * 状态 1：正常，2：冻结，
      */
     private  Integer status;
+
+    /**
+    * 供应商id，如果顾客是供应商，请填写供应商id
+     */
+    private  Integer supplierId;
 
     /**
     * 用户类型 1-顾客；2-供应商；3-后台管理员

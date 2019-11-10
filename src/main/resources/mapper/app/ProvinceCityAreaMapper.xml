@@ -1,45 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chisong.green.farm.app.mapper.CustomerInfoMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.ProvinceCityAreaMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.CustomerInfo">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.ProvinceCityArea">
         <id column="id" property="id" />
-        <result column="nick_name" property="nickName" />
-        <result column="password" property="password" />
-        <result column="user_name" property="userName" />
-        <result column="country" property="country" />
-        <result column="recommend_id" property="recommendId" />
-        <result column="status" property="status" />
-        <result column="supplier_id" property="supplierId" />
-        <result column="type" property="type" />
-        <result column="province" property="province" />
-        <result column="city" property="city" />
-        <result column="avatar_url" property="avatarUrl" />
-        <result column="mobile" property="mobile" />
-        <result column="union_id" property="unionId" />
-        <result column="open_id" property="openId" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <result column="name" property="name" />
+        <result column="pid" property="pid" />
         <result column="validity" property="validity" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, nick_name, password, user_name, country, recommend_id, status, supplier_id, type, province, city, avatar_url, mobile, union_id, open_id, create_time, update_time, validity
+        id, name, pid, validity
     </sql>
 
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.CustomerInfoExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.ProvinceCityAreaExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from customer_info
+        from province_city_area
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
