@@ -1,5 +1,10 @@
 package com.chisong.green.farm.app.dto;
 
+import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
+import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
+import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
+import com.chisong.green.farm.app.constants.enums.UserStatusEnum;
+import com.chisong.green.farm.app.constants.enums.UserTypeEnum;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -40,6 +45,7 @@ public class CustomerInfoDto implements Serializable {
     /**
     * 状态 1：正常，2：冻结，
      */
+    @ServiceTypeAnnotation(value = UserStatusEnum.class)
     private Integer status;
 
     /**
@@ -50,6 +56,7 @@ public class CustomerInfoDto implements Serializable {
     /**
     * 用户类型 1-顾客；2-供应商；3-后台管理员
      */
+    @ServiceTypeAnnotation(value = UserTypeEnum.class)
     private Integer type;
 
     /**
