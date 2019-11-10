@@ -45,6 +45,12 @@ public class SupplierDto implements Serializable {
      */
     private String mobile;
 
+    private String area;
+
+    private String city;
+
+    private String province;
+
     /**
     * 创建人
      */
