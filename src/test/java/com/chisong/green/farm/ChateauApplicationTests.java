@@ -45,7 +45,7 @@ public class ChateauApplicationTests {
 			"chisong", "csz123$%",
 			Arrays.asList(GenerateFileTypeEnum.ENTITY,GenerateFileTypeEnum.DTO,
 				GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.MAPPER_XML),
-			"customer_info");
+			"supplier");
 	}
 
 

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-07-05
+* @date 2019-11-10
 */
 @Data
 public class SupplierExample implements Serializable {
@@ -509,6 +509,67 @@ public class SupplierExample implements Serializable {
 
         public Criteria andMobileIsNotNull() {
             addCriterion("mobile is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andCreatorIdIn(List<Integer> values) {
+            addCriterion("creator_id in", values, "creatorId");
+            return (Criteria) this;
+        }
+        public Criteria andCreatorIdNotIn(List<Integer> values) {
+            addCriterion("creator_id not in", values, "creatorId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andCreatorIdBetween(Integer value1, Integer value2) {
+            addCriterion("creator_id between", value1, value2, "creatorId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andCreatorIdLike(String value) {
+            addCriterion("creator_id like", value, "creatorId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andCreatorIdEqualTo(Integer value) {
+            addCriterion("creator_id =", value, "creatorId");
+            return (Criteria) this;
+        }
+        public Criteria andCreatorIdNotEqualTo(Integer value) {
+            addCriterion("creator_id <>", value, "creatorId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andCreatorIdGreaterThan(Integer value) {
+            addCriterion("creator_id >", value, "creatorId");
+            return (Criteria) this;
+        }
+        public Criteria andCreatorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("creator_id >=", value, "creatorId");
+            return (Criteria) this;
+        }
+        public Criteria andCreatorIdLessThan(Integer value) {
+            addCriterion("creator_id <", value, "creatorId");
+            return (Criteria) this;
+        }
+        public Criteria andCreatorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("creator_id <=", value, "creatorId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andCreatorIdIsNull() {
+            addCriterion("creator_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatorIdIsNotNull() {
+            addCriterion("creator_id is not null");
             return (Criteria) this;
         }
         // in,   not in

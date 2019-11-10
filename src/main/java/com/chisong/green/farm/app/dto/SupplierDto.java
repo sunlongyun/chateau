@@ -9,7 +9,7 @@ import lombok.Data;
 * 供应商
 * </p>
 * @author 孙龙云
-* @date 2019-07-05
+* @date 2019-11-10
 */
 @Data
 public class SupplierDto implements Serializable {
@@ -44,6 +44,11 @@ public class SupplierDto implements Serializable {
     * 联系人手机号
      */
     private String mobile;
+
+    /**
+    * 创建人
+     */
+    private Integer creatorId;
 
     /**
     * 公司大图
