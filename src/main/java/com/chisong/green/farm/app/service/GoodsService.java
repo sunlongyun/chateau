@@ -27,4 +27,10 @@ public interface GoodsService extends IService<GoodsDto> {
      * @return
      */
     public GoodsDto getDetailById(Long id);
+
+    /**
+     * 添加或者更新商品信息
+     * @param goodsDto
+     */
+    public void saveOrUpdateGoods(GoodsDto goodsDto);
 }

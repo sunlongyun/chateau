@@ -135,4 +135,5 @@ public class GoodsDto implements Serializable {
      * 商品头部图片
      */
     private List<String> topImages = new ArrayList<>();
+
 }

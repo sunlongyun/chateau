@@ -10,7 +10,7 @@ import lombok.Data;
 * 酒水头部图片，用于商品详情展示
 * </p>
 * @author 孙龙云
-* @date 2019-10-19
+* @date 2019-11-16
 */
 @Data
 public class GoodsTopImages implements Serializable {

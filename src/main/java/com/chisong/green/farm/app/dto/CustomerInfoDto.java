@@ -47,6 +47,10 @@ public class CustomerInfoDto implements Serializable {
      */
     @ServiceTypeAnnotation(value = UserStatusEnum.class)
     private Integer status;
+    /**
+     * 供应商公司
+     */
+    private String companyName;
 
     /**
     * 供应商id，如果顾客是供应商，请填写供应商id

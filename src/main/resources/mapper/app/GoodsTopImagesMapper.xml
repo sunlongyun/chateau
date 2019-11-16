@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.GoodsTopImages">
-        <result column="id" property="id" />
+        <id column="id" property="id" />
         <result column="goods_id" property="goodsId" />
         <result column="image_url" property="imageUrl" />
         <result column="create_time" property="createTime" />
