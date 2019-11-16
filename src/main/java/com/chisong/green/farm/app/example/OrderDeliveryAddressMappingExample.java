@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-11-16
 */
 @Data
 public class OrderDeliveryAddressMappingExample implements Serializable {
@@ -204,6 +204,67 @@ public class OrderDeliveryAddressMappingExample implements Serializable {
 
         public Criteria andOrderIdIsNotNull() {
             addCriterion("order_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAddressIn(List<String> values) {
+            addCriterion("address in", values, "address");
+            return (Criteria) this;
+        }
+        public Criteria andAddressNotIn(List<String> values) {
+            addCriterion("address not in", values, "address");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAddressBetween(String value1, String value2) {
+            addCriterion("address between", value1, value2, "address");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAddressLike(String value) {
+            addCriterion("address like", value, "address");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAddressEqualTo(String value) {
+            addCriterion("address =", value, "address");
+            return (Criteria) this;
+        }
+        public Criteria andAddressNotEqualTo(String value) {
+            addCriterion("address <>", value, "address");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAddressGreaterThan(String value) {
+            addCriterion("address >", value, "address");
+            return (Criteria) this;
+        }
+        public Criteria andAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("address >=", value, "address");
+            return (Criteria) this;
+        }
+        public Criteria andAddressLessThan(String value) {
+            addCriterion("address <", value, "address");
+            return (Criteria) this;
+        }
+        public Criteria andAddressLessThanOrEqualTo(String value) {
+            addCriterion("address <=", value, "address");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAddressIsNull() {
+            addCriterion("address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIsNotNull() {
+            addCriterion("address is not null");
             return (Criteria) this;
         }
         // in,   not in

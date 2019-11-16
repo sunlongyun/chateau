@@ -24,4 +24,11 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @return
 	 */
 	public OrderInfoDto getOrderByNo(String orderNo);
+
+	/**
+	 * 根据id查询订单详情
+	 * @param id
+	 * @return
+	 */
+	public OrderInfoDto getOrderById(Long id);
 }

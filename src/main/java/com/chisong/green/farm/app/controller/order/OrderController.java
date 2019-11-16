@@ -5,17 +5,14 @@ import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.CreateOrderReq;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
-import com.chisong.green.farm.app.dto.*;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.chisong.green.farm.app.example.OrderInfoExample.Criteria;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
-import com.chisong.green.farm.app.service.*;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.app.utils.IPUtil;
-import com.chisong.green.farm.app.dto.CustomerDeliveryAddressDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.dto.GoodsDto;
 import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
@@ -170,11 +167,11 @@ public class OrderController {
 		if(!CollectionUtils.isEmpty(orderDeliveryAddressMappingDtoList)) {
 			OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto = orderDeliveryAddressMappingDtoList
 				.get(0);
-			CustomerDeliveryAddressDto customerDeliveryAddressDto = customerDeliveryAddressService.getById
+			OrderDeliveryAddressMappingDto deliveryAddressMappingDto = orderDeliveryAddressMappingService.getById
 				(orderDeliveryAddressMappingDto
 					.getAddressId());
 
-			orderInfoDto.setAddress(customerDeliveryAddressDto);
+			orderInfoDto.setOrderDeliveryAddressMappingDto(deliveryAddressMappingDto);
 		}
 
 		return CCResponse.success(orderInfoDto);

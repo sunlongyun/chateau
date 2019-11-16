@@ -9,7 +9,7 @@ import lombok.Data;
 * 订单--收货地址映射表
 * </p>
 * @author 孙龙云
-* @date 2019-06-15
+* @date 2019-11-16
 */
 @Data
 public class OrderDeliveryAddressMappingDto implements Serializable {
@@ -22,6 +22,8 @@ public class OrderDeliveryAddressMappingDto implements Serializable {
     * 订单id
      */
     private Long orderId;
+
+    private String address;
 
     /**
     * 订单号
