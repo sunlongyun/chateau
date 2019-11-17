@@ -5,7 +5,7 @@ package com.chisong.green.farm.app.constants.enums;
  */
 public enum GoodsStatusEnum implements BaseServiceEnum{
 
-	NORMAL(1,"销售中"), DOWNLOAD(0,"已下架");
+	NORMAL(1,"售卖中"), DOWNLOAD(0,"待上架");
 
 	Integer code;
 	String value;
