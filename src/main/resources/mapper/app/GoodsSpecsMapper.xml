@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chisong.green.farm.app.mapper.GoodsMapper">
-
+<mapper namespace="com.chisong.green.farm.app.mapper.GoodsSpecsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.Goods">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.GoodsSpecs">
         <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="status" property="status"/>
-        <result column="sku_code" property="skuCode" />
-        <result column="en_title" property="enTitle" />
-        <result column="uniform_specs" property="uniformSpecs"/>
-        <result column="supplier_company_name" property="supplierCompanyName" />
-        <result column="supplier_id" property="supplierId" />
-        <result column="country_name" property="countryName" />
-        <result column="pic_url" property="picUrl" />
-        <result column="min_pic_url" property="minPicUrl" />
-        <result column="detail_pic_url" property="detailPicUrl" />
-        <result column="description" property="description" />
-        <result column="specs" property="specs" />
-        <result column="origin_price" property="originPrice" />
+        <result column="goods_id" property="goodsId" />
+        <result column="name" property="name" />
         <result column="price" property="price" />
-        <result column="year" property="year" />
+        <result column="origin_price" property="originPrice" />
         <result column="stock" property="stock" />
-        <result column="chateau_id" property="chateauId" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
@@ -31,45 +17,20 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, en_title,status, supplier_company_name, supplier_id, country_name, pic_url,
-        min_pic_url,uniform_specs,detail_pic_url, description, specs, origin_price,
-         price, year, stock, chateau_id, create_time, update_time, validity
+        id, goods_id, name, price, origin_price, stock, create_time, update_time, validity
     </sql>
 
-    <!-- 查询列表-->
-    <select id="getGoodsList" parameterType="com.chisong.green.farm.app.controller.goods.request.PageQueryReq" resultMap="BaseResultMap">
-        SELECT * FROM goods
-        <trim prefix="where" prefixOverrides="and">
-            <if test="searchKey != null">
-                AND (
-                title like concat('%',#{searchKey},'%')
-                OR en_title like concat('%',#{searchKey},'%')
-                OR country_name like concat('%',#{searchKey},'%')
-                OR supplier_company_name like concat('%',#{searchKey},'%')
-                )
-            </if>
-            <if test="supplierId != null">
-                and supplier_id = #{supplierId}
-            </if>
-            <if test="status != null">
-                and status = #{status}
-            </if>
-        </trim>
-        <if test="sortKey != null">
-            ORDER  BY ${sortKey} ${sortType}
-        </if>
 
-    </select>
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.GoodsExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.GoodsSpecsExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from goods
+        from goods_specs
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>

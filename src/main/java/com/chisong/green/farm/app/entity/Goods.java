@@ -72,7 +72,10 @@ public class Goods implements Serializable {
     * 说明
      */
     private  String description;
-
+    /**
+     * 是否统一规格
+     */
+    private Integer uniformSpecs;
     /**
     * 规格
      */

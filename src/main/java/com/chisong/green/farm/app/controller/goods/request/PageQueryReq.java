@@ -18,6 +18,10 @@ public class PageQueryReq {
 	 * 搜索关键字
 	 */
 	private String searchKey;
+	/**
+	 * 状态
+	 */
+	private Integer status;
 
 	/**
 	 * 供应商id

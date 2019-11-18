@@ -4,6 +4,7 @@ import com.chisong.green.farm.app.annotation.AmountUnitChange;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
 import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
+import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
 import com.chisong.green.farm.app.constants.enums.UserTypeEnum;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -96,7 +97,11 @@ public class GoodsDto implements Serializable {
      */
     @ServiceTypeAnnotation(value = GoodsStatusEnum.class,type = Type.ALL)
     private Integer status;
-
+    /**
+     * 是否统一规格
+     */
+    @ServiceTypeAnnotation(value = UniformSpecsEnum.class,type = Type.ALL)
+    private Integer uniformSpecs;
     /**
     * 年份
      */
