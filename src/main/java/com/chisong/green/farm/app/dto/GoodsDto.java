@@ -140,5 +140,8 @@ public class GoodsDto implements Serializable {
      * 商品头部图片
      */
     private List<String> topImages = new ArrayList<>();
-
+    /**
+     * 商品规格列表，非统一规格，才显示规格列表
+     */
+    private List<GoodsSpecsDto> specsDtoList = new ArrayList<>();
 }

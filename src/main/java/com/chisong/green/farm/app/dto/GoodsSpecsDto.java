@@ -3,6 +3,7 @@ package com.chisong.green.farm.app.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.util.Objects;
 import lombok.Data;
 /**
 * <p>
@@ -58,4 +59,20 @@ public class GoodsSpecsDto implements Serializable {
      */
     private Integer validity;
 
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GoodsSpecsDto that = (GoodsSpecsDto) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
