@@ -16,6 +16,7 @@ import com.chisong.green.farm.app.service.GoodsService;
 import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.GoodsTailImagesService;
 import com.chisong.green.farm.app.service.GoodsTopImagesService;
+import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
@@ -44,6 +45,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 
 	@Autowired
 	private GoodsSpecsService goodsSpecsService;
+	@Autowired
+	private PostageTemplateService postageTemplateService;
 
 	@Override
 	public PageInfo<GoodsDto> getGoodsInfo(PageQueryReq pageQueryReq) {
@@ -94,6 +97,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		} else {
 			update(goodsDto);
 		}
+		//如果不存在模板，则添加默认模板
+		postageTemplateService.saveDefaultTemplate(goodsDto.getId());
+
 		//商品详情轮播图
 		handleGoodsTopImages(goodsDto);
 		//商品明细介绍图

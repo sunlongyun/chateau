@@ -9,7 +9,7 @@ import lombok.Data;
 * 运费模板
 * </p>
 * @author 孙龙云
-* @date 2019-11-10
+* @date 2019-11-24
 */
 @Data
 public class PostageTemplateDto implements Serializable {
@@ -32,7 +32,7 @@ public class PostageTemplateDto implements Serializable {
     private String provinces;
 
     /**
-    * 运费单位 1-件；2-kg; 3-箱
+    * 运费单位件；1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
      */
     private Integer unit;
 
@@ -47,6 +47,11 @@ public class PostageTemplateDto implements Serializable {
     private Integer freeTotalAmount;
 
     /**
+    * 权重 ，序号越大，优先级越高
+     */
+    private Integer weight;
+
+    /**
     * 包邮的起始数量
      */
     private Integer freeNum;
@@ -56,4 +61,16 @@ public class PostageTemplateDto implements Serializable {
      */
     private Integer validity;
 
+    @Override
+    public String toString() {
+        return "PostageTemplateDto{" +
+            "goodsId=" + goodsId +
+            ", provinces='" + provinces + '\'' +
+            ", unit=" + unit +
+            ", amount=" + amount +
+            ", freeTotalAmount=" + freeTotalAmount +
+            ", weight=" + weight +
+            ", freeNum=" + freeNum +
+            '}';
+    }
 }

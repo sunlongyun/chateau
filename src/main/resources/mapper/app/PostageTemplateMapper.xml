@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="goods_id" property="goodsId" />
         <result column="provinces" property="provinces" />
+        <result column="weight" property="weight"/>
         <result column="unit" property="unit" />
         <result column="amount" property="amount" />
         <result column="free_total_amount" property="freeTotalAmount" />
@@ -16,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods_id, provinces, unit, amount, free_total_amount, free_num, validity
+        id, goods_id, provinces, unit, amount, free_total_amount, free_num,weight, validity
     </sql>
 
 
