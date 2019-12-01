@@ -3,6 +3,7 @@ package com.chisong.green.farm.app.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.util.Objects;
 import lombok.Data;
 /**
 * <p>
@@ -62,15 +63,25 @@ public class PostageTemplateDto implements Serializable {
     private Integer validity;
 
     @Override
-    public String toString() {
-        return "PostageTemplateDto{" +
-            "goodsId=" + goodsId +
-            ", provinces='" + provinces + '\'' +
-            ", unit=" + unit +
-            ", amount=" + amount +
-            ", freeTotalAmount=" + freeTotalAmount +
-            ", weight=" + weight +
-            ", freeNum=" + freeNum +
-            '}';
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PostageTemplateDto that = (PostageTemplateDto) o;
+        return Objects.equals(goodsId, that.goodsId) &&
+            Objects.equals(provinces, that.provinces) &&
+            Objects.equals(unit, that.unit) &&
+            Objects.equals(amount, that.amount) &&
+            Objects.equals(freeTotalAmount, that.freeTotalAmount) &&
+            Objects.equals(weight, that.weight) &&
+            Objects.equals(freeNum, that.freeNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(goodsId, provinces, unit, amount, freeTotalAmount, weight, freeNum);
     }
 }
