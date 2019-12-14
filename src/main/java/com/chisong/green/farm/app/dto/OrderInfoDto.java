@@ -62,7 +62,7 @@ public class OrderInfoDto implements Serializable {
     * 邮费
      */
     @AmountUnitChange(showUnit=true)
-    private Integer postage = 0;
+    private Long postage = 0l;
 
     /**
     * 物流单号

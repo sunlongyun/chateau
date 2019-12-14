@@ -1,17 +1,21 @@
 package com.chisong.green.farm.app.service.impl;
 
 import com.chisong.green.farm.app.constants.enums.Validity;
+import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
+import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CartItemDto;
 import com.chisong.green.farm.app.dto.CustomerDeliveryAddressDto;
 import com.chisong.green.farm.app.dto.GoodsDto;
 import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
 import com.chisong.green.farm.app.dto.OrderDetailDto;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
+import com.chisong.green.farm.app.dto.PostageTemplateDto;
 import com.chisong.green.farm.app.entity.OrderInfo;
 import com.chisong.green.farm.app.example.CartItemExample;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
+import com.chisong.green.farm.app.example.PostageTemplateExample;
 import com.chisong.green.farm.app.mapper.OrderInfoMapper;
 import com.chisong.green.farm.app.service.CartItemService;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
@@ -19,15 +23,19 @@ import com.chisong.green.farm.app.service.GoodsService;
 import com.chisong.green.farm.app.service.OrderDeliveryAddressMappingService;
 import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
+import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -52,7 +60,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	private GoodsService goodsService;
 	@Autowired
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
-
+	@Autowired
+	private PostageTemplateService postageTemplateService;
 	@Override
 	@Transactional
 	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
@@ -65,15 +74,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		}
 		long total = 0l;
 
-		//每个庄园，算一次运费
-		Map<Integer, Integer> chateauPostage = new HashMap<>();
+		//每个庄园，Postage = new HashMap<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 			log.info("orderDetailDto:{}", orderDetailDto);
 			if(null == orderDetailDto) {
 				continue;
 			}
-
-			total += orderDetailDto.getPrice() * orderDetailDto.getNum();
 
 			orderDetailDto.setOrderId(orderInfoDto.getId());
 
@@ -102,7 +108,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		/**
 		 * 订单运费
 		 */
-		Integer postage = chateauPostage.values().stream().reduce((a, b) -> a + b).orElse(0);
+		List<OrderDetailReq> orderDetailReqs = copyList(orderInfoDto.getOrderDetailDtoList(), OrderDetailReq.class);
+		long postage = computePostage(orderDetailReqs);
 		orderInfoDto.setTotalAmount(total);
 		orderInfoDto.setPostage(postage);
 		//3.更新订单信息
@@ -171,6 +178,33 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	public OrderInfoDto getOrderById(Long id) {
 		OrderInfoDto orderInfoDto = getById(id);
 		return getOrderByNo(orderInfoDto.getOrderNo());
+	}
+
+	private long getTotalPostFee(
+		@RequestBody List<OrderDetailReq> orderDetailReqList) {
+		return (long) orderDetailReqList.stream().map(orderDetailReq->{
+			Long goodsId = orderDetailReq.getGoodsId();
+			//查询运费模板
+			PostageTemplateExample postageTemplateExample = new PostageTemplateExample();
+			postageTemplateExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+				.andGoodsIdEqualTo(goodsId).andProvincesLike("%"+orderDetailReq.getProvince()+"%");
+			Optional<PostageTemplateDto> postageTemplateDtoOptional =
+				postageTemplateService.getList(postageTemplateExample).stream().findFirst();
+			if(!postageTemplateDtoOptional.isPresent()){
+				throw new RuntimeException("没有找到合适的运费模板");
+			}
+
+			PostageTemplateDto postageTemplateDto = 	postageTemplateDtoOptional.get();
+			if(orderDetailReq.getNum() > postageTemplateDto.getFreeNum()
+				|| orderDetailReq.getPrice() * orderDetailReq.getNum() > postageTemplateDto.getFreeTotalAmount()){
+				return  0;
+			}
+			return orderDetailReq.getNum() * postageTemplateDtoOptional.get().getAmount();
+		}).reduce(0, (a, b) -> a+b);
+	}
+	@Override
+	public long computePostage(List<OrderDetailReq> orderDetailReqList) {
+		return getTotalPostFee(orderDetailReqList);
 	}
 
 

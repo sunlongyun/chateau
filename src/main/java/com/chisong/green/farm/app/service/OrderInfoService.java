@@ -1,7 +1,11 @@
 package com.chisong.green.farm.app.service;
 
+import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.lianshang.generator.commons.IService;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+
 /**
  * <p>
  *  服务类
@@ -31,4 +35,11 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @return
 	 */
 	public OrderInfoDto getOrderById(Long id);
+
+	/**
+	 * 邮费计算
+	 * @param orderDetailReqList
+	 * @return
+	 */
+	public long computePostage( List<OrderDetailReq> orderDetailReqList);
 }

@@ -5,12 +5,17 @@ import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.CreateOrderReq;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
+import com.chisong.green.farm.app.dto.GoodsSpecsDto;
+import com.chisong.green.farm.app.dto.PostageTemplateDto;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.chisong.green.farm.app.example.OrderInfoExample.Criteria;
+import com.chisong.green.farm.app.example.PostageTemplateExample;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
+import com.chisong.green.farm.app.service.GoodsSpecsService;
+import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.app.utils.IPUtil;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
@@ -28,12 +33,15 @@ import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.SupplierService;
 import com.lianshang.generator.commons.PageInfo;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +81,10 @@ public class OrderController {
 	@Autowired
 	private SupplierService supplierService;
 
+	@Autowired
+	private PostageTemplateService postageTemplateService;
+	@Autowired
+	private GoodsSpecsService goodsSpecsService;
 	/**
 	 * 查询订单状态
 	 */
@@ -250,39 +262,12 @@ public class OrderController {
 	 */
 	@RequestMapping("computePostage")
 	public CCResponse computePostage(@RequestBody List<OrderDetailReq> orderDetailReqList) {
-		int total = 0;
+
+		long total = orderInfoService.computePostage(orderDetailReqList);
+
 		Map<String, Object> postageMap = new HashMap<>();
-
-		Map<Integer, Integer> priceMap = new HashMap<>();
-		List<Map<String, Object>> supplierDtoList = new ArrayList<>();
-
-//		if(!CollectionUtils.isEmpty(orderDetailReqList)) {
-//			for(OrderDetailReq orderDetailReq : orderDetailReqList) {
-//				Long beverageId = orderDetailReq.getBeverageId();
-//				CountryChateauBeverageDto countryChateauBeverageDto = countryChateauBeverageService.getById(beverageId);
-//				if(null == countryChateauBeverageDto) {
-//					continue;
-//				}
-//				Integer chateauId = countryChateauBeverageDto.getChateauId();
-//				Integer supplierId = countryChateauBeverageDto.getSupplierId();
-//				SupplierDto supplierDto = supplierService.getById(supplierId);
-//
-//				Map<String, Object> deliveryMap = new HashMap<>();
-//				deliveryMap.put("supplierId", supplierId);
-//				deliveryMap.put("beverageId", orderDetailReq.getBeverageId());
-//				deliveryMap.put("supplierAddress", supplierDto.getAddress());
-//
-//				supplierDtoList.add(deliveryMap);
-//				CountryChateauDto countryChateauDto = countryChateauService.getById(chateauId);
-//				if(null != countryChateauDto && null != countryChateauDto.getPostage()) {
-//					priceMap
-//						.put(chateauId, countryChateauDto.getPostage() == null ? 0 : countryChateauDto.getPostage());
-//				}
-//			}
-//		}
-		total = priceMap.values().stream().reduce(0, (a, b) -> a + b);
 		postageMap.put("postage", total);
-		postageMap.put("deliveryList", supplierDtoList);
+		postageMap.put("deliveryList", "[]");
 
 		return CCResponse.success(postageMap);
 	}
@@ -296,6 +281,12 @@ public class OrderController {
 			|| null == createOrderReq.getAddressId()) {
 			throw new RuntimeException("订单明细以及收货地址都不能为空");
 		}
+
+		//如果购物清单的商品来自不同的供应商，则返回提示分别下单
+		if(checkSupplier(createOrderReq)) {
+			return CCResponse.fail("您购买的商品来自不同的供应商，建议分别下单购买");
+		}
+
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		if(CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())) {
@@ -315,6 +306,16 @@ public class OrderController {
 		return CCResponse.success(dataMap);
 	}
 
+	private boolean checkSupplier(@RequestBody CreateOrderReq createOrderReq) {
+		long supplierCount =	createOrderReq.getOrderDetailReqList().stream().map(orderDetailReq -> {
+			return goodsService.getById(orderDetailReq.getGoodsId()).getSupplierId();
+		}).distinct().count();
+		if(supplierCount >1){
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * 创建订单
 	 */
@@ -322,23 +323,29 @@ public class OrderController {
 
 		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
-			orderDetailDto.setBeverageId(orderDetailReq.getBeverageId());
+			orderDetailDto.setBeverageId(orderDetailReq.getGoodsId());
 			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
 			orderDetailDto.setNum(orderDetailReq.getNum());
 			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
+			orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
+			orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
+
 			GoodsDto goodsDto = goodsService.getById(orderDetailReq
-				.getBeverageId());
-			if(null != goodsDto) {
+				.getGoodsId());
+			orderDetailDto.setTitle(goodsDto.getTitle());
+			orderDetailDto.setEnTitle(goodsDto.getEnTitle());
+
+			if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
 				orderDetailDto.setPrice(goodsDto.getPrice());
-				orderDetailDto.setTitle(goodsDto.getTitle());
-				orderDetailDto.setEnTitle(goodsDto.getEnTitle());
+			}else{
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
+				orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice()+""));
 			}
 
 			return orderDetailDto;
 		}).collect(Collectors.toList());
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
-
 		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId);
 		return orderNo;
 	}

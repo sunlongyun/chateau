@@ -9,7 +9,7 @@ import lombok.Data;
 * 订单详情
 * </p>
 * @author 孙龙云
-* @date 2019-06-23
+* @date 2019-12-14
 */
 @Data
 public class OrderDetailDto implements Serializable {
@@ -19,13 +19,30 @@ public class OrderDetailDto implements Serializable {
     private Long id;
 
     /**
+    * 商品规格id，非统一规格商品，必须存在商品规格id
+     */
+    private Long specsId;
+
+    /**
+    * 商品规格名称
+     */
+    private String specsName;
+    /**
+     * 供应商id
+     */
+    private Integer supplierId;
+    /**
+     * 供应商地址
+     */
+    private String supplierAddress;
+    /**
+     * 购物车项
+     */
+    private Integer cartItemId;
+    /**
     * 酒水id
      */
     private Long beverageId;
-    /**
-     * 购物车项id
-     */
-    private Integer cartItemId;
 
     /**
     * 标题
@@ -41,14 +58,6 @@ public class OrderDetailDto implements Serializable {
     * 数量
      */
     private Integer num;
-    /**
-     * 工艺上哪个航地址
-     */
-    private String supplierAddress;
-    /**
-     * 供应商id
-     */
-    private Integer supplierId;
 
     /**
     * 缩略图

@@ -12,9 +12,17 @@ import lombok.Data;
 public class OrderDetailReq {
 
 	/**
-	 * 酒水id
+	 * 商品id
 	 */
-	private Long beverageId;
+	private Long goodsId;
+	/**
+	 * 商品规格id，非统一规格商品，必须存在商品规格id
+	 */
+	private Long specsId;
+	/**
+	 * 商品规格名称
+	 */
+	private String specsName;
 	/**
 	 * 数量
 	 */
@@ -23,4 +31,12 @@ public class OrderDetailReq {
 	 * 购物车项id
 	 */
 	private Integer cartItemId;
+	/**
+	 * 收货地址省份
+	 */
+	private String province;
+	/**
+	 * 单价
+	 */
+	private Long price = 0l;
 }
