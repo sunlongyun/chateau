@@ -19,6 +19,10 @@ public class PageQueryReq {
 	 */
 	private String searchKey;
 	/**
+	 * 類別
+	 */
+	private String type;
+	/**
 	 * 状态
 	 */
 	private Integer status;

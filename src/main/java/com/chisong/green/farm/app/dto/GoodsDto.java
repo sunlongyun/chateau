@@ -40,9 +40,9 @@ public class GoodsDto implements Serializable {
     private String skuCode;
 
     /**
-    * 英文标题
+    * 商品 類型
      */
-    private String enTitle;
+    private String type;
 
     /**
     * 供应商公司名称

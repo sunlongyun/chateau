@@ -9,7 +9,7 @@
         <result column="title" property="title" />
         <result column="status" property="status"/>
         <result column="sku_code" property="skuCode" />
-        <result column="en_title" property="enTitle" />
+        <result column="type" property="type" />
         <result column="uniform_specs" property="uniformSpecs"/>
         <result column="supplier_company_name" property="supplierCompanyName" />
         <result column="supplier_id" property="supplierId" />
@@ -31,7 +31,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, en_title,status, supplier_company_name, supplier_id, country_name, pic_url,
+        id, title, sku_code, `type`,status, supplier_company_name, supplier_id, country_name, pic_url,
         min_pic_url,uniform_specs,detail_pic_url, description, specs, origin_price,
          price, year, stock, chateau_id, create_time, update_time, validity
     </sql>
@@ -46,10 +46,13 @@
             <if test="searchKey != null">
                 AND (
                 title like concat('%',#{searchKey},'%')
-                OR en_title like concat('%',#{searchKey},'%')
+                OR `type` like concat('%',#{searchKey},'%')
                 OR country_name like concat('%',#{searchKey},'%')
                 OR supplier_company_name like concat('%',#{searchKey},'%')
                 )
+            </if>
+            <if test="type != null">
+                AND `type` like concat('%',#{type},'%')
             </if>
             <if test="supplierId != null">
                 and supplier_id = #{supplierId}

@@ -37,9 +37,9 @@ public class Goods implements Serializable {
     private  String skuCode;
 
     /**
-    * 英文标题
+    * 商品列表
      */
-    private  String enTitle;
+    private  String type;
 
     /**
     * 供应商公司名称
