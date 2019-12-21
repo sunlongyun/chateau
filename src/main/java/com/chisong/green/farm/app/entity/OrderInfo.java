@@ -54,11 +54,10 @@ public class OrderInfo implements Serializable {
     * 取消订单备注
      */
     private  String cancelRemark;
-
     /**
-    * 邮费
+     * 运费
      */
-    private  Integer postage;
+    private Long postage = 0l;
 
     /**
     * 物流单号

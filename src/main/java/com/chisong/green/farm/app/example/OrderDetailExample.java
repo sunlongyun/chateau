@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-12-14
+* @date 2019-12-21
 */
 @Data
 public class OrderDetailExample implements Serializable {
@@ -268,64 +268,64 @@ public class OrderDetailExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andBeverageIdIn(List<Long> values) {
-            addCriterion("beverage_id in", values, "beverageId");
+        public Criteria andGoodsIdIn(List<Long> values) {
+            addCriterion("goods_id in", values, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdNotIn(List<Long> values) {
-            addCriterion("beverage_id not in", values, "beverageId");
+        public Criteria andGoodsIdNotIn(List<Long> values) {
+            addCriterion("goods_id not in", values, "goodsId");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andBeverageIdBetween(Long value1, Long value2) {
-            addCriterion("beverage_id between", value1, value2, "beverageId");
+        public Criteria andGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("goods_id between", value1, value2, "goodsId");
             return (Criteria) this;
         }
 
         //like
-        public Criteria andBeverageIdLike(String value) {
-            addCriterion("beverage_id like", value, "beverageId");
+        public Criteria andGoodsIdLike(String value) {
+            addCriterion("goods_id like", value, "goodsId");
             return (Criteria) this;
         }
 
         // = <>
-        public Criteria andBeverageIdEqualTo(Long value) {
-            addCriterion("beverage_id =", value, "beverageId");
+        public Criteria andGoodsIdEqualTo(Long value) {
+            addCriterion("goods_id =", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdNotEqualTo(Long value) {
-            addCriterion("beverage_id <>", value, "beverageId");
+        public Criteria andGoodsIdNotEqualTo(Long value) {
+            addCriterion("goods_id <>", value, "goodsId");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andBeverageIdGreaterThan(Long value) {
-            addCriterion("beverage_id >", value, "beverageId");
+        public Criteria andGoodsIdGreaterThan(Long value) {
+            addCriterion("goods_id >", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("beverage_id >=", value, "beverageId");
+        public Criteria andGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("goods_id >=", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdLessThan(Long value) {
-            addCriterion("beverage_id <", value, "beverageId");
+        public Criteria andGoodsIdLessThan(Long value) {
+            addCriterion("goods_id <", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdLessThanOrEqualTo(Long value) {
-            addCriterion("beverage_id <=", value, "beverageId");
+        public Criteria andGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("goods_id <=", value, "goodsId");
             return (Criteria) this;
         }
 
         //null  not null
-        public Criteria andBeverageIdIsNull() {
-            addCriterion("beverage_id is null");
+        public Criteria andGoodsIdIsNull() {
+            addCriterion("goods_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andBeverageIdIsNotNull() {
-            addCriterion("beverage_id is not null");
+        public Criteria andGoodsIdIsNotNull() {
+            addCriterion("goods_id is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -387,67 +387,6 @@ public class OrderDetailExample implements Serializable {
 
         public Criteria andTitleIsNotNull() {
             addCriterion("title is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andEnTitleIn(List<String> values) {
-            addCriterion("en_title in", values, "enTitle");
-            return (Criteria) this;
-        }
-        public Criteria andEnTitleNotIn(List<String> values) {
-            addCriterion("en_title not in", values, "enTitle");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andEnTitleBetween(String value1, String value2) {
-            addCriterion("en_title between", value1, value2, "enTitle");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andEnTitleLike(String value) {
-            addCriterion("en_title like", value, "enTitle");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andEnTitleEqualTo(String value) {
-            addCriterion("en_title =", value, "enTitle");
-            return (Criteria) this;
-        }
-        public Criteria andEnTitleNotEqualTo(String value) {
-            addCriterion("en_title <>", value, "enTitle");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andEnTitleGreaterThan(String value) {
-            addCriterion("en_title >", value, "enTitle");
-            return (Criteria) this;
-        }
-        public Criteria andEnTitleGreaterThanOrEqualTo(String value) {
-            addCriterion("en_title >=", value, "enTitle");
-            return (Criteria) this;
-        }
-        public Criteria andEnTitleLessThan(String value) {
-            addCriterion("en_title <", value, "enTitle");
-            return (Criteria) this;
-        }
-        public Criteria andEnTitleLessThanOrEqualTo(String value) {
-            addCriterion("en_title <=", value, "enTitle");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andEnTitleIsNull() {
-            addCriterion("en_title is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnTitleIsNotNull() {
-            addCriterion("en_title is not null");
             return (Criteria) this;
         }
         // in,   not in

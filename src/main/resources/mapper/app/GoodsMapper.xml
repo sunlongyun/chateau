@@ -35,7 +35,10 @@
         min_pic_url,uniform_specs,detail_pic_url, description, specs, origin_price,
          price, year, stock, chateau_id, create_time, update_time, validity
     </sql>
-
+    <!-- 减少库存-->
+    <update id="decreaseStock">
+        update goods set stock=stock-#{stock} where id  =#{id} and stock >= #{stock}
+    </update>
     <!-- 查询列表-->
     <select id="getGoodsList" parameterType="com.chisong.green.farm.app.controller.goods.request.PageQueryReq" resultMap="BaseResultMap">
         SELECT * FROM goods

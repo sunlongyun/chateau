@@ -33,15 +33,11 @@ import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.SupplierService;
 import com.lianshang.generator.commons.PageInfo;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,18 +69,14 @@ public class OrderController {
 	private PaymentService paymentService;
 	@Autowired
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
-	@Autowired
-	private CustomerDeliveryAddressService customerDeliveryAddressService;
     @Autowired
 	private GoodsService goodsService;
 
 	@Autowired
 	private SupplierService supplierService;
-
-	@Autowired
-	private PostageTemplateService postageTemplateService;
 	@Autowired
 	private GoodsSpecsService goodsSpecsService;
+
 	/**
 	 * 查询订单状态
 	 */
@@ -136,7 +128,7 @@ public class OrderController {
 		List<OrderDetailDto> orderDetailDtoList = orderDetailService.getList(orderDetailExample);
 		if(null != orderDetailDtoList) {
 			for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
-				Long beverageId = orderDetailDto.getBeverageId();
+				Long beverageId = orderDetailDto.getGoodsId();
 				GoodsDto goodsDto = goodsService.getById
 					(beverageId);
 				Integer supplierId = goodsDto.getSupplierId();
@@ -179,11 +171,8 @@ public class OrderController {
 		if(!CollectionUtils.isEmpty(orderDeliveryAddressMappingDtoList)) {
 			OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto = orderDeliveryAddressMappingDtoList
 				.get(0);
-			OrderDeliveryAddressMappingDto deliveryAddressMappingDto = orderDeliveryAddressMappingService.getById
-				(orderDeliveryAddressMappingDto
-					.getAddressId());
 
-			orderInfoDto.setOrderDeliveryAddressMappingDto(deliveryAddressMappingDto);
+			orderInfoDto.setOrderDeliveryAddressMappingDto(orderDeliveryAddressMappingDto);
 		}
 
 		return CCResponse.success(orderInfoDto);
@@ -323,7 +312,7 @@ public class OrderController {
 
 		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
-			orderDetailDto.setBeverageId(orderDetailReq.getGoodsId());
+			orderDetailDto.setGoodsId(orderDetailReq.getGoodsId());
 			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
 			orderDetailDto.setNum(orderDetailReq.getNum());
 			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
@@ -333,8 +322,6 @@ public class OrderController {
 			GoodsDto goodsDto = goodsService.getById(orderDetailReq
 				.getGoodsId());
 			orderDetailDto.setTitle(goodsDto.getTitle());
-			orderDetailDto.setEnTitle(goodsDto.getEnTitle());
-
 			if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
 				orderDetailDto.setPrice(goodsDto.getPrice());
 			}else{
@@ -346,7 +333,7 @@ public class OrderController {
 		}).collect(Collectors.toList());
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
-		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId);
+		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId,orderDetailReqList);
 		return orderNo;
 	}
 

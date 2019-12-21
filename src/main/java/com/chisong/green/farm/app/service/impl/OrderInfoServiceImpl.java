@@ -24,6 +24,7 @@ import com.chisong.green.farm.app.service.OrderDeliveryAddressMappingService;
 import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
+import com.chisong.green.farm.exception.BizException;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +65,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	private PostageTemplateService postageTemplateService;
 	@Override
 	@Transactional
-	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
+	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId, List<OrderDetailReq> orderDetailReqList) {
 		//1.添加订单基本信息
 		save(orderInfoDto);
 		//2.添加订单明细信息
@@ -83,10 +84,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
 			orderDetailDto.setOrderId(orderInfoDto.getId());
 
-			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getBeverageId());
+			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getGoodsId());
 			orderDetailDto.setTitle(goodsDto.getTitle());
 			orderDetailDto.setPrice(goodsDto.getPrice());
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
+			total += orderDetailDto.getTotalPrice();
+			goodsService.decreaseStock(orderDetailDto.getNum(), goodsDto.getId());
 
 			orderDetailService.save(orderDetailDto);
 
@@ -96,7 +99,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			} else {
 				CartItemExample cartItemExample = new CartItemExample();
 				cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andBeverageIdEqualTo
-					(orderDetailDto.getBeverageId());
+					(orderDetailDto.getGoodsId());
 				List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
 				if(!CollectionUtils.isEmpty(cartItemDtoList)) {
 					cartItemDtoList.forEach(cartItemDto -> {
@@ -108,8 +111,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		/**
 		 * 订单运费
 		 */
-		List<OrderDetailReq> orderDetailReqs = copyList(orderInfoDto.getOrderDetailDtoList(), OrderDetailReq.class);
-		long postage = computePostage(orderDetailReqs);
+		long postage = computePostage(orderDetailReqList);
+		log.info("postage==={}", postage);
 		orderInfoDto.setTotalAmount(total);
 		orderInfoDto.setPostage(postage);
 		//3.更新订单信息
@@ -180,23 +183,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		return getOrderByNo(orderInfoDto.getOrderNo());
 	}
 
-	private long getTotalPostFee(
-		@RequestBody List<OrderDetailReq> orderDetailReqList) {
+	private long getTotalPostFee(List<OrderDetailReq> orderDetailReqList) {
+		log.info("orderDetailReqList:{}", orderDetailReqList);
 		return (long) orderDetailReqList.stream().map(orderDetailReq->{
 			Long goodsId = orderDetailReq.getGoodsId();
 			//查询运费模板
 			PostageTemplateExample postageTemplateExample = new PostageTemplateExample();
 			postageTemplateExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
-				.andGoodsIdEqualTo(goodsId).andProvincesLike("%"+orderDetailReq.getProvince()+"%");
+				.andGoodsIdEqualTo(goodsId).andProvincesLike("%"+orderDetailReq.getProvince().trim()+"%");
 			Optional<PostageTemplateDto> postageTemplateDtoOptional =
 				postageTemplateService.getList(postageTemplateExample).stream().findFirst();
+			log.info("postageTemplateDtoOptional:{}", postageTemplateDtoOptional.get());
 			if(!postageTemplateDtoOptional.isPresent()){
 				throw new RuntimeException("没有找到合适的运费模板");
 			}
 
 			PostageTemplateDto postageTemplateDto = 	postageTemplateDtoOptional.get();
-			if(orderDetailReq.getNum() > postageTemplateDto.getFreeNum()
-				|| orderDetailReq.getPrice() * orderDetailReq.getNum() > postageTemplateDto.getFreeTotalAmount()){
+			if((null != postageTemplateDto.getFreeNum() && orderDetailReq.getNum() > postageTemplateDto.getFreeNum())
+				|| (null !=postageTemplateDto.getFreeTotalAmount()
+					&& orderDetailReq.getPrice() * orderDetailReq.getNum() > postageTemplateDto.getFreeTotalAmount())){
+				log.info("包邮--------------");
 				return  0;
 			}
 			return orderDetailReq.getNum() * postageTemplateDtoOptional.get().getAmount();

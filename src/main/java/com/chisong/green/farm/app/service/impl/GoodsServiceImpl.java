@@ -61,6 +61,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		return pageInfo;
 	}
 
+
 	@Override
 	public GoodsDto getDetailById(Long id) {
 		GoodsDto goodsDto = getById(id);
@@ -87,6 +88,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		List<GoodsSpecsDto> goodsSpecsDtos = goodsSpecsService.getList(goodsSpecsExample);
         goodsDto.setSpecsDtoList(goodsSpecsDtos);
 		return goodsDto;
+	}
+
+	@Override
+	public int decreaseStock(int stock, Long id) {
+		int r  = this.baseMapper.decreaseStock(stock,id);
+		if(r==0){
+			throw new RuntimeException("库存不足,id="+id);
+		}
+		return r;
 	}
 
 	@Override
