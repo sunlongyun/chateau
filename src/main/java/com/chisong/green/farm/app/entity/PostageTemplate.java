@@ -10,7 +10,7 @@ import lombok.Data;
 * 运费模板
 * </p>
 * @author 孙龙云
-* @date 2019-11-24
+* @date 2019-12-28
 */
 @Data
 public class PostageTemplate implements Serializable {
@@ -34,7 +34,12 @@ public class PostageTemplate implements Serializable {
     private  String provinces;
 
     /**
-    * 运费单位件；1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
+    * 每几个数量增加一次单位邮费，-1永远不增加
+     */
+    private  Integer incUnitNum;
+
+    /**
+    * 运费单位件；1-件；2-袋；3-千克，4-斤，5-瓶，6-升；7-箱
      */
     private  Integer unit;
 

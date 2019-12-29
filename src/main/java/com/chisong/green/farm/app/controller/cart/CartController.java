@@ -6,6 +6,7 @@ import com.chisong.green.farm.app.controller.response.enums.ResponseCodeEnum;
 import com.chisong.green.farm.app.dto.CartItemDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.dto.GoodsDto;
+import com.chisong.green.farm.app.dto.GoodsSpecsDto;
 import com.chisong.green.farm.app.dto.ShoppingCartDto;
 import com.chisong.green.farm.app.example.CartItemExample;
 import com.chisong.green.farm.app.example.ShoppingCartExample;
@@ -13,6 +14,7 @@ import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.CartItemService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.GoodsService;
+import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.ShoppingCartService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.exception.BizException;
@@ -44,6 +46,8 @@ public class CartController {
 	private CustomerInfoService customerInfoService;
 	@Autowired
 	private GoodsService goodsService;
+	@Autowired
+	private GoodsSpecsService goodsSpecsService;
 
 	/**
 	 * 批量删除购物车项
@@ -72,7 +76,14 @@ public class CartController {
 		cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
 			.getId());
 		List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
-
+		cartItemDtoList.stream().forEach(cartItemDto -> {
+			GoodsDto goodsDto = goodsService.getById(cartItemDto.getGoodsId());
+			cartItemDto.setSupplierCompanyName(goodsDto.getSupplierCompanyName());
+			cartItemDto.setProduceArea(goodsDto.getProduceArea());
+			if(null == cartItemDto.getSpecsId()){
+				cartItemDto.setSpecsName(goodsDto.getSpecs());
+			}
+		});
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("id", shoppingCartDto.getId());
 		dataMap.put("cartItemList", cartItemDtoList);
@@ -127,13 +138,13 @@ public class CartController {
 	 * 添加购物车
 	 */
 	@RequestMapping("addCartItem")
-	public CCResponse addCartItem(Integer num, Long beverageId) {
+	public CCResponse addCartItem(Integer num, Long goodsId, Long specsId) {
 		ShoppingCartDto shoppingCartDto = getShoppingCartDto();
 		if(null == shoppingCartDto) {
 			throw new BizException(ResponseCodeEnum.FAIL.code(), "购物车获取失败");
 		}
 
-		GoodsDto goodsDto = goodsService.getById(beverageId);
+		GoodsDto goodsDto = goodsService.getById(goodsId);
 		if(null == goodsDto) {
 			throw new RuntimeException("商品不存在");
 		}
@@ -141,24 +152,45 @@ public class CartController {
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
 		CartItemExample cartItemExample = new CartItemExample();
 		cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
-			.getId()).andBeverageIdEqualTo(beverageId);
+			.getId()).andGoodsIdEqualTo(goodsId);
 
 		List<CartItemDto> cartItemList = cartItemService.getList(cartItemExample);
+
 		if(!CollectionUtils.isEmpty(cartItemList)){
 			cartItemDto = cartItemList.get(0);
 			cartItemDto.setNum(cartItemDto.getNum()+num);
 			cartItemDto.setTotalPrice(cartItemDto.getPrice()*cartItemDto.getNum());
+			cartItemDto.setSpecsId(specsId);
+			if(null != specsId){
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
+				cartItemDto.setSpecsName(goodsSpecsDto.getName());
+			}
 			cartItemService.update(cartItemDto);
 		}else{
 			cartItemDto = new CartItemDto();
+
+			if(null != specsId){
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
+				cartItemDto.setPrice(Long.parseLong(goodsSpecsDto.getPrice()+""));
+				cartItemDto.setTotalPrice(Long.parseLong(goodsSpecsDto.getPrice()+"") * num);
+			}else{
+				cartItemDto.setPrice(Long.parseLong(goodsDto.getPrice()+""));
+				cartItemDto.setTotalPrice(Long.parseLong(goodsDto.getPrice()+"") * num);
+			}
+
+
 			cartItemDto.setNum(num);
 			cartItemDto.setCartId(shoppingCartDto.getId());
-			cartItemDto.setBeverageId(beverageId);
-			cartItemDto.setPrice(goodsDto.getPrice());
+			cartItemDto.setGoodsId(goodsId);
+
 			cartItemDto.setMinPicUrl(goodsDto.getMinPicUrl());
 			cartItemDto.setTitle(goodsDto.getTitle());
-			cartItemDto.setTotalPrice(goodsDto.getPrice() * num);
 
+			cartItemDto.setSpecsId(specsId);
+			if(null != specsId){
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
+				cartItemDto.setSpecsName(goodsSpecsDto.getName());
+			}
 			cartItemService.save(cartItemDto);
 		}
 

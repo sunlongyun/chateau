@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.OrderDeliveryAddressMapping">
         <id column="id" property="id" />
         <result column="order_id" property="orderId" />
+        <result column="mobile" property="mobile" />
+        <result column="contact" property="contact" />
         <result column="address" property="address" />
         <result column="order_no" property="orderNo" />
         <result column="address_id" property="addressId" />
@@ -17,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_id, address, order_no, address_id, logistics_number, create_time, update_time, validity
+        id, order_id, mobile, contact, address, order_no, address_id, logistics_number, create_time, update_time, validity
     </sql>
 
 

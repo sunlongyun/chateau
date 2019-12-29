@@ -1,15 +1,18 @@
 package com.chisong.green.farm.app.service.impl;
 
+import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
 import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CartItemDto;
 import com.chisong.green.farm.app.dto.CustomerDeliveryAddressDto;
 import com.chisong.green.farm.app.dto.GoodsDto;
+import com.chisong.green.farm.app.dto.GoodsSpecsDto;
 import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
 import com.chisong.green.farm.app.dto.OrderDetailDto;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
 import com.chisong.green.farm.app.dto.PostageTemplateDto;
+import com.chisong.green.farm.app.entity.Goods;
 import com.chisong.green.farm.app.entity.OrderInfo;
 import com.chisong.green.farm.app.example.CartItemExample;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
@@ -20,6 +23,7 @@ import com.chisong.green.farm.app.mapper.OrderInfoMapper;
 import com.chisong.green.farm.app.service.CartItemService;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
 import com.chisong.green.farm.app.service.GoodsService;
+import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.OrderDeliveryAddressMappingService;
 import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
@@ -63,9 +67,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
 	@Autowired
 	private PostageTemplateService postageTemplateService;
+	@Autowired
+	private GoodsSpecsService goodsSpecsService;
 	@Override
 	@Transactional
-	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId, List<OrderDetailReq> orderDetailReqList) {
+	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
 		//1.添加订单基本信息
 		save(orderInfoDto);
 		//2.添加订单明细信息
@@ -75,43 +81,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		}
 		long total = 0l;
 
-		//每个庄园，Postage = new HashMap<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 			log.info("orderDetailDto:{}", orderDetailDto);
 			if(null == orderDetailDto) {
 				continue;
 			}
-
+           CustomerDeliveryAddressDto customerDeliveryAddressDto =  customerDeliveryAddressService.getById(addressId);
 			orderDetailDto.setOrderId(orderInfoDto.getId());
-
+			orderDetailDto.setProvince(customerDeliveryAddressDto.getProvince());
 			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getGoodsId());
-			orderDetailDto.setTitle(goodsDto.getTitle());
-			orderDetailDto.setPrice(goodsDto.getPrice());
-			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
 			total += orderDetailDto.getTotalPrice();
 			goodsService.decreaseStock(orderDetailDto.getNum(), goodsDto.getId());
-
 			orderDetailService.save(orderDetailDto);
 
 			//如果购物项存在，则删除
-			if(null != orderDetailDto.getCartItemId()) {
-				cartItemService.deleteById(orderDetailDto.getCartItemId());
-			} else {
-				CartItemExample cartItemExample = new CartItemExample();
-				cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andBeverageIdEqualTo
-					(orderDetailDto.getGoodsId());
-				List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
-				if(!CollectionUtils.isEmpty(cartItemDtoList)) {
-					cartItemDtoList.forEach(cartItemDto -> {
-						cartItemService.deleteById(cartItemDto.getId());
-					});
-				}
-			}
+			deleteCartItemList(orderDetailDto);
 		}
 		/**
 		 * 订单运费
 		 */
-		long postage = computePostage(orderDetailReqList);
+		long postage = computePostage(orderInfoDto.getOrderDetailDtoList());
 		log.info("postage==={}", postage);
 		orderInfoDto.setTotalAmount(total);
 		orderInfoDto.setPostage(postage);
@@ -124,8 +113,25 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		orderDeliveryAddressMapping.setOrderId(orderInfoDto.getId());
 		orderDeliveryAddressMapping.setOrderNo(orderInfoDto.getOrderNo());
 		orderDeliveryAddressMapping.setAddress(customerDeliveryAddressDto.getDetaiAddress());
+		orderDeliveryAddressMapping.setContact(customerDeliveryAddressDto.getContact());
+		orderDeliveryAddressMapping.setMobile(customerDeliveryAddressDto.getMobile());
 		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 		return orderInfoDto.getOrderNo();
+	}
+
+	/**
+	 *清空购物车该商品项
+	 * @param orderDetailDto
+	 */
+	private void deleteCartItemList(OrderDetailDto orderDetailDto) {
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andGoodsIdEqualTo(orderDetailDto.getGoodsId());
+		List<CartItemDto> cartItemDtoList = cartItemService.getList(cartItemExample);
+		if(!CollectionUtils.isEmpty(cartItemDtoList)) {
+			cartItemDtoList.forEach(cartItemDto -> {
+				cartItemService.deleteById(cartItemDto.getId());
+			});
+		}
 	}
 
 	@Override
@@ -170,11 +176,16 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		OrderDeliveryAddressMappingExample orderDeliveryAddressMappingExample =
 			new OrderDeliveryAddressMappingExample();
 		orderDeliveryAddressMappingExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
-			.andOrderIdEqualTo(orderInfoDto.getId());
+			.andOrderNoEqualTo(orderInfoDto.getOrderNo());
 		OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto =
 			orderDeliveryAddressMappingService.getList(orderDeliveryAddressMappingExample).stream().findFirst().get();
+		log.info("orderDeliveryAddressMappingDto:{}", orderDeliveryAddressMappingDto);
 		orderInfoDto.setOrderDeliveryAddressMappingDto(orderDeliveryAddressMappingDto);
-		orderInfoDto.setAddress(orderDeliveryAddressMappingDto.getAddress());
+		orderInfoDto.setUserAddress(orderDeliveryAddressMappingDto.getAddress());
+		CustomerDeliveryAddressDto addressDto =
+			customerDeliveryAddressService.getById(orderDeliveryAddressMappingDto.getAddressId());
+		log.info("addressDto:{}", addressDto);
+		orderInfoDto.setAddress(addressDto);
 	}
 
 	@Override
@@ -183,33 +194,60 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		return getOrderByNo(orderInfoDto.getOrderNo());
 	}
 
-	private long getTotalPostFee(List<OrderDetailReq> orderDetailReqList) {
+	/**
+	 * 查询总 运费
+	 * @param orderDetailReqList
+	 * @return
+	 */
+	private long getTotalPostFee(List<OrderDetailDto> orderDetailReqList) {
 		log.info("orderDetailReqList:{}", orderDetailReqList);
 		return (long) orderDetailReqList.stream().map(orderDetailReq->{
 			Long goodsId = orderDetailReq.getGoodsId();
 			//查询运费模板
+			log.info("orderDetailReq:{}", orderDetailReq);
 			PostageTemplateExample postageTemplateExample = new PostageTemplateExample();
 			postageTemplateExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
 				.andGoodsIdEqualTo(goodsId).andProvincesLike("%"+orderDetailReq.getProvince().trim()+"%");
+			postageTemplateExample.setOrderByClause("weight desc, id desc");
 			Optional<PostageTemplateDto> postageTemplateDtoOptional =
 				postageTemplateService.getList(postageTemplateExample).stream().findFirst();
 			log.info("postageTemplateDtoOptional:{}", postageTemplateDtoOptional.get());
 			if(!postageTemplateDtoOptional.isPresent()){
 				throw new RuntimeException("没有找到合适的运费模板");
 			}
-
-			PostageTemplateDto postageTemplateDto = 	postageTemplateDtoOptional.get();
-			if((null != postageTemplateDto.getFreeNum() && orderDetailReq.getNum() > postageTemplateDto.getFreeNum())
+			Long detailPrice = 0l;
+			//统一规格商品从商品取价格，否则从规格记录取价格
+			if(null != orderDetailReq.getSpecsId()){
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailReq.getSpecsId());
+				detailPrice = Long.parseLong(goodsSpecsDto.getPrice()+"") ;
+			}else{
+				GoodsDto goodsDto = goodsService.getDetailById(orderDetailReq.getGoodsId());
+				detailPrice= goodsDto.getPrice();
+			}
+			PostageTemplateDto postageTemplateDto = postageTemplateDtoOptional.get();
+			//包邮
+			if((null != postageTemplateDto.getFreeNum() && orderDetailReq.getNum() >= postageTemplateDto.getFreeNum())
 				|| (null !=postageTemplateDto.getFreeTotalAmount()
-					&& orderDetailReq.getPrice() * orderDetailReq.getNum() > postageTemplateDto.getFreeTotalAmount())){
+					&& detailPrice * orderDetailReq.getNum() >= postageTemplateDto.getFreeTotalAmount())){
 				log.info("包邮--------------");
 				return  0;
 			}
+
+			//运费阶梯递增
+			if(null != postageTemplateDto.getIncUnitNum()){
+				if(-1 == postageTemplateDto.getIncUnitNum()){
+					return Integer.parseInt(orderDetailReq.getPrice()+"") ;
+				}else{
+					return ((orderDetailReq.getNum()/postageTemplateDto.getIncUnitNum())+1) * postageTemplateDtoOptional.get().getAmount();
+				}
+			}
+
+			//每件商品增加一次运费
 			return orderDetailReq.getNum() * postageTemplateDtoOptional.get().getAmount();
 		}).reduce(0, (a, b) -> a+b);
 	}
 	@Override
-	public long computePostage(List<OrderDetailReq> orderDetailReqList) {
+	public long computePostage(List<OrderDetailDto> orderDetailReqList) {
 		return getTotalPostFee(orderDetailReqList);
 	}
 

@@ -107,5 +107,10 @@ public class OrderInfoDto implements Serializable {
     /**
      * 地址
      */
-    private String address ;
+    private CustomerDeliveryAddressDto address ;
+    /**
+     * 收货地址
+     */
+    private String userAddress;
+
 }

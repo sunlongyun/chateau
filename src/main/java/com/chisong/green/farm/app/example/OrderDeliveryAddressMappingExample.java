@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-11-16
+* @date 2019-12-22
 */
 @Data
 public class OrderDeliveryAddressMappingExample implements Serializable {
@@ -204,6 +204,128 @@ public class OrderDeliveryAddressMappingExample implements Serializable {
 
         public Criteria andOrderIdIsNotNull() {
             addCriterion("order_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andMobileIn(List<String> values) {
+            addCriterion("mobile in", values, "mobile");
+            return (Criteria) this;
+        }
+        public Criteria andMobileNotIn(List<String> values) {
+            addCriterion("mobile not in", values, "mobile");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andMobileBetween(String value1, String value2) {
+            addCriterion("mobile between", value1, value2, "mobile");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andMobileLike(String value) {
+            addCriterion("mobile like", value, "mobile");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andMobileEqualTo(String value) {
+            addCriterion("mobile =", value, "mobile");
+            return (Criteria) this;
+        }
+        public Criteria andMobileNotEqualTo(String value) {
+            addCriterion("mobile <>", value, "mobile");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andMobileGreaterThan(String value) {
+            addCriterion("mobile >", value, "mobile");
+            return (Criteria) this;
+        }
+        public Criteria andMobileGreaterThanOrEqualTo(String value) {
+            addCriterion("mobile >=", value, "mobile");
+            return (Criteria) this;
+        }
+        public Criteria andMobileLessThan(String value) {
+            addCriterion("mobile <", value, "mobile");
+            return (Criteria) this;
+        }
+        public Criteria andMobileLessThanOrEqualTo(String value) {
+            addCriterion("mobile <=", value, "mobile");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andMobileIsNull() {
+            addCriterion("mobile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileIsNotNull() {
+            addCriterion("mobile is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andContactIn(List<String> values) {
+            addCriterion("contact in", values, "contact");
+            return (Criteria) this;
+        }
+        public Criteria andContactNotIn(List<String> values) {
+            addCriterion("contact not in", values, "contact");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andContactBetween(String value1, String value2) {
+            addCriterion("contact between", value1, value2, "contact");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andContactLike(String value) {
+            addCriterion("contact like", value, "contact");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andContactEqualTo(String value) {
+            addCriterion("contact =", value, "contact");
+            return (Criteria) this;
+        }
+        public Criteria andContactNotEqualTo(String value) {
+            addCriterion("contact <>", value, "contact");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andContactGreaterThan(String value) {
+            addCriterion("contact >", value, "contact");
+            return (Criteria) this;
+        }
+        public Criteria andContactGreaterThanOrEqualTo(String value) {
+            addCriterion("contact >=", value, "contact");
+            return (Criteria) this;
+        }
+        public Criteria andContactLessThan(String value) {
+            addCriterion("contact <", value, "contact");
+            return (Criteria) this;
+        }
+        public Criteria andContactLessThanOrEqualTo(String value) {
+            addCriterion("contact <=", value, "contact");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andContactIsNull() {
+            addCriterion("contact is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactIsNotNull() {
+            addCriterion("contact is not null");
             return (Criteria) this;
         }
         // in,   not in

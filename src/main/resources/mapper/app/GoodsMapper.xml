@@ -19,9 +19,13 @@
         <result column="detail_pic_url" property="detailPicUrl" />
         <result column="description" property="description" />
         <result column="specs" property="specs" />
-        <result column="origin_price" property="originPrice" />
+        <result column="promote_price" property="promotePrice" />
+        <result column="promote_start_time" property="promoteStartTime" />
+        <result column="promote_end_time" property="promoteEndTime" />
+        <result column="sales_num" property="salesNum" />
+        <result column="produce_area" property="produceArea" />
         <result column="price" property="price" />
-        <result column="year" property="year" />
+        <result column="price" property="price" />
         <result column="stock" property="stock" />
         <result column="chateau_id" property="chateauId" />
         <result column="create_time" property="createTime" />
@@ -33,11 +37,12 @@
     <sql id="Base_Column_List">
         id, title, sku_code, `type`,status, supplier_company_name, supplier_id, country_name, pic_url,
         min_pic_url,uniform_specs,detail_pic_url, description, specs, origin_price,
-         price, year, stock, chateau_id, create_time, update_time, validity
+         price, stock,produce_area,promote_price,sales_num,promote_start_time,promote_end_time,
+          create_time, update_time, validity
     </sql>
     <!-- 减少库存-->
     <update id="decreaseStock">
-        update goods set stock=stock-#{stock} where id  =#{id} and stock >= #{stock}
+        update goods set stock=stock-#{stock},sales_num=sales_num+#{stock} where id  =#{id} and stock >= #{stock}
     </update>
     <!-- 查询列表-->
     <select id="getGoodsList" parameterType="com.chisong.green.farm.app.controller.goods.request.PageQueryReq" resultMap="BaseResultMap">

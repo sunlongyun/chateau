@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-11-24
+* @date 2019-12-28
 */
 @Data
 public class PostageTemplateExample implements Serializable {
@@ -265,6 +265,67 @@ public class PostageTemplateExample implements Serializable {
 
         public Criteria andProvincesIsNotNull() {
             addCriterion("provinces is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andIncUnitNumIn(List<Integer> values) {
+            addCriterion("inc_unit_num in", values, "incUnitNum");
+            return (Criteria) this;
+        }
+        public Criteria andIncUnitNumNotIn(List<Integer> values) {
+            addCriterion("inc_unit_num not in", values, "incUnitNum");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andIncUnitNumBetween(Integer value1, Integer value2) {
+            addCriterion("inc_unit_num between", value1, value2, "incUnitNum");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andIncUnitNumLike(String value) {
+            addCriterion("inc_unit_num like", value, "incUnitNum");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andIncUnitNumEqualTo(Integer value) {
+            addCriterion("inc_unit_num =", value, "incUnitNum");
+            return (Criteria) this;
+        }
+        public Criteria andIncUnitNumNotEqualTo(Integer value) {
+            addCriterion("inc_unit_num <>", value, "incUnitNum");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andIncUnitNumGreaterThan(Integer value) {
+            addCriterion("inc_unit_num >", value, "incUnitNum");
+            return (Criteria) this;
+        }
+        public Criteria andIncUnitNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("inc_unit_num >=", value, "incUnitNum");
+            return (Criteria) this;
+        }
+        public Criteria andIncUnitNumLessThan(Integer value) {
+            addCriterion("inc_unit_num <", value, "incUnitNum");
+            return (Criteria) this;
+        }
+        public Criteria andIncUnitNumLessThanOrEqualTo(Integer value) {
+            addCriterion("inc_unit_num <=", value, "incUnitNum");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andIncUnitNumIsNull() {
+            addCriterion("inc_unit_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncUnitNumIsNotNull() {
+            addCriterion("inc_unit_num is not null");
             return (Criteria) this;
         }
         // in,   not in

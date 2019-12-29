@@ -10,7 +10,7 @@ import lombok.Data;
 * 酒水
 * </p>
 * @author 孙龙云
-* @date 2019-10-19
+* @date 2019-12-22
 */
 @Data
 public class Goods implements Serializable {
@@ -22,10 +22,7 @@ public class Goods implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
-    /**
-     * 上下架状态
-     */
-    private Integer status;
+
     /**
     * 标题
      */
@@ -37,7 +34,7 @@ public class Goods implements Serializable {
     private  String skuCode;
 
     /**
-    * 商品列表
+    * 类别
      */
     private  String type;
 
@@ -45,6 +42,16 @@ public class Goods implements Serializable {
     * 供应商公司名称
      */
     private  String supplierCompanyName;
+
+    /**
+    * 产地
+     */
+    private  String produceArea;
+
+    /**
+    * 1-销售中；0-已下架
+     */
+    private  Integer status;
 
     /**
     * 供应商id
@@ -72,14 +79,21 @@ public class Goods implements Serializable {
     * 说明
      */
     private  String description;
+
     /**
-     * 是否统一规格
+    * 统一规格；1-是；0-否
      */
-    private Integer uniformSpecs;
+    private  Integer uniformSpecs;
+
     /**
-    * 规格
+    * 规格，多个规则用逗号隔开
      */
     private  String specs;
+
+    /**
+    * 可选单位名称，多个用逗号隔开。1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
+     */
+    private  String units;
 
     /**
     * 进价 单位：分
@@ -92,19 +106,29 @@ public class Goods implements Serializable {
     private  Long price;
 
     /**
-    * 年份
+    * 促销价（只有促销活动期间有效)
      */
-    private  String year;
+    private  Long promotePrice;
+
+    /**
+    * 累计销售数量
+     */
+    private  Integer salesNum;
+
+    /**
+    * 促销开始时间
+     */
+    private  Date promoteStartTime;
+
+    /**
+    * 促销结束时间
+     */
+    private  Date promoteEndTime;
 
     /**
     * 库存
      */
     private  Integer stock;
-
-    /**
-    * 酒庄id
-     */
-    private  Integer chateauId;
 
     /**
     * 创建时间

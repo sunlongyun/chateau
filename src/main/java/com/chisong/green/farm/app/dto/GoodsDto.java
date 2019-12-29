@@ -5,19 +5,21 @@ import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
 import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
 import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
-import com.chisong.green.farm.app.constants.enums.UserTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import java.util.List;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
 * <p>
 * 酒水
 * </p>
 * @author 孙龙云
-* @date 2019-10-19
+* @date 2019-12-22
 */
 @Data
 public class GoodsDto implements Serializable {
@@ -40,7 +42,7 @@ public class GoodsDto implements Serializable {
     private String skuCode;
 
     /**
-    * 商品 類型
+    * 类别
      */
     private String type;
 
@@ -48,6 +50,17 @@ public class GoodsDto implements Serializable {
     * 供应商公司名称
      */
     private String supplierCompanyName;
+
+    /**
+    * 产地
+     */
+    private String produceArea;
+
+    /**
+    * 1-销售中；0-已下架
+     */
+    @ServiceTypeAnnotation(value = GoodsStatusEnum.class,type = Type.ALL)
+    private Integer status;
 
     /**
     * 供应商id
@@ -77,14 +90,24 @@ public class GoodsDto implements Serializable {
     private String description;
 
     /**
-    * 规格
+    * 统一规格；1-是；0-否
+     */
+    @ServiceTypeAnnotation(value = UniformSpecsEnum.class,type = Type.ALL)
+    private Integer uniformSpecs;
+
+    /**
+    * 规格，多个规则用逗号隔开
      */
     private String specs;
 
     /**
+    * 可选单位名称，多个用逗号隔开。1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
+     */
+    private String units;
+
+    /**
     * 进价 单位：分
      */
-    @AmountUnitChange(showUnit=true)
     private Long originPrice;
 
     /**
@@ -93,19 +116,37 @@ public class GoodsDto implements Serializable {
     @AmountUnitChange(showUnit=true)
     private Long price;
     /**
-     * 上下架状态
+     * 选中规格的价格
      */
-    @ServiceTypeAnnotation(value = GoodsStatusEnum.class,type = Type.ALL)
-    private Integer status;
+    private Long specsPrice;
     /**
-     * 是否统一规格
+     * 选中的规格id
      */
-    @ServiceTypeAnnotation(value = UniformSpecsEnum.class,type = Type.ALL)
-    private Integer uniformSpecs;
+    private Long specsId;
     /**
-    * 年份
+    * 促销价（只有促销活动期间有效)
      */
-    private String year;
+    @AmountUnitChange(showUnit=true)
+    private Long promotePrice;
+
+    /**
+    * 累计销售数量
+     */
+    private Integer salesNum;
+
+    /**
+    * 促销开始时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date promoteStartTime;
+
+    /**
+    * 促销结束时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date promoteEndTime;
 
     /**
     * 库存
@@ -113,25 +154,24 @@ public class GoodsDto implements Serializable {
     private Integer stock;
 
     /**
-    * 酒庄id
-     */
-    private Integer chateauId;
-
-    /**
     * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /**
     * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     /**
     * 是否有效
      */
-
     private Integer validity;
+
     /**
      * 商品尾部图片
      */

@@ -1,6 +1,7 @@
 package com.chisong.green.farm.app.service;
 
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
+import com.chisong.green.farm.app.dto.OrderDetailDto;
 import com.lianshang.generator.commons.IService;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @param orderInfoDto
 	 * @return
 	 */
-	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId, List<OrderDetailReq> orderDetailReqList);
+	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId);
 
 	/**
 	 * 根据订单号查询
@@ -41,5 +42,5 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @param orderDetailReqList
 	 * @return
 	 */
-	public long computePostage( List<OrderDetailReq> orderDetailReqList);
+	public long computePostage( List<OrderDetailDto> orderDetailReqList);
 }

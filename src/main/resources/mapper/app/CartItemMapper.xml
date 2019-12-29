@@ -7,7 +7,9 @@
         <id column="id" property="id" />
         <result column="cart_id" property="cartId" />
         <result column="title" property="title" />
-        <result column="beverage_id" property="beverageId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="specs_id" property="specsId" />
+        <result column="specs_name" property="specsName" />
         <result column="num" property="num" />
         <result column="price" property="price" />
         <result column="total_price" property="totalPrice" />
@@ -19,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cart_id, title, beverage_id, num, price, total_price, min_pic_url, create_time, update_time, validity
+        id, cart_id, title, goods_id, specs_id, specs_name, num, price, total_price, min_pic_url, create_time, update_time, validity
     </sql>
 
 

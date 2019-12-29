@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chisong.green.farm.app.mapper.PostageTemplateMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.OrderDetailMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.PostageTemplate">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.OrderDetail">
         <id column="id" property="id" />
+        <result column="specs_id" property="specsId" />
+        <result column="specs_name" property="specsName" />
         <result column="goods_id" property="goodsId" />
-        <result column="provinces" property="provinces" />
-        <result column="inc_unit_num" property="incUnitNum" />
-        <result column="unit" property="unit" />
-        <result column="amount" property="amount" />
-        <result column="free_total_amount" property="freeTotalAmount" />
-        <result column="weight" property="weight" />
-        <result column="free_num" property="freeNum" />
+        <result column="title" property="title" />
+        <result column="num" property="num" />
+        <result column="min_pic_url" property="minPicUrl" />
+        <result column="price" property="price" />
+        <result column="total_price" property="totalPrice" />
+        <result column="order_no" property="orderNo" />
+        <result column="order_id" property="orderId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods_id, provinces, inc_unit_num, unit, amount, free_total_amount, weight, free_num, validity
+        id, specs_id, specs_name, goods_id, title, num, min_pic_url, price, total_price, order_no, order_id, create_time, update_time, validity
     </sql>
 
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.PostageTemplateExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.OrderDetailExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from postage_template
+        from order_detail
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>

@@ -9,7 +9,7 @@ import lombok.Data;
 * 购物车-酒水关联表
 * </p>
 * @author 孙龙云
-* @date 2019-06-18
+* @date 2019-12-22
 */
 @Data
 public class CartItemDto implements Serializable {
@@ -32,9 +32,27 @@ public class CartItemDto implements Serializable {
     private String title;
 
     /**
-    * 酒水id
+    * 商品id
      */
-    private Long beverageId;
+    private Long goodsId;
+
+    /**
+    * 规格id
+     */
+    private Long specsId;
+
+    /**
+    * 规格名称
+     */
+    private String specsName;
+    /**
+     * 供应商
+     */
+    private String supplierCompanyName;
+    /**
+     * 产地
+     */
+    private String produceArea;
 
     /**
     * 数量

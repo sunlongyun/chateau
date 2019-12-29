@@ -58,6 +58,10 @@ public class GoodsSpecsDto implements Serializable {
     * 是否有效 1-有效;0-无效
      */
     private Integer validity;
+    /**
+     * 选中
+     */
+    private Integer selected=0;
 
     @Override
     public boolean equals(Object o) {

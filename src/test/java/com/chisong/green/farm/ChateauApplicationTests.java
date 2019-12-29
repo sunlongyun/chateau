@@ -48,7 +48,7 @@ public class ChateauApplicationTests {
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,GenerateFileTypeEnum.DTO,
 				GenerateFileTypeEnum.EXAMPLE),
-			"order_detail");
+			"postage_template");
 	}
 
 

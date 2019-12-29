@@ -35,8 +35,4 @@ public class OrderDetailReq {
 	 * 收货地址省份
 	 */
 	private String province;
-	/**
-	 * 单价
-	 */
-	private Long price = 0l;
 }

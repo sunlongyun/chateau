@@ -5,6 +5,7 @@ import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.CreateOrderReq;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
+import com.chisong.green.farm.app.dto.CustomerDeliveryAddressDto;
 import com.chisong.green.farm.app.dto.GoodsSpecsDto;
 import com.chisong.green.farm.app.dto.PostageTemplateDto;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
@@ -76,7 +77,8 @@ public class OrderController {
 	private SupplierService supplierService;
 	@Autowired
 	private GoodsSpecsService goodsSpecsService;
-
+	@Autowired
+	private CustomerDeliveryAddressService customerDeliveryAddressService;
 	/**
 	 * 查询订单状态
 	 */
@@ -168,11 +170,17 @@ public class OrderController {
 
 		log.info("orderDeliveryAddressMappingDtoList:{}", orderDeliveryAddressMappingDtoList);
 
+
 		if(!CollectionUtils.isEmpty(orderDeliveryAddressMappingDtoList)) {
 			OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto = orderDeliveryAddressMappingDtoList
 				.get(0);
 
 			orderInfoDto.setOrderDeliveryAddressMappingDto(orderDeliveryAddressMappingDto);
+
+			CustomerDeliveryAddressDto customerDeliveryAddressDto =
+				customerDeliveryAddressService.getById(orderDeliveryAddressMappingDto.getAddressId());
+
+			orderInfoDto.setAddress(customerDeliveryAddressDto);
 		}
 
 		return CCResponse.success(orderInfoDto);
@@ -250,7 +258,7 @@ public class OrderController {
 	 * 计算运费
 	 */
 	@RequestMapping("computePostage")
-	public CCResponse computePostage(@RequestBody List<OrderDetailReq> orderDetailReqList) {
+	public CCResponse computePostage(@RequestBody List<OrderDetailDto> orderDetailReqList) {
 
 		long total = orderInfoService.computePostage(orderDetailReqList);
 
@@ -281,9 +289,11 @@ public class OrderController {
 		if(CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())) {
 			throw new RuntimeException("购物明细不能为空");
 		}
-		OrderInfoDto orderInfoDto = buildOdrerInfo(customerInfoDto);
+		OrderInfoDto orderInfoDto = buildOrderInfo(customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
 			createOrderReq.getAddressId());
+
+
 		String clientIp = IPUtil.getIpAddr();
 		PrePayResponse prePayResponse = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
@@ -310,37 +320,51 @@ public class OrderController {
 	 */
 	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, Integer addressId) {
 
-		List<OrderDetailDto> orderDetailDtoList = orderDetailReqList.stream().map(orderDetailReq -> {
-			OrderDetailDto orderDetailDto = new OrderDetailDto();
-			orderDetailDto.setGoodsId(orderDetailReq.getGoodsId());
-			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
-			orderDetailDto.setNum(orderDetailReq.getNum());
-			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
-			orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
-			orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
-
-			GoodsDto goodsDto = goodsService.getById(orderDetailReq
-				.getGoodsId());
-			orderDetailDto.setTitle(goodsDto.getTitle());
-			if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
-				orderDetailDto.setPrice(goodsDto.getPrice());
-			}else{
-				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
-				orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice()+""));
-			}
-
-			return orderDetailDto;
-		}).collect(Collectors.toList());
+		List<OrderDetailDto> orderDetailDtoList = getOrderDetailDtos(orderInfoDto, orderDetailReqList);
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
-		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId,orderDetailReqList);
+		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId);
 		return orderNo;
+	}
+
+	/**
+	 * 构建订单明细
+	 * @param orderInfoDto
+	 * @param orderDetailReqList
+	 * @return
+	 */
+	private List<OrderDetailDto> getOrderDetailDtos(OrderInfoDto orderInfoDto,
+		List<OrderDetailReq> orderDetailReqList) {
+		return orderDetailReqList.stream().map(orderDetailReq -> {
+				OrderDetailDto orderDetailDto = new OrderDetailDto();
+				orderDetailDto.setGoodsId(orderDetailReq.getGoodsId());
+				orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
+				orderDetailDto.setNum(orderDetailReq.getNum());
+				orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
+				orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
+				orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
+
+				GoodsDto goodsDto = goodsService.getById(orderDetailReq
+					.getGoodsId());
+				orderDetailDto.setTitle(goodsDto.getTitle());
+				if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
+					orderDetailDto.setPrice(goodsDto.getPrice());
+					orderDetailDto.setSpecsName(goodsDto.getSpecs());
+				}else{
+					GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
+					log.info("goodsId:{},goodsSpecsDto:{}",goodsDto.getId(), goodsSpecsDto);
+					orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice()+""));
+					orderDetailDto.setSpecsName(goodsSpecsDto.getName());
+				}
+			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
+				return orderDetailDto;
+			}).collect(Collectors.toList());
 	}
 
 	/**
 	 * 构建订单基本信息
 	 */
-	private OrderInfoDto buildOdrerInfo(CustomerInfoDto customerInfoDto) {
+	private OrderInfoDto buildOrderInfo(CustomerInfoDto customerInfoDto) {
 		String seq = String.format("%04d", (int) (Math.random() * 10000));
 		String customerId = String.format("%04d", customerInfoDto.getId());
 		String orderNo = "CC" + customerId + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern

@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * <p>
@@ -86,6 +87,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			.andGoodsIdEqualTo(id);
 
 		List<GoodsSpecsDto> goodsSpecsDtos = goodsSpecsService.getList(goodsSpecsExample);
+		if(!CollectionUtils.isEmpty(goodsSpecsDtos)){
+			GoodsSpecsDto goodsSpecsDto =  goodsSpecsDtos.get(0);
+			goodsSpecsDto.setSelected(1);
+			goodsDto.setSpecsPrice(Long.parseLong(""+goodsSpecsDto.getPrice()));
+			goodsDto.setSpecsId(goodsSpecsDto.getId());
+		}else{
+			goodsDto.setSpecsPrice(goodsDto.getPrice());
+		}
+
         goodsDto.setSpecsDtoList(goodsSpecsDtos);
 		return goodsDto;
 	}

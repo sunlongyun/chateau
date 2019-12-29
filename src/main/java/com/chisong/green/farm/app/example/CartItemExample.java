@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-18
+* @date 2019-12-22
 */
 @Data
 public class CartItemExample implements Serializable {
@@ -268,64 +268,186 @@ public class CartItemExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andBeverageIdIn(List<Long> values) {
-            addCriterion("beverage_id in", values, "beverageId");
+        public Criteria andGoodsIdIn(List<Long> values) {
+            addCriterion("goods_id in", values, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdNotIn(List<Long> values) {
-            addCriterion("beverage_id not in", values, "beverageId");
+        public Criteria andGoodsIdNotIn(List<Long> values) {
+            addCriterion("goods_id not in", values, "goodsId");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andBeverageIdBetween(Long value1, Long value2) {
-            addCriterion("beverage_id between", value1, value2, "beverageId");
+        public Criteria andGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("goods_id between", value1, value2, "goodsId");
             return (Criteria) this;
         }
 
         //like
-        public Criteria andBeverageIdLike(String value) {
-            addCriterion("beverage_id like", value, "beverageId");
+        public Criteria andGoodsIdLike(String value) {
+            addCriterion("goods_id like", value, "goodsId");
             return (Criteria) this;
         }
 
         // = <>
-        public Criteria andBeverageIdEqualTo(Long value) {
-            addCriterion("beverage_id =", value, "beverageId");
+        public Criteria andGoodsIdEqualTo(Long value) {
+            addCriterion("goods_id =", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdNotEqualTo(Long value) {
-            addCriterion("beverage_id <>", value, "beverageId");
+        public Criteria andGoodsIdNotEqualTo(Long value) {
+            addCriterion("goods_id <>", value, "goodsId");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andBeverageIdGreaterThan(Long value) {
-            addCriterion("beverage_id >", value, "beverageId");
+        public Criteria andGoodsIdGreaterThan(Long value) {
+            addCriterion("goods_id >", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("beverage_id >=", value, "beverageId");
+        public Criteria andGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("goods_id >=", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdLessThan(Long value) {
-            addCriterion("beverage_id <", value, "beverageId");
+        public Criteria andGoodsIdLessThan(Long value) {
+            addCriterion("goods_id <", value, "goodsId");
             return (Criteria) this;
         }
-        public Criteria andBeverageIdLessThanOrEqualTo(Long value) {
-            addCriterion("beverage_id <=", value, "beverageId");
+        public Criteria andGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("goods_id <=", value, "goodsId");
             return (Criteria) this;
         }
 
         //null  not null
-        public Criteria andBeverageIdIsNull() {
-            addCriterion("beverage_id is null");
+        public Criteria andGoodsIdIsNull() {
+            addCriterion("goods_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andBeverageIdIsNotNull() {
-            addCriterion("beverage_id is not null");
+        public Criteria andGoodsIdIsNotNull() {
+            addCriterion("goods_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSpecsIdIn(List<Long> values) {
+            addCriterion("specs_id in", values, "specsId");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsIdNotIn(List<Long> values) {
+            addCriterion("specs_id not in", values, "specsId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSpecsIdBetween(Long value1, Long value2) {
+            addCriterion("specs_id between", value1, value2, "specsId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSpecsIdLike(String value) {
+            addCriterion("specs_id like", value, "specsId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSpecsIdEqualTo(Long value) {
+            addCriterion("specs_id =", value, "specsId");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsIdNotEqualTo(Long value) {
+            addCriterion("specs_id <>", value, "specsId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSpecsIdGreaterThan(Long value) {
+            addCriterion("specs_id >", value, "specsId");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("specs_id >=", value, "specsId");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsIdLessThan(Long value) {
+            addCriterion("specs_id <", value, "specsId");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsIdLessThanOrEqualTo(Long value) {
+            addCriterion("specs_id <=", value, "specsId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSpecsIdIsNull() {
+            addCriterion("specs_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecsIdIsNotNull() {
+            addCriterion("specs_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSpecsNameIn(List<String> values) {
+            addCriterion("specs_name in", values, "specsName");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsNameNotIn(List<String> values) {
+            addCriterion("specs_name not in", values, "specsName");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSpecsNameBetween(String value1, String value2) {
+            addCriterion("specs_name between", value1, value2, "specsName");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSpecsNameLike(String value) {
+            addCriterion("specs_name like", value, "specsName");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSpecsNameEqualTo(String value) {
+            addCriterion("specs_name =", value, "specsName");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsNameNotEqualTo(String value) {
+            addCriterion("specs_name <>", value, "specsName");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSpecsNameGreaterThan(String value) {
+            addCriterion("specs_name >", value, "specsName");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsNameGreaterThanOrEqualTo(String value) {
+            addCriterion("specs_name >=", value, "specsName");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsNameLessThan(String value) {
+            addCriterion("specs_name <", value, "specsName");
+            return (Criteria) this;
+        }
+        public Criteria andSpecsNameLessThanOrEqualTo(String value) {
+            addCriterion("specs_name <=", value, "specsName");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSpecsNameIsNull() {
+            addCriterion("specs_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecsNameIsNotNull() {
+            addCriterion("specs_name is not null");
             return (Criteria) this;
         }
         // in,   not in
