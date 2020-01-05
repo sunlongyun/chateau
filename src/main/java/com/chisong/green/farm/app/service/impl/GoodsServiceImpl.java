@@ -52,7 +52,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 	@Override
 	public PageInfo<GoodsDto> getGoodsInfo(PageQueryReq pageQueryReq) {
 		if(pageQueryReq.getHot() == 1) {
-			pageQueryReq.setPageSize(20);
+			pageQueryReq.setPageSize(6);
 		}
 		PageHelper.startPage(pageQueryReq.getPageNo(), pageQueryReq.getPageSize());
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);

@@ -107,7 +107,8 @@ public class OrderController {
 
 		OrderInfoExample orderInfoExample = new OrderInfoExample();
 		Criteria criteria = orderInfoExample.createCriteria();
-		criteria.andValidityEqualTo(Validity.AVAIL.code()).andCustomerIdEqualTo(customerInfoDto.getId());
+		criteria.andValidityEqualTo(Validity.AVAIL.code()).andCustomerIdEqualTo(customerInfoDto.getId())
+		.andStatusNotEqualTo(OrderStatusEnum.DELETED.code());
 		if(null != status) {
 			criteria.andStatusEqualTo(status);
 		}
@@ -163,6 +164,7 @@ public class OrderController {
 			OrderDeliveryAddressMappingExample();
 		orderDeliveryAddressMappingExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
 			.andOrderIdEqualTo(orderInfoDto.getId());
+		orderDeliveryAddressMappingExample.setOrderByClause("id desc");
 
 		List<OrderDeliveryAddressMappingDto> orderDeliveryAddressMappingDtoList =
 			orderDeliveryAddressMappingService.getList
@@ -226,6 +228,7 @@ public class OrderController {
 	 */
 	@RequestMapping("/deleteOrder")
 	public CCResponse deleteOrder(Long orderId) {
+		log.info("要删除的订单号:{}", orderId);
 		OrderInfoDto orderInfoDto = orderInfoService.getById(orderId);
 		if(null == orderInfoDto) {
 			throw new RuntimeException("订单不存在");
@@ -233,7 +236,9 @@ public class OrderController {
 		if(OrderStatusEnum.DELIVERY.code().equals(orderInfoDto.getStatus())) {
 			throw new RuntimeException("付款未收货的订单不可以删除");
 		}
-		orderInfoService.deleteById(orderId);
+		orderInfoDto.setStatus(OrderStatusEnum.DELETED.code());
+		orderInfoService.update(orderInfoDto);
+
 		return CCResponse.success();
 	}
 
