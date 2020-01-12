@@ -65,6 +65,11 @@
             <if test="status != null">
                 and status = #{status}
             </if>
+            <if test="promote == 1">
+             and promote_start_time
+                <![CDATA[ <= ]]>   NOW()
+                 and promote_end_time >=  NOW()
+            </if>
         </trim>
         <if test="sortKey != null">
             ORDER  BY ${sortKey} ${sortType}

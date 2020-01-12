@@ -9,6 +9,7 @@
         <result column="name" property="name" />
         <result column="price" property="price" />
         <result column="origin_price" property="originPrice" />
+        <result column="promotion_price" property="promotionPrice" />
         <result column="promote" property="promote" />
         <result column="stock" property="stock" />
         <result column="create_time" property="createTime" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods_id, name, price, origin_price, promote, stock, create_time, update_time, validity
+        id, goods_id, name, price, origin_price, promotion_price, promote, stock, create_time, update_time, validity
     </sql>
 
 

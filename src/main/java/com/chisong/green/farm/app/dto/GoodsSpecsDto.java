@@ -42,6 +42,11 @@ public class GoodsSpecsDto implements Serializable {
     * 进价
      */
     private Integer originPrice;
+
+    /**
+     * 促销价
+     */
+    private  Integer promotionPrice;
     /**
      * 是否参加促销活动 1-参加;0-不参加
      */

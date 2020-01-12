@@ -390,6 +390,67 @@ public class GoodsSpecsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andPromotionPriceIn(List<Integer> values) {
+            addCriterion("promotion_price in", values, "promotionPrice");
+            return (Criteria) this;
+        }
+        public Criteria andPromotionPriceNotIn(List<Integer> values) {
+            addCriterion("promotion_price not in", values, "promotionPrice");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPromotionPriceBetween(Integer value1, Integer value2) {
+            addCriterion("promotion_price between", value1, value2, "promotionPrice");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPromotionPriceLike(String value) {
+            addCriterion("promotion_price like", value, "promotionPrice");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPromotionPriceEqualTo(Integer value) {
+            addCriterion("promotion_price =", value, "promotionPrice");
+            return (Criteria) this;
+        }
+        public Criteria andPromotionPriceNotEqualTo(Integer value) {
+            addCriterion("promotion_price <>", value, "promotionPrice");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPromotionPriceGreaterThan(Integer value) {
+            addCriterion("promotion_price >", value, "promotionPrice");
+            return (Criteria) this;
+        }
+        public Criteria andPromotionPriceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("promotion_price >=", value, "promotionPrice");
+            return (Criteria) this;
+        }
+        public Criteria andPromotionPriceLessThan(Integer value) {
+            addCriterion("promotion_price <", value, "promotionPrice");
+            return (Criteria) this;
+        }
+        public Criteria andPromotionPriceLessThanOrEqualTo(Integer value) {
+            addCriterion("promotion_price <=", value, "promotionPrice");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPromotionPriceIsNull() {
+            addCriterion("promotion_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionPriceIsNotNull() {
+            addCriterion("promotion_price is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andPromoteIn(List<Integer> values) {
             addCriterion("promote in", values, "promote");
             return (Criteria) this;

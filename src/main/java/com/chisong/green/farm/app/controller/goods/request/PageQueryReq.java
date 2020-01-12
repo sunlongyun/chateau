@@ -40,6 +40,10 @@ public class PageQueryReq {
 	 */
 	private String sortType ="asc";
 	/**
+	 * 是否促销
+	 */
+	private Integer promote;
+	/**
 	 * 当前页码
 	 */
 	private Integer pageNo=1;
@@ -47,5 +51,6 @@ public class PageQueryReq {
 	 * 每页显示数量
 	 */
 	private Integer pageSize = 10;
+
 
 }

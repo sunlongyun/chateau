@@ -41,6 +41,11 @@ public class GoodsSpecs implements Serializable {
     private  Integer originPrice;
 
     /**
+    * 促销价
+     */
+    private  Integer promotionPrice;
+
+    /**
     * 是否参加促销活动 1-参加;0-不参加
      */
     private  Integer promote;
