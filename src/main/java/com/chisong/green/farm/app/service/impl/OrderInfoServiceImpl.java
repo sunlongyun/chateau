@@ -236,7 +236,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//运费阶梯递增
 			if(null != postageTemplateDto.getIncUnitNum()){
 				if(-1 == postageTemplateDto.getIncUnitNum()){
-					return Integer.parseInt(orderDetailReq.getPrice()+"") ;
+					return Integer.parseInt(detailPrice+"") ;
 				}else{
 					return ((orderDetailReq.getNum()/postageTemplateDto.getIncUnitNum())+1) * postageTemplateDtoOptional.get().getAmount();
 				}

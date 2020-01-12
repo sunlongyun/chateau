@@ -104,7 +104,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 	public int decreaseStock(int stock, Long id) {
 		int r  = this.baseMapper.decreaseStock(stock,id);
 		if(r==0){
-			throw new RuntimeException("库存不足,id="+id);
+			throw new RuntimeException("商品库存不足,编号【"+id+"】");
 		}
 		return r;
 	}

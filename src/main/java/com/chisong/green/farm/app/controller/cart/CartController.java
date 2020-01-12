@@ -9,6 +9,7 @@ import com.chisong.green.farm.app.dto.GoodsDto;
 import com.chisong.green.farm.app.dto.GoodsSpecsDto;
 import com.chisong.green.farm.app.dto.ShoppingCartDto;
 import com.chisong.green.farm.app.example.CartItemExample;
+import com.chisong.green.farm.app.example.CartItemExample.Criteria;
 import com.chisong.green.farm.app.example.ShoppingCartExample;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.CartItemService;
@@ -151,8 +152,12 @@ public class CartController {
 		CartItemDto cartItemDto = null;
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
 		CartItemExample cartItemExample = new CartItemExample();
-		cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
+		Criteria criteria =
+			cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
 			.getId()).andGoodsIdEqualTo(goodsId);
+		if(null != specsId){
+			criteria.andSpecsIdEqualTo(specsId);
+		}
 
 		List<CartItemDto> cartItemList = cartItemService.getList(cartItemExample);
 

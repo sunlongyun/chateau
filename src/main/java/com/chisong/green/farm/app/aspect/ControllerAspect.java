@@ -65,10 +65,15 @@ public class ControllerAspect {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			log.error("【请求异常】", ex);
-			if(ex instanceof BizException) {
-				BizException bizException = (BizException) ex;
-				return CCResponse.fail(bizException.getCode(), bizException.getMsg());
+			if(ex  instanceof  Exception) {
+				if(ex instanceof BizException) {
+					BizException bizException = (BizException) ex;
+					return CCResponse.fail(bizException.getCode(), bizException.getMsg());
+				}else{
+					return CCResponse.fail(ex.getMessage());
+				}
 			}
+
 			String errorMsg = ex.getMessage();
 			if(StringUtils.isEmpty(errorMsg)) {
 				errorMsg = "请求服务异常";
