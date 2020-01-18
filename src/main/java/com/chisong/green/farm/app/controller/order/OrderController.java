@@ -33,6 +33,7 @@ import com.chisong.green.farm.app.service.SupplierService;
 import com.lianshang.generator.commons.PageInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -322,6 +323,7 @@ public class OrderController {
 	 */
 	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, Integer addressId) {
 
+
 		List<OrderDetailDto> orderDetailDtoList = getOrderDetailDtos(orderInfoDto, orderDetailReqList);
 
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
@@ -348,14 +350,29 @@ public class OrderController {
 
 				GoodsDto goodsDto = goodsService.getById(orderDetailReq
 					.getGoodsId());
+
+			if(null != goodsDto.getPromoteStartTime()
+				&& null != goodsDto.getPromoteEndTime()
+				&& goodsDto.getPromoteStartTime().before(new Date())
+				&& goodsDto.getPromoteEndTime().after(new Date())){
+				goodsDto.setPromote(true);
+			}
+
+
 				orderDetailDto.setTitle(goodsDto.getTitle());
 				if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
 					orderDetailDto.setPrice(goodsDto.getPrice());
+					if(goodsDto.isPromote() && null != goodsDto.getPromotePrice()){
+						orderDetailDto.setPrice(goodsDto.getPromotePrice());
+					}
 					orderDetailDto.setSpecsName(goodsDto.getSpecs());
 				}else{
 					GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
 					log.info("goodsId:{},goodsSpecsDto:{}",goodsDto.getId(), goodsSpecsDto);
 					orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice()+""));
+					if(goodsDto.isPromote() && null  != goodsSpecsDto.getPromotionPrice()){
+						orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPromotionPrice()+""));
+					}
 					orderDetailDto.setSpecsName(goodsSpecsDto.getName());
 				}
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());

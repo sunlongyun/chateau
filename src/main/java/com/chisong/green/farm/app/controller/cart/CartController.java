@@ -19,6 +19,7 @@ import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.ShoppingCartService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.exception.BizException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,9 +147,19 @@ public class CartController {
 		}
 
 		GoodsDto goodsDto = goodsService.getById(goodsId);
+
 		if(null == goodsDto) {
 			throw new RuntimeException("商品不存在");
 		}
+
+		if(null != goodsDto.getPromoteStartTime()
+			&& null != goodsDto.getPromoteEndTime()
+			&&  goodsDto.getPromoteStartTime().before(new Date())
+			&& goodsDto.getPromoteEndTime().after(new Date())){
+			goodsDto.setPromote(true);
+		}
+
+
 		CartItemDto cartItemDto = null;
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
 		CartItemExample cartItemExample = new CartItemExample();
@@ -176,9 +187,14 @@ public class CartController {
 
 			if(null != specsId){
 				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
-				cartItemDto.setPrice(Long.parseLong(goodsSpecsDto.getPrice()+""));
-				cartItemDto.setTotalPrice(Long.parseLong(goodsSpecsDto.getPrice()+"") * num);
+				Integer price = goodsDto.isPromote() && null != goodsSpecsDto.getPromotionPrice()
+					? goodsSpecsDto.getPromotionPrice():goodsSpecsDto.getPrice();
+				cartItemDto.setPrice(Long.parseLong(price+""));
+				cartItemDto.setTotalPrice(Long.parseLong(price+"") * num);
 			}else{
+				Long price = goodsDto.isPromote() && null != goodsDto.getPromotePrice()
+					? goodsDto.getPromotePrice():goodsDto.getPrice();
+				cartItemDto.setPrice(price);
 				cartItemDto.setPrice(Long.parseLong(goodsDto.getPrice()+""));
 				cartItemDto.setTotalPrice(Long.parseLong(goodsDto.getPrice()+"") * num);
 			}

@@ -128,6 +128,10 @@ public class GoodsDto implements Serializable {
      */
     @AmountUnitChange(showUnit=true)
     private Long promotePrice;
+    /**
+     * 是否促销中
+     */
+    private boolean promote;
 
     /**
     * 累计销售数量

@@ -20,8 +20,12 @@ import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +40,7 @@ import org.springframework.util.CollectionUtils;
  * @since 2019-10-19
  */
 @Service
+@Slf4j
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> implements GoodsService {
 
 	@Autowired
@@ -57,8 +62,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		PageHelper.startPage(pageQueryReq.getPageNo(), pageQueryReq.getPageSize());
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);
 		PageInfo pageInfo = PageInfo.getPageInfo(goodsDtoList);
-
-		pageInfo.setDataList(copyList(goodsDtoList, GoodsDto.class));
+		List<GoodsDto> goodsDtos =  copyList(goodsDtoList, GoodsDto.class);
+		goodsDtos.stream().forEach(goodsDto -> {
+			if(null != goodsDto.getPromoteStartTime()
+			 && null != goodsDto.getPromoteEndTime()
+			 && goodsDto.getPromoteStartTime().before(new Date())
+			 && goodsDto.getPromoteEndTime().after(new Date())){
+				goodsDto.setPromote(true);
+			}
+		});
+		pageInfo.setDataList(goodsDtos);
 		return pageInfo;
 	}
 
@@ -74,6 +87,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			.map(GoodsTopImagesDto::getImageUrl).collect(Collectors.toList());
 		goodsDto.setTopImages(topImgList);
 
+		//促销标志
+		if(null != goodsDto.getPromoteStartTime()
+			&& null != goodsDto.getPromoteEndTime()
+			&& goodsDto.getPromoteStartTime().before(new Date())
+			&& goodsDto.getPromoteEndTime().after(new Date())){
+			goodsDto.setPromote(true);
+		}
+
 		//商品详情介绍图片
 		GoodsTailImagesExample goodsTailImagesExample = new GoodsTailImagesExample();
 		goodsTailImagesExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andGoodsIdEqualTo(id);
@@ -87,17 +108,40 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			.andGoodsIdEqualTo(id);
 
 		List<GoodsSpecsDto> goodsSpecsDtos = goodsSpecsService.getList(goodsSpecsExample);
+		setSpecsPrice(goodsDto, goodsSpecsDtos);
+
+		goodsDto.setSpecsDtoList(goodsSpecsDtos);
+		return goodsDto;
+	}
+
+	/**
+	 * 设置规格价格
+	 * @param goodsDto
+	 * @param goodsSpecsDtos
+	 */
+	private void setSpecsPrice(GoodsDto goodsDto, List<GoodsSpecsDto> goodsSpecsDtos) {
 		if(!CollectionUtils.isEmpty(goodsSpecsDtos)){
-			GoodsSpecsDto goodsSpecsDto =  goodsSpecsDtos.get(0);
-			goodsSpecsDto.setSelected(1);
-			goodsDto.setSpecsPrice(Long.parseLong(""+goodsSpecsDto.getPrice()));
-			goodsDto.setSpecsId(goodsSpecsDto.getId());
+
+		Optional<GoodsSpecsDto> firstSpecsDtoOptional = null;
+		if(goodsDto.isPromote()){
+			firstSpecsDtoOptional = goodsSpecsDtos.stream().filter(goodsSpecsDto -> goodsSpecsDto.getPromote() == 1)
+				.sorted(Comparator.comparing(GoodsSpecsDto::getPromotionPrice)).findFirst();
+		}
+
+		if(!goodsDto.isPromote() || !firstSpecsDtoOptional.isPresent()){
+			firstSpecsDtoOptional =
+				goodsSpecsDtos.stream().sorted(Comparator.comparing(GoodsSpecsDto::getPrice)).findFirst();
+		}
+
+			firstSpecsDtoOptional.get().setSelected(1);
+		int price = firstSpecsDtoOptional.get().getPromotionPrice() != null && goodsDto.isPromote()
+			 ?  firstSpecsDtoOptional.get().getPromotionPrice() :  firstSpecsDtoOptional.get().getPrice();
+
+			goodsDto.setSpecsId(firstSpecsDtoOptional.get().getId());
+			goodsDto.setSpecsPrice(Long.parseLong(price+""));
 		}else{
 			goodsDto.setSpecsPrice(goodsDto.getPrice());
 		}
-
-        goodsDto.setSpecsDtoList(goodsSpecsDtos);
-		return goodsDto;
 	}
 
 	@Override

@@ -30,6 +30,7 @@ import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.chisong.green.farm.exception.BizException;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			orderDetailDto.setOrderId(orderInfoDto.getId());
 			orderDetailDto.setProvince(customerDeliveryAddressDto.getProvince());
 			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getGoodsId());
+
+
+
 			total += orderDetailDto.getTotalPrice();
 			goodsService.decreaseStock(orderDetailDto.getNum(), goodsDto.getId());
 			orderDetailService.save(orderDetailDto);
