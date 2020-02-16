@@ -89,4 +89,8 @@ public class OrderInfo implements Serializable {
      */
     private  Integer validity;
 
+    /**
+     * 管理员id
+     */
+    private Integer managerId;
 }

@@ -2,9 +2,13 @@ package com.chisong.green.farm.app.service;
 
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.dto.OrderDetailDto;
+import com.chisong.green.farm.app.entity.OrderInfo;
+import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.lianshang.generator.commons.IService;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
+import com.lianshang.generator.commons.PageInfo;
 import java.util.List;
+import java.util.Map;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -43,4 +47,20 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @return
 	 */
 	public long computePostage( List<OrderDetailDto> orderDetailReqList);
+
+	/**
+	 * 查询订单列表
+	 * @param params
+	 * @return
+	 */
+	public List<OrderInfoDto> getOrderList(Map<String,Object> params);
+
+	/**
+	 * 分页查询
+	 * @param pageNo
+	 * @param pageSize
+	 * @param params
+	 * @return
+	 */
+	public PageInfo<?> getOrderInfoPageInfo(int pageNo, int pageSize, Map<String,Object> params);
 }

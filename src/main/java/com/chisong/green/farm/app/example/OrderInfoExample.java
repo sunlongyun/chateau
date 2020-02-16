@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-07-06
+* @date 2020-02-16
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -753,6 +753,67 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andPayNoIsNotNull() {
             addCriterion("pay_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andManagerIdIn(List<Integer> values) {
+            addCriterion("manager_id in", values, "managerId");
+            return (Criteria) this;
+        }
+        public Criteria andManagerIdNotIn(List<Integer> values) {
+            addCriterion("manager_id not in", values, "managerId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andManagerIdBetween(Integer value1, Integer value2) {
+            addCriterion("manager_id between", value1, value2, "managerId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andManagerIdLike(String value) {
+            addCriterion("manager_id like", value, "managerId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andManagerIdEqualTo(Integer value) {
+            addCriterion("manager_id =", value, "managerId");
+            return (Criteria) this;
+        }
+        public Criteria andManagerIdNotEqualTo(Integer value) {
+            addCriterion("manager_id <>", value, "managerId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andManagerIdGreaterThan(Integer value) {
+            addCriterion("manager_id >", value, "managerId");
+            return (Criteria) this;
+        }
+        public Criteria andManagerIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("manager_id >=", value, "managerId");
+            return (Criteria) this;
+        }
+        public Criteria andManagerIdLessThan(Integer value) {
+            addCriterion("manager_id <", value, "managerId");
+            return (Criteria) this;
+        }
+        public Criteria andManagerIdLessThanOrEqualTo(Integer value) {
+            addCriterion("manager_id <=", value, "managerId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andManagerIdIsNull() {
+            addCriterion("manager_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdIsNotNull() {
+            addCriterion("manager_id is not null");
             return (Criteria) this;
         }
         // in,   not in

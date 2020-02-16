@@ -63,10 +63,10 @@ public class ControllerAspect {
 			result = proceedingJoinPoint.proceed();
 			return  result;
 		} catch(Exception ex) {
-			ex.printStackTrace();
 			log.error("【请求异常】", ex);
 			if(ex  instanceof  Exception) {
-				if(ex instanceof BizException) {
+				if(ex instanceof BizException)
+				{
 					BizException bizException = (BizException) ex;
 					return CCResponse.fail(bizException.getCode(), bizException.getMsg());
 				}else{

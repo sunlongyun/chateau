@@ -12,6 +12,7 @@ import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
 import com.chisong.green.farm.app.dto.OrderDetailDto;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
 import com.chisong.green.farm.app.dto.PostageTemplateDto;
+import com.chisong.green.farm.app.dto.SupplierDto;
 import com.chisong.green.farm.app.entity.Goods;
 import com.chisong.green.farm.app.entity.OrderInfo;
 import com.chisong.green.farm.app.example.CartItemExample;
@@ -28,13 +29,19 @@ import com.chisong.green.farm.app.service.OrderDeliveryAddressMappingService;
 import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
+import com.chisong.green.farm.app.service.SupplierService;
+import com.chisong.green.farm.app.utils.BitUtil;
 import com.chisong.green.farm.exception.BizException;
+import com.github.pagehelper.PageHelper;
+import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +77,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	private PostageTemplateService postageTemplateService;
 	@Autowired
 	private GoodsSpecsService goodsSpecsService;
+	@Autowired
+	private SupplierService supplierService;
+
 	@Override
 	@Transactional
 	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
@@ -82,6 +92,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		}
 		long total = 0l;
 
+		List<Integer> managerIdList = new ArrayList<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 			log.info("orderDetailDto:{}", orderDetailDto);
 			if(null == orderDetailDto) {
@@ -93,14 +104,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getGoodsId());
 
 
-
 			total += orderDetailDto.getTotalPrice();
 			goodsService.decreaseStock(orderDetailDto.getNum(), goodsDto.getId());
 			orderDetailService.save(orderDetailDto);
-
 			//如果购物项存在，则删除
 			deleteCartItemList(orderDetailDto);
+
+			//查询订单所属的管理员
+			SupplierDto supplierDto = supplierService.getById(goodsDto.getSupplierId());
+			managerIdList.add(Integer.parseInt(supplierDto.getCreatorId()+"") );
 		}
+
+		//构造managerId
+		buildManagerId(orderInfoDto, managerIdList);
+
 		/**
 		 * 订单运费
 		 */
@@ -121,6 +138,21 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		orderDeliveryAddressMapping.setMobile(customerDeliveryAddressDto.getMobile());
 		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 		return orderInfoDto.getOrderNo();
+	}
+
+	/**
+	 * 构造managerId
+	 * @param orderInfoDto
+	 * @param managerIdList
+	 */
+	private void buildManagerId(OrderInfoDto orderInfoDto, List<Integer> managerIdList) {
+		AtomicInteger managerIds = new AtomicInteger(0);
+		managerIdList.stream().forEach(managerId->{
+			int x = managerIds.get();
+			x = BitUtil.setOneAtIndex(x, managerId);
+			managerIds.set(x);
+		});
+		orderInfoDto.setManagerId(managerIds.get());
 	}
 
 	/**
@@ -255,5 +287,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		return getTotalPostFee(orderDetailReqList);
 	}
 
+	@Override
+	public List<OrderInfoDto> getOrderList(Map<String, Object> params) {
+		List<OrderInfo> orderInfos = this.baseMapper.getOrderList(params);
+
+		return copyList(orderInfos, OrderInfoDto.class);
+	}
+
+	@Override
+	public PageInfo<?> getOrderInfoPageInfo(int pageNo, int pageSize, Map<String, Object> params) {
+		PageHelper.startPage(pageNo, pageSize);
+		List<OrderInfo> orderInfos = this.baseMapper.getOrderList(params);
+		PageInfo pageInfo = PageInfo.getPageInfo(orderInfos);
+		pageInfo.setDataList(copyList(orderInfos, OrderInfoDto.class));
+		return  pageInfo;
+	}
 
 }

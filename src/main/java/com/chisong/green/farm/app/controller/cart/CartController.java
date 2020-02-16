@@ -195,10 +195,8 @@ public class CartController {
 				Long price = goodsDto.isPromote() && null != goodsDto.getPromotePrice()
 					? goodsDto.getPromotePrice():goodsDto.getPrice();
 				cartItemDto.setPrice(price);
-				cartItemDto.setPrice(Long.parseLong(goodsDto.getPrice()+""));
 				cartItemDto.setTotalPrice(Long.parseLong(goodsDto.getPrice()+"") * num);
 			}
-
 
 			cartItemDto.setNum(num);
 			cartItemDto.setCartId(shoppingCartDto.getId());

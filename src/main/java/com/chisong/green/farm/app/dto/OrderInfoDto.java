@@ -113,4 +113,8 @@ public class OrderInfoDto implements Serializable {
      */
     private String userAddress;
 
+    /**
+     * 管理员id
+     */
+    private Integer managerId;
 }

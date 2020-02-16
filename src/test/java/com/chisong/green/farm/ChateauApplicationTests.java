@@ -46,9 +46,8 @@ public class ChateauApplicationTests {
 //			"game_times");
 		LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
-			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,
-				GenerateFileTypeEnum.EXAMPLE),
-			"goods_specs");
+			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.EXAMPLE),
+			"order_info");
 	}
 
 

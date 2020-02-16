@@ -7,7 +7,8 @@ package com.chisong.green.farm.app.constants.enums;
 public enum UserTypeEnum implements BaseServiceEnum {
 	CUSTOMER(1,"顾客"),
 	SUPPLIER(2, "供应商"),
-	ADMIN(3, "平台管理员");
+	ADMIN(3, "平台管理员"),
+	SUPER_ADMIN(4, "超级管理员");
 	private int code;
 	private String value;
 	UserTypeEnum(int code, String value){
