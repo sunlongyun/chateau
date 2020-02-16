@@ -50,6 +50,10 @@ public class CustomerInfo implements Serializable {
     private  String companyName;
 
     /**
+     * 是否是供应商账户
+     */
+    private boolean supplierAccount;
+    /**
     * 供应商id，如果顾客是供应商，请填写供应商id
      */
     private  Integer supplierId;

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-11-10
+* @date 2020-02-16
 */
 @Data
 public class CustomerInfoExample implements Serializable {
@@ -570,6 +570,67 @@ public class CustomerInfoExample implements Serializable {
 
         public Criteria andCompanyNameIsNotNull() {
             addCriterion("company_name is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierAccountIn(List<Integer> values) {
+            addCriterion("supplier_account in", values, "supplierAccount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAccountNotIn(List<Integer> values) {
+            addCriterion("supplier_account not in", values, "supplierAccount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierAccountBetween(Integer value1, Integer value2) {
+            addCriterion("supplier_account between", value1, value2, "supplierAccount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierAccountLike(String value) {
+            addCriterion("supplier_account like", value, "supplierAccount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierAccountEqualTo(Integer value) {
+            addCriterion("supplier_account =", value, "supplierAccount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAccountNotEqualTo(Integer value) {
+            addCriterion("supplier_account <>", value, "supplierAccount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierAccountGreaterThan(Integer value) {
+            addCriterion("supplier_account >", value, "supplierAccount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAccountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supplier_account >=", value, "supplierAccount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAccountLessThan(Integer value) {
+            addCriterion("supplier_account <", value, "supplierAccount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAccountLessThanOrEqualTo(Integer value) {
+            addCriterion("supplier_account <=", value, "supplierAccount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierAccountIsNull() {
+            addCriterion("supplier_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierAccountIsNotNull() {
+            addCriterion("supplier_account is not null");
             return (Criteria) this;
         }
         // in,   not in
