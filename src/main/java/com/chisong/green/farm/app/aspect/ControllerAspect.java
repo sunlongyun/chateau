@@ -45,6 +45,9 @@ public class ControllerAspect {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 			.getRequest();
 		String userCode = request.getHeader("userCode");
+		if(StringUtils.isEmpty(userCode)){
+			return proceedingJoinPoint.proceed();
+		}
 
 		long start = System.currentTimeMillis();
 		Object[] args = proceedingJoinPoint.getArgs();

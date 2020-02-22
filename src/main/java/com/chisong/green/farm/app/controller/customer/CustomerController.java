@@ -31,7 +31,9 @@ public class CustomerController {
 	public CCResponse freshCustomerInfo(FreshCustomerReq freshCustomerReq){
 		LoginResponse loginResponse = CurrentUserUtils.get();
 
-
+		if(null == loginResponse){
+			return CCResponse.success();
+		}
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 
 		if(null != freshCustomerReq.getRecommendId()
