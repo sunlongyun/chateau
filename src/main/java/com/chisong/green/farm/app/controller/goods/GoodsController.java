@@ -1,5 +1,6 @@
 package com.chisong.green.farm.app.controller.goods;
 
+import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
 import com.chisong.green.farm.app.controller.goods.request.PageQueryReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.GoodsDto;
@@ -33,6 +34,7 @@ public class GoodsController {
 	 */
 	@RequestMapping("getList")
 	public CCResponse getList(PageQueryReq pageQueryReq) {
+		pageQueryReq.setStatus(GoodsStatusEnum.NORMAL.code());
 		PageInfo pageInfo = goodsService.getGoodsInfo(pageQueryReq);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("pageInfo", pageInfo);

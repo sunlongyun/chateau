@@ -249,7 +249,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 				postageTemplateService.getList(postageTemplateExample).stream().findFirst();
 			log.info("postageTemplateDtoOptional:{}", postageTemplateDtoOptional.get());
 			if(!postageTemplateDtoOptional.isPresent()){
-				throw new RuntimeException("没有找到合适的运费模板");
+				throw new RuntimeException("抱歉，由于物流等原因，您的购物地点暂时不发货");
 			}
 			Long detailPrice = 0l;
 			//统一规格商品从商品取价格，否则从规格记录取价格

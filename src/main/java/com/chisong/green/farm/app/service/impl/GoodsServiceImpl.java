@@ -20,6 +20,7 @@ import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -183,6 +184,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		goodsSpecsExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
 			.andGoodsIdEqualTo(goodsDto.getId());
 		List<GoodsSpecsDto> newGoodsSpecsDtos = goodsDto.getSpecsDtoList();
+
 		List<GoodsSpecsDto> goodsSpecsDtos = goodsSpecsService.getList(goodsSpecsExample);
 
 		//统一规格，删除商品下的所有规格列表
@@ -206,6 +208,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			newGoodsSpecsDtos.stream().forEach(newGoodsSpecsDto -> {
 				if(!goodsSpecsDtos.contains(newGoodsSpecsDto)) {
 					newGoodsSpecsDto.setGoodsId(goodsDto.getId());
+					if(null == newGoodsSpecsDto.getPromote()){
+						newGoodsSpecsDto.setPromote(0);
+					}
+					if(null == newGoodsSpecsDto.getPrice()){
+						newGoodsSpecsDto.setPrice(0);
+					}
+					if(null == newGoodsSpecsDto.getOriginPrice()){
+						newGoodsSpecsDto.setOriginPrice(0);
+					}
+					if(null == newGoodsSpecsDto.getPromotionPrice()){
+						newGoodsSpecsDto.setPromotionPrice(0);
+					}
+					newGoodsSpecsDto.setPromote(newGoodsSpecsDto.getPromote()*100);
+					newGoodsSpecsDto.setPrice(newGoodsSpecsDto.getPrice()*100);
+					newGoodsSpecsDto.setOriginPrice(newGoodsSpecsDto.getOriginPrice()*100);
+					newGoodsSpecsDto.setPromotionPrice(newGoodsSpecsDto.getPromotionPrice()*100);
 					goodsSpecsService.save(newGoodsSpecsDto);
 				}
 			});

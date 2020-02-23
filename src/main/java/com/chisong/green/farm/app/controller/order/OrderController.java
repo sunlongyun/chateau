@@ -1,35 +1,36 @@
 package com.chisong.green.farm.app.controller.order;
 
+import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
 import com.chisong.green.farm.app.constants.enums.OrderStatusEnum;
 import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.CreateOrderReq;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CustomerDeliveryAddressDto;
+import com.chisong.green.farm.app.dto.CustomerInfoDto;
+import com.chisong.green.farm.app.dto.GoodsDto;
 import com.chisong.green.farm.app.dto.GoodsSpecsDto;
+import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
+import com.chisong.green.farm.app.dto.OrderDetailDto;
+import com.chisong.green.farm.app.dto.OrderInfoDto;
+import com.chisong.green.farm.app.dto.SupplierDto;
 import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.chisong.green.farm.app.example.OrderInfoExample.Criteria;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
-import com.chisong.green.farm.app.service.GoodsSpecsService;
-import com.chisong.green.farm.app.utils.CurrentUserUtils;
-import com.chisong.green.farm.app.utils.IPUtil;
-import com.chisong.green.farm.app.dto.CustomerInfoDto;
-import com.chisong.green.farm.app.dto.GoodsDto;
-import com.chisong.green.farm.app.dto.OrderDeliveryAddressMappingDto;
-import com.chisong.green.farm.app.dto.OrderDetailDto;
-import com.chisong.green.farm.app.dto.OrderInfoDto;
-import com.chisong.green.farm.app.dto.SupplierDto;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.GoodsService;
+import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.OrderDeliveryAddressMappingService;
 import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.SupplierService;
+import com.chisong.green.farm.app.utils.CurrentUserUtils;
+import com.chisong.green.farm.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,8 +48,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 描述:
- * 订单管理controller
+ * 描述: 订单管理controller
  *
  * @AUTHOR 孙龙云
  * @date 2019-06-23 10:31
@@ -68,7 +68,7 @@ public class OrderController {
 	private PaymentService paymentService;
 	@Autowired
 	private OrderDeliveryAddressMappingService orderDeliveryAddressMappingService;
-    @Autowired
+	@Autowired
 	private GoodsService goodsService;
 
 	@Autowired
@@ -77,6 +77,7 @@ public class OrderController {
 	private GoodsSpecsService goodsSpecsService;
 	@Autowired
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
+
 	/**
 	 * 查询订单状态
 	 */
@@ -106,7 +107,7 @@ public class OrderController {
 		OrderInfoExample orderInfoExample = new OrderInfoExample();
 		Criteria criteria = orderInfoExample.createCriteria();
 		criteria.andValidityEqualTo(Validity.AVAIL.code()).andCustomerIdEqualTo(customerInfoDto.getId())
-		.andStatusNotEqualTo(OrderStatusEnum.DELETED.code());
+			.andStatusNotEqualTo(OrderStatusEnum.DELETED.code());
 		if(null != status) {
 			criteria.andStatusEqualTo(status);
 		}
@@ -169,7 +170,6 @@ public class OrderController {
 				(orderDeliveryAddressMappingExample);
 
 		log.info("orderDeliveryAddressMappingDtoList:{}", orderDeliveryAddressMappingDtoList);
-
 
 		if(!CollectionUtils.isEmpty(orderDeliveryAddressMappingDtoList)) {
 			OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto = orderDeliveryAddressMappingDtoList
@@ -296,7 +296,6 @@ public class OrderController {
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
 			createOrderReq.getAddressId());
 
-
 		String clientIp = IPUtil.getIpAddr();
 		PrePayResponse prePayResponse = paymentService.createPayOrder(clientIp, orderNo, orderInfoDto.getId());
 
@@ -309,10 +308,10 @@ public class OrderController {
 	}
 
 	private boolean checkSupplier(@RequestBody CreateOrderReq createOrderReq) {
-		long supplierCount =	createOrderReq.getOrderDetailReqList().stream().map(orderDetailReq -> {
+		long supplierCount = createOrderReq.getOrderDetailReqList().stream().map(orderDetailReq -> {
 			return goodsService.getById(orderDetailReq.getGoodsId()).getSupplierId();
 		}).distinct().count();
-		if(supplierCount >1){
+		if(supplierCount > 1) {
 			return true;
 		}
 		return false;
@@ -323,9 +322,7 @@ public class OrderController {
 	 */
 	private String createOrder(OrderInfoDto orderInfoDto, List<OrderDetailReq> orderDetailReqList, Integer addressId) {
 
-
 		List<OrderDetailDto> orderDetailDtoList = getOrderDetailDtos(orderInfoDto, orderDetailReqList);
-
 		orderInfoDto.setOrderDetailDtoList(orderDetailDtoList);
 		String orderNo = orderInfoService.createOrder(orderInfoDto, addressId);
 		return orderNo;
@@ -333,6 +330,7 @@ public class OrderController {
 
 	/**
 	 * 构建订单明细
+	 *
 	 * @param orderInfoDto
 	 * @param orderDetailReqList
 	 * @return
@@ -340,44 +338,50 @@ public class OrderController {
 	private List<OrderDetailDto> getOrderDetailDtos(OrderInfoDto orderInfoDto,
 		List<OrderDetailReq> orderDetailReqList) {
 		return orderDetailReqList.stream().map(orderDetailReq -> {
-				OrderDetailDto orderDetailDto = new OrderDetailDto();
-				orderDetailDto.setGoodsId(orderDetailReq.getGoodsId());
-				orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
-				orderDetailDto.setNum(orderDetailReq.getNum());
-				orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
-				orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
-				orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
+			OrderDetailDto orderDetailDto = new OrderDetailDto();
+			orderDetailDto.setGoodsId(orderDetailReq.getGoodsId());
+			orderDetailDto.setOrderNo(orderInfoDto.getOrderNo());
+			orderDetailDto.setNum(orderDetailReq.getNum());
+			orderDetailDto.setCartItemId(orderDetailReq.getCartItemId());
+			orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
+			orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
 
-				GoodsDto goodsDto = goodsService.getById(orderDetailReq
-					.getGoodsId());
-
+			GoodsDto goodsDto = goodsService.getById(orderDetailReq
+				.getGoodsId());
+			if(null == goodsDto || goodsDto.getStock() == null ||
+				goodsDto.getStock() == 0 || goodsDto.getStatus() != GoodsStatusEnum.NORMAL.code()) {
+				String tips = "您购买的商品已下架";
+				if(null != goodsDto) {
+					tips = "您购买的【" + goodsDto.getTitle() + "】已下架";
+				}
+				throw new RuntimeException(tips);
+			}
 			if(null != goodsDto.getPromoteStartTime()
 				&& null != goodsDto.getPromoteEndTime()
 				&& goodsDto.getPromoteStartTime().before(new Date())
-				&& goodsDto.getPromoteEndTime().after(new Date())){
+				&& goodsDto.getPromoteEndTime().after(new Date())) {
 				goodsDto.setPromote(true);
 			}
 
-
-				orderDetailDto.setTitle(goodsDto.getTitle());
-				if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
-					orderDetailDto.setPrice(goodsDto.getPrice());
-					if(goodsDto.isPromote() && null != goodsDto.getPromotePrice()){
-						orderDetailDto.setPrice(goodsDto.getPromotePrice());
-					}
-					orderDetailDto.setSpecsName(goodsDto.getSpecs());
-				}else{
-					GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
-					log.info("goodsId:{},goodsSpecsDto:{}",goodsDto.getId(), goodsSpecsDto);
-					orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice()+""));
-					if(goodsDto.isPromote() && null  != goodsSpecsDto.getPromotionPrice()){
-						orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPromotionPrice()+""));
-					}
-					orderDetailDto.setSpecsName(goodsSpecsDto.getName());
+			orderDetailDto.setTitle(goodsDto.getTitle());
+			if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
+				orderDetailDto.setPrice(goodsDto.getPrice());
+				if(goodsDto.isPromote() && null != goodsDto.getPromotePrice()) {
+					orderDetailDto.setPrice(goodsDto.getPromotePrice());
 				}
+				orderDetailDto.setSpecsName(goodsDto.getSpecs());
+			} else {
+				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
+				log.info("goodsId:{},goodsSpecsDto:{}", goodsDto.getId(), goodsSpecsDto);
+				orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice() + ""));
+				if(goodsDto.isPromote() && null != goodsSpecsDto.getPromotionPrice()) {
+					orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPromotionPrice() + ""));
+				}
+				orderDetailDto.setSpecsName(goodsSpecsDto.getName());
+			}
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
-				return orderDetailDto;
-			}).collect(Collectors.toList());
+			return orderDetailDto;
+		}).collect(Collectors.toList());
 	}
 
 	/**

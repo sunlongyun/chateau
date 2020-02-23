@@ -52,5 +52,4 @@ public class PageQueryReq {
 	 */
 	private Integer pageSize = 10;
 
-
 }

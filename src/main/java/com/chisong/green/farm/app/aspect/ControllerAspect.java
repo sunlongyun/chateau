@@ -61,7 +61,12 @@ public class ControllerAspect {
 			LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
 			if(null != loginResponse){
 				//已经登录的，尝试设置推荐人
-				trySetRecommend(request, loginResponse);
+				try {
+					trySetRecommend(request, loginResponse);
+				}catch(Exception ex){
+
+				}
+
 			}
 			result = proceedingJoinPoint.proceed();
 			return  result;
@@ -91,11 +96,14 @@ public class ControllerAspect {
 
 	private void trySetRecommend(HttpServletRequest request, LoginResponse loginResponse) {
 		String recommendId =  (String) request.getParameter("recommendId");
-		log.info("recommendId:{}", recommendId);
+		String id = (String) request.getParameter("id");
+		log.info("path = {}, recommendId:{}, id:{}", request.getServletPath(), recommendId, id);
+
 		//之前推荐人为空，并且账号是半个内创建，当前推荐人不为空，那么设置推荐人
 		if(!StringUtils.isEmpty(recommendId)){
             CustomerInfoDto customerInfoDto =  customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
-            if((null == customerInfoDto.getRecommendId() || -1 == customerInfoDto.getRecommendId())
+            if((null != customerInfoDto &&
+	            (null == customerInfoDto.getRecommendId() || -1 == customerInfoDto.getRecommendId()))
             && (System.currentTimeMillis() -  customerInfoDto.getCreateTime().getTime()) <(30*60*1000L) ){
                 customerInfoDto.setRecommendId(Long.parseLong(recommendId));
                 customerInfoService.update(customerInfoDto);
