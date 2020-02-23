@@ -348,13 +348,18 @@ public class OrderController {
 
 			GoodsDto goodsDto = goodsService.getById(orderDetailReq
 				.getGoodsId());
-			if(null == goodsDto || goodsDto.getStock() == null ||
-				goodsDto.getStock() == 0 || goodsDto.getStatus() != GoodsStatusEnum.NORMAL.code()) {
+			if(goodsDto.getStatus() != GoodsStatusEnum.NORMAL.code()) {
 				String tips = "您购买的商品已下架";
 				if(null != goodsDto) {
 					tips = "您购买的【" + goodsDto.getTitle() + "】已下架";
 				}
 				throw new RuntimeException(tips);
+			}else if(goodsDto.getStock() == null ||
+				goodsDto.getStock() == 0){
+				String tips = "您购买的商品库存不足";
+				if(null != goodsDto) {
+					tips = "您购买的【" + goodsDto.getTitle() + "】库存不足";
+				}
 			}
 			if(null != goodsDto.getPromoteStartTime()
 				&& null != goodsDto.getPromoteEndTime()
