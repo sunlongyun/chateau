@@ -360,6 +360,7 @@ public class OrderController {
 				if(null != goodsDto) {
 					tips = "您购买的【" + goodsDto.getTitle() + "】库存不足";
 				}
+				throw new RuntimeException(tips);
 			}
 			if(null != goodsDto.getPromoteStartTime()
 				&& null != goodsDto.getPromoteEndTime()

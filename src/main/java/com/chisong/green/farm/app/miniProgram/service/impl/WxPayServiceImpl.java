@@ -74,8 +74,10 @@ public class WxPayServiceImpl implements WxPayService {
 		WXPay wxPay = getWxPay();
 		try {
 			Map<String, String> resultMap = wxPay.unifiedOrder(dataMap);
+			Map<String, Object> targetMap = new HashMap<>();
+			targetMap.putAll(resultMap);
 			log.info("响应结果:{}", resultMap);
-			PrePayResponse prePayResponse = ResUtil.getObj(PrePayResponse.class, resultMap);
+			PrePayResponse prePayResponse = ResUtil.getObj(PrePayResponse.class, targetMap);
 
 			String prePayId = "prepay_id=" + prePayResponse.getPrepayId();
 			Map<String, String> payMap = new HashMap<>();
@@ -109,8 +111,11 @@ public class WxPayServiceImpl implements WxPayService {
 		WXPay wxPay = getWxPay();
 		try {
 			Map<String, String> resultMap = wxPay.orderQuery(dataMap);
+			Map<String, Object> targetMap = new HashMap<>();
+			targetMap.putAll(resultMap);
+
 			PayOrderQueryResultResponse payOrderQueryResultResponse = ResUtil.getObj(PayOrderQueryResultResponse
-				.class, resultMap);
+				.class, targetMap);
 			return payOrderQueryResultResponse;
 		} catch(Exception ex) {
 			log.error("支付查询接口调用失败:", ex);
@@ -125,7 +130,11 @@ public class WxPayServiceImpl implements WxPayService {
 
 		try {
 			Map<String, String> resultMap = wxPay.refund(dataMap);
-			ParentResponse parentResponse = ResUtil.getObj(ParentResponse.class, resultMap);
+			Map<String, Object> targetMap = new HashMap<>();
+			targetMap.putAll(resultMap);
+
+
+			ParentResponse parentResponse = ResUtil.getObj(ParentResponse.class, targetMap);
 			return parentResponse;
 		} catch(Exception ex) {
 			log.error("支付退款接口调用失败:", ex);

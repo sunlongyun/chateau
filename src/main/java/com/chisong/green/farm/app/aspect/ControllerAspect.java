@@ -54,6 +54,13 @@ public class ControllerAspect {
 		Signature signature = proceedingJoinPoint.getSignature();
 		String className = proceedingJoinPoint.getTarget().getClass().getName();
 		String methodName = signature.getName();
+		String  servletPath =  request.getServletPath();
+		log.info("servletPath:{}", servletPath);
+		if("/".equals(servletPath) || "".equals(servletPath)){
+			return proceedingJoinPoint.proceed();
+		}
+
+
 		Object result = null;
 		try {
 			log.info("【请求入参】className:[{}],methodName:[{}],args:[{}]", className, methodName,
