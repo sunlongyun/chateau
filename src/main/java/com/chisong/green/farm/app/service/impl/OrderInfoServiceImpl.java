@@ -247,9 +247,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			postageTemplateExample.setOrderByClause("weight desc, id desc");
 			Optional<PostageTemplateDto> postageTemplateDtoOptional =
 				postageTemplateService.getList(postageTemplateExample).stream().findFirst();
-			log.info("postageTemplateDtoOptional:{}", postageTemplateDtoOptional.get());
 			if(!postageTemplateDtoOptional.isPresent()){
-				throw new RuntimeException("抱歉，由于物流等原因，您的购物地点暂时不发货");
+				throw new RuntimeException("抱歉，该地区暂不发货");
 			}
 			Long detailPrice = 0l;
 			//统一规格商品从商品取价格，否则从规格记录取价格
@@ -271,14 +270,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
 			//运费阶梯递增
 			if(null != postageTemplateDto.getIncUnitNum()){
-				if(-1 == postageTemplateDto.getIncUnitNum()){
-					return Integer.parseInt(detailPrice+"") ;
+				if(postageTemplateDto.getIncUnitNum() <=0 || orderDetailReq.getNum() == 1){
+					log.info("111111111111111111");
+					return Integer.parseInt( postageTemplateDtoOptional.get().getAmount()+"") ;
 				}else{
-					return ((orderDetailReq.getNum()/postageTemplateDto.getIncUnitNum())+1) * postageTemplateDtoOptional.get().getAmount();
+					log.info("222222222222222222");
+					return (((orderDetailReq.getNum()-1)/postageTemplateDto.getIncUnitNum())+1) * postageTemplateDtoOptional.get().getAmount();
 				}
 			}
 
 			//每件商品增加一次运费
+			log.info("33333333333333");
 			return orderDetailReq.getNum() * postageTemplateDtoOptional.get().getAmount();
 		}).reduce(0, (a, b) -> a+b);
 	}

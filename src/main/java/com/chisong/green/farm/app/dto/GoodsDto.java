@@ -120,6 +120,10 @@ public class GoodsDto implements Serializable {
      */
     private Long specsPrice;
     /**
+     * 二级分类id
+     */
+    private  Integer typeId;
+    /**
      * 选中的规格id
      */
     private Long specsId;

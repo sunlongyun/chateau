@@ -10,7 +10,7 @@ import lombok.Data;
 * 酒水
 * </p>
 * @author 孙龙云
-* @date 2019-12-22
+* @date 2020-03-28
 */
 @Data
 public class Goods implements Serializable {
@@ -34,7 +34,12 @@ public class Goods implements Serializable {
     private  String skuCode;
 
     /**
-    * 类别
+    * 二级分类id
+     */
+    private  Integer typeId;
+
+    /**
+    * 分类名称
      */
     private  String type;
 

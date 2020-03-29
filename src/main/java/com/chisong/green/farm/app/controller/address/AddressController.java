@@ -87,7 +87,11 @@ public class AddressController {
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		customerDeliveryAddressDto.setCustomerId(Integer.valueOf(customerInfoDto.getId() + ""));
 		freshTacitlyStatus(customerDeliveryAddressDto);
-
+		//如果顾客手机号为空，则用添加地址的手机号
+		if(StringUtils.isEmpty(customerInfoDto.getMobile())){
+			customerInfoDto.setMobile(customerDeliveryAddressDto.getMobile());
+			customerInfoService.update(customerInfoDto);
+		}
 		customerDeliveryAddressService.save(customerDeliveryAddressDto);
 		return CCResponse.success();
 	}

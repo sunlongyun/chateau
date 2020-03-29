@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-12-22
+* @date 2020-03-28
 */
 @Data
 public class GoodsExample implements Serializable {
@@ -265,6 +265,67 @@ public class GoodsExample implements Serializable {
 
         public Criteria andSkuCodeIsNotNull() {
             addCriterion("sku_code is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andTypeIdIn(List<Integer> values) {
+            addCriterion("type_id in", values, "typeId");
+            return (Criteria) this;
+        }
+        public Criteria andTypeIdNotIn(List<Integer> values) {
+            addCriterion("type_id not in", values, "typeId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("type_id between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andTypeIdLike(String value) {
+            addCriterion("type_id like", value, "typeId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andTypeIdEqualTo(Integer value) {
+            addCriterion("type_id =", value, "typeId");
+            return (Criteria) this;
+        }
+        public Criteria andTypeIdNotEqualTo(Integer value) {
+            addCriterion("type_id <>", value, "typeId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andTypeIdGreaterThan(Integer value) {
+            addCriterion("type_id >", value, "typeId");
+            return (Criteria) this;
+        }
+        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type_id >=", value, "typeId");
+            return (Criteria) this;
+        }
+        public Criteria andTypeIdLessThan(Integer value) {
+            addCriterion("type_id <", value, "typeId");
+            return (Criteria) this;
+        }
+        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("type_id <=", value, "typeId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andTypeIdIsNull() {
+            addCriterion("type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdIsNotNull() {
+            addCriterion("type_id is not null");
             return (Criteria) this;
         }
         // in,   not in
