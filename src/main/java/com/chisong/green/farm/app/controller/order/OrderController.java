@@ -346,22 +346,14 @@ public class OrderController {
 			orderDetailDto.setSpecsId(orderDetailReq.getSpecsId());
 			orderDetailDto.setSpecsName(orderDetailDto.getSpecsName());
 
+			//校验商品规格明细的库存
+		  GoodsSpecsDto goodsSpecsDto =	goodsSpecsService.getById(orderDetailReq.getSpecsId());
+
 			GoodsDto goodsDto = goodsService.getById(orderDetailReq
 				.getGoodsId());
-			if(goodsDto.getStatus() != GoodsStatusEnum.NORMAL.code()) {
-				String tips = "您购买的商品已下架";
-				if(null != goodsDto) {
-					tips = "您购买的【" + goodsDto.getTitle() + "】已下架";
-				}
-				throw new RuntimeException(tips);
-			}else if(goodsDto.getStock() == null ||
-				goodsDto.getStock() == 0){
-				String tips = "您购买的商品库存不足";
-				if(null != goodsDto) {
-					tips = "您购买的【" + goodsDto.getTitle() + "】库存不足";
-				}
-				throw new RuntimeException(tips);
-			}
+			//校验库存
+			checkStock(orderDetailReq, goodsSpecsDto, goodsDto);
+
 			if(null != goodsDto.getPromoteStartTime()
 				&& null != goodsDto.getPromoteEndTime()
 				&& goodsDto.getPromoteStartTime().before(new Date())
@@ -370,24 +362,29 @@ public class OrderController {
 			}
 
 			orderDetailDto.setTitle(goodsDto.getTitle());
-			if(goodsDto.getUniformSpecs() == 1 && null == orderDetailDto.getSpecsId()) {//统一规格商品
-				orderDetailDto.setPrice(goodsDto.getPrice());
-				if(goodsDto.isPromote() && null != goodsDto.getPromotePrice()) {
-					orderDetailDto.setPrice(goodsDto.getPromotePrice());
-				}
-				orderDetailDto.setSpecsName(goodsDto.getSpecs());
-			} else {
-				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailDto.getSpecsId());
-				log.info("goodsId:{},goodsSpecsDto:{}", goodsDto.getId(), goodsSpecsDto);
-				orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice() + ""));
-				if(goodsDto.isPromote() && null != goodsSpecsDto.getPromotionPrice()) {
-					orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPromotionPrice() + ""));
-				}
-				orderDetailDto.setSpecsName(goodsSpecsDto.getName());
+			log.info("goodsId:{},goodsSpecsDto:{}", goodsDto.getId(), goodsSpecsDto);
+			orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice() + ""));
+			if(goodsDto.isPromote() && null != goodsSpecsDto.getPromotionPrice() &&  goodsSpecsDto.getPromote() == 1) {
+				orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPromotionPrice() + ""));
 			}
+			orderDetailDto.setSpecsName(goodsSpecsDto.getName());
 			orderDetailDto.setTotalPrice(orderDetailDto.getPrice() * orderDetailDto.getNum());
 			return orderDetailDto;
 		}).collect(Collectors.toList());
+	}
+
+	private void checkStock(OrderDetailReq orderDetailReq, GoodsSpecsDto goodsSpecsDto, GoodsDto goodsDto) {
+		if(goodsDto.getStatus() != GoodsStatusEnum.NORMAL.code()) {
+			String tips = "您购买的商品已下架";
+			if(null != goodsDto) {
+				tips = "您购买的【" + goodsDto.getTitle() + "】已下架";
+			}
+			throw new RuntimeException(tips);
+		}
+		if(goodsSpecsDto.getStock() == null || goodsSpecsDto.getStock()< orderDetailReq.getNum()){
+			String tips = "您购买的商品【"+goodsSpecsDto.getName()+"】,规格【"+goodsSpecsDto.getName()+"】库存不足";
+			throw new RuntimeException(tips);
+		}
 	}
 
 	/**

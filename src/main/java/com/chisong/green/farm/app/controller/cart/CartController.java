@@ -30,8 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 描述:
- * 购物车管理controller
+ * 描述: 购物车管理controller
  *
  * @AUTHOR 孙龙云
  * @date 2019-06-18 20:59
@@ -53,18 +52,20 @@ public class CartController {
 
 	/**
 	 * 批量删除购物车项
+	 *
 	 * @param cartItemIdList
 	 * @return
 	 */
 	@RequestMapping("/batchDeleteItem")
-	public CCResponse batchDelete(@RequestBody List<Integer> cartItemIdList){
-		if(!CollectionUtils.isEmpty(cartItemIdList)){
-			cartItemIdList.forEach(cartItemId->{
+	public CCResponse batchDelete(@RequestBody List<Integer> cartItemIdList) {
+		if(!CollectionUtils.isEmpty(cartItemIdList)) {
+			cartItemIdList.forEach(cartItemId -> {
 				cartItemService.deleteById(cartItemId);
 			});
 		}
 		return CCResponse.success();
 	}
+
 	/**
 	 * 我的购物车
 	 */
@@ -82,9 +83,10 @@ public class CartController {
 			GoodsDto goodsDto = goodsService.getById(cartItemDto.getGoodsId());
 			cartItemDto.setSupplierCompanyName(goodsDto.getSupplierCompanyName());
 			cartItemDto.setProduceArea(goodsDto.getProduceArea());
-			if(null == cartItemDto.getSpecsId()){
-				cartItemDto.setSpecsName(goodsDto.getSpecs());
-			}
+			Long specsId = cartItemDto.getSpecsId();
+			GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
+			cartItemDto.setSpecsName(goodsSpecsDto.getName());
+
 		});
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("id", shoppingCartDto.getId());
@@ -154,48 +156,47 @@ public class CartController {
 
 		if(null != goodsDto.getPromoteStartTime()
 			&& null != goodsDto.getPromoteEndTime()
-			&&  goodsDto.getPromoteStartTime().before(new Date())
-			&& goodsDto.getPromoteEndTime().after(new Date())){
+			&& goodsDto.getPromoteStartTime().before(new Date())
+			&& goodsDto.getPromoteEndTime().after(new Date())) {
 			goodsDto.setPromote(true);
 		}
-
 
 		CartItemDto cartItemDto = null;
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
 		CartItemExample cartItemExample = new CartItemExample();
 		Criteria criteria =
 			cartItemExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andCartIdEqualTo(shoppingCartDto
-			.getId()).andGoodsIdEqualTo(goodsId);
-		if(null != specsId){
+				.getId()).andGoodsIdEqualTo(goodsId);
+		if(null != specsId) {
 			criteria.andSpecsIdEqualTo(specsId);
 		}
 
 		List<CartItemDto> cartItemList = cartItemService.getList(cartItemExample);
 
-		if(!CollectionUtils.isEmpty(cartItemList)){
+		if(!CollectionUtils.isEmpty(cartItemList)) {
 			cartItemDto = cartItemList.get(0);
-			cartItemDto.setNum(cartItemDto.getNum()+num);
-			cartItemDto.setTotalPrice(cartItemDto.getPrice()*cartItemDto.getNum());
+			cartItemDto.setNum(cartItemDto.getNum() + num);
+			cartItemDto.setTotalPrice(cartItemDto.getPrice() * cartItemDto.getNum());
 			cartItemDto.setSpecsId(specsId);
-			if(null != specsId){
+			if(null != specsId) {
 				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
 				cartItemDto.setSpecsName(goodsSpecsDto.getName());
 			}
 			cartItemService.update(cartItemDto);
-		}else{
+		} else {
 			cartItemDto = new CartItemDto();
 
-			if(null != specsId){
+			if(null != specsId) {
 				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
 				Integer price = goodsDto.isPromote() && null != goodsSpecsDto.getPromotionPrice()
-					? goodsSpecsDto.getPromotionPrice():goodsSpecsDto.getPrice();
-				cartItemDto.setPrice(Long.parseLong(price+""));
-				cartItemDto.setTotalPrice(Long.parseLong(price+"") * num);
-			}else{
+					? goodsSpecsDto.getPromotionPrice() : goodsSpecsDto.getPrice();
+				cartItemDto.setPrice(Long.parseLong(price + ""));
+				cartItemDto.setTotalPrice(Long.parseLong(price + "") * num);
+			} else {
 				Long price = goodsDto.isPromote() && null != goodsDto.getPromotePrice()
-					? goodsDto.getPromotePrice():goodsDto.getPrice();
+					? goodsDto.getPromotePrice() : goodsDto.getPrice();
 				cartItemDto.setPrice(price);
-				cartItemDto.setTotalPrice(Long.parseLong(goodsDto.getPrice()+"") * num);
+				cartItemDto.setTotalPrice(Long.parseLong(goodsDto.getPrice() + "") * num);
 			}
 
 			cartItemDto.setNum(num);
@@ -206,7 +207,7 @@ public class CartController {
 			cartItemDto.setTitle(goodsDto.getTitle());
 
 			cartItemDto.setSpecsId(specsId);
-			if(null != specsId){
+			if(null != specsId) {
 				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
 				cartItemDto.setSpecsName(goodsSpecsDto.getName());
 			}

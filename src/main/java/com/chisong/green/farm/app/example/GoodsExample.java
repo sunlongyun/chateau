@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-03-28
+* @date 2020-04-05
 */
 @Data
 public class GoodsExample implements Serializable {
@@ -268,6 +268,67 @@ public class GoodsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andFirstTypeIdIn(List<Integer> values) {
+            addCriterion("first_type_id in", values, "firstTypeId");
+            return (Criteria) this;
+        }
+        public Criteria andFirstTypeIdNotIn(List<Integer> values) {
+            addCriterion("first_type_id not in", values, "firstTypeId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andFirstTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("first_type_id between", value1, value2, "firstTypeId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andFirstTypeIdLike(String value) {
+            addCriterion("first_type_id like", value, "firstTypeId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andFirstTypeIdEqualTo(Integer value) {
+            addCriterion("first_type_id =", value, "firstTypeId");
+            return (Criteria) this;
+        }
+        public Criteria andFirstTypeIdNotEqualTo(Integer value) {
+            addCriterion("first_type_id <>", value, "firstTypeId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andFirstTypeIdGreaterThan(Integer value) {
+            addCriterion("first_type_id >", value, "firstTypeId");
+            return (Criteria) this;
+        }
+        public Criteria andFirstTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("first_type_id >=", value, "firstTypeId");
+            return (Criteria) this;
+        }
+        public Criteria andFirstTypeIdLessThan(Integer value) {
+            addCriterion("first_type_id <", value, "firstTypeId");
+            return (Criteria) this;
+        }
+        public Criteria andFirstTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("first_type_id <=", value, "firstTypeId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andFirstTypeIdIsNull() {
+            addCriterion("first_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstTypeIdIsNotNull() {
+            addCriterion("first_type_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andTypeIdIn(List<Integer> values) {
             addCriterion("type_id in", values, "typeId");
             return (Criteria) this;
@@ -329,64 +390,64 @@ public class GoodsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andTypeIn(List<String> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andTypeNameIn(List<String> values) {
+            addCriterion("type_name in", values, "typeName");
             return (Criteria) this;
         }
-        public Criteria andTypeNotIn(List<String> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andTypeNameNotIn(List<String> values) {
+            addCriterion("type_name not in", values, "typeName");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andTypeBetween(String value1, String value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andTypeNameBetween(String value1, String value2) {
+            addCriterion("type_name between", value1, value2, "typeName");
             return (Criteria) this;
         }
 
         //like
-        public Criteria andTypeLike(String value) {
-            addCriterion("type like", value, "type");
+        public Criteria andTypeNameLike(String value) {
+            addCriterion("type_name like", value, "typeName");
             return (Criteria) this;
         }
 
         // = <>
-        public Criteria andTypeEqualTo(String value) {
-            addCriterion("type =", value, "type");
+        public Criteria andTypeNameEqualTo(String value) {
+            addCriterion("type_name =", value, "typeName");
             return (Criteria) this;
         }
-        public Criteria andTypeNotEqualTo(String value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andTypeNameNotEqualTo(String value) {
+            addCriterion("type_name <>", value, "typeName");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andTypeGreaterThan(String value) {
-            addCriterion("type >", value, "type");
+        public Criteria andTypeNameGreaterThan(String value) {
+            addCriterion("type_name >", value, "typeName");
             return (Criteria) this;
         }
-        public Criteria andTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andTypeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("type_name >=", value, "typeName");
             return (Criteria) this;
         }
-        public Criteria andTypeLessThan(String value) {
-            addCriterion("type <", value, "type");
+        public Criteria andTypeNameLessThan(String value) {
+            addCriterion("type_name <", value, "typeName");
             return (Criteria) this;
         }
-        public Criteria andTypeLessThanOrEqualTo(String value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andTypeNameLessThanOrEqualTo(String value) {
+            addCriterion("type_name <=", value, "typeName");
             return (Criteria) this;
         }
 
         //null  not null
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andTypeNameIsNull() {
+            addCriterion("type_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andTypeNameIsNotNull() {
+            addCriterion("type_name is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -634,67 +695,6 @@ public class GoodsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andCountryNameIn(List<String> values) {
-            addCriterion("country_name in", values, "countryName");
-            return (Criteria) this;
-        }
-        public Criteria andCountryNameNotIn(List<String> values) {
-            addCriterion("country_name not in", values, "countryName");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andCountryNameBetween(String value1, String value2) {
-            addCriterion("country_name between", value1, value2, "countryName");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andCountryNameLike(String value) {
-            addCriterion("country_name like", value, "countryName");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andCountryNameEqualTo(String value) {
-            addCriterion("country_name =", value, "countryName");
-            return (Criteria) this;
-        }
-        public Criteria andCountryNameNotEqualTo(String value) {
-            addCriterion("country_name <>", value, "countryName");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andCountryNameGreaterThan(String value) {
-            addCriterion("country_name >", value, "countryName");
-            return (Criteria) this;
-        }
-        public Criteria andCountryNameGreaterThanOrEqualTo(String value) {
-            addCriterion("country_name >=", value, "countryName");
-            return (Criteria) this;
-        }
-        public Criteria andCountryNameLessThan(String value) {
-            addCriterion("country_name <", value, "countryName");
-            return (Criteria) this;
-        }
-        public Criteria andCountryNameLessThanOrEqualTo(String value) {
-            addCriterion("country_name <=", value, "countryName");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andCountryNameIsNull() {
-            addCriterion("country_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountryNameIsNotNull() {
-            addCriterion("country_name is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
         public Criteria andPicUrlIn(List<String> values) {
             addCriterion("pic_url in", values, "picUrl");
             return (Criteria) this;
@@ -936,250 +936,6 @@ public class GoodsExample implements Serializable {
 
         public Criteria andDescriptionIsNotNull() {
             addCriterion("description is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andUniformSpecsIn(List<Integer> values) {
-            addCriterion("uniform_specs in", values, "uniformSpecs");
-            return (Criteria) this;
-        }
-        public Criteria andUniformSpecsNotIn(List<Integer> values) {
-            addCriterion("uniform_specs not in", values, "uniformSpecs");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andUniformSpecsBetween(Integer value1, Integer value2) {
-            addCriterion("uniform_specs between", value1, value2, "uniformSpecs");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andUniformSpecsLike(String value) {
-            addCriterion("uniform_specs like", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andUniformSpecsEqualTo(Integer value) {
-            addCriterion("uniform_specs =", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-        public Criteria andUniformSpecsNotEqualTo(Integer value) {
-            addCriterion("uniform_specs <>", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andUniformSpecsGreaterThan(Integer value) {
-            addCriterion("uniform_specs >", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-        public Criteria andUniformSpecsGreaterThanOrEqualTo(Integer value) {
-            addCriterion("uniform_specs >=", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-        public Criteria andUniformSpecsLessThan(Integer value) {
-            addCriterion("uniform_specs <", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-        public Criteria andUniformSpecsLessThanOrEqualTo(Integer value) {
-            addCriterion("uniform_specs <=", value, "uniformSpecs");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andUniformSpecsIsNull() {
-            addCriterion("uniform_specs is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUniformSpecsIsNotNull() {
-            addCriterion("uniform_specs is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andSpecsIn(List<String> values) {
-            addCriterion("specs in", values, "specs");
-            return (Criteria) this;
-        }
-        public Criteria andSpecsNotIn(List<String> values) {
-            addCriterion("specs not in", values, "specs");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andSpecsBetween(String value1, String value2) {
-            addCriterion("specs between", value1, value2, "specs");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andSpecsLike(String value) {
-            addCriterion("specs like", value, "specs");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andSpecsEqualTo(String value) {
-            addCriterion("specs =", value, "specs");
-            return (Criteria) this;
-        }
-        public Criteria andSpecsNotEqualTo(String value) {
-            addCriterion("specs <>", value, "specs");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andSpecsGreaterThan(String value) {
-            addCriterion("specs >", value, "specs");
-            return (Criteria) this;
-        }
-        public Criteria andSpecsGreaterThanOrEqualTo(String value) {
-            addCriterion("specs >=", value, "specs");
-            return (Criteria) this;
-        }
-        public Criteria andSpecsLessThan(String value) {
-            addCriterion("specs <", value, "specs");
-            return (Criteria) this;
-        }
-        public Criteria andSpecsLessThanOrEqualTo(String value) {
-            addCriterion("specs <=", value, "specs");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andSpecsIsNull() {
-            addCriterion("specs is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecsIsNotNull() {
-            addCriterion("specs is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andUnitsIn(List<String> values) {
-            addCriterion("units in", values, "units");
-            return (Criteria) this;
-        }
-        public Criteria andUnitsNotIn(List<String> values) {
-            addCriterion("units not in", values, "units");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andUnitsBetween(String value1, String value2) {
-            addCriterion("units between", value1, value2, "units");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andUnitsLike(String value) {
-            addCriterion("units like", value, "units");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andUnitsEqualTo(String value) {
-            addCriterion("units =", value, "units");
-            return (Criteria) this;
-        }
-        public Criteria andUnitsNotEqualTo(String value) {
-            addCriterion("units <>", value, "units");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andUnitsGreaterThan(String value) {
-            addCriterion("units >", value, "units");
-            return (Criteria) this;
-        }
-        public Criteria andUnitsGreaterThanOrEqualTo(String value) {
-            addCriterion("units >=", value, "units");
-            return (Criteria) this;
-        }
-        public Criteria andUnitsLessThan(String value) {
-            addCriterion("units <", value, "units");
-            return (Criteria) this;
-        }
-        public Criteria andUnitsLessThanOrEqualTo(String value) {
-            addCriterion("units <=", value, "units");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andUnitsIsNull() {
-            addCriterion("units is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitsIsNotNull() {
-            addCriterion("units is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andOriginPriceIn(List<Long> values) {
-            addCriterion("origin_price in", values, "originPrice");
-            return (Criteria) this;
-        }
-        public Criteria andOriginPriceNotIn(List<Long> values) {
-            addCriterion("origin_price not in", values, "originPrice");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andOriginPriceBetween(Long value1, Long value2) {
-            addCriterion("origin_price between", value1, value2, "originPrice");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andOriginPriceLike(String value) {
-            addCriterion("origin_price like", value, "originPrice");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andOriginPriceEqualTo(Long value) {
-            addCriterion("origin_price =", value, "originPrice");
-            return (Criteria) this;
-        }
-        public Criteria andOriginPriceNotEqualTo(Long value) {
-            addCriterion("origin_price <>", value, "originPrice");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andOriginPriceGreaterThan(Long value) {
-            addCriterion("origin_price >", value, "originPrice");
-            return (Criteria) this;
-        }
-        public Criteria andOriginPriceGreaterThanOrEqualTo(Long value) {
-            addCriterion("origin_price >=", value, "originPrice");
-            return (Criteria) this;
-        }
-        public Criteria andOriginPriceLessThan(Long value) {
-            addCriterion("origin_price <", value, "originPrice");
-            return (Criteria) this;
-        }
-        public Criteria andOriginPriceLessThanOrEqualTo(Long value) {
-            addCriterion("origin_price <=", value, "originPrice");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andOriginPriceIsNull() {
-            addCriterion("origin_price is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginPriceIsNotNull() {
-            addCriterion("origin_price is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -1485,67 +1241,6 @@ public class GoodsExample implements Serializable {
 
         public Criteria andPromoteEndTimeIsNotNull() {
             addCriterion("promote_end_time is not null");
-            return (Criteria) this;
-        }
-        // in,   not in
-        public Criteria andStockIn(List<Integer> values) {
-            addCriterion("stock in", values, "stock");
-            return (Criteria) this;
-        }
-        public Criteria andStockNotIn(List<Integer> values) {
-            addCriterion("stock not in", values, "stock");
-            return (Criteria) this;
-        }
-
-        //between
-        public Criteria andStockBetween(Integer value1, Integer value2) {
-            addCriterion("stock between", value1, value2, "stock");
-            return (Criteria) this;
-        }
-
-        //like
-        public Criteria andStockLike(String value) {
-            addCriterion("stock like", value, "stock");
-            return (Criteria) this;
-        }
-
-        // = <>
-        public Criteria andStockEqualTo(Integer value) {
-            addCriterion("stock =", value, "stock");
-            return (Criteria) this;
-        }
-        public Criteria andStockNotEqualTo(Integer value) {
-            addCriterion("stock <>", value, "stock");
-            return (Criteria) this;
-        }
-
-
-        // > >= < <=
-        public Criteria andStockGreaterThan(Integer value) {
-            addCriterion("stock >", value, "stock");
-            return (Criteria) this;
-        }
-        public Criteria andStockGreaterThanOrEqualTo(Integer value) {
-            addCriterion("stock >=", value, "stock");
-            return (Criteria) this;
-        }
-        public Criteria andStockLessThan(Integer value) {
-            addCriterion("stock <", value, "stock");
-            return (Criteria) this;
-        }
-        public Criteria andStockLessThanOrEqualTo(Integer value) {
-            addCriterion("stock <=", value, "stock");
-            return (Criteria) this;
-        }
-
-        //null  not null
-        public Criteria andStockIsNull() {
-            addCriterion("stock is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStockIsNotNull() {
-            addCriterion("stock is not null");
             return (Criteria) this;
         }
         // in,   not in

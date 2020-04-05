@@ -1,26 +1,28 @@
 package com.chisong.green.farm.app.service.impl;
 
-import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
 import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.goods.request.PageQueryReq;
 import com.chisong.green.farm.app.dto.GoodsDto;
 import com.chisong.green.farm.app.dto.GoodsSpecsDto;
 import com.chisong.green.farm.app.dto.GoodsTailImagesDto;
 import com.chisong.green.farm.app.dto.GoodsTopImagesDto;
+import com.chisong.green.farm.app.dto.GoodsTypeDto;
 import com.chisong.green.farm.app.entity.Goods;
+import com.chisong.green.farm.app.entity.GoodsSpecs;
 import com.chisong.green.farm.app.example.GoodsSpecsExample;
 import com.chisong.green.farm.app.example.GoodsTailImagesExample;
 import com.chisong.green.farm.app.example.GoodsTopImagesExample;
 import com.chisong.green.farm.app.mapper.GoodsMapper;
+import com.chisong.green.farm.app.mapper.GoodsSpecsMapper;
 import com.chisong.green.farm.app.service.GoodsService;
 import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.GoodsTailImagesService;
 import com.chisong.green.farm.app.service.GoodsTopImagesService;
+import com.chisong.green.farm.app.service.GoodsTypeService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +56,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 	private GoodsSpecsService goodsSpecsService;
 	@Autowired
 	private PostageTemplateService postageTemplateService;
+	@Autowired
+	private GoodsSpecsMapper goodsSpecsMapper;
+
+	@Autowired
+	private GoodsTypeService goodsTypeService;
 
 	@Override
 	public PageInfo<GoodsDto> getGoodsInfo(PageQueryReq pageQueryReq) {
@@ -63,12 +70,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		PageHelper.startPage(pageQueryReq.getPageNo(), pageQueryReq.getPageSize());
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);
 		PageInfo pageInfo = PageInfo.getPageInfo(goodsDtoList);
-		List<GoodsDto> goodsDtos =  copyList(goodsDtoList, GoodsDto.class);
+		List<GoodsDto> goodsDtos = copyList(goodsDtoList, GoodsDto.class);
 		goodsDtos.stream().forEach(goodsDto -> {
 			if(null != goodsDto.getPromoteStartTime()
-			 && null != goodsDto.getPromoteEndTime()
-			 && goodsDto.getPromoteStartTime().before(new Date())
-			 && goodsDto.getPromoteEndTime().after(new Date())){
+				&& null != goodsDto.getPromoteEndTime()
+				&& goodsDto.getPromoteStartTime().before(new Date())
+				&& goodsDto.getPromoteEndTime().after(new Date())) {
 				goodsDto.setPromote(true);
 			}
 		});
@@ -92,7 +99,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		if(null != goodsDto.getPromoteStartTime()
 			&& null != goodsDto.getPromoteEndTime()
 			&& goodsDto.getPromoteStartTime().before(new Date())
-			&& goodsDto.getPromoteEndTime().after(new Date())){
+			&& goodsDto.getPromoteEndTime().after(new Date())) {
 			goodsDto.setPromote(true);
 		}
 
@@ -117,46 +124,82 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 
 	/**
 	 * 设置规格价格
+	 *
 	 * @param goodsDto
 	 * @param goodsSpecsDtos
 	 */
 	private void setSpecsPrice(GoodsDto goodsDto, List<GoodsSpecsDto> goodsSpecsDtos) {
-		if(!CollectionUtils.isEmpty(goodsSpecsDtos)){
+		if(!CollectionUtils.isEmpty(goodsSpecsDtos)) {
 
-		Optional<GoodsSpecsDto> firstSpecsDtoOptional = null;
-		if(goodsDto.isPromote()){
-			firstSpecsDtoOptional = goodsSpecsDtos.stream().filter(goodsSpecsDto -> goodsSpecsDto.getPromote() == 1)
-				.sorted(Comparator.comparing(GoodsSpecsDto::getPromotionPrice)).findFirst();
-		}
+			Optional<GoodsSpecsDto> firstSpecsDtoOptional = null;
+			if(goodsDto.isPromote()) {
+				firstSpecsDtoOptional = goodsSpecsDtos.stream().filter(goodsSpecsDto -> goodsSpecsDto.getPromote() == 1)
+					.sorted(Comparator.comparing(GoodsSpecsDto::getPromotionPrice)).findFirst();
+			}
 
-		if(!goodsDto.isPromote() || !firstSpecsDtoOptional.isPresent()){
-			firstSpecsDtoOptional =
-				goodsSpecsDtos.stream().sorted(Comparator.comparing(GoodsSpecsDto::getPrice)).findFirst();
-		}
+			if(!goodsDto.isPromote() || !firstSpecsDtoOptional.isPresent()) {
+				firstSpecsDtoOptional =
+					goodsSpecsDtos.stream().sorted(Comparator.comparing(GoodsSpecsDto::getPrice)).findFirst();
+			}
 
 			firstSpecsDtoOptional.get().setSelected(1);
-		int price = firstSpecsDtoOptional.get().getPromotionPrice() != null && goodsDto.isPromote()
-			 ?  firstSpecsDtoOptional.get().getPromotionPrice() :  firstSpecsDtoOptional.get().getPrice();
+			int price =
+				firstSpecsDtoOptional.get().getPromotionPrice() != null
+					&& goodsDto.isPromote() && firstSpecsDtoOptional.get().getPromote() == 1
+				? firstSpecsDtoOptional.get().getPromotionPrice() : firstSpecsDtoOptional.get().getPrice();
 
 			goodsDto.setSpecsId(firstSpecsDtoOptional.get().getId());
-			goodsDto.setSpecsPrice(Long.parseLong(price+""));
-		}else{
+			goodsDto.setSpecsPrice(Long.parseLong(price + ""));
+		} else {
 			goodsDto.setSpecsPrice(goodsDto.getPrice());
 		}
 	}
 
 	@Override
-	public int decreaseStock(int stock, Long id) {
-		int r  = this.baseMapper.decreaseStock(stock,id);
+	public int decreaseStock(int stock, Long specsId) {
+
+	    GoodsSpecs goodsSpecs =  goodsSpecsMapper.selectById(specsId);
+	    log.info("goodsSpecs=={}", goodsSpecs);
+		int r  = goodsSpecsMapper.decreaseStock(stock, specsId);
+		Goods goods = this.baseMapper.selectById(goodsSpecs.getGoodsId());
 		if(r==0){
-			throw new RuntimeException("商品库存不足,编号【"+id+"】");
+			String tips = "您购买的商品【"+goods.getTitle()+"】,规格【"+goodsSpecs.getName()+"】库存不足";
+			throw new RuntimeException(tips);
 		}
+		if(goods.getSalesNum() == null){
+			goods.setSalesNum(0);
+		}
+		goods.setSalesNum(goods.getSalesNum() + stock);
+		update(entityToDto(goods));
 		return r;
 	}
 
 	@Override
 	@Transactional
 	public void saveOrUpdateGoods(GoodsDto goodsDto) {
+		if(null == goodsDto.getSpecsDtoList() || goodsDto.getSpecsDtoList().isEmpty()) {
+			throw new RuntimeException("请添加商品规格");
+		}
+
+		Optional<GoodsSpecsDto> goodsSpecsDtoOptional =
+			goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1).sorted(
+				Comparator.comparingInt(GoodsSpecsDto::getPromotionPrice)).findFirst();
+		goodsSpecsDtoOptional.ifPresent(specs->{
+			goodsDto.setPromotePrice(Long.parseLong(specs.getPromotionPrice()+""));
+		});
+
+		Integer price = goodsDto.getSpecsDtoList().stream().sorted(
+			Comparator.comparingInt(GoodsSpecsDto::getPrice)).findFirst().get().getPrice();
+		goodsDto.setPrice(Long.parseLong(price+""));
+
+		//更新分类名称
+		GoodsTypeDto firstGoodsType =  goodsTypeService.getById(goodsDto.getFirstTypeId());
+		GoodsTypeDto secondeGoodsType =  goodsTypeService.getById(goodsDto.getTypeId());
+		if(null == firstGoodsType || null == secondeGoodsType){
+			throw new RuntimeException("商品一级分类和二级分类都不能为空");
+		}
+		goodsDto.setTypeName(firstGoodsType.getName()+" — "+secondeGoodsType.getName());
+
 		if(null == goodsDto.getId()) {
 			save(goodsDto);
 		} else {
@@ -187,47 +230,33 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 
 		List<GoodsSpecsDto> goodsSpecsDtos = goodsSpecsService.getList(goodsSpecsExample);
 
-		//统一规格，删除商品下的所有规格列表
-		if(goodsDto.getUniformSpecs() == UniformSpecsEnum.YES.code()) {
-			goodsSpecsDtos.stream().forEach(goodsSpecsDto -> {
+		//删除不用的规格
+		goodsSpecsDtos.stream().forEach(goodsSpecsDto -> {
+			if(!newGoodsSpecsDtos.contains(goodsSpecsDto)) {
 				goodsSpecsService.deleteById(goodsSpecsDto.getId());
-			});
-			return;
-		}
-
-		//非统一规格，删除多余的规格，添加新增的规格
-		if(goodsDto.getUniformSpecs() == UniformSpecsEnum.NO.code()) {
-
-			//删除不用的规格
-			goodsSpecsDtos.stream().forEach(goodsSpecsDto -> {
-				if(!newGoodsSpecsDtos.contains(goodsSpecsDto)) {
-					goodsSpecsService.deleteById(goodsSpecsDto.getId());
+			}
+		});
+		//添加新增的规格
+		newGoodsSpecsDtos.stream().forEach(newGoodsSpecsDto -> {
+			if(!goodsSpecsDtos.contains(newGoodsSpecsDto)) {
+				newGoodsSpecsDto.setGoodsId(goodsDto.getId());
+				if(null == newGoodsSpecsDto.getPromote()) {
+					newGoodsSpecsDto.setPromote(0);
 				}
-			});
-			//添加新增的规格
-			newGoodsSpecsDtos.stream().forEach(newGoodsSpecsDto -> {
-				if(!goodsSpecsDtos.contains(newGoodsSpecsDto)) {
-					newGoodsSpecsDto.setGoodsId(goodsDto.getId());
-					if(null == newGoodsSpecsDto.getPromote()){
-						newGoodsSpecsDto.setPromote(0);
-					}
-					if(null == newGoodsSpecsDto.getPrice()){
-						newGoodsSpecsDto.setPrice(0);
-					}
-					if(null == newGoodsSpecsDto.getOriginPrice()){
-						newGoodsSpecsDto.setOriginPrice(0);
-					}
-					if(null == newGoodsSpecsDto.getPromotionPrice()){
-						newGoodsSpecsDto.setPromotionPrice(0);
-					}
-					newGoodsSpecsDto.setPromote(newGoodsSpecsDto.getPromote()*100);
-					newGoodsSpecsDto.setPrice(newGoodsSpecsDto.getPrice()*100);
-					newGoodsSpecsDto.setOriginPrice(newGoodsSpecsDto.getOriginPrice()*100);
-					newGoodsSpecsDto.setPromotionPrice(newGoodsSpecsDto.getPromotionPrice()*100);
-					goodsSpecsService.save(newGoodsSpecsDto);
+				if(null == newGoodsSpecsDto.getPrice()) {
+					throw new RuntimeException("规格【"+newGoodsSpecsDto.getName()+"】售价不能为空");
 				}
-			});
-		}
+				if(null == newGoodsSpecsDto.getOriginPrice()) {
+					throw new RuntimeException("规格【"+newGoodsSpecsDto.getName()+"】进价不能为空");
+				}
+
+				newGoodsSpecsDto.setPromote(newGoodsSpecsDto.getPromote());
+				newGoodsSpecsDto.setPrice(newGoodsSpecsDto.getPrice());
+				newGoodsSpecsDto.setOriginPrice(newGoodsSpecsDto.getOriginPrice());
+				newGoodsSpecsDto.setPromotionPrice(newGoodsSpecsDto.getPromotionPrice());
+				goodsSpecsService.save(newGoodsSpecsDto);
+			}
+		});
 	}
 
 	/**

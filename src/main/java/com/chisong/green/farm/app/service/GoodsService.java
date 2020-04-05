@@ -29,12 +29,12 @@ public interface GoodsService extends IService<GoodsDto> {
     public GoodsDto getDetailById(Long id);
 
     /**
-     * 减少库存
+     * 减少规格库存
      * @param stock
-     * @param id
+     * @param specsId
      * @return
      */
-    public int decreaseStock(int stock, Long id);
+    public int decreaseStock(int stock, Long specsId);
     /**
      * 添加或者更新商品信息
      * @param goodsDto

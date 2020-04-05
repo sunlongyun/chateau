@@ -40,11 +40,18 @@ public class GoodsDto implements Serializable {
     * 商品编码
      */
     private String skuCode;
-
     /**
-    * 类别
+     * 一级类别id
      */
-    private String type;
+    private Integer firstTypeId;
+    /**
+    * 二级类别
+     */
+    private Integer typeId;
+    /**
+     * 类别名称
+     */
+    private String typeName;
 
     /**
     * 供应商公司名称
@@ -89,26 +96,6 @@ public class GoodsDto implements Serializable {
      */
     private String description;
 
-    /**
-    * 统一规格；1-是；0-否
-     */
-    @ServiceTypeAnnotation(value = UniformSpecsEnum.class,type = Type.ALL)
-    private Integer uniformSpecs;
-
-    /**
-    * 规格，多个规则用逗号隔开
-     */
-    private String specs;
-
-    /**
-    * 可选单位名称，多个用逗号隔开。1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
-     */
-    private String units;
-
-    /**
-    * 进价 单位：分
-     */
-    private Long originPrice;
 
     /**
     * 销售价格，跨境完税价  单位：分
@@ -119,10 +106,6 @@ public class GoodsDto implements Serializable {
      * 选中规格的价格
      */
     private Long specsPrice;
-    /**
-     * 二级分类id
-     */
-    private  Integer typeId;
     /**
      * 选中的规格id
      */
@@ -142,24 +125,20 @@ public class GoodsDto implements Serializable {
      */
     private Integer salesNum;
 
+
     /**
     * 促销开始时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date promoteStartTime;
 
     /**
     * 促销结束时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date promoteEndTime;
-
-    /**
-    * 库存
-     */
-    private Integer stock;
 
     /**
     * 创建时间

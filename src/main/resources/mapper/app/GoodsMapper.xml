@@ -9,25 +9,20 @@
         <result column="title" property="title" />
         <result column="status" property="status"/>
         <result column="sku_code" property="skuCode" />
-        <result column="type" property="type" />
-        <result column="uniform_specs" property="uniformSpecs"/>
+        <result column="type_name" property="typeName" />
         <result column="supplier_company_name" property="supplierCompanyName" />
         <result column="supplier_id" property="supplierId" />
-        <result column="country_name" property="countryName" />
         <result column="pic_url" property="picUrl" />
+        <result column="first_type_id" property="firstTypeId"/>
         <result column="type_id" property="typeId" />
         <result column="min_pic_url" property="minPicUrl" />
         <result column="detail_pic_url" property="detailPicUrl" />
         <result column="description" property="description" />
-        <result column="specs" property="specs" />
-        <result column="promote_price" property="promotePrice" />
         <result column="promote_start_time" property="promoteStartTime" />
         <result column="promote_end_time" property="promoteEndTime" />
         <result column="sales_num" property="salesNum" />
         <result column="produce_area" property="produceArea" />
         <result column="price" property="price" />
-        <result column="stock" property="stock" />
-        <result column="chateau_id" property="chateauId" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
@@ -35,15 +30,12 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, sku_code, `type`,status, supplier_company_name, supplier_id, country_name, pic_url,
-        min_pic_url,uniform_specs,detail_pic_url, description, specs, origin_price,type_id,
-         price, stock,produce_area,promote_price,sales_num,promote_start_time,promote_end_time,
+        id, title, sku_code, `type_name`,status, supplier_company_name, supplier_id, pic_url,
+        min_pic_url,detail_pic_url, description,first_type_id,type_id,
+         price,produce_area,sales_num,promote_start_time,promote_end_time,
           create_time, update_time, validity
     </sql>
-    <!-- 减少库存-->
-    <update id="decreaseStock">
-        update goods set stock=stock-#{stock},sales_num=sales_num+#{stock} where id  =#{id} and stock >= #{stock}
-    </update>
+
     <!-- 查询列表-->
     <select id="getGoodsList" parameterType="com.chisong.green.farm.app.controller.goods.request.PageQueryReq" resultMap="BaseResultMap">
         SELECT * FROM goods
@@ -51,13 +43,12 @@
             <if test="searchKey != null">
                 AND (
                 title like concat('%',#{searchKey},'%')
-                OR `type` like concat('%',#{searchKey},'%')
-                OR country_name like concat('%',#{searchKey},'%')
                 OR supplier_company_name like concat('%',#{searchKey},'%')
+                OR type_name like concat('%',#{searchKey},'%')
                 )
             </if>
-            <if test="type != null">
-                AND `type` like concat('%',#{type},'%')
+            <if test="typeName != null">
+                AND `type_name` like concat('%',#{typeName},'%')
             </if>
             <if test="supplierId != null">
                 and supplier_id = #{supplierId}

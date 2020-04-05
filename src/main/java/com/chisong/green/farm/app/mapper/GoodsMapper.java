@@ -23,11 +23,4 @@ public interface GoodsMapper extends LsBaseMapper<Goods> {
      */
     public List<Goods> getGoodsList(PageQueryReq pageQueryReq);
 
-    /**
-     * 减少库存
-     * @param stock
-     * @param id
-     * @return
-     */
-    public int decreaseStock(@Param("stock") Integer stock, @Param("id") Long id);
 }

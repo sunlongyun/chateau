@@ -21,7 +21,7 @@ public class PageQueryReq {
 	/**
 	 * 分类名称
 	 */
-	private String type;
+	private String typeName;
 	/**
 	 * 二级分类id
 	 */

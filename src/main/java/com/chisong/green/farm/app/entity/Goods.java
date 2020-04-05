@@ -10,7 +10,7 @@ import lombok.Data;
 * 酒水
 * </p>
 * @author 孙龙云
-* @date 2020-03-28
+* @date 2020-04-05
 */
 @Data
 public class Goods implements Serializable {
@@ -34,6 +34,11 @@ public class Goods implements Serializable {
     private  String skuCode;
 
     /**
+    * 商品一级类目id
+     */
+    private  Integer firstTypeId;
+
+    /**
     * 二级分类id
      */
     private  Integer typeId;
@@ -41,7 +46,7 @@ public class Goods implements Serializable {
     /**
     * 分类名称
      */
-    private  String type;
+    private  String typeName;
 
     /**
     * 供应商公司名称
@@ -63,11 +68,6 @@ public class Goods implements Serializable {
      */
     private  Integer supplierId;
 
-    /**
-    * 国家名称
-     */
-    private  String countryName;
-
     private  String picUrl;
 
     /**
@@ -86,32 +86,12 @@ public class Goods implements Serializable {
     private  String description;
 
     /**
-    * 统一规格；1-是；0-否
-     */
-    private  Integer uniformSpecs;
-
-    /**
-    * 规格，多个规则用逗号隔开
-     */
-    private  String specs;
-
-    /**
-    * 可选单位名称，多个用逗号隔开。1-箱；2-袋；3-千克，4-斤，5-瓶，6-升；
-     */
-    private  String units;
-
-    /**
-    * 进价 单位：分
-     */
-    private  Long originPrice;
-
-    /**
-    * 销售价格，跨境完税价  单位：分
+    * 商品展示价格(规格明细的最低价格)
      */
     private  Long price;
 
     /**
-    * 促销价（只有促销活动期间有效)
+    * 展示促销价(规格明细的最低促销价)
      */
     private  Long promotePrice;
 
@@ -121,7 +101,7 @@ public class Goods implements Serializable {
     private  Integer salesNum;
 
     /**
-    * 促销开始时间
+    * 促销开始时间  只对参与促销的规格生效
      */
     private  Date promoteStartTime;
 
@@ -129,11 +109,6 @@ public class Goods implements Serializable {
     * 促销结束时间
      */
     private  Date promoteEndTime;
-
-    /**
-    * 库存
-     */
-    private  Integer stock;
 
     /**
     * 创建时间

@@ -42,6 +42,10 @@ public class GoodsSpecsDto implements Serializable {
     * 进价
      */
     private Integer originPrice;
+    /**
+     * 进件是否包邮，1-包邮；0-不包邮
+     */
+    private Integer postage;
 
     /**
      * 促销价
@@ -55,6 +59,7 @@ public class GoodsSpecsDto implements Serializable {
      */
     @ServiceTypeAnnotation(value = PromotionStatusEnum.class,type = Type.ALL)
     private  Integer promote;
+
 
     /**
     * 库存
