@@ -10,7 +10,7 @@ import lombok.Data;
 * 商品规格明细
 * </p>
 * @author 孙龙云
-* @date 2020-01-12
+* @date 2020-04-05
 */
 @Data
 public class GoodsSpecs implements Serializable {
@@ -36,6 +36,11 @@ public class GoodsSpecs implements Serializable {
     private  Integer price;
 
     /**
+    * 进货价格是否包含邮费
+     */
+    private  Integer postage;
+
+    /**
     * 进价
      */
     private  Integer originPrice;
@@ -49,6 +54,11 @@ public class GoodsSpecs implements Serializable {
     * 是否参加促销活动 1-参加;0-不参加
      */
     private  Integer promote;
+
+    /**
+    * 销售数量
+     */
+    private  Integer salesNum;
 
     /**
     * 库存

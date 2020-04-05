@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-01-12
+* @date 2020-04-05
 */
 @Data
 public class GoodsSpecsExample implements Serializable {
@@ -329,6 +329,67 @@ public class GoodsSpecsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andPostageIn(List<Integer> values) {
+            addCriterion("postage in", values, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageNotIn(List<Integer> values) {
+            addCriterion("postage not in", values, "postage");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPostageBetween(Integer value1, Integer value2) {
+            addCriterion("postage between", value1, value2, "postage");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPostageLike(String value) {
+            addCriterion("postage like", value, "postage");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPostageEqualTo(Integer value) {
+            addCriterion("postage =", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageNotEqualTo(Integer value) {
+            addCriterion("postage <>", value, "postage");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPostageGreaterThan(Integer value) {
+            addCriterion("postage >", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageGreaterThanOrEqualTo(Integer value) {
+            addCriterion("postage >=", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageLessThan(Integer value) {
+            addCriterion("postage <", value, "postage");
+            return (Criteria) this;
+        }
+        public Criteria andPostageLessThanOrEqualTo(Integer value) {
+            addCriterion("postage <=", value, "postage");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPostageIsNull() {
+            addCriterion("postage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostageIsNotNull() {
+            addCriterion("postage is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andOriginPriceIn(List<Integer> values) {
             addCriterion("origin_price in", values, "originPrice");
             return (Criteria) this;
@@ -509,6 +570,67 @@ public class GoodsSpecsExample implements Serializable {
 
         public Criteria andPromoteIsNotNull() {
             addCriterion("promote is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSalesNumIn(List<Integer> values) {
+            addCriterion("sales_num in", values, "salesNum");
+            return (Criteria) this;
+        }
+        public Criteria andSalesNumNotIn(List<Integer> values) {
+            addCriterion("sales_num not in", values, "salesNum");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSalesNumBetween(Integer value1, Integer value2) {
+            addCriterion("sales_num between", value1, value2, "salesNum");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSalesNumLike(String value) {
+            addCriterion("sales_num like", value, "salesNum");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSalesNumEqualTo(Integer value) {
+            addCriterion("sales_num =", value, "salesNum");
+            return (Criteria) this;
+        }
+        public Criteria andSalesNumNotEqualTo(Integer value) {
+            addCriterion("sales_num <>", value, "salesNum");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSalesNumGreaterThan(Integer value) {
+            addCriterion("sales_num >", value, "salesNum");
+            return (Criteria) this;
+        }
+        public Criteria andSalesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sales_num >=", value, "salesNum");
+            return (Criteria) this;
+        }
+        public Criteria andSalesNumLessThan(Integer value) {
+            addCriterion("sales_num <", value, "salesNum");
+            return (Criteria) this;
+        }
+        public Criteria andSalesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("sales_num <=", value, "salesNum");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSalesNumIsNull() {
+            addCriterion("sales_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalesNumIsNotNull() {
+            addCriterion("sales_num is not null");
             return (Criteria) this;
         }
         // in,   not in

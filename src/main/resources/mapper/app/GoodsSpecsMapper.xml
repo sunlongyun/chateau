@@ -13,13 +13,15 @@
         <result column="promote" property="promote" />
         <result column="stock" property="stock" />
         <result column="create_time" property="createTime" />
+        <result column="postage" property="postage"/>
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods_id, name, price, origin_price, promotion_price, promote, stock, create_time, update_time, validity
+        id, goods_id, name, price, origin_price, promotion_price, promote,postage, stock, create_time, update_time,
+        validity
     </sql>
 
     <!-- 减少库存-->

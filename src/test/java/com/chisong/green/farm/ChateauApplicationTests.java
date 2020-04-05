@@ -59,7 +59,7 @@ public class ChateauApplicationTests {
 			"chisong", "csz123$%",
 			Arrays.asList(GenerateFileTypeEnum.ENTITY,
 				GenerateFileTypeEnum.EXAMPLE),
-			"goods");
+			"goods_specs");
 	}
 
 	@Test
