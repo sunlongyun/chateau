@@ -101,12 +101,14 @@ public class PayCallBackController {
 						paymentDto.setThirdPayNo(payOrderQueryResultResponse.getTransactionId());
 						paymentDto.setStatus(1);
 						paymentDto.setPaySuccessTime(new Date());
+
 						paymentService.update(paymentDto);
 
 						String orderNo = paymentDto.getPayOrderNo();
 						OrderInfoDto orderInfoDto = orderInfoService.getOrderByNo(orderNo);
 						orderInfoDto.setStatus(OrderStatusEnum.PAYED.code());
 						orderInfoDto.setPayNo(paymentDto.getPayNo());
+						orderInfoDto.setPayedAmount(Long.parseLong(payOrderQueryResultResponse.getTotalFee()+""));
 						orderInfoService.update(orderInfoDto);
 					}
 

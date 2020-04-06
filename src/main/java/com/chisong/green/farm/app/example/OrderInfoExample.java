@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-02-16
+* @date 2020-04-06
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -753,6 +753,433 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andPayNoIsNotNull() {
             addCriterion("pay_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPayedAmountIn(List<Long> values) {
+            addCriterion("payed_amount in", values, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountNotIn(List<Long> values) {
+            addCriterion("payed_amount not in", values, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPayedAmountBetween(Long value1, Long value2) {
+            addCriterion("payed_amount between", value1, value2, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPayedAmountLike(String value) {
+            addCriterion("payed_amount like", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPayedAmountEqualTo(Long value) {
+            addCriterion("payed_amount =", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountNotEqualTo(Long value) {
+            addCriterion("payed_amount <>", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPayedAmountGreaterThan(Long value) {
+            addCriterion("payed_amount >", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("payed_amount >=", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountLessThan(Long value) {
+            addCriterion("payed_amount <", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountLessThanOrEqualTo(Long value) {
+            addCriterion("payed_amount <=", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPayedAmountIsNull() {
+            addCriterion("payed_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayedAmountIsNotNull() {
+            addCriterion("payed_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andIncomeIn(List<Long> values) {
+            addCriterion("income in", values, "income");
+            return (Criteria) this;
+        }
+        public Criteria andIncomeNotIn(List<Long> values) {
+            addCriterion("income not in", values, "income");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andIncomeBetween(Long value1, Long value2) {
+            addCriterion("income between", value1, value2, "income");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andIncomeLike(String value) {
+            addCriterion("income like", value, "income");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andIncomeEqualTo(Long value) {
+            addCriterion("income =", value, "income");
+            return (Criteria) this;
+        }
+        public Criteria andIncomeNotEqualTo(Long value) {
+            addCriterion("income <>", value, "income");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andIncomeGreaterThan(Long value) {
+            addCriterion("income >", value, "income");
+            return (Criteria) this;
+        }
+        public Criteria andIncomeGreaterThanOrEqualTo(Long value) {
+            addCriterion("income >=", value, "income");
+            return (Criteria) this;
+        }
+        public Criteria andIncomeLessThan(Long value) {
+            addCriterion("income <", value, "income");
+            return (Criteria) this;
+        }
+        public Criteria andIncomeLessThanOrEqualTo(Long value) {
+            addCriterion("income <=", value, "income");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andIncomeIsNull() {
+            addCriterion("income is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncomeIsNotNull() {
+            addCriterion("income is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSharedIn(List<Integer> values) {
+            addCriterion("shared in", values, "shared");
+            return (Criteria) this;
+        }
+        public Criteria andSharedNotIn(List<Integer> values) {
+            addCriterion("shared not in", values, "shared");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSharedBetween(Integer value1, Integer value2) {
+            addCriterion("shared between", value1, value2, "shared");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSharedLike(String value) {
+            addCriterion("shared like", value, "shared");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSharedEqualTo(Integer value) {
+            addCriterion("shared =", value, "shared");
+            return (Criteria) this;
+        }
+        public Criteria andSharedNotEqualTo(Integer value) {
+            addCriterion("shared <>", value, "shared");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSharedGreaterThan(Integer value) {
+            addCriterion("shared >", value, "shared");
+            return (Criteria) this;
+        }
+        public Criteria andSharedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("shared >=", value, "shared");
+            return (Criteria) this;
+        }
+        public Criteria andSharedLessThan(Integer value) {
+            addCriterion("shared <", value, "shared");
+            return (Criteria) this;
+        }
+        public Criteria andSharedLessThanOrEqualTo(Integer value) {
+            addCriterion("shared <=", value, "shared");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSharedIsNull() {
+            addCriterion("shared is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSharedIsNotNull() {
+            addCriterion("shared is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierPostageIn(List<Integer> values) {
+            addCriterion("supplier_postage in", values, "supplierPostage");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierPostageNotIn(List<Integer> values) {
+            addCriterion("supplier_postage not in", values, "supplierPostage");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierPostageBetween(Integer value1, Integer value2) {
+            addCriterion("supplier_postage between", value1, value2, "supplierPostage");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierPostageLike(String value) {
+            addCriterion("supplier_postage like", value, "supplierPostage");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierPostageEqualTo(Integer value) {
+            addCriterion("supplier_postage =", value, "supplierPostage");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierPostageNotEqualTo(Integer value) {
+            addCriterion("supplier_postage <>", value, "supplierPostage");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierPostageGreaterThan(Integer value) {
+            addCriterion("supplier_postage >", value, "supplierPostage");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierPostageGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supplier_postage >=", value, "supplierPostage");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierPostageLessThan(Integer value) {
+            addCriterion("supplier_postage <", value, "supplierPostage");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierPostageLessThanOrEqualTo(Integer value) {
+            addCriterion("supplier_postage <=", value, "supplierPostage");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierPostageIsNull() {
+            addCriterion("supplier_postage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierPostageIsNotNull() {
+            addCriterion("supplier_postage is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierAmountIn(List<Long> values) {
+            addCriterion("supplier_amount in", values, "supplierAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAmountNotIn(List<Long> values) {
+            addCriterion("supplier_amount not in", values, "supplierAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierAmountBetween(Long value1, Long value2) {
+            addCriterion("supplier_amount between", value1, value2, "supplierAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierAmountLike(String value) {
+            addCriterion("supplier_amount like", value, "supplierAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierAmountEqualTo(Long value) {
+            addCriterion("supplier_amount =", value, "supplierAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAmountNotEqualTo(Long value) {
+            addCriterion("supplier_amount <>", value, "supplierAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierAmountGreaterThan(Long value) {
+            addCriterion("supplier_amount >", value, "supplierAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("supplier_amount >=", value, "supplierAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAmountLessThan(Long value) {
+            addCriterion("supplier_amount <", value, "supplierAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierAmountLessThanOrEqualTo(Long value) {
+            addCriterion("supplier_amount <=", value, "supplierAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierAmountIsNull() {
+            addCriterion("supplier_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierAmountIsNotNull() {
+            addCriterion("supplier_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSupplierStatusIn(List<Integer> values) {
+            addCriterion("supplier_status in", values, "supplierStatus");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierStatusNotIn(List<Integer> values) {
+            addCriterion("supplier_status not in", values, "supplierStatus");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSupplierStatusBetween(Integer value1, Integer value2) {
+            addCriterion("supplier_status between", value1, value2, "supplierStatus");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSupplierStatusLike(String value) {
+            addCriterion("supplier_status like", value, "supplierStatus");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSupplierStatusEqualTo(Integer value) {
+            addCriterion("supplier_status =", value, "supplierStatus");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierStatusNotEqualTo(Integer value) {
+            addCriterion("supplier_status <>", value, "supplierStatus");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSupplierStatusGreaterThan(Integer value) {
+            addCriterion("supplier_status >", value, "supplierStatus");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supplier_status >=", value, "supplierStatus");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierStatusLessThan(Integer value) {
+            addCriterion("supplier_status <", value, "supplierStatus");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("supplier_status <=", value, "supplierStatus");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSupplierStatusIsNull() {
+            addCriterion("supplier_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierStatusIsNotNull() {
+            addCriterion("supplier_status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andCostAmountIn(List<Long> values) {
+            addCriterion("cost_amount in", values, "costAmount");
+            return (Criteria) this;
+        }
+        public Criteria andCostAmountNotIn(List<Long> values) {
+            addCriterion("cost_amount not in", values, "costAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andCostAmountBetween(Long value1, Long value2) {
+            addCriterion("cost_amount between", value1, value2, "costAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andCostAmountLike(String value) {
+            addCriterion("cost_amount like", value, "costAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andCostAmountEqualTo(Long value) {
+            addCriterion("cost_amount =", value, "costAmount");
+            return (Criteria) this;
+        }
+        public Criteria andCostAmountNotEqualTo(Long value) {
+            addCriterion("cost_amount <>", value, "costAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andCostAmountGreaterThan(Long value) {
+            addCriterion("cost_amount >", value, "costAmount");
+            return (Criteria) this;
+        }
+        public Criteria andCostAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("cost_amount >=", value, "costAmount");
+            return (Criteria) this;
+        }
+        public Criteria andCostAmountLessThan(Long value) {
+            addCriterion("cost_amount <", value, "costAmount");
+            return (Criteria) this;
+        }
+        public Criteria andCostAmountLessThanOrEqualTo(Long value) {
+            addCriterion("cost_amount <=", value, "costAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andCostAmountIsNull() {
+            addCriterion("cost_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostAmountIsNotNull() {
+            addCriterion("cost_amount is not null");
             return (Criteria) this;
         }
         // in,   not in

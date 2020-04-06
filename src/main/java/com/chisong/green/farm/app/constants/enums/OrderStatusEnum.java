@@ -6,7 +6,7 @@ public enum OrderStatusEnum implements BaseServiceEnum{
 	DELIVERY(2, "卖家已发货"),
 	RECEIVED(3,"买家已收货"),
 	CANCELED(4, "订单已取消"),
-	DELETED(5, "，买家已删除");
+	DELETED(5, "订单已删除");
 
 	private Integer code;
 	private String value;

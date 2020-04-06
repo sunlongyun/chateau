@@ -62,7 +62,7 @@ public class OrderInfoDto implements Serializable {
     * 邮费
      */
     @AmountUnitChange(showUnit=true)
-    private Long postage = 0l;
+    private Integer postage =0;
 
     /**
     * 物流单号
@@ -73,6 +73,45 @@ public class OrderInfoDto implements Serializable {
     * 支付流水号，支付成功的支付流水号
      */
     private String payNo;
+    /**
+     * 顾客已支付金额
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long payedAmount;
+
+    /**
+     * 收益
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long income;
+
+    /**
+     * 1 是否已结算分润
+     */
+    private  Integer shared;
+
+    /**
+     * 供应商发货邮费
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Integer supplierPostage;
+
+    /**
+     * 给供应商结款额度
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long supplierAmount;
+
+    /**
+     * 给供应商结款状态  0-未结款;1-部分结算；2-已结算
+     */
+    private  Integer supplierStatus;
+
+    /**
+     * 该订单成本(不含邮费)
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long costAmount;
 
     /**
     * 订单总金额 单位：分

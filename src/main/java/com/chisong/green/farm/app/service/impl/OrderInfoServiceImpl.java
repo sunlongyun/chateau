@@ -91,6 +91,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			throw new RuntimeException("订单明细不能为空");
 		}
 		long total = 0l;
+		long cost = 0l;
 
 		List<Integer> managerIdList = new ArrayList<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
@@ -104,6 +105,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			GoodsDto goodsDto = goodsService.getById(orderDetailDto.getGoodsId());
 
 			total += orderDetailDto.getTotalPrice();
+			GoodsSpecsDto goodsSpecsDto= goodsSpecsService.getById(orderDetailDto.getSpecsId());
+			//计算成本价
+			cost += goodsSpecsDto.getOriginPrice()*orderDetailDto.getNum();
+
 			orderDetailService.save(orderDetailDto);
 			//减少库存
 			goodsService.decreaseStock(orderDetailDto.getNum(), orderDetailDto.getSpecsId());
@@ -121,10 +126,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		/**
 		 * 订单运费
 		 */
-		long postage = computePostage(orderInfoDto.getOrderDetailDtoList());
+		Integer postage = computePostage(orderInfoDto.getOrderDetailDtoList());
 		log.info("postage==={}", postage);
 		orderInfoDto.setTotalAmount(total);
+		orderInfoDto.setCostAmount(cost);
+		orderInfoDto.setIncome(total-cost);
 		orderInfoDto.setPostage(postage);
+
 		//3.更新订单信息
 		this.update(orderInfoDto);
 		//3.保存收货地址
@@ -137,6 +145,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		orderDeliveryAddressMapping.setContact(customerDeliveryAddressDto.getContact());
 		orderDeliveryAddressMapping.setMobile(customerDeliveryAddressDto.getMobile());
 		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
+
+
 		return orderInfoDto.getOrderNo();
 	}
 
@@ -281,8 +291,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		}).reduce(0, (a, b) -> a+b);
 	}
 	@Override
-	public long computePostage(List<OrderDetailDto> orderDetailReqList) {
-		return getTotalPostFee(orderDetailReqList);
+	public Integer computePostage(List<OrderDetailDto> orderDetailReqList) {
+		return Integer.parseInt( getTotalPostFee(orderDetailReqList)+"");
 	}
 
 	@Override

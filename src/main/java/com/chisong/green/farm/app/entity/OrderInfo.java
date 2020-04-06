@@ -10,7 +10,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-07-06
+* @date 2020-04-06
 */
 @Data
 public class OrderInfo implements Serializable {
@@ -41,7 +41,7 @@ public class OrderInfo implements Serializable {
     private  Long customerId;
 
     /**
-    * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;
+    * 订单状态 0-下单待支付；1-下单已支付；2-卖家已发货;3-已收货;4-订单已取消;5-订单已删除
      */
     private  Integer status;
 
@@ -54,10 +54,11 @@ public class OrderInfo implements Serializable {
     * 取消订单备注
      */
     private  String cancelRemark;
+
     /**
-     * 运费
+    * 邮费
      */
-    private Long postage = 0l;
+    private  Integer postage;
 
     /**
     * 物流单号
@@ -70,7 +71,47 @@ public class OrderInfo implements Serializable {
     private  String payNo;
 
     /**
-    * 订单总金额 单位：分
+    * 顾客已支付金额
+     */
+    private  Long payedAmount;
+
+    /**
+    * 收益
+     */
+    private  Long income;
+
+    /**
+    * 1 是否已结算分润
+     */
+    private  Integer shared;
+
+    /**
+    * 供应商发货邮费
+     */
+    private  Integer supplierPostage;
+
+    /**
+    * 给供应商结款额度
+     */
+    private  Long supplierAmount;
+
+    /**
+    * 给供应商结款状态  0-未结款;1-部分结算；2-已结算
+     */
+    private  Integer supplierStatus;
+
+    /**
+    * 该订单成本(不含邮费)
+     */
+    private  Long costAmount;
+
+    /**
+    * 管理员id，位存储。如果管理员id为100，那么这个int数字的第100
+     */
+    private  Integer managerId;
+
+    /**
+    * 订单总金额（不含邮费） 单位：分
      */
     private  Long totalAmount;
 
@@ -89,8 +130,4 @@ public class OrderInfo implements Serializable {
      */
     private  Integer validity;
 
-    /**
-     * 管理员id
-     */
-    private Integer managerId;
 }

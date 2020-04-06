@@ -46,7 +46,7 @@ public interface OrderInfoService extends IService<OrderInfoDto> {
 	 * @param orderDetailReqList
 	 * @return
 	 */
-	public long computePostage( List<OrderDetailDto> orderDetailReqList);
+	public Integer computePostage( List<OrderDetailDto> orderDetailReqList);
 
 	/**
 	 * 查询订单列表

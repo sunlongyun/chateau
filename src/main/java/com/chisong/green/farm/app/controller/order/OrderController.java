@@ -382,7 +382,7 @@ public class OrderController {
 			throw new RuntimeException(tips);
 		}
 		if(goodsSpecsDto.getStock() == null || goodsSpecsDto.getStock()< orderDetailReq.getNum()){
-			String tips = "您购买的商品【"+goodsSpecsDto.getName()+"】,规格【"+goodsSpecsDto.getName()+"】库存不足";
+			String tips = "您购买的商品【"+goodsDto.getTitle()+"】,规格【"+goodsSpecsDto.getName()+"】库存不足";
 			throw new RuntimeException(tips);
 		}
 	}
