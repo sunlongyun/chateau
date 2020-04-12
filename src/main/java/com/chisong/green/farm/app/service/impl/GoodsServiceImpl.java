@@ -180,17 +180,21 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		if(null == goodsDto.getSpecsDtoList() || goodsDto.getSpecsDtoList().isEmpty()) {
 			throw new RuntimeException("请添加商品规格");
 		}
+		//商品价格默认是规格中最低的价格，
+		//如果有商品参加活动，则默认是参加活动中的最低价格
+		Integer price = goodsDto.getSpecsDtoList().stream().sorted(
+			Comparator.comparingInt(GoodsSpecsDto::getPrice)).findFirst().get().getPrice();
+		goodsDto.setPrice(Long.parseLong(price+""));
 
 		Optional<GoodsSpecsDto> goodsSpecsDtoOptional =
 			goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1).sorted(
 				Comparator.comparingInt(GoodsSpecsDto::getPromotionPrice)).findFirst();
 		goodsSpecsDtoOptional.ifPresent(specs->{
 			goodsDto.setPromotePrice(Long.parseLong(specs.getPromotionPrice()+""));
+			goodsDto.setPrice(Long.parseLong(specs.getPrice()+""));
 		});
 
-		Integer price = goodsDto.getSpecsDtoList().stream().sorted(
-			Comparator.comparingInt(GoodsSpecsDto::getPrice)).findFirst().get().getPrice();
-		goodsDto.setPrice(Long.parseLong(price+""));
+
 
 		//更新分类名称
 		GoodsTypeDto firstGoodsType =  goodsTypeService.getById(goodsDto.getFirstTypeId());

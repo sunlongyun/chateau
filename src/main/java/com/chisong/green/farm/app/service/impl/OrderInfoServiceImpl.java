@@ -228,6 +228,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		log.info("orderDeliveryAddressMappingDto:{}", orderDeliveryAddressMappingDto);
 		orderInfoDto.setOrderDeliveryAddressMappingDto(orderDeliveryAddressMappingDto);
 		orderInfoDto.setUserAddress(orderDeliveryAddressMappingDto.getAddress());
+		orderInfoDto.setUserMobile(orderDeliveryAddressMappingDto.getMobile());
+		orderInfoDto.setUserName(orderDeliveryAddressMappingDto.getContact());
+
 		CustomerDeliveryAddressDto addressDto =
 			customerDeliveryAddressService.getById(orderDeliveryAddressMappingDto.getAddressId());
 		log.info("addressDto:{}", addressDto);

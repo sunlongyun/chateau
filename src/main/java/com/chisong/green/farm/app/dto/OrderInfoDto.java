@@ -151,6 +151,14 @@ public class OrderInfoDto implements Serializable {
      * 收货地址
      */
     private String userAddress;
+    /**
+     * 收货人联系方式
+     */
+    private String userMobile;
+    /**
+     * 收货人 姓名
+     */
+    private String userName;
 
     /**
      * 管理员id
