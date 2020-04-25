@@ -90,6 +90,7 @@
     <select id="getOrderList" parameterType="map" resultType="com.chisong.green.farm.app.entity.OrderInfo">
         select * from order_info
         <trim prefix="where" prefixOverrides="and">
+            and validity = 1
             <if test="customerName != null">
                 and customer_name like concat('%',#{customerName},'%')
             </if>
@@ -103,10 +104,10 @@
                 and status = ${status}
             </if>
             <if test="managerId != null">
-                and
-                 <![CDATA[
+                and manager_id = #{managerId}
+                <!-- <![CDATA[
                   ((manager_id >> (#{managerId}-1)) & 1)  = 1
-                 ]]>
+                 ]]>-->
 
             </if>
         </trim>

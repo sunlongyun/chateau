@@ -93,7 +93,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		long total = 0l;
 		long cost = 0l;
 
-		List<Integer> managerIdList = new ArrayList<>();
+//		List<Integer> managerIdList = new ArrayList<>();
 		for(OrderDetailDto orderDetailDto : orderDetailDtoList) {
 			log.info("orderDetailDto:{}", orderDetailDto);
 			if(null == orderDetailDto) {
@@ -117,11 +117,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
 			//查询订单所属的管理员
 			SupplierDto supplierDto = supplierService.getById(goodsDto.getSupplierId());
-			managerIdList.add(Integer.parseInt(supplierDto.getCreatorId()+"") );
+			orderInfoDto.setManagerId(Integer.parseInt(supplierDto.getCreatorId()+""));
+//			managerIdList.add(Integer.parseInt(supplierDto.getCreatorId()+"") );
 		}
 
 		//构造managerId
-		buildManagerId(orderInfoDto, managerIdList);
+//		buildManagerId(orderInfoDto, managerIdList);
 
 		/**
 		 * 订单运费
@@ -156,13 +157,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	 * @param managerIdList
 	 */
 	private void buildManagerId(OrderInfoDto orderInfoDto, List<Integer> managerIdList) {
-		AtomicInteger managerIds = new AtomicInteger(0);
-		managerIdList.stream().forEach(managerId->{
-			int x = managerIds.get();
-			x = BitUtil.setOneAtIndex(x, managerId);
-			managerIds.set(x);
-		});
-		orderInfoDto.setManagerId(managerIds.get());
+//		AtomicInteger managerIds = new AtomicInteger(0);
+//		managerIdList.stream().forEach(managerId->{
+//			int x = managerIds.get();
+//			x = BitUtil.setOneAtIndex(x, managerId);
+//			managerIds.set(x);
+//		});
+		orderInfoDto.setManagerId(managerIdList.get(0));
 	}
 
 	/**
