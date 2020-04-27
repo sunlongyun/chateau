@@ -154,13 +154,6 @@ public class CartController {
 			throw new RuntimeException("商品不存在");
 		}
 
-		if(null != goodsDto.getPromoteStartTime()
-			&& null != goodsDto.getPromoteEndTime()
-			&& goodsDto.getPromoteStartTime().before(new Date())
-			&& goodsDto.getPromoteEndTime().after(new Date())) {
-			goodsDto.setPromote(true);
-		}
-
 		CartItemDto cartItemDto = null;
 		//先校验该商品是否应在购物车，如果已经存在，则执行添加
 		CartItemExample cartItemExample = new CartItemExample();

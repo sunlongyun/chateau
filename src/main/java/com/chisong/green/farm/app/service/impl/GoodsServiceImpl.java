@@ -71,14 +71,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);
 		PageInfo pageInfo = PageInfo.getPageInfo(goodsDtoList);
 		List<GoodsDto> goodsDtos = copyList(goodsDtoList, GoodsDto.class);
-		goodsDtos.stream().forEach(goodsDto -> {
-			if(null != goodsDto.getPromoteStartTime()
-				&& null != goodsDto.getPromoteEndTime()
-				&& goodsDto.getPromoteStartTime().before(new Date())
-				&& goodsDto.getPromoteEndTime().after(new Date())) {
-				goodsDto.setPromote(true);
-			}
-		});
+
 		pageInfo.setDataList(goodsDtos);
 		return pageInfo;
 	}
@@ -95,13 +88,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			.map(GoodsTopImagesDto::getImageUrl).collect(Collectors.toList());
 		goodsDto.setTopImages(topImgList);
 
-		//促销标志
-		if(null != goodsDto.getPromoteStartTime()
-			&& null != goodsDto.getPromoteEndTime()
-			&& goodsDto.getPromoteStartTime().before(new Date())
-			&& goodsDto.getPromoteEndTime().after(new Date())) {
-			goodsDto.setPromote(true);
-		}
 
 		//商品详情介绍图片
 		GoodsTailImagesExample goodsTailImagesExample = new GoodsTailImagesExample();

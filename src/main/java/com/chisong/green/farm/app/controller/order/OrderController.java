@@ -354,13 +354,6 @@ public class OrderController {
 			//校验库存
 			checkStock(orderDetailReq, goodsSpecsDto, goodsDto);
 
-			if(null != goodsDto.getPromoteStartTime()
-				&& null != goodsDto.getPromoteEndTime()
-				&& goodsDto.getPromoteStartTime().before(new Date())
-				&& goodsDto.getPromoteEndTime().after(new Date())) {
-				goodsDto.setPromote(true);
-			}
-
 			orderDetailDto.setTitle(goodsDto.getTitle());
 			log.info("goodsId:{},goodsSpecsDto:{}", goodsDto.getId(), goodsSpecsDto);
 			orderDetailDto.setPrice(Long.valueOf(goodsSpecsDto.getPrice() + ""));

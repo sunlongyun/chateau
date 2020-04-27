@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-04-05
+* @date 2020-04-27
 */
 @Data
 public class GoodsExample implements Serializable {
@@ -875,6 +875,67 @@ public class GoodsExample implements Serializable {
 
         public Criteria andDetailPicUrlIsNotNull() {
             addCriterion("detail_pic_url is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPromoteIn(List<Integer> values) {
+            addCriterion("promote in", values, "promote");
+            return (Criteria) this;
+        }
+        public Criteria andPromoteNotIn(List<Integer> values) {
+            addCriterion("promote not in", values, "promote");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPromoteBetween(Integer value1, Integer value2) {
+            addCriterion("promote between", value1, value2, "promote");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPromoteLike(String value) {
+            addCriterion("promote like", value, "promote");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPromoteEqualTo(Integer value) {
+            addCriterion("promote =", value, "promote");
+            return (Criteria) this;
+        }
+        public Criteria andPromoteNotEqualTo(Integer value) {
+            addCriterion("promote <>", value, "promote");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPromoteGreaterThan(Integer value) {
+            addCriterion("promote >", value, "promote");
+            return (Criteria) this;
+        }
+        public Criteria andPromoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("promote >=", value, "promote");
+            return (Criteria) this;
+        }
+        public Criteria andPromoteLessThan(Integer value) {
+            addCriterion("promote <", value, "promote");
+            return (Criteria) this;
+        }
+        public Criteria andPromoteLessThanOrEqualTo(Integer value) {
+            addCriterion("promote <=", value, "promote");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPromoteIsNull() {
+            addCriterion("promote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromoteIsNotNull() {
+            addCriterion("promote is not null");
             return (Criteria) this;
         }
         // in,   not in

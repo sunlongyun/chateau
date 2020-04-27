@@ -23,6 +23,7 @@
         <result column="sales_num" property="salesNum" />
         <result column="produce_area" property="produceArea" />
         <result column="price" property="price" />
+        <result column="promote" property="promote" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
@@ -60,9 +61,7 @@
                 and type_id = #{typeId}
             </if>
             <if test="promote == 1">
-             and promote_start_time
-                <![CDATA[ <= ]]>   NOW()
-                 and promote_end_time >=  NOW()
+             and promote = 1
             </if>
         </trim>
         <if test="sortKey != null">

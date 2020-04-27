@@ -94,6 +94,10 @@ public class Goods implements Serializable {
     * 展示促销价(规格明细的最低促销价)
      */
     private  Long promotePrice;
+    /**
+     * 是否促销
+     */
+    private boolean promote;
 
     /**
     * 累计销售数量
