@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-04-27
+* @date 2020-05-02
 */
 @Data
 public class GoodsExample implements Serializable {
@@ -1061,6 +1061,67 @@ public class GoodsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andSalesAmountIn(List<Long> values) {
+            addCriterion("sales_amount in", values, "salesAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSalesAmountNotIn(List<Long> values) {
+            addCriterion("sales_amount not in", values, "salesAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSalesAmountBetween(Long value1, Long value2) {
+            addCriterion("sales_amount between", value1, value2, "salesAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSalesAmountLike(String value) {
+            addCriterion("sales_amount like", value, "salesAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSalesAmountEqualTo(Long value) {
+            addCriterion("sales_amount =", value, "salesAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSalesAmountNotEqualTo(Long value) {
+            addCriterion("sales_amount <>", value, "salesAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSalesAmountGreaterThan(Long value) {
+            addCriterion("sales_amount >", value, "salesAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSalesAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("sales_amount >=", value, "salesAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSalesAmountLessThan(Long value) {
+            addCriterion("sales_amount <", value, "salesAmount");
+            return (Criteria) this;
+        }
+        public Criteria andSalesAmountLessThanOrEqualTo(Long value) {
+            addCriterion("sales_amount <=", value, "salesAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSalesAmountIsNull() {
+            addCriterion("sales_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalesAmountIsNotNull() {
+            addCriterion("sales_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andPromotePriceIn(List<Long> values) {
             addCriterion("promote_price in", values, "promotePrice");
             return (Criteria) this;
@@ -1424,6 +1485,189 @@ public class GoodsExample implements Serializable {
 
         public Criteria andUpdateTimeIsNotNull() {
             addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSendTimeIn(List<Date> values) {
+            addCriterion("send_time in", values, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeNotIn(List<Date> values) {
+            addCriterion("send_time not in", values, "sendTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSendTimeBetween(Date value1, Date value2) {
+            addCriterion("send_time between", value1, value2, "sendTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSendTimeLike(String value) {
+            addCriterion("send_time like", value, "sendTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSendTimeEqualTo(Date value) {
+            addCriterion("send_time =", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeNotEqualTo(Date value) {
+            addCriterion("send_time <>", value, "sendTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSendTimeGreaterThan(Date value) {
+            addCriterion("send_time >", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("send_time >=", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeLessThan(Date value) {
+            addCriterion("send_time <", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeLessThanOrEqualTo(Date value) {
+            addCriterion("send_time <=", value, "sendTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSendTimeIsNull() {
+            addCriterion("send_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendTimeIsNotNull() {
+            addCriterion("send_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andWeightProjectTimeIn(List<Date> values) {
+            addCriterion("weight_project_time in", values, "weightProjectTime");
+            return (Criteria) this;
+        }
+        public Criteria andWeightProjectTimeNotIn(List<Date> values) {
+            addCriterion("weight_project_time not in", values, "weightProjectTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andWeightProjectTimeBetween(Date value1, Date value2) {
+            addCriterion("weight_project_time between", value1, value2, "weightProjectTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andWeightProjectTimeLike(String value) {
+            addCriterion("weight_project_time like", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andWeightProjectTimeEqualTo(Date value) {
+            addCriterion("weight_project_time =", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+        public Criteria andWeightProjectTimeNotEqualTo(Date value) {
+            addCriterion("weight_project_time <>", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andWeightProjectTimeGreaterThan(Date value) {
+            addCriterion("weight_project_time >", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+        public Criteria andWeightProjectTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("weight_project_time >=", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+        public Criteria andWeightProjectTimeLessThan(Date value) {
+            addCriterion("weight_project_time <", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+        public Criteria andWeightProjectTimeLessThanOrEqualTo(Date value) {
+            addCriterion("weight_project_time <=", value, "weightProjectTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andWeightProjectTimeIsNull() {
+            addCriterion("weight_project_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeightProjectTimeIsNotNull() {
+            addCriterion("weight_project_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andWeightIn(List<Integer> values) {
+            addCriterion("weight in", values, "weight");
+            return (Criteria) this;
+        }
+        public Criteria andWeightNotIn(List<Integer> values) {
+            addCriterion("weight not in", values, "weight");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andWeightBetween(Integer value1, Integer value2) {
+            addCriterion("weight between", value1, value2, "weight");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andWeightLike(String value) {
+            addCriterion("weight like", value, "weight");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andWeightEqualTo(Integer value) {
+            addCriterion("weight =", value, "weight");
+            return (Criteria) this;
+        }
+        public Criteria andWeightNotEqualTo(Integer value) {
+            addCriterion("weight <>", value, "weight");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andWeightGreaterThan(Integer value) {
+            addCriterion("weight >", value, "weight");
+            return (Criteria) this;
+        }
+        public Criteria andWeightGreaterThanOrEqualTo(Integer value) {
+            addCriterion("weight >=", value, "weight");
+            return (Criteria) this;
+        }
+        public Criteria andWeightLessThan(Integer value) {
+            addCriterion("weight <", value, "weight");
+            return (Criteria) this;
+        }
+        public Criteria andWeightLessThanOrEqualTo(Integer value) {
+            addCriterion("weight <=", value, "weight");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andWeightIsNull() {
+            addCriterion("weight is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeightIsNotNull() {
+            addCriterion("weight is not null");
             return (Criteria) this;
         }
         // in,   not in

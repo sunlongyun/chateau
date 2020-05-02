@@ -160,6 +160,22 @@ public class GoodsDto implements Serializable {
     private Integer validity;
 
     /**
+     * 权重
+     */
+    private Integer weight;
+    /**
+     * 权重保护截止日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date weightProjectTime;
+
+    /**
+     * 总销售额
+     */
+    @AmountUnitChange(showUnit=true)
+    private Long salesAmount;
+    /**
      * 商品尾部图片
      */
     private List<String> tailImages = new ArrayList<>();
@@ -171,4 +187,5 @@ public class GoodsDto implements Serializable {
      * 商品规格列表，非统一规格，才显示规格列表
      */
     private List<GoodsSpecsDto> specsDtoList = new ArrayList<>();
+
 }

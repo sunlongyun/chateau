@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chisong.green.farm.app.mapper.SummaryInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.SummaryInfo">
+        <id column="id" property="id" />
+        <result column="order_nums" property="orderNums" />
+        <result column="goods_normal_num" property="goodsNormalNum" />
+        <result column="goods_num" property="goodsNum" />
+        <result column="today_payed_num" property="todayPayedNum" />
+        <result column="month_payed_num" property="monthPayedNum" />
+        <result column="week_payed_num" property="weekPayedNum" />
+        <result column="today_payed_amount" property="todayPayedAmount" />
+        <result column="month_payed_amount" property="monthPayedAmount" />
+        <result column="week_payed_amount" property="weekPayedAmount" />
+        <result column="today_customer_num" property="todayCustomerNum" />
+        <result column="month_customer_num" property="monthCustomerNum" />
+        <result column="week_customer_num" property="weekCustomerNum" />
+        <result column="payed_nums" property="payedNums" />
+        <result column="supplier_num" property="supplierNum" />
+        <result column="customer_num" property="customerNum" />
+        <result column="payed_amount" property="payedAmount" />
+        <result column="validity" property="validity" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_nums, goods_normal_num, goods_num, today_payed_num, month_payed_num, week_payed_num, today_payed_amount, month_payed_amount, week_payed_amount, today_customer_num, month_customer_num, week_customer_num, payed_nums, supplier_num, customer_num, payed_amount, validity, create_time, update_time
+    </sql>
+
+
+
+    <!-- example通用查询-->
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.SummaryInfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List" />
+        from summary_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <!-- 条件-->
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+</mapper>

@@ -27,6 +27,10 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
+        <result column="weight" property="weight"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="weight_project_time" property="weightProjectTime"/>
+        <result column="sales_amount" property="salesAmount"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -34,7 +38,7 @@
         id, title, sku_code, `type_name`,status, supplier_company_name, supplier_id, pic_url,
         min_pic_url,detail_pic_url, description,first_type_id,type_id,
          price,produce_area,sales_num,promote_start_time,promote_end_time,
-          create_time, update_time, validity
+          create_time, update_time, validity,weight,send_time,weight_project_time,sales_amount
     </sql>
 
     <!-- 查询列表-->
@@ -64,8 +68,16 @@
              and promote = 1
             </if>
         </trim>
+        ORDER  BY
+        <!-- 权重作为第一排序未读-->
+        <if test="promote != 1">
+             weight desc
+        </if>
+        <if test="promote == 1">
+            id desc
+        </if>
         <if test="sortKey != null">
-            ORDER  BY ${sortKey} ${sortType}
+         ,${sortKey} ${sortType}
         </if>
 
     </select>

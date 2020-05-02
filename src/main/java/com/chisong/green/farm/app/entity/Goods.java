@@ -128,5 +128,20 @@ public class Goods implements Serializable {
     * 是否有效
      */
     private  Integer validity;
-
+    /**
+     * 权重
+     */
+    private Integer weight;
+    /**
+     * 权重保护截止日期
+     */
+    private Date weightProjectTime;
+    /**
+     * 发货时间
+     */
+    private Date sendTime;
+    /**
+     * 总销售额
+     */
+    private Long salesAmount;
 }
