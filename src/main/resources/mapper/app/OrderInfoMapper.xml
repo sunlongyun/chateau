@@ -27,13 +27,19 @@
         <result column="supplier_amount" property="supplierAmount"/>
         <result column="supplier_status" property="supplierStatus"/>
         <result column="cost_amount" property="costAmount"/>
+        <result column="pay_supplier_admin_amount" property="paySupplierAdminAmount"/>
+        <result column="pay_supplier_admin_status" property="paySupplierAdminStatus"/>
+        <result column="pay_saler_status" property="paySalerStatus"/>
+        <result column="pay_saler_amount" property="paySalerAmount"/>
+        <result column="send_time" property="sendTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, order_no, customer_name, mobile, customer_id, status, cancel_opt, cancel_remark, postage,
         logistics_number, pay_no, total_amount,manager_id, create_time, update_time, validity,
-        payed_amount,income,shared,supplier_postage,supplier_amount,supplier_status,cost_amount
+        payed_amount,income,shared,supplier_postage,supplier_amount,supplier_status,cost_amount,pay_supplier_admin_amount,
+        pay_supplier_admin_status,pay_saler_status,pay_saler_amount,send_time
     </sql>
 
 

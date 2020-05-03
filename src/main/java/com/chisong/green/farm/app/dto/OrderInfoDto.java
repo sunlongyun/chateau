@@ -3,11 +3,14 @@ package com.chisong.green.farm.app.dto;
 import com.chisong.green.farm.app.annotation.AmountUnitChange;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.constants.enums.OrderStatusEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 
 import java.util.List;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
 * <p>
 * 
@@ -128,6 +131,35 @@ public class OrderInfoDto implements Serializable {
     * 修改时间
      */
     private Date updateTime;
+
+    /**
+     * 给供应商管理员结算金额
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long paySupplierAdminAmount;
+
+    /**
+     * 给供应商管理员结算状态 0-未结算；1-部分结算；2-已结清
+     */
+    private  Integer paySupplierAdminStatus;
+
+    /**
+     * 给推广人员结算状态 0-未结算；1-部分结算；2-已结算
+     */
+    private  Integer paySalerStatus;
+
+    /**
+     * 给推广人员结算金额
+     */
+    @AmountUnitChange(showUnit=true)
+    private  Long paySalerAmount;
+
+    /**
+     * 发货时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private  Date sendTime;
 
     /**
     * 是否有效 1-有效；0-无效

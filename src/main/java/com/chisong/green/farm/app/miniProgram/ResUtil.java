@@ -1,5 +1,6 @@
-package com.chisong.green.farm.app.miniProgram.annotaion;
+package com.chisong.green.farm.app.miniProgram;
 
+import com.chisong.green.farm.app.miniProgram.annotaion.MiniFiled;
 import com.chisong.green.farm.app.miniProgram.response.ParentResponse;
 import com.chisong.green.farm.app.utils.JsonUtils;
 import java.lang.reflect.Field;

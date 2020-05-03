@@ -1,7 +1,7 @@
 package com.chisong.green.farm.app.miniProgram.service.impl;
 
-import com.chisong.green.farm.app.miniProgram.annotaion.ReqUtil;
-import com.chisong.green.farm.app.miniProgram.annotaion.ResUtil;
+import com.chisong.green.farm.app.miniProgram.ReqUtil;
+import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.request.AcccessCodeReq;
 import com.chisong.green.farm.app.miniProgram.request.LoginReq;
 import com.chisong.green.farm.app.miniProgram.response.AccessCodeResponse;

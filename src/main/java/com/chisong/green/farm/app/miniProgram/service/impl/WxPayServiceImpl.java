@@ -1,13 +1,18 @@
 package com.chisong.green.farm.app.miniProgram.service.impl;
 
-import com.chisong.green.farm.app.miniProgram.annotaion.ReqUtil;
-import com.chisong.green.farm.app.miniProgram.annotaion.ResUtil;
+import com.chisong.green.farm.app.miniProgram.MapXmlUtil;
+import com.chisong.green.farm.app.miniProgram.ReqUtil;
+import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.request.PayOrderQuery;
+import com.chisong.green.farm.app.miniProgram.request.PayToPersonRequest;
 import com.chisong.green.farm.app.miniProgram.request.PrePayRequest;
+import com.chisong.green.farm.app.miniProgram.request.RedBagRequest;
 import com.chisong.green.farm.app.miniProgram.request.RefundApplyReq;
 import com.chisong.green.farm.app.miniProgram.response.ParentResponse;
 import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
+import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
+import com.chisong.green.farm.app.miniProgram.response.RedBagResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
 import com.chisong.green.farm.app.wpay.util.WpayUtil;
 import com.github.wxpay.sdk.WXPay;
@@ -17,12 +22,17 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
- * 描述:
- * 微信支付
+ * 描述: 微信支付
  *
  * @AUTHOR 孙龙云
  * @date 2019-06-28 22:06
@@ -48,21 +58,28 @@ public class WxPayServiceImpl implements WxPayService {
 	@Value("${crt_path}")
 	private String cerPath;
 	/**
+	 * 企业向个人转账url
+	 */
+	private String payToPersonUrl = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+	@Autowired
+	private RestTemplate restTemplate;
+
+	/**
 	 * 获取微信sdk
 	 */
 	private WXPay getWxPay() {
 		try {
-			String certPath = cerPath+"/apiclient_cert.p12";
+			String certPath = cerPath + "/apiclient_cert.p12";
 			File file = new File(certPath);
 			InputStream certStream = new FileInputStream(file);
-			byte[] bytes  = new byte[(int) file.length()];
+			byte[] bytes = new byte[(int) file.length()];
 			certStream.read(bytes);
-			WXPay wxPay =  WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+			WXPay wxPay = WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
 			certStream.close();
-			return  wxPay;
-		}catch(Exception ex){
+			return wxPay;
+		} catch(Exception ex) {
 			ex.printStackTrace();
-			log.error("获取WXPay失败:",ex);
+			log.error("获取WXPay失败:", ex);
 			throw new RuntimeException("获取WXPay失败");
 		}
 
@@ -87,10 +104,10 @@ public class WxPayServiceImpl implements WxPayService {
 			Map<String, String> payParam = wxPay.fillRequestData(payMap);
 			String nonStr = payParam.get("nonce_str");
 			String packageStr = payParam.get("package");
-			String timeStamp  =payParam.get("time_stamp");
-			String appId =  payParam.get("appid");
+			String timeStamp = payParam.get("time_stamp");
+			String appId = payParam.get("appid");
 			String signType = payParam.get("sign_type");
-			String sign =payParam.get("sign");
+			String sign = payParam.get("sign");
 			prePayResponse.setNonceStr(nonStr);
 			prePayResponse.setPackageStr(packageStr);
 			prePayResponse.setTimeStamp(timeStamp);
@@ -133,7 +150,6 @@ public class WxPayServiceImpl implements WxPayService {
 			Map<String, Object> targetMap = new HashMap<>();
 			targetMap.putAll(resultMap);
 
-
 			ParentResponse parentResponse = ResUtil.getObj(ParentResponse.class, targetMap);
 			return parentResponse;
 		} catch(Exception ex) {
@@ -141,4 +157,47 @@ public class WxPayServiceImpl implements WxPayService {
 			throw new RuntimeException("微信支付查询异常:" + ex.getCause());
 		}
 	}
+
+	@Override
+	public RedBagResponse RedBagResponse(RedBagRequest redBagRequest) {
+		Map<String, String> dataMap = ReqUtil.getMap(redBagRequest);
+		log.info("dataMap == {}", dataMap);
+		WXPay wxPay = getWxPay();
+		try {
+			dataMap = wxPay.fillRequestData(dataMap);
+
+		} catch(Exception ex) {
+			log.info("红包发送失败, {}", ex);
+		}
+
+		return null;
+	}
+
+	@Override
+	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest) {
+		payToPersonRequest.setMerchantId(mchID);
+		payToPersonRequest.setMerchantAppid(appid);
+
+		Map<String, String> dataMap = ReqUtil.getMap(payToPersonRequest);
+		WXPay wxPay = getWxPay();
+		try {
+			dataMap = wxPay.fillRequestData(dataMap);
+			log.info("入参:{}", dataMap);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_XML);
+			String xml = MapXmlUtil.mapToXml(dataMap);
+			HttpEntity<String> formEntity = new HttpEntity<>(xml, headers);
+			ResponseEntity<String> responseEntity = restTemplate
+				.postForEntity(payToPersonUrl, formEntity, String.class);
+			Map<String, String> resultMap = MapXmlUtil.xmlToMap(responseEntity.getBody());
+			log.info("响应结果:{}", resultMap);
+//			PayToPersonResponse payToPersonResponse = ResUtil.getObj(PayToPersonResponse.class, resultMap);
+//			return  payToPersonResponse;
+		} catch(Exception ex) {
+			log.info("付款失败 == {}", ex);
+		}
+		return null;
+	}
+
+
 }

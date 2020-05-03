@@ -1,11 +1,15 @@
 package com.chisong.green.farm.app.miniProgram.service;
 
 import com.chisong.green.farm.app.miniProgram.request.PayOrderQuery;
+import com.chisong.green.farm.app.miniProgram.request.PayToPersonRequest;
 import com.chisong.green.farm.app.miniProgram.request.PrePayRequest;
+import com.chisong.green.farm.app.miniProgram.request.RedBagRequest;
 import com.chisong.green.farm.app.miniProgram.request.RefundApplyReq;
 import com.chisong.green.farm.app.miniProgram.response.ParentResponse;
 import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
+import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
+import com.chisong.green.farm.app.miniProgram.response.RedBagResponse;
 
 /**
  * 描述:
@@ -35,4 +39,14 @@ public interface WxPayService {
 	 * @return
 	 */
 	public ParentResponse refundOrder(RefundApplyReq refundApplyReq);
+
+	/**
+	 * 发送红包
+	 */
+	public RedBagResponse RedBagResponse(RedBagRequest redBagRequest);
+
+	/**
+	 * 企业付款给个人
+	 */
+	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest);
 }

@@ -1,8 +1,7 @@
 package com.chisong.green.farm.app.service.impl;
 
-import com.chisong.green.farm.app.miniProgram.annotaion.ResUtil;
+import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.msg.ParentMsg;
-import com.chisong.green.farm.app.miniProgram.msg.TextMsg;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerCenterService;
 import lombok.extern.slf4j.Slf4j;

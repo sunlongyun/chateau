@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-04-06
+* @date 2020-05-03
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -1424,6 +1424,311 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andUpdateTimeIsNotNull() {
             addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPaySupplierAdminAmountIn(List<Long> values) {
+            addCriterion("pay_supplier_admin_amount in", values, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminAmountNotIn(List<Long> values) {
+            addCriterion("pay_supplier_admin_amount not in", values, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySupplierAdminAmountBetween(Long value1, Long value2) {
+            addCriterion("pay_supplier_admin_amount between", value1, value2, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySupplierAdminAmountLike(String value) {
+            addCriterion("pay_supplier_admin_amount like", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySupplierAdminAmountEqualTo(Long value) {
+            addCriterion("pay_supplier_admin_amount =", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminAmountNotEqualTo(Long value) {
+            addCriterion("pay_supplier_admin_amount <>", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySupplierAdminAmountGreaterThan(Long value) {
+            addCriterion("pay_supplier_admin_amount >", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("pay_supplier_admin_amount >=", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminAmountLessThan(Long value) {
+            addCriterion("pay_supplier_admin_amount <", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminAmountLessThanOrEqualTo(Long value) {
+            addCriterion("pay_supplier_admin_amount <=", value, "paySupplierAdminAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySupplierAdminAmountIsNull() {
+            addCriterion("pay_supplier_admin_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySupplierAdminAmountIsNotNull() {
+            addCriterion("pay_supplier_admin_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPaySupplierAdminStatusIn(List<Integer> values) {
+            addCriterion("pay_supplier_admin_status in", values, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminStatusNotIn(List<Integer> values) {
+            addCriterion("pay_supplier_admin_status not in", values, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySupplierAdminStatusBetween(Integer value1, Integer value2) {
+            addCriterion("pay_supplier_admin_status between", value1, value2, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySupplierAdminStatusLike(String value) {
+            addCriterion("pay_supplier_admin_status like", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySupplierAdminStatusEqualTo(Integer value) {
+            addCriterion("pay_supplier_admin_status =", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminStatusNotEqualTo(Integer value) {
+            addCriterion("pay_supplier_admin_status <>", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySupplierAdminStatusGreaterThan(Integer value) {
+            addCriterion("pay_supplier_admin_status >", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_supplier_admin_status >=", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminStatusLessThan(Integer value) {
+            addCriterion("pay_supplier_admin_status <", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierAdminStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_supplier_admin_status <=", value, "paySupplierAdminStatus");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySupplierAdminStatusIsNull() {
+            addCriterion("pay_supplier_admin_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySupplierAdminStatusIsNotNull() {
+            addCriterion("pay_supplier_admin_status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPaySalerStatusIn(List<Integer> values) {
+            addCriterion("pay_saler_status in", values, "paySalerStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerStatusNotIn(List<Integer> values) {
+            addCriterion("pay_saler_status not in", values, "paySalerStatus");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySalerStatusBetween(Integer value1, Integer value2) {
+            addCriterion("pay_saler_status between", value1, value2, "paySalerStatus");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySalerStatusLike(String value) {
+            addCriterion("pay_saler_status like", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySalerStatusEqualTo(Integer value) {
+            addCriterion("pay_saler_status =", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerStatusNotEqualTo(Integer value) {
+            addCriterion("pay_saler_status <>", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySalerStatusGreaterThan(Integer value) {
+            addCriterion("pay_saler_status >", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_saler_status >=", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerStatusLessThan(Integer value) {
+            addCriterion("pay_saler_status <", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_saler_status <=", value, "paySalerStatus");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySalerStatusIsNull() {
+            addCriterion("pay_saler_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySalerStatusIsNotNull() {
+            addCriterion("pay_saler_status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPaySalerAmountIn(List<Long> values) {
+            addCriterion("pay_saler_amount in", values, "paySalerAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerAmountNotIn(List<Long> values) {
+            addCriterion("pay_saler_amount not in", values, "paySalerAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySalerAmountBetween(Long value1, Long value2) {
+            addCriterion("pay_saler_amount between", value1, value2, "paySalerAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySalerAmountLike(String value) {
+            addCriterion("pay_saler_amount like", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySalerAmountEqualTo(Long value) {
+            addCriterion("pay_saler_amount =", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerAmountNotEqualTo(Long value) {
+            addCriterion("pay_saler_amount <>", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySalerAmountGreaterThan(Long value) {
+            addCriterion("pay_saler_amount >", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("pay_saler_amount >=", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerAmountLessThan(Long value) {
+            addCriterion("pay_saler_amount <", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerAmountLessThanOrEqualTo(Long value) {
+            addCriterion("pay_saler_amount <=", value, "paySalerAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySalerAmountIsNull() {
+            addCriterion("pay_saler_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySalerAmountIsNotNull() {
+            addCriterion("pay_saler_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSendTimeIn(List<Date> values) {
+            addCriterion("send_time in", values, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeNotIn(List<Date> values) {
+            addCriterion("send_time not in", values, "sendTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSendTimeBetween(Date value1, Date value2) {
+            addCriterion("send_time between", value1, value2, "sendTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSendTimeLike(String value) {
+            addCriterion("send_time like", value, "sendTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSendTimeEqualTo(Date value) {
+            addCriterion("send_time =", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeNotEqualTo(Date value) {
+            addCriterion("send_time <>", value, "sendTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSendTimeGreaterThan(Date value) {
+            addCriterion("send_time >", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("send_time >=", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeLessThan(Date value) {
+            addCriterion("send_time <", value, "sendTime");
+            return (Criteria) this;
+        }
+        public Criteria andSendTimeLessThanOrEqualTo(Date value) {
+            addCriterion("send_time <=", value, "sendTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSendTimeIsNull() {
+            addCriterion("send_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendTimeIsNotNull() {
+            addCriterion("send_time is not null");
             return (Criteria) this;
         }
         // in,   not in

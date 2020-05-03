@@ -3,6 +3,9 @@ package com.chisong.green.farm;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.example.ProvinceCityAreaExample;
 import com.chisong.green.farm.app.miniProgram.msg.TextMsg;
+import com.chisong.green.farm.app.miniProgram.request.PayToPersonRequest;
+import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
+import com.chisong.green.farm.app.miniProgram.service.WxPayService;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerCenterService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
@@ -34,6 +37,21 @@ public class ChateauApplicationTests {
 	private CustomerCenterService customerCenterService;
 	@Autowired
 	private AuthBizService authBizService;
+	@Autowired
+	private WxPayService wxPayService;
+
+	@Test
+	public void testPay(){
+		PayToPersonRequest payToPersonRequest = new PayToPersonRequest();
+		payToPersonRequest.setAmount(100);
+//		payToPersonRequest.setCheckName("NO_CHECK");
+//		payToPersonRequest.setCheckName("孙龙云");
+		payToPersonRequest.setPartnerTradeNo("test001111");
+		payToPersonRequest.setDesc("付款测试");
+		payToPersonRequest.setOpenid("oqrTq4jLQt0I_9F4vQVQLQGDrBbM");
+
+		PayToPersonResponse payToPersonResponse = wxPayService.payToPerson(payToPersonRequest);
+	}
 
 	@Test
 	public void testArea(){
@@ -56,9 +74,9 @@ public class ChateauApplicationTests {
 //			"game_times");
 		LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
-			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,GenerateFileTypeEnum.DTO,
-				GenerateFileTypeEnum.EXAMPLE, GenerateFileTypeEnum.MAPPER_XML),
-			"summary_info");
+			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,
+				GenerateFileTypeEnum.EXAMPLE),
+			"order_info");
 	}
 
 	@Test

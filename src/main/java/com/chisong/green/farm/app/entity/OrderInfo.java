@@ -10,7 +10,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2020-04-06
+* @date 2020-05-03
 */
 @Data
 public class OrderInfo implements Serializable {
@@ -106,7 +106,7 @@ public class OrderInfo implements Serializable {
     private  Long costAmount;
 
     /**
-    * 管理员id，位存储。如果管理员id为100，那么这个int数字的第100
+    * 管理员id。管理员创建了供应商，供应商下创建了订单。那么订单属于该管理员
      */
     private  Integer managerId;
 
@@ -124,6 +124,31 @@ public class OrderInfo implements Serializable {
     * 修改时间
      */
     private  Date updateTime;
+
+    /**
+    * 给供应商管理员结算金额
+     */
+    private  Long paySupplierAdminAmount;
+
+    /**
+    * 给供应商管理员结算状态 0-未结算；1-部分结算；2-已结清
+     */
+    private  Integer paySupplierAdminStatus;
+
+    /**
+    * 给推广人员结算状态 0-未结算；1-部分结算；2-已结算
+     */
+    private  Integer paySalerStatus;
+
+    /**
+    * 给推广人员结算金额
+     */
+    private  Long paySalerAmount;
+
+    /**
+    * 发货时间
+     */
+    private  Date sendTime;
 
     /**
     * 是否有效 1-有效；0-无效
