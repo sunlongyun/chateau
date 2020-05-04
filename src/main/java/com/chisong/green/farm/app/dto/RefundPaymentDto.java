@@ -9,7 +9,7 @@ import lombok.Data;
 * 退款流水
 * </p>
 * @author 孙龙云
-* @date 2019-07-28
+* @date 2020-05-04
 */
 @Data
 public class RefundPaymentDto implements Serializable {
@@ -37,9 +37,19 @@ public class RefundPaymentDto implements Serializable {
     private String refundNo;
 
     /**
-    * 商户退款单号
+    * 微信退款单号
      */
     private String outRefundNo;
+
+    /**
+    * 退款失败原因
+     */
+    private String failedRemark;
+
+    /**
+    * 退款状态 0-申请，1-退款成功；2-退款失败
+     */
+    private Integer status;
 
     /**
     * 支付流水号
@@ -50,6 +60,11 @@ public class RefundPaymentDto implements Serializable {
     * 退款申请单号
      */
     private String refundOrderNo;
+
+    /**
+    * 退款成功时间
+     */
+    private String refundSuccessTime;
 
     /**
     * 创建时间

@@ -10,7 +10,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2019-06-29
+* @date 2020-05-04
 */
 @Data
 public class Payment implements Serializable {
@@ -37,6 +37,16 @@ public class Payment implements Serializable {
     * 预支付流水
      */
     private  String prePayId;
+
+    /**
+    * 成功支付金额
+     */
+    private  Integer payedAmount;
+
+    /**
+    * 申请支付金额
+     */
+    private  Integer amount;
 
     /**
     * 第三方支付流水号，微信/支付宝流水号

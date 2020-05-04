@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-06-29
+* @date 2020-05-04
 */
 @Data
 public class PaymentExample implements Serializable {
@@ -326,6 +326,128 @@ public class PaymentExample implements Serializable {
 
         public Criteria andPrePayIdIsNotNull() {
             addCriterion("pre_pay_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPayedAmountIn(List<Integer> values) {
+            addCriterion("payed_amount in", values, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountNotIn(List<Integer> values) {
+            addCriterion("payed_amount not in", values, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPayedAmountBetween(Integer value1, Integer value2) {
+            addCriterion("payed_amount between", value1, value2, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPayedAmountLike(String value) {
+            addCriterion("payed_amount like", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPayedAmountEqualTo(Integer value) {
+            addCriterion("payed_amount =", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountNotEqualTo(Integer value) {
+            addCriterion("payed_amount <>", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPayedAmountGreaterThan(Integer value) {
+            addCriterion("payed_amount >", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("payed_amount >=", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountLessThan(Integer value) {
+            addCriterion("payed_amount <", value, "payedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andPayedAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("payed_amount <=", value, "payedAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPayedAmountIsNull() {
+            addCriterion("payed_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayedAmountIsNotNull() {
+            addCriterion("payed_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAmountIn(List<Integer> values) {
+            addCriterion("amount in", values, "amount");
+            return (Criteria) this;
+        }
+        public Criteria andAmountNotIn(List<Integer> values) {
+            addCriterion("amount not in", values, "amount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAmountBetween(Integer value1, Integer value2) {
+            addCriterion("amount between", value1, value2, "amount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAmountLike(String value) {
+            addCriterion("amount like", value, "amount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAmountEqualTo(Integer value) {
+            addCriterion("amount =", value, "amount");
+            return (Criteria) this;
+        }
+        public Criteria andAmountNotEqualTo(Integer value) {
+            addCriterion("amount <>", value, "amount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAmountGreaterThan(Integer value) {
+            addCriterion("amount >", value, "amount");
+            return (Criteria) this;
+        }
+        public Criteria andAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("amount >=", value, "amount");
+            return (Criteria) this;
+        }
+        public Criteria andAmountLessThan(Integer value) {
+            addCriterion("amount <", value, "amount");
+            return (Criteria) this;
+        }
+        public Criteria andAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("amount <=", value, "amount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAmountIsNull() {
+            addCriterion("amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAmountIsNotNull() {
+            addCriterion("amount is not null");
             return (Criteria) this;
         }
         // in,   not in

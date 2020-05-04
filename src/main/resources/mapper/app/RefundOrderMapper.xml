@@ -10,8 +10,10 @@
         <result column="apply_name" property="applyName" />
         <result column="apply_time" property="applyTime" />
         <result column="approve_time" property="approveTime" />
+        <result column="approve_id" property="approveId" />
         <result column="approve_name" property="approveName" />
         <result column="payment_no" property="paymentNo" />
+        <result column="refund_remark" property="refundRemark" />
         <result column="refund_no" property="refundNo" />
         <result column="amount" property="amount" />
         <result column="status" property="status" />
@@ -22,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_no, order_id, apply_name, apply_time, approve_time, approve_name, payment_no, refund_no, amount, status, create_time, update_time, validity
+        id, order_no, order_id, apply_name, apply_time, approve_time, approve_id, approve_name, payment_no, refund_remark, refund_no, amount, status, create_time, update_time, validity
     </sql>
 
 

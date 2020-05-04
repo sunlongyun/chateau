@@ -74,6 +74,10 @@ public class OrderInfo implements Serializable {
     * 顾客已支付金额
      */
     private  Long payedAmount;
+    /**
+     * 退款金额
+     */
+    private Long refundAmount;
 
     /**
     * 收益

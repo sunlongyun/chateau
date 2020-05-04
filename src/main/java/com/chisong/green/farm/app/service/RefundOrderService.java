@@ -13,6 +13,13 @@ import com.chisong.green.farm.app.dto.RefundOrderDto;
 public interface RefundOrderService extends IService<RefundOrderDto> {
 
 	/**
+	 * 申请退款
+	 * @param orderNo
+	 * @param amount
+	 */
+	public void applyRefund(String orderNo, Integer amount);
+
+	/**
 	 * 查询退款申请记录
 	 * @param applyNo
 	 * @return

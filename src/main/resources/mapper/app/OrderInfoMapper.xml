@@ -32,6 +32,7 @@
         <result column="pay_saler_status" property="paySalerStatus"/>
         <result column="pay_saler_amount" property="paySalerAmount"/>
         <result column="send_time" property="sendTime"/>
+        <result column="refund_amount" property="refundAmount"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -39,7 +40,7 @@
         id, order_no, customer_name, mobile, customer_id, status, cancel_opt, cancel_remark, postage,
         logistics_number, pay_no, total_amount,manager_id, create_time, update_time, validity,
         payed_amount,income,shared,supplier_postage,supplier_amount,supplier_status,cost_amount,pay_supplier_admin_amount,
-        pay_supplier_admin_status,pay_saler_status,pay_saler_amount,send_time
+        pay_supplier_admin_status,pay_saler_status,pay_saler_amount,send_time,refund_amount
     </sql>
 
 

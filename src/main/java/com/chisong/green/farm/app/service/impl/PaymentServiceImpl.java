@@ -88,7 +88,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment, Paym
 		paymentDto.setPayNo(payNo);
 		paymentDto.setPayOrderNo(orderInfoDto.getOrderNo());
 		paymentDto.setPrePayId(prePayResponse.getPrepayId());
-
+		paymentDto.setAmount(Integer.parseInt( (orderInfoDto.getTotalAmount()+orderInfoDto.getPostage())+""));
 		this.save(paymentDto);
 	}
 

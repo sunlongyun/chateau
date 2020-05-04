@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chisong.green.farm.app.mapper.RefundPaymentMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.AccountInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.RefundPayment">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.AccountInfo">
         <id column="id" property="id" />
-        <result column="apply_amount" property="applyAmount" />
-        <result column="apply_id" property="applyId" />
-        <result column="refund_no" property="refundNo" />
-        <result column="out_refund_no" property="outRefundNo" />
-        <result column="failed_remark" property="failedRemark" />
-        <result column="status" property="status" />
-        <result column="payment_no" property="paymentNo" />
-        <result column="refund_order_no" property="refundOrderNo" />
-        <result column="refund_success_time" property="refundSuccessTime" />
+        <result column="open_id" property="openId" />
+        <result column="cusotmer_id" property="cusotmerId" />
+        <result column="real_name" property="realName" />
+        <result column="nick_name" property="nickName" />
+        <result column="type" property="type" />
+        <result column="merchant_id" property="merchantId" />
+        <result column="forezen_amount" property="forezenAmount" />
+        <result column="available_amount" property="availableAmount" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="app_id" property="appId" />
+        <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, apply_amount, apply_id, refund_no, out_refund_no, failed_remark, status, payment_no, refund_order_no, refund_success_time, create_time, update_time
+        id, open_id, cusotmer_id, real_name, nick_name, type, merchant_id, forezen_amount, available_amount, total_amount, app_id, validity, create_time, update_time
     </sql>
 
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.RefundPaymentExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.AccountInfoExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from refund_payment
+        from account_info
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>

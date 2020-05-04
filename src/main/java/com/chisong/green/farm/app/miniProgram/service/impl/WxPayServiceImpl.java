@@ -54,6 +54,12 @@ public class WxPayServiceImpl implements WxPayService {
 	private String secret;
 	@Value("${notifyUrl}")
 	private String notifyUrl;
+	/**
+	 * 退款结果通知url、
+	 */
+	@Value("${refundNotifyUrl}")
+	private String refundNotifyUrl;
+
 	@Value("${key}")
 	private String key;
 
@@ -142,6 +148,7 @@ public class WxPayServiceImpl implements WxPayService {
 
 	@Override
 	public ParentResponse refundOrder(RefundApplyReq refundApplyReq) {
+		refundApplyReq.setNotifyUrl(refundNotifyUrl);
 		Map<String, String> dataMap = ReqUtil.getMap(refundApplyReq);
 		WXPay wxPay = getWxPay();
 

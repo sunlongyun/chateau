@@ -15,9 +15,11 @@ public interface RefundPaymentService extends IService<RefundPaymentDto> {
 
 
 	/**
-	 * 退款申请
+	 * 退款
 	 * @param applyNo
 	 * @return
 	 */
 	public ParentResponse refundOrder(String applyNo);
+
+	public RefundPaymentDto getRefundPaymentDtoByApplyNo(String applyNo);
 }

@@ -5,6 +5,10 @@ import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.constants.enums.OrderStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 import java.util.List;
@@ -81,6 +85,12 @@ public class OrderInfoDto implements Serializable {
      */
     @AmountUnitChange(showUnit=true)
     private  Long payedAmount;
+
+    /**
+     * 退款金额
+     */
+    @AmountUnitChange(showUnit=true)
+    private Long refundAmount;
 
     /**
      * 收益
@@ -196,4 +206,9 @@ public class OrderInfoDto implements Serializable {
      * 管理员id
      */
     private Integer managerId;
+    /**
+     * 是否可退款
+     */
+    private boolean canRefund;
+
 }

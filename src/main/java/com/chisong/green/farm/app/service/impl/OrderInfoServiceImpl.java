@@ -1,5 +1,6 @@
 package com.chisong.green.farm.app.service.impl;
 
+import com.chisong.green.farm.app.constants.enums.OrderStatusEnum;
 import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
 import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.order.request.OrderDetailReq;
@@ -35,6 +36,9 @@ import com.chisong.green.farm.exception.BizException;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -311,7 +315,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		PageHelper.startPage(pageNo, pageSize);
 		List<OrderInfo> orderInfos = this.baseMapper.getOrderList(params);
 		PageInfo pageInfo = PageInfo.getPageInfo(orderInfos);
-		pageInfo.setDataList(copyList(orderInfos, OrderInfoDto.class));
+
+
+		List<OrderInfoDto> orderInfoDtoList = copyList(orderInfos, OrderInfoDto.class);
+		pageInfo.setDataList(orderInfoDtoList);
+
+		orderInfoDtoList.stream().forEach(orderInfoDto ->{
+			//一个月之前
+			LocalDateTime monthBefore =    LocalDateTime.now().plus(-30, ChronoUnit.DAYS);
+			Date date =   Date.from(monthBefore.atZone(ZoneId.systemDefault()).toInstant());
+			boolean canRefund =  orderInfoDto.getStatus() == OrderStatusEnum.RECEIVED.code()
+				&& null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date);
+
+			orderInfoDto.setCanRefund(canRefund);
+		});
 		return  pageInfo;
 	}
 

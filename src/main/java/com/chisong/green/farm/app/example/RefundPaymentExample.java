@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2019-07-28
+* @date 2020-05-04
 */
 @Data
 public class RefundPaymentExample implements Serializable {
@@ -390,6 +390,128 @@ public class RefundPaymentExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andFailedRemarkIn(List<String> values) {
+            addCriterion("failed_remark in", values, "failedRemark");
+            return (Criteria) this;
+        }
+        public Criteria andFailedRemarkNotIn(List<String> values) {
+            addCriterion("failed_remark not in", values, "failedRemark");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andFailedRemarkBetween(String value1, String value2) {
+            addCriterion("failed_remark between", value1, value2, "failedRemark");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andFailedRemarkLike(String value) {
+            addCriterion("failed_remark like", value, "failedRemark");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andFailedRemarkEqualTo(String value) {
+            addCriterion("failed_remark =", value, "failedRemark");
+            return (Criteria) this;
+        }
+        public Criteria andFailedRemarkNotEqualTo(String value) {
+            addCriterion("failed_remark <>", value, "failedRemark");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andFailedRemarkGreaterThan(String value) {
+            addCriterion("failed_remark >", value, "failedRemark");
+            return (Criteria) this;
+        }
+        public Criteria andFailedRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("failed_remark >=", value, "failedRemark");
+            return (Criteria) this;
+        }
+        public Criteria andFailedRemarkLessThan(String value) {
+            addCriterion("failed_remark <", value, "failedRemark");
+            return (Criteria) this;
+        }
+        public Criteria andFailedRemarkLessThanOrEqualTo(String value) {
+            addCriterion("failed_remark <=", value, "failedRemark");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andFailedRemarkIsNull() {
+            addCriterion("failed_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFailedRemarkIsNotNull() {
+            addCriterion("failed_remark is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andStatusLike(String value) {
+            addCriterion("status like", value, "status");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andPaymentNoIn(List<String> values) {
             addCriterion("payment_no in", values, "paymentNo");
             return (Criteria) this;
@@ -509,6 +631,67 @@ public class RefundPaymentExample implements Serializable {
 
         public Criteria andRefundOrderNoIsNotNull() {
             addCriterion("refund_order_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRefundSuccessTimeIn(List<String> values) {
+            addCriterion("refund_success_time in", values, "refundSuccessTime");
+            return (Criteria) this;
+        }
+        public Criteria andRefundSuccessTimeNotIn(List<String> values) {
+            addCriterion("refund_success_time not in", values, "refundSuccessTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRefundSuccessTimeBetween(String value1, String value2) {
+            addCriterion("refund_success_time between", value1, value2, "refundSuccessTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRefundSuccessTimeLike(String value) {
+            addCriterion("refund_success_time like", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRefundSuccessTimeEqualTo(String value) {
+            addCriterion("refund_success_time =", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+        public Criteria andRefundSuccessTimeNotEqualTo(String value) {
+            addCriterion("refund_success_time <>", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRefundSuccessTimeGreaterThan(String value) {
+            addCriterion("refund_success_time >", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+        public Criteria andRefundSuccessTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("refund_success_time >=", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+        public Criteria andRefundSuccessTimeLessThan(String value) {
+            addCriterion("refund_success_time <", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+        public Criteria andRefundSuccessTimeLessThanOrEqualTo(String value) {
+            addCriterion("refund_success_time <=", value, "refundSuccessTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRefundSuccessTimeIsNull() {
+            addCriterion("refund_success_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundSuccessTimeIsNotNull() {
+            addCriterion("refund_success_time is not null");
             return (Criteria) this;
         }
         // in,   not in

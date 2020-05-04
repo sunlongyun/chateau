@@ -9,7 +9,7 @@ import lombok.Data;
 * 退款申请单
 * </p>
 * @author 孙龙云
-* @date 2019-07-28
+* @date 2020-05-04
 */
 @Data
 public class RefundOrderDto implements Serializable {
@@ -47,6 +47,11 @@ public class RefundOrderDto implements Serializable {
     private Date approveTime;
 
     /**
+    * 批复人id
+     */
+    private Integer approveId;
+
+    /**
     * 批准人
      */
     private String approveName;
@@ -57,7 +62,12 @@ public class RefundOrderDto implements Serializable {
     private String paymentNo;
 
     /**
-    * 退款流水号
+    * 申请备注
+     */
+    private String refundRemark;
+
+    /**
+    * 退款申请流水号
      */
     private String refundNo;
 
@@ -76,6 +86,9 @@ public class RefundOrderDto implements Serializable {
      */
     private Date createTime;
 
+    /**
+    * 更新时间
+     */
     private Date updateTime;
 
     /**

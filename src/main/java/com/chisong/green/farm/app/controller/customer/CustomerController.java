@@ -2,8 +2,10 @@ package com.chisong.green.farm.app.controller.customer;
 
 import com.chisong.green.farm.app.controller.customer.request.FreshCustomerReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
+import com.chisong.green.farm.app.dto.AccountInfoDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
+import com.chisong.green.farm.app.service.AccountInfoService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 	@Autowired
 	private CustomerInfoService customerInfoService;
+	@Autowired
+	private AccountInfoService accountInfoService;
 	/**
 	 * 刷新客户信息
 	 * @param freshCustomerReq
@@ -59,6 +63,20 @@ public class CustomerController {
 		}
 		if(!StringUtils.isEmpty(freshCustomerReq.getMobile()) && !"undefined".equals(freshCustomerReq.getMobile())){
 			customerInfoDto.setMobile(freshCustomerReq.getMobile());
+		}
+
+		//符合开户条件,并且尚未开户的，则自动开户
+		if(!StringUtils.isEmpty(customerInfoDto.getMobile())
+		|| StringUtils.isEmpty(customerInfoDto.getAvatarUrl())){
+			AccountInfoDto  accountInfoDto = accountInfoService.getAccountInfoDtoByOpenId(customerInfoDto.getOpenId());
+			if(null == accountInfoDto){
+				accountInfoDto = new AccountInfoDto();
+				accountInfoDto.setNickName(customerInfoDto.getNickName());
+				accountInfoDto.setRealName(customerInfoDto.getUserName());
+				accountInfoDto.setOpenId(customerInfoDto.getOpenId());
+				accountInfoDto.setCusotmerId(Integer.parseInt(customerInfoDto.getId()+""));
+				accountInfoService.save(accountInfoDto);
+			}
 		}
 
 		customerInfoService.update(customerInfoDto);
