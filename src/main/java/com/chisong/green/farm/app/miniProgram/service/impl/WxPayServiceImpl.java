@@ -14,8 +14,10 @@ import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.miniProgram.response.RedBagResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
+import com.chisong.green.farm.app.utils.IPUtil;
 import com.chisong.green.farm.app.wpay.util.WpayUtil;
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -60,9 +62,7 @@ public class WxPayServiceImpl implements WxPayService {
 	/**
 	 * 企业向个人转账url
 	 */
-	private String payToPersonUrl = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
-	@Autowired
-	private RestTemplate restTemplate;
+	private String payToPersonUrl = "/mmpaymkttransfers/promotion/transfers";
 
 	/**
 	 * 获取微信sdk
@@ -72,9 +72,9 @@ public class WxPayServiceImpl implements WxPayService {
 			String certPath = cerPath + "/apiclient_cert.p12";
 			File file = new File(certPath);
 			InputStream certStream = new FileInputStream(file);
-			byte[] bytes = new byte[(int) file.length()];
+			byte[] bytes = new byte[certStream.available()];
 			certStream.read(bytes);
-			WXPay wxPay = WpayUtil.getWXPay(mchID, appid, key, null, notifyUrl);
+			WXPay wxPay = WpayUtil.getWXPay(mchID, appid, key, bytes, notifyUrl);
 			certStream.close();
 			return wxPay;
 		} catch(Exception ex) {
@@ -165,7 +165,6 @@ public class WxPayServiceImpl implements WxPayService {
 		WXPay wxPay = getWxPay();
 		try {
 			dataMap = wxPay.fillRequestData(dataMap);
-
 		} catch(Exception ex) {
 			log.info("红包发送失败, {}", ex);
 		}
@@ -177,22 +176,19 @@ public class WxPayServiceImpl implements WxPayService {
 	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest) {
 		payToPersonRequest.setMerchantId(mchID);
 		payToPersonRequest.setMerchantAppid(appid);
+		payToPersonRequest.setIp(IPUtil.getIpAddr());
 
-		Map<String, String> dataMap = ReqUtil.getMap(payToPersonRequest);
+		Map<String, String> reqMap = ReqUtil.getMap(payToPersonRequest);
 		WXPay wxPay = getWxPay();
 		try {
-			dataMap = wxPay.fillRequestData(dataMap);
-			log.info("入参:{}", dataMap);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_XML);
-			String xml = MapXmlUtil.mapToXml(dataMap);
-			HttpEntity<String> formEntity = new HttpEntity<>(xml, headers);
-			ResponseEntity<String> responseEntity = restTemplate
-				.postForEntity(payToPersonUrl, formEntity, String.class);
-			Map<String, String> resultMap = MapXmlUtil.xmlToMap(responseEntity.getBody());
+			reqMap = wxPay.fillRequestData(reqMap);
+			log.info("入参:{}", reqMap);
+			String resultBody = wxPay.requestWithCert(payToPersonUrl, reqMap, 5000, 5000);
+
+			Map resultMap =  MapXmlUtil.xmlToMap(resultBody);
 			log.info("响应结果:{}", resultMap);
-//			PayToPersonResponse payToPersonResponse = ResUtil.getObj(PayToPersonResponse.class, resultMap);
-//			return  payToPersonResponse;
+			PayToPersonResponse payToPersonResponse = ResUtil.getObj(PayToPersonResponse.class, resultMap);
+			return  payToPersonResponse;
 		} catch(Exception ex) {
 			log.info("付款失败 == {}", ex);
 		}

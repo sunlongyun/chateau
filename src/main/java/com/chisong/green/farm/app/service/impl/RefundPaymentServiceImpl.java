@@ -50,7 +50,7 @@ public class RefundPaymentServiceImpl extends ServiceImpl<RefundPaymentMapper, R
 
 		refundApplyReq.setOutRefundNo(refundNo);
 		refundApplyReq.setRefundFee(Integer.valueOf(refundOrderDto.getAmount() + ""));
-
+		refundApplyReq.setTotalFee(4500);
 		wxPayService.refundOrder(refundApplyReq);
 		return null;
 	}

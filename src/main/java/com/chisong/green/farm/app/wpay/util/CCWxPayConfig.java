@@ -3,6 +3,7 @@ package com.chisong.green.farm.app.wpay.util;
 import com.github.wxpay.sdk.IWXPayDomain;
 import com.github.wxpay.sdk.WXPayConfig;
 import com.github.wxpay.sdk.WXPayConstants;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
@@ -16,13 +17,14 @@ public class CCWxPayConfig extends WXPayConfig{
 	private String mchId;
 	private String appId;
 	private String key;
+	private byte[] certData;
 	private  InputStream certStream;
 
-	public CCWxPayConfig(String mchId, String appId, String key, InputStream certStream) {
+	public CCWxPayConfig(String mchId, String appId, String key, byte[] certData) {
 		this.mchId = mchId;
 		this.appId = appId;
 		this.key = key;
-		this.certStream = certStream;
+		this.certData = certData;
 	}
 
 	@Override
@@ -43,7 +45,8 @@ public class CCWxPayConfig extends WXPayConfig{
 
 	@Override
 	public InputStream getCertStream() {
-		return null;
+		ByteArrayInputStream certBis = new     ByteArrayInputStream(this.certData);
+		return certBis;
 	}
 
 	@Override

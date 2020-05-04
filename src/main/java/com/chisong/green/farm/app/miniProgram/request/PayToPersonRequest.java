@@ -51,4 +51,10 @@ public class PayToPersonRequest {
 	 * 企业付款备注
 	 */
 	private String desc;
+
+	/**
+	 * ip
+	 */
+	@MiniFiled("spbill_create_ip")
+	private String ip;
 }

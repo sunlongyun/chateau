@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan("com.chisong.green.farm.*.mapper")
 @EnableScheduling
-@PropertySource("file:${green_farm_path_file_test}")
+@PropertySource("file:${green_farm_path_file}")
 public class ChateauApplication {
 
 	public static void main(String[] args) {

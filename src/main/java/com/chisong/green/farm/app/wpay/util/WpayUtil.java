@@ -17,13 +17,13 @@ public class WpayUtil {
 	/**
 	 * 获取支付sdk
 	 */
-	public static WXPay getWXPay(String merchId, String appId, String key, InputStream certStream, String notifyUrl) {
+	public static WXPay getWXPay(String merchId, String appId, String key, byte[] certData, String notifyUrl) {
 		if(null == wxPay){
 			synchronized(WpayUtil.class){
 				if(null == wxPay){
-					WXPayConfig wxPayConfig = getWXPayConfig(merchId, appId, key, certStream);
+					WXPayConfig wxPayConfig = getWXPayConfig(merchId, appId, key, certData);
 					try {
-						wxPay = new WXPay(wxPayConfig, notifyUrl, false, false);
+						wxPay = new WXPay(wxPayConfig, notifyUrl, true, false);
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
@@ -34,8 +34,8 @@ public class WpayUtil {
 
 	}
 
-	private static WXPayConfig getWXPayConfig(String merchId, String appId, String key, InputStream certStream) {
-		WXPayConfig wxPayConfig = new CCWxPayConfig(merchId, appId, key, certStream);
+	private static WXPayConfig getWXPayConfig(String merchId, String appId, String key,  byte[] certData) {
+		WXPayConfig wxPayConfig = new CCWxPayConfig(merchId, appId, key, certData);
 		return wxPayConfig;
 	}
 

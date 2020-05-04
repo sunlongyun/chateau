@@ -44,9 +44,9 @@ public class ChateauApplicationTests {
 	public void testPay(){
 		PayToPersonRequest payToPersonRequest = new PayToPersonRequest();
 		payToPersonRequest.setAmount(100);
-//		payToPersonRequest.setCheckName("NO_CHECK");
-//		payToPersonRequest.setCheckName("孙龙云");
-		payToPersonRequest.setPartnerTradeNo("test001111");
+		payToPersonRequest.setCheckName("FORCE_CHECK");
+		payToPersonRequest.setReUserName("孙龙云");
+		payToPersonRequest.setPartnerTradeNo("111111");
 		payToPersonRequest.setDesc("付款测试");
 		payToPersonRequest.setOpenid("oqrTq4jLQt0I_9F4vQVQLQGDrBbM");
 
