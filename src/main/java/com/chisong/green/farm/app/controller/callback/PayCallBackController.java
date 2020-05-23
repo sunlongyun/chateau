@@ -16,8 +16,10 @@ import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.RefundOrderService;
 import com.chisong.green.farm.app.service.RefundPaymentService;
+import com.chisong.green.farm.app.utils.AESUtil;
 import com.github.wxpay.sdk.WXPayUtil;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -28,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +59,8 @@ public class PayCallBackController {
 	private RefundOrderService refundOrderService;
 	@Autowired
 	private RefundPaymentService refundPaymentService;
+	@Value("${key}")
+	private String key;
 
 	/**
 	 * 支付成功回调接口
@@ -107,6 +112,11 @@ public class PayCallBackController {
 					//更新订单状态
 					if(!CollectionUtils.isEmpty(paymentDtoList)) {
 						PaymentDto paymentDto = paymentDtoList.get(0);
+						if(paymentDto.getStatus() == 1){//状态已经被更新，则无需再次处理
+							returnOk(httpServletResponse);
+							return;
+						}
+
 						paymentDto.setThirdPayNo(payOrderQueryResultResponse.getTransactionId());
 						paymentDto.setStatus(1);
 						paymentDto.setPaySuccessTime(new Date());
@@ -121,12 +131,8 @@ public class PayCallBackController {
 						orderInfoService.update(orderInfoDto);
 					}
 
-					Map<String, String> resultMap = new HashMap<>();
-					resultMap.put("return_code", "SUCCESS");
-					resultMap.put("return_msg", "OK");
-
-					String reqBody = WXPayUtil.mapToXml(resultMap);
-					httpServletResponse.getWriter().write(reqBody);
+					returnOk(httpServletResponse);
+					return;
 				}
 			}
 		} catch(Exception ex) {
@@ -161,18 +167,19 @@ public class PayCallBackController {
 			inputStream.close();
 			//2、将xml格式字符串格式转为map集合
 			Map<String, String> callbackMap = WXPayUtil.xmlToMap(sb.toString());
-			log.info("退款回调结果:{}", callbackMap);
+			log.info("退款回调原始结果:{}", callbackMap);
+			String reqInfoBody = callbackMap.get("req_info");
+			String reqInfoXml =  AESUtil.decryptData(reqInfoBody, key);
+			callbackMap.putAll( WXPayUtil.xmlToMap(reqInfoXml));
+			log.info("解密后的退款结果:{}", callbackMap);
 			/**
 			 * 退款状态
 			 */
 			String refundStatus = callbackMap.get("refund_status");
+			log.info("refundStatus == {}", refundStatus);
 			if(!"SUCCESS".equals(refundStatus)){//退款未成功，不做逻辑处理
-				Map<String, String> resultMap = new HashMap<>();
-				resultMap.put("return_code", "SUCCESS");
-				resultMap.put("return_msg", "OK");
-
-				String reqBody = WXPayUtil.mapToXml(resultMap);
-				httpServletResponse.getWriter().write(reqBody);
+				returnOk(httpServletResponse);
+				return;
 			}
 
 
@@ -195,39 +202,48 @@ public class PayCallBackController {
 			/**
 			 * 退款金额
 			 */
-			Integer settlementRefundFee = Integer.parseInt(callbackMap.get("settlement_refund_fee")) ;
+			String settlementRefundFee =callbackMap.get("settlement_refund_fee") ;
 			/**
 			 * 退款成功时间
 			 */
 			String successTime = callbackMap.get("success_time");
 
-			//1. 更新退款申请单
-			RefundOrderDto refundOrderDto =  refundOrderService.getRefundOrderDto(outRefundNo);
-			refundOrderDto.setRefundRemark("退款成功");
-			refundOrderDto.setStatus(3);
-			refundOrderService.update(refundOrderDto);
-
-			//2.更新订单退款金额
-			OrderInfoDto orderInfoDto =	orderInfoService.getOrderByNo(refundOrderDto.getOrderNo());
-			orderInfoDto.setRefundAmount(orderInfoDto.getRefundAmount()+settlementRefundFee);
-			orderInfoService.update(orderInfoDto);
-
-			//3.更新退款流水
-			RefundPaymentDto refundPaymentDto = refundPaymentService.getRefundPaymentDtoByApplyNo(outRefundNo);
+			//1.更新退款流水
+			RefundPaymentDto refundPaymentDto = refundPaymentService.getRefundPaymentDtoByRefundNo(outRefundNo);
+			if(refundPaymentDto.getStatus()==1){
+				returnOk(httpServletResponse);
+				return;
+			}
 			refundPaymentDto.setRefundSuccessTime(successTime);
 			refundPaymentDto.setStatus(1);
 			refundPaymentDto.setOutRefundNo(refundId);
 			refundPaymentService.update(refundPaymentDto);
-			Map<String, String> resultMap = new HashMap<>();
-			resultMap.put("return_code", "SUCCESS");
-			resultMap.put("return_msg", "OK");
 
-			String reqBody = WXPayUtil.mapToXml(resultMap);
-			httpServletResponse.getWriter().write(reqBody);
+
+			//2. 更新退款申请单
+			RefundOrderDto refundOrderDto =  refundOrderService.getRefundOrderDto(refundPaymentDto.getRefundOrderNo());
+			refundOrderDto.setRefundRemark("退款成功");
+			refundOrderDto.setStatus(3);
+			refundOrderService.update(refundOrderDto);
+
+			//3.更新订单退款金额
+			OrderInfoDto orderInfoDto =	orderInfoService.getOrderByNo(refundOrderDto.getOrderNo());
+			orderInfoDto.setRefundAmount(orderInfoDto.getRefundAmount()+Integer.parseInt(settlementRefundFee));
+			orderInfoDto.setIncome(orderInfoDto.getIncome() - Integer.parseInt(settlementRefundFee));
+			orderInfoService.update(orderInfoDto);
+
+			returnOk(httpServletResponse);
 		} catch(Exception ex) {
 			log.error("退款回调异常:", ex);
 			ex.printStackTrace();
 
 		}
+	}
+
+	private void returnOk(HttpServletResponse httpServletResponse) throws IOException {
+		httpServletResponse.getWriter().write("<xml>"
+			+ "<return_code><![CDATA[SUCCESS]]></return_code>"
+			+ "<return_msg><![CDATA[OK]]></return_msg>"
+			+ "</xml>");
 	}
 }

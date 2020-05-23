@@ -2,7 +2,6 @@ package com.chisong.green.farm.app.dto;
 
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
-import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
 import com.chisong.green.farm.app.constants.enums.PromotionStatusEnum;
 import java.io.Serializable;
 import java.util.Date;
@@ -52,15 +51,15 @@ public class GoodsSpecsDto implements Serializable {
      */
     private  Integer promotionPrice;
     /**
-     * 是否参加促销活动 1-参加;0-不参加
-     */
-    /**
      * 1-销售中；0-已下架
      */
     @ServiceTypeAnnotation(value = PromotionStatusEnum.class,type = Type.ALL)
     private  Integer promote;
 
-
+    /**
+     * 规格图片
+     */
+    private  String imgUrl;
     /**
     * 库存
      */

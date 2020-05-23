@@ -16,7 +16,9 @@ import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +33,7 @@ import org.springframework.util.StringUtils;
  * @since 2019-07-28
  */
 @Service
+@Slf4j
 public class RefundOrderServiceImpl extends ServiceImpl<RefundOrderMapper, RefundOrder, RefundOrderDto> implements
 	RefundOrderService {
 
@@ -58,10 +61,13 @@ public class RefundOrderServiceImpl extends ServiceImpl<RefundOrderMapper, Refun
 		}
 		RefundOrderExample refundOrderExample = new RefundOrderExample();
 		refundOrderExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
-			.andOrderNoEqualTo(orderNo).andStatusNotEqualTo(2);
+			.andOrderNoEqualTo(orderNo).andStatusNotIn(Arrays.asList(2,4));
 
 		long totalRefund = refundOrderService.getList(refundOrderExample).stream()
 			.mapToLong(RefundOrderDto::getAmount).reduce(Math::addExact).orElse(0L);
+
+		log.info("orderNO==>{}, totalRefund==>{}",orderNo, totalRefund);
+
 		if(totalRefund >paymentDto.getAmount()){
 			throw new RuntimeException("退款申请失败，退款申请总金额不能大于付款金额!");
 		}

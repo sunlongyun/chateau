@@ -55,20 +55,25 @@ public class RefundPaymentServiceImpl extends ServiceImpl<RefundPaymentMapper, R
 		PaymentDto paymentDto = paymentService.getPaymentDto(paymentNo);
 
 		//添加退款流水
+		String seq = String.format("%03d", (int) (Math.random() * 1000));
+		String refundNo = "RF_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + seq;
 		RefundPaymentDto refundPaymentDto = new RefundPaymentDto() ;
-		refundPaymentDto.setStatus(1);
+		refundPaymentDto.setStatus(0);
 		refundPaymentDto.setApplyAmount(refundOrderDto.getAmount());
 		refundPaymentDto.setApplyId(refundOrderDto.getId());
-		refundPaymentDto.setRefundNo(applyNo);
+		refundPaymentDto.setRefundNo(refundNo);
+		refundPaymentDto.setRefundOrderNo(applyNo);
 		refundPaymentDto.setPaymentNo(paymentNo);
 		refundPaymentService.save(refundPaymentDto);
 
 		//调用微信退款接口
 		RefundApplyReq refundApplyReq = new RefundApplyReq();
-		String seq = String.format("%03d", (int) (Math.random() * 1000));
-		String refundNo = "RF_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + seq;
+
+
 		refundApplyReq.setTotalFee(paymentDto.getPayedAmount());
 		refundApplyReq.setOutRefundNo(refundNo);
+		refundApplyReq.setOutTradeNo(paymentDto.getPayNo());
+		refundApplyReq.setTransactionId(paymentDto.getThirdPayNo());
 		refundApplyReq.setRefundFee(Integer.valueOf(refundOrderDto.getAmount() + ""));
 		return wxPayService.refundOrder(refundApplyReq);
 	}
@@ -78,6 +83,17 @@ public class RefundPaymentServiceImpl extends ServiceImpl<RefundPaymentMapper, R
 
 		RefundPaymentExample refundPaymentExample = new RefundPaymentExample();
 		refundPaymentExample.createCriteria().andRefundOrderNoEqualTo(applyNo);
+		Optional<RefundPaymentDto> refundPaymentDtoOptional = this.getList(refundPaymentExample).stream().findFirst();
+		if(refundPaymentDtoOptional.isPresent()){
+			return  refundPaymentDtoOptional.get();
+		}
+		return null;
+	}
+
+	@Override
+	public RefundPaymentDto getRefundPaymentDtoByRefundNo(String applyNo) {
+		RefundPaymentExample refundPaymentExample = new RefundPaymentExample();
+		refundPaymentExample.createCriteria().andRefundNoEqualTo(applyNo);
 		Optional<RefundPaymentDto> refundPaymentDtoOptional = this.getList(refundPaymentExample).stream().findFirst();
 		if(refundPaymentDtoOptional.isPresent()){
 			return  refundPaymentDtoOptional.get();

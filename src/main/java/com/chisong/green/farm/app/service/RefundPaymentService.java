@@ -22,4 +22,11 @@ public interface RefundPaymentService extends IService<RefundPaymentDto> {
 	public ParentResponse refundOrder(String applyNo);
 
 	public RefundPaymentDto getRefundPaymentDtoByApplyNo(String applyNo);
+
+	/**
+	 * 根据微信申请退款流水号查询
+	 * @param refundNo
+	 * @return
+	 */
+	public RefundPaymentDto getRefundPaymentDtoByRefundNo(String refundNo);
 }

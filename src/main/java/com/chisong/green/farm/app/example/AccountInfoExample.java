@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-05-10
 */
 @Data
 public class AccountInfoExample implements Serializable {
@@ -631,6 +631,67 @@ public class AccountInfoExample implements Serializable {
 
         public Criteria andAvailableAmountIsNotNull() {
             addCriterion("available_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRecordedAmountIn(List<Integer> values) {
+            addCriterion("recorded_amount in", values, "recordedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRecordedAmountNotIn(List<Integer> values) {
+            addCriterion("recorded_amount not in", values, "recordedAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRecordedAmountBetween(Integer value1, Integer value2) {
+            addCriterion("recorded_amount between", value1, value2, "recordedAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRecordedAmountLike(String value) {
+            addCriterion("recorded_amount like", value, "recordedAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRecordedAmountEqualTo(Integer value) {
+            addCriterion("recorded_amount =", value, "recordedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRecordedAmountNotEqualTo(Integer value) {
+            addCriterion("recorded_amount <>", value, "recordedAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRecordedAmountGreaterThan(Integer value) {
+            addCriterion("recorded_amount >", value, "recordedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRecordedAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recorded_amount >=", value, "recordedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRecordedAmountLessThan(Integer value) {
+            addCriterion("recorded_amount <", value, "recordedAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRecordedAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("recorded_amount <=", value, "recordedAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRecordedAmountIsNull() {
+            addCriterion("recorded_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordedAmountIsNotNull() {
+            addCriterion("recorded_amount is not null");
             return (Criteria) this;
         }
         // in,   not in

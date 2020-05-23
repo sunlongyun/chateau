@@ -230,7 +230,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			.andOrderNoEqualTo(orderInfoDto.getOrderNo());
 		OrderDeliveryAddressMappingDto orderDeliveryAddressMappingDto =
 			orderDeliveryAddressMappingService.getList(orderDeliveryAddressMappingExample).stream().findFirst().get();
-		log.info("orderDeliveryAddressMappingDto:{}", orderDeliveryAddressMappingDto);
+		log.info("orderDeliveryAddressMappingDto: {}", orderDeliveryAddressMappingDto);
 		orderInfoDto.setOrderDeliveryAddressMappingDto(orderDeliveryAddressMappingDto);
 		orderInfoDto.setUserAddress(orderDeliveryAddressMappingDto.getAddress());
 		orderInfoDto.setUserMobile(orderDeliveryAddressMappingDto.getMobile());
@@ -320,12 +320,16 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		List<OrderInfoDto> orderInfoDtoList = copyList(orderInfos, OrderInfoDto.class);
 		pageInfo.setDataList(orderInfoDtoList);
 
-		orderInfoDtoList.stream().forEach(orderInfoDto ->{
-			//一个月之前
-			LocalDateTime monthBefore =    LocalDateTime.now().plus(-30, ChronoUnit.DAYS);
+		orderInfoDtoList.stream().forEach(orderInfoDto -> {
+			//构建收货地址
+			buildAddress(orderInfoDto);
+
+			//半个月之前
+			LocalDateTime monthBefore =    LocalDateTime.now().plus(-15, ChronoUnit.DAYS);
 			Date date =   Date.from(monthBefore.atZone(ZoneId.systemDefault()).toInstant());
 			boolean canRefund =  orderInfoDto.getStatus() == OrderStatusEnum.RECEIVED.code()
-				&& null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date);
+				&& null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date)
+				&& orderInfoDto.getRefundAmount() < orderInfoDto.getPayedAmount();
 
 			orderInfoDto.setCanRefund(canRefund);
 		});

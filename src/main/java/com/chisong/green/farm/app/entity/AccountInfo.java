@@ -10,7 +10,7 @@ import lombok.Data;
 * 供应商账户信息
 * </p>
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-05-10
 */
 @Data
 public class AccountInfo implements Serializable {
@@ -56,6 +56,11 @@ public class AccountInfo implements Serializable {
     * 可用余额
      */
     private  Integer availableAmount;
+
+    /**
+    * 待入账
+     */
+    private  Integer recordedAmount;
 
     /**
     * 总余额
