@@ -1,6 +1,8 @@
 package com.chisong.green.farm.app.service.impl;
 
+import com.chisong.green.farm.app.annotation.AmountUnitChange;
 import com.chisong.green.farm.app.constants.enums.Validity;
+import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.entity.AccountInfo;
 import com.chisong.green.farm.app.dto.AccountInfoDto;
 import com.chisong.green.farm.app.example.AccountInfoExample;
@@ -8,8 +10,10 @@ import com.chisong.green.farm.app.mapper.AccountInfoMapper;
 import com.chisong.green.farm.app.service.AccountInfoService;
 
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.Map;
 import java.util.Optional;
 import javax.xml.bind.ValidationEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,9 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 	@Value("${appid}")
 	private String dingdangAppId;
 
+	@Autowired
+	private AccountInfoMapper accountInfoMapper;
+
 	@Override
 	public AccountInfoDto getAccountInfoDtoByOpenId(String openId) {
 		AccountInfoExample accountInfoExample = new AccountInfoExample();
@@ -38,6 +45,21 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 		}
 		return null;
 	}
+
+	@Override
+	public void createAccountInfo(CustomerInfoDto customerInfoDto) {
+		AccountInfoDto accountInfoDto = getAccountInfoDtoByCustomerId(Integer.parseInt(customerInfoDto.getId()+""));
+		if(null == accountInfoDto){
+			accountInfoDto = new AccountInfoDto();
+			accountInfoDto.setCusotmerId(Integer.parseInt(customerInfoDto.getId()+""));
+			accountInfoDto.setOpenId(customerInfoDto.getOpenId());
+			accountInfoDto.setRealName(customerInfoDto.getUserName());
+			accountInfoDto.setNickName(customerInfoDto.getNickName());
+			accountInfoDto.setType(1);
+			save(accountInfoDto);
+		}
+	}
+
 
 	@Override
 	public AccountInfoDto getAccountInfoDtoByCustomerId(Integer customerId) {
@@ -54,5 +76,10 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 	@Override
 	public AccountInfoDto getDingdangApp() {
 		return getAccountInfoDtoByOpenId(dingdangAppId);
+	}
+
+	@Override
+	public Map<String, Object> getDayWeekMonthSummaryInfo(Long customerId) {
+		return accountInfoMapper.getDayWeekMonthSummaryInfo(customerId);
 	}
 }

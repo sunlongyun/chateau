@@ -76,7 +76,7 @@ public class ChateauApplicationTests {
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,
 				GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.DTO),
-			"goods_specs");
+			"account_info","account_flow");
 	}
 
 	@Test
@@ -84,8 +84,7 @@ public class ChateauApplicationTests {
 		TextMsg textMsg = new TextMsg();
 		TextMsg.Content content = 	new TextMsg.Content();
 		content.setContent("你好,很高兴认识你");
-		textMsg.setText(content);
-		textMsg.setTouser("oqrTq4oTt7NVNNNeGSr2XafYqd-o");
+//		textMsg.setTouser("oqrTq4oTt7NVNNNeGSr2XafYqd-o");
 		textMsg.setAccessToken(authBizService.getAccessToken());
 		customerCenterService.sendToCustomer(textMsg);
 	}

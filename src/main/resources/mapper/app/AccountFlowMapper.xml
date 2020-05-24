@@ -7,6 +7,8 @@
         <id column="id" property="id" />
         <result column="account_id" property="accountId" />
         <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="source" property="source" />
         <result column="amount" property="amount" />
         <result column="operate_name" property="operateName" />
         <result column="validity" property="validity" />
@@ -15,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, account_id, type, amount, operate_name, validity, create_time
+        id, account_id, type, status, source, amount, operate_name, validity, create_time
     </sql>
 
 

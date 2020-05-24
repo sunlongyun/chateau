@@ -65,22 +65,10 @@ public class CustomerController {
 			customerInfoDto.setMobile(freshCustomerReq.getMobile());
 		}
 
-		//符合开户条件,并且尚未开户的，则自动开户
-		if(!StringUtils.isEmpty(customerInfoDto.getMobile())
-		|| StringUtils.isEmpty(customerInfoDto.getAvatarUrl())){
-			AccountInfoDto  accountInfoDto = accountInfoService.getAccountInfoDtoByOpenId(customerInfoDto.getOpenId());
-			if(null == accountInfoDto){
-				accountInfoDto = new AccountInfoDto();
-				accountInfoDto.setNickName(customerInfoDto.getNickName());
-				accountInfoDto.setRealName(customerInfoDto.getUserName());
-				accountInfoDto.setOpenId(customerInfoDto.getOpenId());
-				accountInfoDto.setCusotmerId(Integer.parseInt(customerInfoDto.getId()+""));
-				accountInfoService.save(accountInfoDto);
-			}
-		}
 
 		customerInfoService.update(customerInfoDto);
-
+		//符合开户条件,并且尚未开户的，则自动开户
+		accountInfoService.createAccountInfo(customerInfoDto);
 		return CCResponse.success();
 	}
 

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-05-23
 */
 @Data
 public class AccountFlowExample implements Serializable {
@@ -265,6 +265,128 @@ public class AccountFlowExample implements Serializable {
 
         public Criteria andTypeIsNotNull() {
             addCriterion("type is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andStatusLike(String value) {
+            addCriterion("status like", value, "status");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSourceIn(List<Integer> values) {
+            addCriterion("source in", values, "source");
+            return (Criteria) this;
+        }
+        public Criteria andSourceNotIn(List<Integer> values) {
+            addCriterion("source not in", values, "source");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSourceBetween(Integer value1, Integer value2) {
+            addCriterion("source between", value1, value2, "source");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSourceLike(String value) {
+            addCriterion("source like", value, "source");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSourceEqualTo(Integer value) {
+            addCriterion("source =", value, "source");
+            return (Criteria) this;
+        }
+        public Criteria andSourceNotEqualTo(Integer value) {
+            addCriterion("source <>", value, "source");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSourceGreaterThan(Integer value) {
+            addCriterion("source >", value, "source");
+            return (Criteria) this;
+        }
+        public Criteria andSourceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("source >=", value, "source");
+            return (Criteria) this;
+        }
+        public Criteria andSourceLessThan(Integer value) {
+            addCriterion("source <", value, "source");
+            return (Criteria) this;
+        }
+        public Criteria andSourceLessThanOrEqualTo(Integer value) {
+            addCriterion("source <=", value, "source");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSourceIsNull() {
+            addCriterion("source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceIsNotNull() {
+            addCriterion("source is not null");
             return (Criteria) this;
         }
         // in,   not in

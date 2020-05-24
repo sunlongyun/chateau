@@ -13,6 +13,8 @@
         <result column="merchant_id" property="merchantId" />
         <result column="forezen_amount" property="forezenAmount" />
         <result column="available_amount" property="availableAmount" />
+        <result column="friends_num" property="friendsNum" />
+        <result column="share_amount" property="shareAmount" />
         <result column="recorded_amount" property="recordedAmount" />
         <result column="total_amount" property="totalAmount" />
         <result column="app_id" property="appId" />
@@ -23,10 +25,147 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, cusotmer_id, real_name, nick_name, type, merchant_id, forezen_amount, available_amount, recorded_amount, total_amount, app_id, validity, create_time, update_time
+        id, open_id, cusotmer_id, real_name, nick_name, type, merchant_id, forezen_amount, available_amount, friends_num, share_amount, recorded_amount, total_amount, app_id, validity, create_time, update_time
     </sql>
 
-
+    <!-- 统计天周月业绩汇总-->
+    <select id="getDayWeekMonthSummaryInfo" parameterType="long" resultType="map">
+        SELECT
+         <!--下面是粉丝数量-->
+          (
+            SELECT
+              count(1)
+            FROM
+              customer_info
+            WHERE
+              recommend_id = #{customerId}
+            AND DATE_FORMAT(create_time, '%y-%m-%d') = DATE_FORMAT(now(), '%y-%m-%d')
+          ) todayFriendNum,
+          (
+            SELECT
+              count(1)
+            FROM
+              customer_info
+            WHERE
+              recommend_id = #{customerId}
+            AND DATE_FORMAT(create_time, '%y-%m-%a') = DATE_FORMAT(now(), '%y-%m-%a')
+          ) weekFriendNum,
+          (
+            SELECT
+              count(1)
+            FROM
+              customer_info
+            WHERE
+              recommend_id = #{customerId}
+            AND DATE_FORMAT(create_time, '%y-%m') = DATE_FORMAT(now(), '%y-%m')
+          ) monthFriendNum,
+      <!-- 下面是订单笔数-->
+          (
+            SELECT
+              count(1)
+            FROM
+              order_info o
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  customer_info i
+                WHERE
+                  i.id = o.customer_id
+                AND i.recommend_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m-%d') = DATE_FORMAT(now(), '%y-%m-%d')
+          ) todayOrderNum,
+          (
+            SELECT
+              count(1)
+            FROM
+              order_info o
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  customer_info i
+                WHERE
+                  i.id = o.customer_id
+                AND i.recommend_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m-%a') = DATE_FORMAT(now(), '%y-%m-%a')
+          ) weekOrderNum,
+          (
+            SELECT
+              count(1)
+            FROM
+              order_info o
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  customer_info i
+                WHERE
+                  i.id = o.customer_id
+                AND i.recommend_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m') = DATE_FORMAT(now(), '%y-%m')
+          ) monthOrderNum,
+        <!--下面是预计收入-->
+        (
+            SELECT
+              IFNULL(sum(amount/100),0)
+            FROM
+              account_flow a
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  account_info i
+                WHERE
+                  i.id = a.account_id
+                AND i.cusotmer_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m-%d') = DATE_FORMAT(now(), '%y-%m-%d')
+          ) todayShareAmount,
+        (
+            SELECT
+              IFNULL(sum(amount/100),0)
+            FROM
+              account_flow a
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  account_info i
+                WHERE
+                  i.id = a.account_id
+                AND i.cusotmer_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m-%a') = DATE_FORMAT(now(), '%y-%m-%a')
+          ) weekShareAmount,
+        (
+            SELECT
+              IFNULL(sum(amount/100),0)
+            FROM
+              account_flow a
+            WHERE
+              EXISTS (
+                SELECT
+                  1
+                FROM
+                  account_info i
+                WHERE
+                  i.id = a.account_id
+                AND i.cusotmer_id = #{customerId}
+              )
+            AND DATE_FORMAT(create_time, '%y-%m') = DATE_FORMAT(now(), '%y-%m')
+          ) monthShareAmount
+        FROM
+        DUAL
+    </select>
 
     <!-- example通用查询-->
     <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.AccountInfoExample" resultMap="BaseResultMap">

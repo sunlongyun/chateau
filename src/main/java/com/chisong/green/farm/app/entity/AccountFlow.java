@@ -10,7 +10,7 @@ import lombok.Data;
 * 账户流水
 * </p>
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-05-23
 */
 @Data
 public class AccountFlow implements Serializable {
@@ -29,6 +29,16 @@ public class AccountFlow implements Serializable {
     * 0-流出，1-流入
      */
     private  Integer type;
+
+    /**
+    * 状态 0-进行中；1-已完成
+     */
+    private  Integer status;
+
+    /**
+    * 收入来源  0-分享赚钱
+     */
+    private  Integer source;
 
     /**
     * 流水金额

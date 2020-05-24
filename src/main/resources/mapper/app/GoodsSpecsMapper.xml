@@ -25,7 +25,10 @@
         id, goods_id, name, price, postage, origin_price, img_url, promotion_price, promote, sales_num, stock, create_time, update_time, validity
     </sql>
 
-
+    <!-- 减少库存-->
+    <update id="decreaseStock">
+        update goods_specs set stock=stock-#{stock},sales_num=sales_num+#{stock} where id  =#{id} and stock >= #{stock}
+    </update>
 
     <!-- example通用查询-->
     <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.GoodsSpecsExample" resultMap="BaseResultMap">

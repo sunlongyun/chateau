@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-10
+* @date 2020-05-23
 */
 @Data
 public class AccountInfoExample implements Serializable {
@@ -631,6 +631,128 @@ public class AccountInfoExample implements Serializable {
 
         public Criteria andAvailableAmountIsNotNull() {
             addCriterion("available_amount is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andFriendsNumIn(List<Integer> values) {
+            addCriterion("friends_num in", values, "friendsNum");
+            return (Criteria) this;
+        }
+        public Criteria andFriendsNumNotIn(List<Integer> values) {
+            addCriterion("friends_num not in", values, "friendsNum");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andFriendsNumBetween(Integer value1, Integer value2) {
+            addCriterion("friends_num between", value1, value2, "friendsNum");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andFriendsNumLike(String value) {
+            addCriterion("friends_num like", value, "friendsNum");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andFriendsNumEqualTo(Integer value) {
+            addCriterion("friends_num =", value, "friendsNum");
+            return (Criteria) this;
+        }
+        public Criteria andFriendsNumNotEqualTo(Integer value) {
+            addCriterion("friends_num <>", value, "friendsNum");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andFriendsNumGreaterThan(Integer value) {
+            addCriterion("friends_num >", value, "friendsNum");
+            return (Criteria) this;
+        }
+        public Criteria andFriendsNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("friends_num >=", value, "friendsNum");
+            return (Criteria) this;
+        }
+        public Criteria andFriendsNumLessThan(Integer value) {
+            addCriterion("friends_num <", value, "friendsNum");
+            return (Criteria) this;
+        }
+        public Criteria andFriendsNumLessThanOrEqualTo(Integer value) {
+            addCriterion("friends_num <=", value, "friendsNum");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andFriendsNumIsNull() {
+            addCriterion("friends_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsNumIsNotNull() {
+            addCriterion("friends_num is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andShareAmountIn(List<Integer> values) {
+            addCriterion("share_amount in", values, "shareAmount");
+            return (Criteria) this;
+        }
+        public Criteria andShareAmountNotIn(List<Integer> values) {
+            addCriterion("share_amount not in", values, "shareAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andShareAmountBetween(Integer value1, Integer value2) {
+            addCriterion("share_amount between", value1, value2, "shareAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andShareAmountLike(String value) {
+            addCriterion("share_amount like", value, "shareAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andShareAmountEqualTo(Integer value) {
+            addCriterion("share_amount =", value, "shareAmount");
+            return (Criteria) this;
+        }
+        public Criteria andShareAmountNotEqualTo(Integer value) {
+            addCriterion("share_amount <>", value, "shareAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andShareAmountGreaterThan(Integer value) {
+            addCriterion("share_amount >", value, "shareAmount");
+            return (Criteria) this;
+        }
+        public Criteria andShareAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("share_amount >=", value, "shareAmount");
+            return (Criteria) this;
+        }
+        public Criteria andShareAmountLessThan(Integer value) {
+            addCriterion("share_amount <", value, "shareAmount");
+            return (Criteria) this;
+        }
+        public Criteria andShareAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("share_amount <=", value, "shareAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andShareAmountIsNull() {
+            addCriterion("share_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareAmountIsNotNull() {
+            addCriterion("share_amount is not null");
             return (Criteria) this;
         }
         // in,   not in
