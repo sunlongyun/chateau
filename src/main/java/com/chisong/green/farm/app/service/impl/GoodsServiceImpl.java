@@ -67,6 +67,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		if(pageQueryReq.getHot() == 1) {
 			pageQueryReq.setPageSize(6);
 		}
+
 		PageHelper.startPage(pageQueryReq.getPageNo(), pageQueryReq.getPageSize());
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);
 		PageInfo pageInfo = PageInfo.getPageInfo(goodsDtoList);
@@ -115,18 +116,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 	 * @param goodsSpecsDtos
 	 */
 	private void setSpecsPrice(GoodsDto goodsDto, List<GoodsSpecsDto> goodsSpecsDtos) {
-		if(!CollectionUtils.isEmpty(goodsSpecsDtos)) {
 
 			Optional<GoodsSpecsDto> firstSpecsDtoOptional = null;
-			if(goodsDto.isPromote()) {
-				firstSpecsDtoOptional = goodsSpecsDtos.stream().filter(goodsSpecsDto -> goodsSpecsDto.getPromote() == 1)
-					.sorted(Comparator.comparing(GoodsSpecsDto::getPromotionPrice)).findFirst();
+			firstSpecsDtoOptional = goodsSpecsDtos.stream().filter(goodsSpecsDto -> goodsSpecsDto.getIsShow() == 1)
+				.sorted(Comparator.comparing(GoodsSpecsDto::getId)).findFirst();
+
+			if(!firstSpecsDtoOptional.isPresent()) {
+				firstSpecsDtoOptional = goodsSpecsDtos.stream()
+					.sorted(Comparator.comparing(GoodsSpecsDto::getId)).findFirst();
 			}
 
-			if(!goodsDto.isPromote() || !firstSpecsDtoOptional.isPresent()) {
-				firstSpecsDtoOptional =
-					goodsSpecsDtos.stream().sorted(Comparator.comparing(GoodsSpecsDto::getPrice)).findFirst();
-			}
 
 			firstSpecsDtoOptional.get().setSelected(1);
 			int price =
@@ -136,9 +135,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 
 			goodsDto.setSpecsId(firstSpecsDtoOptional.get().getId());
 			goodsDto.setSpecsPrice(Long.parseLong(price + ""));
-		} else {
-			goodsDto.setSpecsPrice(goodsDto.getPrice());
-		}
+
 	}
 
 	@Override
@@ -173,13 +170,19 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		goodsDto.setPrice(Long.parseLong(price+""));
 
 		Optional<GoodsSpecsDto> goodsSpecsDtoOptional =
-			goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1).sorted(
-				Comparator.comparingInt(GoodsSpecsDto::getPromotionPrice)).findFirst();
+			goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1 && specsDto.getIsShow() ==1).findFirst();
+		if(!goodsSpecsDtoOptional.isPresent()){
+			goodsSpecsDtoOptional = goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1)
+				.sorted(Comparator.comparingInt(GoodsSpecsDto::getPromotionPrice)).findFirst();
+		}
+		if(!goodsSpecsDtoOptional.isPresent()){
+			goodsSpecsDtoOptional = goodsDto.getSpecsDtoList().stream().findFirst();
+		}
+
 		goodsSpecsDtoOptional.ifPresent(specs->{
 			goodsDto.setPromotePrice(Long.parseLong(specs.getPromotionPrice()+""));
 			goodsDto.setPrice(Long.parseLong(specs.getPrice()+""));
 		});
-
 
 
 		//更新分类名称

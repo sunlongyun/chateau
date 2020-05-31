@@ -69,6 +69,10 @@ public class GoodsSpecs implements Serializable {
     * 库存
      */
     private  Integer stock;
+    /**
+     * 是否作为展示商品
+     */
+    private Integer isShow;
 
     /**
     * 创建时间

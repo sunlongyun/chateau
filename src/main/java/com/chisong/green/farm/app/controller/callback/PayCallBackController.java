@@ -230,6 +230,12 @@ public class PayCallBackController {
 			OrderInfoDto orderInfoDto =	orderInfoService.getOrderByNo(refundOrderDto.getOrderNo());
 			orderInfoDto.setRefundAmount(orderInfoDto.getRefundAmount()+Integer.parseInt(settlementRefundFee));
 			orderInfoDto.setIncome(orderInfoDto.getIncome() - Integer.parseInt(settlementRefundFee));
+
+			//未发货的订单，全额退款后，订单取消
+			if(orderInfoDto.getRefundAmount() - orderInfoDto.getPayedAmount()==0
+			 && orderInfoDto.getStatus() == OrderStatusEnum.PAYED.code()){
+				orderInfoDto.setStatus(OrderStatusEnum.CANCELED.code());
+			}
 			orderInfoService.update(orderInfoDto);
 
 			returnOk(httpServletResponse);

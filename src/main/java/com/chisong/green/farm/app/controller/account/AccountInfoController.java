@@ -67,6 +67,10 @@ public class AccountInfoController {
 	@RequestMapping("details")
 	public CCResponse getDetails(AccountFlowRequest accountFlowRequest){
 		LoginResponse loginResponse = CurrentUserUtils.get();
+		if(null == loginResponse){
+			loginResponse = new LoginResponse();
+			loginResponse.setOpenid("oqrTq4jLQt0I_9F4vQVQLQGDrBbM");
+		}
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		AccountInfoDto accountInfoDto =
 			accountInfoService.getAccountInfoDtoByCustomerId(Integer.parseInt(customerInfoDto.getId()+

@@ -24,6 +24,7 @@
         <result column="produce_area" property="produceArea" />
         <result column="price" property="price" />
         <result column="promote" property="promote" />
+        <result column="promote_price" property="promotePrice" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
@@ -37,7 +38,7 @@
     <sql id="Base_Column_List">
         id, title, sku_code, `type_name`,status, supplier_company_name, supplier_id, pic_url,
         min_pic_url,detail_pic_url, description,first_type_id,type_id,
-         price,produce_area,sales_num,promote_start_time,promote_end_time,
+         price,produce_area,sales_num,promote_start_time,promote_end_time,promote_price,promote,
           create_time, update_time, validity,weight,send_time,weight_project_time,sales_amount
     </sql>
 

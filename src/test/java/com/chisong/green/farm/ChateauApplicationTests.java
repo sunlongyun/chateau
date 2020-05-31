@@ -75,8 +75,8 @@ public class ChateauApplicationTests {
 		LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.ENTITY,
-				GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.DTO),
-			"account_info","account_flow");
+				GenerateFileTypeEnum.EXAMPLE),
+			"goods_specs");
 	}
 
 	@Test

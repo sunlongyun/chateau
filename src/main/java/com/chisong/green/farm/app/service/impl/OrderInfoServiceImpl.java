@@ -327,8 +327,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//半个月之前
 			LocalDateTime monthBefore =    LocalDateTime.now().plus(-15, ChronoUnit.DAYS);
 			Date date =   Date.from(monthBefore.atZone(ZoneId.systemDefault()).toInstant());
-			boolean canRefund =  orderInfoDto.getStatus() == OrderStatusEnum.RECEIVED.code()
-				&& null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date)
+			boolean canRefund = null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date)
 				&& orderInfoDto.getRefundAmount() < orderInfoDto.getPayedAmount();
 
 			orderInfoDto.setCanRefund(canRefund);

@@ -45,6 +45,10 @@ public class GoodsSpecsDto implements Serializable {
      * 进件是否包邮，1-包邮；0-不包邮
      */
     private Integer postage;
+    /**
+     *是否选中  1-选中  0-未选中
+     */
+    private Integer selected;
 
     /**
      * 促销价
@@ -80,9 +84,9 @@ public class GoodsSpecsDto implements Serializable {
      */
     private Integer validity;
     /**
-     * 选中
+     * 是否选做商品展示  1-选中 0-未选中
      */
-    private Integer selected=0;
+    private Integer isShow = 0;
 
     @Override
     public boolean equals(Object o) {

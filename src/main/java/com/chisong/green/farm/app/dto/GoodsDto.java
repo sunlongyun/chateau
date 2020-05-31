@@ -4,7 +4,6 @@ import com.chisong.green.farm.app.annotation.AmountUnitChange;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation;
 import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
 import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
-import com.chisong.green.farm.app.constants.enums.UniformSpecsEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.ArrayList;
