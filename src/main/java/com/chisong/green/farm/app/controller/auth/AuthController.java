@@ -9,8 +9,8 @@ import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.GoodsService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
-import com.chisong.green.farm.app.utils.JsonUtils;
 import com.chisong.green.farm.app.utils.LoginUserInfoUtil;
+import com.lianshang.utils.JsonUtils;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -160,13 +161,14 @@ public class AuthController {
 			recommendId = request.getParameter("recommendId");
 		}
 		if(StringUtils.isEmpty(recommendId)){
-			recommendId="-1";
+			recommendId="1";
 		}
 
 		String goodsId = request.getParameter("goodsId");
 		if(StringUtils.isEmpty(goodsId)){
 			goodsId = NOT_GOODS_PAGE;
 		}
+
 
 		//生成二维码，本地暂存
 	    String qrPath =	saveImg(imageDir, goodsId, recommendId);
@@ -204,12 +206,12 @@ public class AuthController {
 	 * 获取二维码字节
 	 * @return
 	 */
-	private byte[] getQrcodeBytes(String goodsId,String recommendId) {
+	private byte[] getQrcodeBytes(String goodsId,String recommendId) throws UnsupportedEncodingException {
 
 		Map<String, Object> dataMap  = (Map<String, Object>)getAccessToken().getData();
 		String accessToken = (String) dataMap.get("accessToken");
 
-		String scene = goodsId+":"+recommendId;
+		String scene = goodsId+"&"+recommendId;
 
 		String page ="pages/shopDeatil/shopDeatil";
 		if(NOT_GOODS_PAGE.equals(goodsId)){
@@ -227,7 +229,7 @@ public class AuthController {
 		map.put("auto_color", false);
 
 		String content = JsonUtils.object2JsonString(map);
-		;
+		content = content.replace("\\u0026", "&");
 		HttpEntity<String> req = new HttpEntity<>(content, headers);
 		ResponseEntity<byte[]> postForEntity =	restTemplate.exchange(url, HttpMethod.POST,req,byte[].class);
 		return postForEntity.getBody();
@@ -255,7 +257,7 @@ public class AuthController {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);    // 消除文字锯齿
 			Integer y = 0;
 			String userName ="未知";
-			CustomerInfoDto customerInfoDto = customerInfoService.getById("1");
+			CustomerInfoDto customerInfoDto = customerInfoService.getById(recommendId);
 			if(null != customerInfoDto){
 				userName = customerInfoDto.getNickName();
 			}
@@ -271,7 +273,7 @@ public class AuthController {
 				qrcodeRectangle.x, qrcodeRectangle.y, null);
 
 			// 长按识别二维码下单
-			graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 30));
+			graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
 			graphics2d.setColor(new Color(89, 89, 89));
 			graphics2d.drawString("长按识别二维码下单", 280, y+90);
 
@@ -317,7 +319,7 @@ public class AuthController {
 	 * @param y
 	 */
 	private int writeTitle(Graphics2D graphics2d,String userName, Integer y) {
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 35));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 35));
 		graphics2d.setColor(Color.red);
 		graphics2d.drawString("叮当农场小程序", 200, y + 55);
 	    y+=70;
@@ -328,11 +330,11 @@ public class AuthController {
 			graphics2d.setColor(Color.gray);
 			graphics2d.fillRect(46, y + 20, 95, 50);
 			// 推荐人
-			graphics2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));
+			graphics2d.setFont(new Font("宋体", Font.BOLD, 25));
 			graphics2d.setColor(Color.white);
 			graphics2d.drawString("推荐人", 55, y +55);
 
-			graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 25));
+			graphics2d.setFont(new Font("宋体", Font.PLAIN, 25));
 			graphics2d.setColor(Color.gray);
 			graphics2d.drawString(userName, 160, y+55);
 			y+=66;
@@ -350,7 +352,7 @@ public class AuthController {
 	 */
 	private int writeGoodsInfo(GoodsDto goodsDto, Graphics2D graphics2d, Integer y) {
 		// 写入商品名
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 32));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 32));
 		graphics2d.setColor(Color.BLACK);
 		String title = goodsDto.getTitle();
 		char[] sc = title.toCharArray();
@@ -383,7 +385,7 @@ public class AuthController {
 
 		y = y + titleOffsetY + 40;
 
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 25));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 25));
 		graphics2d.setColor(Color.gray);
 		graphics2d.drawString("商品价格以实际价格为准", 30, y+20);
 		y += 30;
@@ -394,27 +396,27 @@ public class AuthController {
 		graphics2d.fillRect(25, y + 20, 90, 40);
 
 		// 到手价
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));
+		graphics2d.setFont(new Font("宋体", Font.BOLD, 25));
 		graphics2d.setColor(Color.white);
 		graphics2d.drawString("到手价", 33, y + 53);
 
 		// 到手价人民币图标
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 36));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 36));
 		graphics2d.setColor(Color.red);
-		graphics2d.drawString("¥", 135, y + 60);
+		graphics2d.drawString("¥", 150, y + 60);
 
 		// 到手价金额
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 60));
+		graphics2d.setFont(new Font("宋体", Font.BOLD, 60));
 		graphics2d.setColor(Color.red);
-		graphics2d.drawString(goodsDto.getPromotePrice()/100+"" , 155, y+60);
+		graphics2d.drawString(goodsDto.getPromotePrice()/100+"" , 170, y+60);
 
 		// 原价
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 30));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
 		graphics2d.setColor(new Color(89, 89, 89));
 		graphics2d.drawString("原价: ", 350, y + 60);
 
 		// 原价金额
-		graphics2d.setFont(new Font("Microsoft YaHei", Font.PLAIN, 30));
+		graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
 		graphics2d.setColor(new Color(89, 89, 89));
 		graphics2d.drawString("¥" + (goodsDto.getPrice()/100)+"" , 425, y+60);
 		y += 120;
