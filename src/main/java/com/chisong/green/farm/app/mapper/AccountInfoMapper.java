@@ -3,6 +3,7 @@ package com.chisong.green.farm.app.mapper;
 import com.chisong.green.farm.app.entity.AccountInfo;
 import com.lianshang.generator.commons.LsBaseMapper;
 import java.util.Map;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -19,5 +20,13 @@ public interface AccountInfoMapper extends LsBaseMapper<AccountInfo> {
 	 * @param customerId
 	 * @return
 	 */
-	public Map<String,Object> getDayWeekMonthSummaryInfo(Long customerId);
+	Map<String,Object> getDayWeekMonthSummaryInfo(Long customerId);
+
+	/**
+	 * 冻结
+	 * @param amount
+	 * @param accountId
+	 * @return
+	 */
+	int frozenAmount(@Param("amount") Integer amount, @Param("accountId") Integer accountId);
 }

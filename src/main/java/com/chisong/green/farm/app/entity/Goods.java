@@ -144,4 +144,9 @@ public class Goods implements Serializable {
      * 总销售额
      */
     private Long salesAmount;
+
+    /**
+     * 销售分润百分比，基准是纯利润(售价-进价-其他费用)
+     */
+    private Integer profitRate;
 }

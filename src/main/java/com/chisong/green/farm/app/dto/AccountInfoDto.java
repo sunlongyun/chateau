@@ -9,7 +9,7 @@ import lombok.Data;
 * 供应商账户信息
 * </p>
 * @author 孙龙云
-* @date 2020-05-23
+* @date 2020-07-01
 */
 @Data
 public class AccountInfoDto implements Serializable {
@@ -22,6 +22,11 @@ public class AccountInfoDto implements Serializable {
     * 个人openId
      */
     private String openId;
+
+    /**
+    * 手机号
+     */
+    private String mobile;
 
     private Integer cusotmerId;
 

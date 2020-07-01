@@ -1,6 +1,5 @@
 package com.chisong.green.farm.app.controller.auth;
 
-import com.alibaba.fastjson.JSONObject;
 import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.dto.GoodsDto;
@@ -8,7 +7,6 @@ import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.GoodsService;
-import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.app.utils.LoginUserInfoUtil;
 import com.lianshang.utils.JsonUtils;
 import java.awt.Color;
@@ -17,34 +15,22 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.net.URLEncoder;
-
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import java.awt.image.BufferedImage;
-import org.apache.http.util.EntityUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,6 +58,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class AuthController {
 
 	public static final String TOKEN_URL = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=";
+	public static final String RECOMMEND_ID = "-1";
 	public static final String NOT_GOODS_PAGE = "-1";
 	@Autowired
 	private AuthBizService authBizService;
@@ -145,30 +132,17 @@ public class AuthController {
 	@RequestMapping("/createMap")
 	public void createMap(HttpServletResponse httpServletResponse) throws IOException {
 
-		String recommendId = null;
-		try{
-			LoginResponse loginResponse = CurrentUserUtils.get();
-			CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
-			recommendId = customerInfoDto.getId()+"";
-		}catch(Exception ex){
-			log.info("获取当前用户失败: {}", ex);
-		}
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 			.getRequest();
 
-		if(StringUtils.isEmpty(recommendId)){
-			recommendId = request.getParameter("recommendId");
-		}
-		if(StringUtils.isEmpty(recommendId)){
-			recommendId="1";
-		}
-
 		String goodsId = request.getParameter("goodsId");
+		String recommendId = request.getParameter("recommendId");
 		if(StringUtils.isEmpty(goodsId)){
 			goodsId = NOT_GOODS_PAGE;
 		}
-
+		if(StringUtils.isEmpty(recommendId)){
+			recommendId = RECOMMEND_ID;
+		}
 
 		//生成二维码，本地暂存
 	    String qrPath =	saveImg(imageDir, goodsId, recommendId);
@@ -177,10 +151,11 @@ public class AuthController {
 
 		String mapPath = drawCouponPosterImage(qrPath, goodsDto, recommendId);
 		FileInputStream fileInputStream = new FileInputStream(new File(mapPath));
-
-		IOUtils.copyLarge(fileInputStream, httpServletResponse.getOutputStream());
+		ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+		IOUtils.copyLarge(fileInputStream,servletOutputStream);
 
 		fileInputStream.close();
+		servletOutputStream.close();
 	}
 
 	/**
@@ -189,16 +164,28 @@ public class AuthController {
 	 * @return
 	 */
 	private String saveImg(String dir, String goodsId,String recommendId) throws IOException {
+
 		String fileName = goodsId+"_"+recommendId+".jpg";
-		byte[] bytes = getQrcodeBytes( goodsId, recommendId);
+		byte[] bytes = "".getBytes();
+		try{
+			 bytes = getQrcodeBytes( goodsId, recommendId);
+		}catch(Exception ex){
+			log.error("获取二维码失败", ex);
+		}
+
 		File imageDir = new File(dir);
 		if(!imageDir.exists()){
 			imageDir.mkdirs();
 		}
-		File file = new File(imageDir+fileName);
-		FileOutputStream fileOutputStream = new FileOutputStream(file);
-		fileOutputStream.write(bytes);
-		fileOutputStream.close();
+		File file = new File(imageDir+"/"+fileName);
+		try(FileOutputStream fileOutputStream = new FileOutputStream(file);){
+			fileOutputStream.write(bytes);
+			fileOutputStream.flush();
+
+		}catch(Exception e){
+			log.error("输出流失败:{}", e);
+		}
+
 
 		return  file.getAbsolutePath();
 	}
@@ -206,7 +193,8 @@ public class AuthController {
 	 * 获取二维码字节
 	 * @return
 	 */
-	private byte[] getQrcodeBytes(String goodsId,String recommendId) throws UnsupportedEncodingException {
+	private byte[] getQrcodeBytes(String goodsId,String recommendId)
+		throws UnsupportedEncodingException, InterruptedException {
 
 		Map<String, Object> dataMap  = (Map<String, Object>)getAccessToken().getData();
 		String accessToken = (String) dataMap.get("accessToken");
@@ -232,7 +220,9 @@ public class AuthController {
 		content = content.replace("\\u0026", "&");
 		HttpEntity<String> req = new HttpEntity<>(content, headers);
 		ResponseEntity<byte[]> postForEntity =	restTemplate.exchange(url, HttpMethod.POST,req,byte[].class);
-		return postForEntity.getBody();
+		byte[] bytes = postForEntity.getBody();
+
+		return  bytes;
 	}
 
 
@@ -266,7 +256,17 @@ public class AuthController {
 			y = writeGoodsInfo(goodsDto, graphics2d, y);
 
 			// 写入二维码
-			BufferedImage qrcodeImage =  ImageIO.read(new File(qrPath));
+			log.info("qrPath == {}", qrPath);
+			File file = new File(qrPath);
+			BufferedImage qrcodeImage =  ImageIO.read(file);
+			if(null != file && file.exists()){
+				try {
+					file.delete();
+				}catch(Exception e){
+
+				}
+
+			}
 			Rectangle qrcodeRectangle = new Rectangle(50, y, 180, 180);
 			graphics2d.drawImage(qrcodeImage.getScaledInstance(qrcodeRectangle.width, qrcodeRectangle.height,
 				Image.SCALE_SMOOTH),
@@ -284,11 +284,7 @@ public class AuthController {
 				dir.mkdirs();
 			}
 			String absolutePath = imageDir+"/share/"+recommendId+"/goods.jpg";
-			File file =  new File(absolutePath);
-			if(!file.exists()){
-				file.createNewFile();
-			}
-			ImageIO.write(gbGroundImg, "jpg", file);
+			ImageIO.write(gbGroundImg, "jpg", new File(absolutePath));
 			return absolutePath;
 		} catch(IOException e) {
 			log.error("生成优惠券海报失败", e);
@@ -324,21 +320,21 @@ public class AuthController {
 		graphics2d.drawString("叮当农场小程序", 200, y + 55);
 	    y+=70;
 
-		if(!"未知".equals(userName)){
-			// 推荐人
-			graphics2d.drawRect(46, y + 20, 95, 50);
-			graphics2d.setColor(Color.gray);
-			graphics2d.fillRect(46, y + 20, 95, 50);
-			// 推荐人
-			graphics2d.setFont(new Font("宋体", Font.BOLD, 25));
-			graphics2d.setColor(Color.white);
-			graphics2d.drawString("推荐人", 55, y +55);
-
-			graphics2d.setFont(new Font("宋体", Font.PLAIN, 25));
-			graphics2d.setColor(Color.gray);
-			graphics2d.drawString(userName, 160, y+55);
-			y+=66;
-		}
+//		if(!"未知".equals(userName)){
+//			// 推荐人
+//			graphics2d.drawRect(46, y + 20, 95, 50);
+//			graphics2d.setColor(Color.gray);
+//			graphics2d.fillRect(46, y + 20, 95, 50);
+//			// 推荐人
+//			graphics2d.setFont(new Font("宋体", Font.BOLD, 25));
+//			graphics2d.setColor(Color.white);
+//			graphics2d.drawString("推荐人", 55, y +55);
+//
+//			graphics2d.setFont(new Font("宋体", Font.PLAIN, 25));
+//			graphics2d.setColor(Color.gray);
+//			graphics2d.drawString(userName, 160, y+55);
+//			y+=66;
+//		}
 
 
 		return  y;
@@ -408,22 +404,25 @@ public class AuthController {
 		// 到手价金额
 		graphics2d.setFont(new Font("宋体", Font.BOLD, 60));
 		graphics2d.setColor(Color.red);
-		graphics2d.drawString(goodsDto.getPromotePrice()/100+"" , 170, y+60);
+		graphics2d.drawString((goodsDto.getPromotePrice()/100.0)+"" , 170, y+60);
 
-		// 原价
-		graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
-		graphics2d.setColor(new Color(89, 89, 89));
-		graphics2d.drawString("原价: ", 350, y + 60);
+		if(goodsDto.isPromote()){
+			// 原价
+			graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
+			graphics2d.setColor(new Color(89, 89, 89));
+			graphics2d.drawString("原价: ", 350, y + 60);
 
-		// 原价金额
-		graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
-		graphics2d.setColor(new Color(89, 89, 89));
-		graphics2d.drawString("¥" + (goodsDto.getPrice()/100)+"" , 425, y+60);
-		y += 120;
-		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-			RenderingHints.VALUE_ANTIALIAS_ON);                        // 消除画图锯齿
-		graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			// 原价金额
+			graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
+			graphics2d.setColor(new Color(89, 89, 89));
+			graphics2d.drawString("¥" + (goodsDto.getPrice()/100.0)+"" , 425, y+60);
+			y += 120;
+			graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);                        // 消除画图锯齿
+			graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		}
+
 
 //		y+=100;
 

@@ -187,4 +187,8 @@ public class GoodsDto implements Serializable {
      */
     private List<GoodsSpecsDto> specsDtoList = new ArrayList<>();
 
+    /**
+     * 销售分润百分比，基准是纯利润(售价-进价-其他费用)
+     */
+    private Integer profitRate;
 }

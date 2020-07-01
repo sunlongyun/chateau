@@ -38,7 +38,7 @@ public class AuthBizServiceImpl implements AuthBizService {
 	private String appId;
 	@Value("${secret}")
 	private String secret;
-	private Map<LocalDateTime, String> accessMap = new HashMap<>();
+	public Map<LocalDateTime, String> accessMap = new HashMap<>();
 	@Autowired
 	private AuthService authService;
 	@Autowired
@@ -48,15 +48,17 @@ public class AuthBizServiceImpl implements AuthBizService {
 	@Override
 	public String getAccessToken() {
 		String accessToken = null;
-		if(!accessMap.isEmpty() && LocalDateTime.now().isAfter(accessMap.keySet().iterator().next())) {
+		if(!accessMap.isEmpty() && LocalDateTime.now().isBefore(accessMap.keySet().iterator().next())) {
 			accessToken = accessMap.values().iterator().next();
 		} else {
+			accessMap.clear();
 			AcccessCodeReq acccessCodeReq = new AcccessCodeReq();
 			acccessCodeReq.setSecret(secret);
 			acccessCodeReq.setAppId(appId);
 			AccessCodeResponse accessCodeResponse = authService.getAccessToken(acccessCodeReq);
 			LocalDateTime localDateTime = LocalDateTime.now();
-			localDateTime.plusSeconds(accessCodeResponse.getExpiresIn().longValue()).minusMinutes(5);
+			localDateTime  =
+				localDateTime.plusSeconds(accessCodeResponse.getExpiresIn().longValue()).minusMinutes(15);
 			accessMap.put(localDateTime, accessCodeResponse.getAccessToken());
 			accessToken = accessCodeResponse.getAccessToken();
 		}

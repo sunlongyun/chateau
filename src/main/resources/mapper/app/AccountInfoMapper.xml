@@ -184,6 +184,11 @@
         </if>
     </select>
 
+  <!-- 冻结账户余额-->
+  <update id="frozenAmount">
+    update account_info set available_amount -= #{amount}, forezen_amount += #{amount} where id = #{accountId}
+    and available_amount >= #{amount}
+  </update>
     <!-- 条件-->
     <sql id="Example_Where_Clause">
         <where>

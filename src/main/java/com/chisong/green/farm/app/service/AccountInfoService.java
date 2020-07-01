@@ -1,5 +1,6 @@
 package com.chisong.green.farm.app.service;
 
+import com.chisong.green.farm.app.controller.account.request.WithDrawApplyReq;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.lianshang.generator.commons.IService;
 import com.chisong.green.farm.app.dto.AccountInfoDto;
@@ -47,4 +48,10 @@ public interface AccountInfoService extends IService<AccountInfoDto> {
 	 * @return
 	 */
 	public Map<String, Object> getDayWeekMonthSummaryInfo(Long customerId);
+
+	/**
+	 * 提现申请
+	 * @param withDrawApplyReq
+	 */
+	void applyAmount(WithDrawApplyReq withDrawApplyReq);
 }

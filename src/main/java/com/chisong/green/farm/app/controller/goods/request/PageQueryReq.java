@@ -27,6 +27,10 @@ public class PageQueryReq {
 	 */
 	private Integer typeId;
 	/**
+	 * 一级分类id
+	 */
+	private Integer firstTypeId;
+	/**
 	 * 状态
 	 */
 	private Integer status;

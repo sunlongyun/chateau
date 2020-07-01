@@ -1,6 +1,7 @@
 package com.chisong.green.farm.app.controller.account;
 
 import com.chisong.green.farm.app.constants.enums.Validity;
+import com.chisong.green.farm.app.controller.account.request.WithDrawApplyReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.AccountInfoDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +40,16 @@ public class AccountInfoController {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 
+
+	/**
+	 * 提现申请
+	 * @param withDrawApplyReq
+	 * @return
+	 */
+	public CCResponse widthDrawApply(@RequestBody WithDrawApplyReq withDrawApplyReq){
+
+		return CCResponse.success();
+	}
 	/**
 	 * 统计天周月业绩汇总
 	 * @return

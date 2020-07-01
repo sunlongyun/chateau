@@ -9,7 +9,7 @@ import lombok.Data;
 * 商品分类，暂时到二级分类
 * </p>
 * @author 孙龙云
-* @date 2020-03-29
+* @date 2020-06-27
 */
 @Data
 public class GoodsTypeDto implements Serializable {
@@ -22,6 +22,11 @@ public class GoodsTypeDto implements Serializable {
     * 类目名称
      */
     private String name;
+
+    /**
+    * 图片地址
+     */
+    private String picUrl;
 
     /**
     * 父类
