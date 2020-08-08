@@ -79,10 +79,10 @@
         </trim>
         ORDER  BY
         <!-- 权重作为第一排序未读-->
-        <if test="promote != 1">
+        <if test="hot != 1">
              weight desc
         </if>
-        <if test="promote == 1">
+        <if test="hot == 1">
             id desc
         </if>
         <if test="sortKey != null">
