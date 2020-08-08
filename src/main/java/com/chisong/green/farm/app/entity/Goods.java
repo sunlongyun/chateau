@@ -98,7 +98,10 @@ public class Goods implements Serializable {
      * 是否促销
      */
     private boolean promote;
-
+    /**
+     * 特价促销
+     */
+    private boolean hot;
     /**
     * 累计销售数量
      */

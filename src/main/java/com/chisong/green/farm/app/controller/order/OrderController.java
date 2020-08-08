@@ -18,6 +18,7 @@ import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.chisong.green.farm.app.example.OrderInfoExample.Criteria;
+import com.chisong.green.farm.app.interceptor.OrderCheckFactory;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
@@ -77,6 +78,9 @@ public class OrderController {
 	private GoodsSpecsService goodsSpecsService;
 	@Autowired
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
+
+	@Autowired
+	private OrderCheckFactory orderCheckFactory;
 
 	/**
 	 * 查询订单状态
@@ -273,25 +277,14 @@ public class OrderController {
 	}
 
 	/**
-	 * 创建订单
+	 * 创建订单checkSupplier
 	 */
 	@RequestMapping("createOrder")
 	public CCResponse createOrder(@RequestBody CreateOrderReq createOrderReq) {
-		if(null == createOrderReq || CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())
-			|| null == createOrderReq.getAddressId()) {
-			throw new RuntimeException("订单明细以及收货地址都不能为空");
-		}
 
-		//如果购物清单的商品来自不同的供应商，则返回提示分别下单
-		if(checkSupplier(createOrderReq)) {
-			return CCResponse.fail("您购买的商品来自不同的供应商，建议分别下单购买");
-		}
-
+		orderCheckFactory.checkCreateOrder(createOrderReq);
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
-		if(CollectionUtils.isEmpty(createOrderReq.getOrderDetailReqList())) {
-			throw new RuntimeException("购物明细不能为空");
-		}
 		OrderInfoDto orderInfoDto = buildOrderInfo(customerInfoDto);
 		String orderNo = createOrder(orderInfoDto, createOrderReq.getOrderDetailReqList(),
 			createOrderReq.getAddressId());
@@ -307,15 +300,6 @@ public class OrderController {
 		return CCResponse.success(dataMap);
 	}
 
-	private boolean checkSupplier(@RequestBody CreateOrderReq createOrderReq) {
-		long supplierCount = createOrderReq.getOrderDetailReqList().stream().map(orderDetailReq -> {
-			return goodsService.getById(orderDetailReq.getGoodsId()).getSupplierId();
-		}).distinct().count();
-		if(supplierCount > 1) {
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * 创建订单

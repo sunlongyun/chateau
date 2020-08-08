@@ -124,7 +124,10 @@ public class GoodsDto implements Serializable {
      */
     private Integer salesNum;
 
-
+    /**
+     * 特价促销
+     */
+    private boolean hot;
     /**
     * 促销开始时间
      */

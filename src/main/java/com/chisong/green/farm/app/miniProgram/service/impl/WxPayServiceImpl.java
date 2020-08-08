@@ -8,11 +8,13 @@ import com.chisong.green.farm.app.miniProgram.request.PayToPersonRequest;
 import com.chisong.green.farm.app.miniProgram.request.PrePayRequest;
 import com.chisong.green.farm.app.miniProgram.request.RedBagRequest;
 import com.chisong.green.farm.app.miniProgram.request.RefundApplyReq;
+import com.chisong.green.farm.app.miniProgram.request.SendCardRequest;
 import com.chisong.green.farm.app.miniProgram.response.ParentResponse;
 import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.miniProgram.response.RedBagResponse;
+import com.chisong.green.farm.app.miniProgram.response.SendCardResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
 import com.chisong.green.farm.app.utils.IPUtil;
 import com.chisong.green.farm.app.wpay.util.WpayUtil;
@@ -21,6 +23,8 @@ import com.github.wxpay.sdk.WXPayUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -203,4 +207,44 @@ public class WxPayServiceImpl implements WxPayService {
 	}
 
 
+	@Override
+	public SendCardResponse sendCard(SendCardRequest sendCardRequest) {
+//		sendCardRequest.setMerchantId(mchID);
+//		sendCardRequest.setMerchantAppid(appid);
+
+		int random = (int)(Math.random()*10000);
+
+		String partnerTradeNo =
+			mchID+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"))+addZeroForNum(random+"", 4);
+		sendCardRequest.setPartnerTradeNo(partnerTradeNo);
+		Map<String, String> reqMap = ReqUtil.getMap(sendCardRequest);
+		WXPay wxPay = getWxPay();
+
+
+		try {
+			reqMap = 	wxPay.fillRequestData(reqMap);
+		String resultBody =	wxPay.requestWithCert("/mmpaymkttransfers/send_coupon",reqMap,
+				5000,5000);
+			Map resultMap =  MapXmlUtil.xmlToMap(resultBody);
+			SendCardResponse sendCardResponse =  ResUtil.getObj(SendCardResponse.class, resultMap);
+			return sendCardResponse;
+		}catch(Exception ex){
+			log.info("发送购物券失败 == {}", ex);
+		}
+
+		return null;
+	}
+
+	private  String addZeroForNum(String str, int strLength) {
+		int strLen = str.length();
+		if(strLen < strLength) {
+			while(strLen < strLength) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("0").append(str);//左补0
+				str = sb.toString();
+				strLen = str.length();
+			}
+		}
+		return str;
+	}
 }

@@ -29,11 +29,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.github.wxpay</groupId>
-			<artifactId>wxpay-sdk</artifactId>
-			<version>3.0.9</version>
-		</dependency>
+
 		<!-- 代码生成器-->
 		<dependency>
 			<groupId>com.lianshang</groupId>
@@ -56,11 +52,7 @@
 			<artifactId>wxpay-sdk</artifactId>
 			<version>3.0.9</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>

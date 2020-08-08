@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class PageQueryReq {
 	/**
-	 * 是否是热门推荐
+	 * 是否是特价促销
 	 */
 	private Integer hot=0;
 	/**

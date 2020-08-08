@@ -87,7 +87,7 @@ public class PayCallBackController {
 				sb.append(line);
 			}
 			in.close();
-			inputStream.close();
+//			inputStream.close();
 			//2、将xml格式字符串格式转为map集合
 			Map<String, String> callbackMap = WXPayUtil.xmlToMap(sb.toString());
 			log.info("支付回调结果:{}", callbackMap);

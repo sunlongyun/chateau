@@ -48,7 +48,9 @@ public class CurrentUserUtils implements ApplicationContextAware {
 		log.info("userCode==={}", userCode);
 		log.info("userInfoMap=={}",LoginUserInfoUtil.userInfoMap);
 		LoginResponse loginResponse = LoginUserInfoUtil.getLoginResponse(userCode);
-
+		if(null == loginResponse){
+			throw new RuntimeException("会话已过期，请重新登录");
+		}
 		log.info("loginResponse==={}", loginResponse);
 		return loginResponse;
 	}

@@ -21,6 +21,7 @@
         <result column="promote_start_time" property="promoteStartTime" />
         <result column="promote_end_time" property="promoteEndTime" />
         <result column="sales_num" property="salesNum" />
+        <result column="hot" property="hot"/>
         <result column="produce_area" property="produceArea" />
         <result column="price" property="price" />
         <result column="promote" property="promote" />
@@ -39,7 +40,7 @@
     <sql id="Base_Column_List">
         id, title, sku_code, `type_name`,status, supplier_company_name, supplier_id, pic_url,
         min_pic_url,detail_pic_url, description,first_type_id,type_id,
-         price,produce_area,sales_num,promote_start_time,promote_end_time,promote_price,promote,
+         price,produce_area,sales_num,hot,promote_start_time,promote_end_time,promote_price,promote,
           create_time, update_time, validity,weight,send_time,weight_project_time,sales_amount,profit_rate
     </sql>
 
@@ -71,6 +72,9 @@
             </if>
             <if test="promote == 1">
              and promote = 1
+            </if>
+            <if test="hot == 1">
+                and hot = 1
             </if>
         </trim>
         ORDER  BY

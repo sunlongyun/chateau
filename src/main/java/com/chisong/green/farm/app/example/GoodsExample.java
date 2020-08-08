@@ -1731,6 +1731,70 @@ public class GoodsExample implements Serializable {
             addCriterion("validity is not null");
             return (Criteria) this;
         }
+
+
+        ///////////////////////
+        // in,   not in
+        public Criteria andHotIn(List<Integer> values) {
+            addCriterion("hot in", values, "validity");
+            return (Criteria) this;
+        }
+         public Criteria andHotNotIn(List<Integer> values) {
+             addCriterion("hot not in", values, "validity");
+             return (Criteria) this;
+         }
+
+         //between
+         public Criteria andHotBetween(Integer value1, Integer value2) {
+             addCriterion("hot between", value1, value2, "validity");
+             return (Criteria) this;
+         }
+
+         //like
+         public Criteria andHotLike(String value) {
+             addCriterion("hot like", value, "validity");
+             return (Criteria) this;
+         }
+
+         // = <>
+         public Criteria andHotEqualTo(Integer value) {
+             addCriterion("hot =", value, "validity");
+             return (Criteria) this;
+         }
+         public Criteria andHotNotEqualTo(Integer value) {
+             addCriterion("hot <>", value, "validity");
+             return (Criteria) this;
+         }
+
+
+         // > >= < <=
+         public Criteria andHotGreaterThan(Integer value) {
+             addCriterion("hot >", value, "validity");
+             return (Criteria) this;
+         }
+         public Criteria andHotGreaterThanOrEqualTo(Integer value) {
+             addCriterion("hot >=", value, "validity");
+             return (Criteria) this;
+         }
+         public Criteria andHotLessThan(Integer value) {
+             addCriterion("hot <", value, "validity");
+             return (Criteria) this;
+         }
+         public Criteria andHotLessThanOrEqualTo(Integer value) {
+             addCriterion("hot <=", value, "validity");
+             return (Criteria) this;
+         }
+
+         //null  not null
+         public Criteria andHotIsNull() {
+             addCriterion("hot is null");
+             return (Criteria) this;
+         }
+
+         public Criteria andHotIsNotNull() {
+             addCriterion("hot is not null");
+             return (Criteria) this;
+         }
      }
 
     public static class Criteria extends GeneratedCriteria {
