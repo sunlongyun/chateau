@@ -8,11 +8,12 @@
         <result column="name" property="name" />
         <result column="pid" property="pid" />
         <result column="validity" property="validity" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, pid, validity
+        id, `name`, pid, validity,app_info_id
     </sql>
 
 

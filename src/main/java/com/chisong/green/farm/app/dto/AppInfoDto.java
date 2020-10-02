@@ -6,42 +6,41 @@ import java.util.Date;
 import lombok.Data;
 /**
 * <p>
-* 商品详情尾部图片，详情图片
+* APP名称
 * </p>
 * @author 孙龙云
-* @date 2019-11-16
+* @date 2020-10-02
 */
 @Data
-public class GoodsTailImagesDto implements Serializable {
+public class AppInfoDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
     /**
-    * 酒水id
+    * app名称
      */
-    private Long goodsId;
+    private String name;
 
     /**
-    * 图片地址
+    * 联系人
      */
-    private String imageUrl;
+    private String contactUser;
 
     /**
-    * 创建时间
+    * 联系电话
      */
+    private String contactPhone;
+
     private Date createTime;
 
-    /**
-    * 修改时间
-     */
     private Date updateTime;
 
     /**
-    * 是否有效 1-有效；0-无效
+    * 是否有效
      */
-    private Integer validity;
+    private Boolean validity;
 
     /**
      * 所属app

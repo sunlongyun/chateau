@@ -14,11 +14,12 @@
         <result column="weight" property="weight" />
         <result column="free_num" property="freeNum" />
         <result column="validity" property="validity" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods_id, provinces, inc_unit_num, unit, amount, free_total_amount, weight, free_num, validity
+        id, goods_id, provinces, inc_unit_num, unit, amount, free_total_amount, weight, free_num, validity,app_info_id
     </sql>
 
 

@@ -6,6 +6,7 @@ import com.chisong.green.farm.app.annotation.ServiceTypeAnnotation.Type;
 import com.chisong.green.farm.app.constants.enums.GoodsStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -100,11 +101,11 @@ public class GoodsDto implements Serializable {
     * 销售价格，跨境完税价  单位：分
      */
     @AmountUnitChange(showUnit=true)
-    private Long price;
+    private BigDecimal price;
     /**
      * 选中规格的价格
      */
-    private Long specsPrice;
+    private BigDecimal specsPrice;
     /**
      * 选中的规格id
      */
@@ -194,4 +195,8 @@ public class GoodsDto implements Serializable {
      * 销售分润百分比，基准是纯利润(售价-进价-其他费用)
      */
     private Integer profitRate;
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

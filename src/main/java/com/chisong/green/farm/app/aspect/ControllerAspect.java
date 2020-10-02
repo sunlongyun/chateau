@@ -4,6 +4,7 @@ import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.CustomerInfoService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.JsonUtils;
 import com.chisong.green.farm.app.utils.LoginUserInfoUtil;
 import com.chisong.green.farm.exception.BizException;
@@ -45,6 +46,10 @@ public class ControllerAspect {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 			.getRequest();
 		String userCode = request.getHeader("userCode");
+		String appId = (String)request.getHeader("appId");
+		if(!StringUtils.isEmpty(appId)){
+			AppUtils.set(Long.parseLong(appId));
+		}
 		if(StringUtils.isEmpty(userCode)){
 			return proceedingJoinPoint.proceed();
 		}
@@ -73,7 +78,6 @@ public class ControllerAspect {
 				}catch(Exception ex){
 
 				}
-
 			}
 			result = proceedingJoinPoint.proceed();
 			return  result;
@@ -95,6 +99,7 @@ public class ControllerAspect {
 			}
 			return  CCResponse.fail(errorMsg);
 		} finally {
+			AppUtils.remove();
 			long end = System.currentTimeMillis();
 			log.info("【响应参数】耗时:[{}]，出参:[{}]", end - start, JsonUtils.object2JsonString(result));
 		}

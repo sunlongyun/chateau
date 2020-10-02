@@ -23,11 +23,13 @@
         <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_name, logo, address, telephone, linker, mobile, area_id, city_id, province_id, area, city, province, creator_name, creator_id, pic, validity, create_time, update_time
+        id, company_name, logo, address, telephone, linker, mobile, area_id, city_id, province_id, area, city, province, creator_name,
+        creator_id, pic, validity, create_time, update_time,app_info_id
     </sql>
 
 

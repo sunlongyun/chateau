@@ -21,11 +21,13 @@
         <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, cusotmer_id, real_name, nick_name, type, merchant_id, forezen_amount, available_amount, friends_num, share_amount, recorded_amount, total_amount, app_id, validity, create_time, update_time
+        id, open_id, cusotmer_id, real_name, nick_name, type, merchant_id, forezen_amount, available_amount,
+        friends_num, share_amount, recorded_amount, total_amount, app_id, validity, create_time, update_time,app_info_id
     </sql>
 
     <!-- 统计天周月业绩汇总-->

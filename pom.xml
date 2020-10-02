@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>green.farm</groupId>
 	<artifactId>app</artifactId>
-	<version>0.0.7</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>greenFarm</name>
 	<description>叮当农场小程序</description>

@@ -13,11 +13,12 @@
         <result column="operate_name" property="operateName" />
         <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, account_id, type, status, source, amount, operate_name, validity, create_time
+        id, account_id, type, status, source, amount, operate_name, validity, create_time,app_info_id
     </sql>
 
 

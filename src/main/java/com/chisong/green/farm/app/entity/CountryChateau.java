@@ -103,4 +103,8 @@ public class CountryChateau implements Serializable {
      */
     private  Integer validity;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

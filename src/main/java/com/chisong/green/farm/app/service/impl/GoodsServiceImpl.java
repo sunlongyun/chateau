@@ -23,6 +23,7 @@ import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -64,9 +65,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 
 	@Override
 	public PageInfo<GoodsDto> getGoodsInfo(PageQueryReq pageQueryReq) {
-		if(pageQueryReq.getHot() == 1) {
-			pageQueryReq.setPageSize(6);
-		}
+//		if(pageQueryReq.getHot() == 1) {
+//			pageQueryReq.setPageSize(2);
+//		}
 
 		PageHelper.startPage(pageQueryReq.getPageNo(), pageQueryReq.getPageSize());
 		List<Goods> goodsDtoList = this.baseMapper.getGoodsList(pageQueryReq);
@@ -134,7 +135,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 				? firstSpecsDtoOptional.get().getPromotionPrice() : firstSpecsDtoOptional.get().getPrice();
 
 			goodsDto.setSpecsId(firstSpecsDtoOptional.get().getId());
-			goodsDto.setSpecsPrice(Long.parseLong(price + ""));
+			goodsDto.setSpecsPrice(new BigDecimal(price + ""));
 
 	}
 
@@ -167,7 +168,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		//如果有商品参加活动，则默认是参加活动中的最低价格
 		Integer price = goodsDto.getSpecsDtoList().stream().sorted(
 			Comparator.comparingInt(GoodsSpecsDto::getPrice)).findFirst().get().getPrice();
-		goodsDto.setPrice(Long.parseLong(price+""));
+		goodsDto.setPrice(new BigDecimal(price+""));
+
+		if(null != goodsDto.getPromoteStartTime() && null != goodsDto.getPromoteEndTime() && goodsDto.getPromoteStartTime().before(new Date())
+		&& goodsDto.getPromoteEndTime().after(new Date())
+		){
+			goodsDto.setPromote(true);
+		}
 
 		Optional<GoodsSpecsDto> goodsSpecsDtoOptional =
 			goodsDto.getSpecsDtoList().stream().filter(specsDto -> specsDto.getPromote() == 1 && specsDto.getIsShow() ==1).findFirst();
@@ -180,8 +187,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		}
 
 		goodsSpecsDtoOptional.ifPresent(specs->{
-			goodsDto.setPromotePrice(Long.parseLong(specs.getPromotionPrice()+""));
-			goodsDto.setPrice(Long.parseLong(specs.getPrice()+""));
+			if(null != specs.getPromotionPrice()){
+				goodsDto.setPromotePrice(Long.parseLong(specs.getPromotionPrice()+""));
+			}else{
+				goodsDto.setPromotePrice(Long.parseLong(specs.getPrice()+""));
+			}
+			goodsDto.setPrice(new BigDecimal(specs.getPrice()+""));
 		});
 
 

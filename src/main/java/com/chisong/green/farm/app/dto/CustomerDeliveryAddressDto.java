@@ -92,6 +92,11 @@ public class CustomerDeliveryAddressDto implements Serializable {
      */
     private String detaiAddress;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
+
     public String getDetaiAddress() {
         StringBuilder stringBuilder = new StringBuilder();
         if(!StringUtils.isEmpty(province)){

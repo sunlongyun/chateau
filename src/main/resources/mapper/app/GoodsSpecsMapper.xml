@@ -19,12 +19,13 @@
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
         <result column="is_show" property="isShow"/>
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_id, name, price, postage, origin_price, img_url, promotion_price, promote, sales_num, stock,
-        create_time, update_time, validity,`is_show`
+        create_time, update_time, validity,`is_show`,app_info_id
     </sql>
 
     <!-- 减少库存-->

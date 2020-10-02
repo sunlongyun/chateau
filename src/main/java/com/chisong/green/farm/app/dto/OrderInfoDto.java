@@ -211,4 +211,8 @@ public class OrderInfoDto implements Serializable {
      */
     private boolean canRefund;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

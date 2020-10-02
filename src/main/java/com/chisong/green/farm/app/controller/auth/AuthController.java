@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -317,7 +318,7 @@ public class AuthController {
 	private int writeTitle(Graphics2D graphics2d,String userName, Integer y) {
 		graphics2d.setFont(new Font("宋体", Font.PLAIN, 35));
 		graphics2d.setColor(Color.red);
-		graphics2d.drawString("叮当农场小程序", 200, y + 55);
+		graphics2d.drawString("", 200, y + 55);
 	    y+=70;
 
 //		if(!"未知".equals(userName)){
@@ -415,7 +416,7 @@ public class AuthController {
 			// 原价金额
 			graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
 			graphics2d.setColor(new Color(89, 89, 89));
-			graphics2d.drawString("¥" + (goodsDto.getPrice()/100.0)+"" , 425, y+60);
+			graphics2d.drawString("¥" + (goodsDto.getPrice().divide(new BigDecimal("100")))+"" , 425, y+60);
 			y += 120;
 			graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);                        // 消除画图锯齿

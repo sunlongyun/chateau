@@ -60,4 +60,8 @@ public class AccountFlow implements Serializable {
      */
     private  Date createTime;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

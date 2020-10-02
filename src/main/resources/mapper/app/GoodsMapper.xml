@@ -34,6 +34,7 @@
         <result column="weight_project_time" property="weightProjectTime"/>
         <result column="sales_amount" property="salesAmount"/>
         <result column="profit_rate" property="profitRate"/>
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -41,7 +42,7 @@
         id, title, sku_code, `type_name`,status, supplier_company_name, supplier_id, pic_url,
         min_pic_url,detail_pic_url, description,first_type_id,type_id,
          price,produce_area,sales_num,hot,promote_start_time,promote_end_time,promote_price,promote,
-          create_time, update_time, validity,weight,send_time,weight_project_time,sales_amount,profit_rate
+          create_time, update_time, validity,weight,send_time,weight_project_time,sales_amount,profit_rate,app_info_id
     </sql>
 
     <!-- 查询列表-->
@@ -78,13 +79,7 @@
             </if>
         </trim>
         ORDER  BY
-        <!-- 权重作为第一排序未读-->
-        <if test="hot != 1">
-             weight desc
-        </if>
-        <if test="hot == 1">
-            id desc
-        </if>
+            weight desc
         <if test="sortKey != null">
          ,${sortKey} ${sortType}
         </if>

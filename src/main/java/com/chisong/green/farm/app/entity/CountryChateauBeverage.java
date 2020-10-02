@@ -123,4 +123,8 @@ public class CountryChateauBeverage implements Serializable {
      */
     private String specs;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

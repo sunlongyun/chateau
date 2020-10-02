@@ -53,4 +53,8 @@ public class GoodsTypeDto implements Serializable {
      */
     private Integer weight;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

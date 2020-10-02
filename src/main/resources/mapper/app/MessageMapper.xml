@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, from, to, msgType, goods_id, order_id, customer_id, read, content, msgId, create_time, update_time, validity
+        id, from, to, msgType, goods_id, order_id, customer_id, `read`, content, msgId, create_time, update_time, validity
     </sql>
 
 

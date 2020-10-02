@@ -88,6 +88,11 @@ public class GoodsSpecsDto implements Serializable {
      */
     private Integer isShow = 0;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
+
     @Override
     public boolean equals(Object o) {
         if(this == o) {

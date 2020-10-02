@@ -24,11 +24,14 @@
         <result column="validity" property="validity" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_nums, goods_normal_num, goods_num, today_payed_num, month_payed_num, week_payed_num, today_payed_amount, month_payed_amount, week_payed_amount, today_customer_num, month_customer_num, week_customer_num, payed_nums, supplier_num, customer_num, payed_amount, validity, create_time, update_time
+        id, order_nums, goods_normal_num, goods_num,
+        today_payed_num, month_payed_num, week_payed_num, today_payed_amount, month_payed_amount, week_payed_amount, today_customer_num, month_customer_num, week_customer_num, payed_nums, supplier_num,
+        customer_num, payed_amount, validity, create_time, update_time,app_info_id
     </sql>
 
 

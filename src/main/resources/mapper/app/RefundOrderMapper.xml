@@ -20,11 +20,13 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_no, order_id, apply_name, apply_time, approve_time, approve_id, approve_name, payment_no, refund_remark, refund_no, amount, status, create_time, update_time, validity
+        id, order_no, order_id, apply_name, apply_time, approve_time, approve_id, approve_name, payment_no,
+        refund_remark, refund_no, amount, status, create_time, update_time, validity,app_info_id
     </sql>
 
 

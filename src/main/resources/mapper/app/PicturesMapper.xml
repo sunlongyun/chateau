@@ -11,11 +11,12 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, pic_url, href, type, create_time, update_time, validity
+        id, pic_url, href, type, create_time, update_time, validity,app_info_id
     </sql>
 
 

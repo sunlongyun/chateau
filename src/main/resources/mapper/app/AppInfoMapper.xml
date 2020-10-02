@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chisong.green.farm.app.mapper.RefundPaymentMapper">
+<mapper namespace="com.chisong.green.farm.app.mapper.AppInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.RefundPayment">
+    <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.AppInfo">
         <id column="id" property="id" />
-        <result column="apply_amount" property="applyAmount" />
-        <result column="apply_id" property="applyId" />
-        <result column="refund_no" property="refundNo" />
-        <result column="out_refund_no" property="outRefundNo" />
-        <result column="failed_remark" property="failedRemark" />
-        <result column="status" property="status" />
-        <result column="payment_no" property="paymentNo" />
-        <result column="refund_order_no" property="refundOrderNo" />
-        <result column="refund_success_time" property="refundSuccessTime" />
+        <result column="name" property="name" />
+        <result column="contact_user" property="contactUser" />
+        <result column="contact_phone" property="contactPhone" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
-        <result column="app_info_id" property="appInfoId"/>
+        <result column="validity" property="validity" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, apply_amount, apply_id, refund_no, out_refund_no, failed_remark,
-        status, payment_no, refund_order_no, refund_success_time, create_time, update_time,app_info_id
+        id, name, contact_user, contact_phone, create_time, update_time, validity
     </sql>
 
 
 
     <!-- example通用查询-->
-    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.RefundPaymentExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.chisong.green.farm.app.example.AppInfoExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         'false' as QUERYID,
         <include refid="Base_Column_List" />
-        from refund_payment
+        from app_info
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>

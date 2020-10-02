@@ -76,4 +76,8 @@ public class RefundPaymentDto implements Serializable {
      */
     private Date updateTime;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

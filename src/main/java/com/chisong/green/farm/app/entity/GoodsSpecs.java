@@ -89,4 +89,8 @@ public class GoodsSpecs implements Serializable {
      */
     private  Integer validity;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

@@ -68,15 +68,15 @@ public class ChateauApplicationTests {
 
 	@Test
 	public void test4() {
-//		LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
-//				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
-//			"chisong", "csz123$%",
-//			"account_info","account_flow","refund_order","refund_payment");
 		LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
+				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
+			"chisong", "csz123$%",
+			"app_info");
+	/*	LsCodeGeneratorUtil.generateCode("app", "com.chisong.green.farm", "jdbc:mysql://www"
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",Arrays.asList(GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.EXAMPLE,
 				GenerateFileTypeEnum.ENTITY,GenerateFileTypeEnum.EXAMPLE),
-			"with_draw_apply");
+			"with_draw_apply");*/
 	}
 
 	@Test

@@ -45,4 +45,8 @@ public class SupplierChateauMapping implements Serializable {
      */
     private  Date updateTime;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

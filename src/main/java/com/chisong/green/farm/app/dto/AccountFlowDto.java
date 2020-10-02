@@ -62,4 +62,8 @@ public class AccountFlowDto implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

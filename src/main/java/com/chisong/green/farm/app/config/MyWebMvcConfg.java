@@ -1,8 +1,20 @@
 package com.chisong.green.farm.app.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.chisong.green.farm.app.interceptor.TableShardInterceptor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import javax.sql.DataSource;
 
+import net.sf.jsqlparser.schema.Table;
+import org.apache.ibatis.mapping.ResultMapping;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
+import org.apache.ibatis.reflection.ReflectorFactory;
+import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
+import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,6 +44,7 @@ public class MyWebMvcConfg implements WebMvcConfigurer{
 	private String driverClassName;
 	@Value("${spring.datasource.username}")
 	private String userName;
+
 
 	/**
 	 * 获取RestTemplate

@@ -18,11 +18,13 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
+        <result column="app_info_id" property="appInfoId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, specs_id, specs_name, goods_id, title, num, min_pic_url, price, total_price, order_no, order_id, create_time, update_time, validity
+        id, specs_id, specs_name, goods_id, title, num, min_pic_url, price, total_price, order_no, order_id, create_time,
+        update_time, validity,app_info_id
     </sql>
 
 

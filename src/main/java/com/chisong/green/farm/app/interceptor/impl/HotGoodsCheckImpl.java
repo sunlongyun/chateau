@@ -68,7 +68,7 @@ public class HotGoodsCheckImpl implements CreateOrderReqCheck {
 			Long goodsId = orderDetailReq.getGoodsId();
 			GoodsDto goodsDto = goodsService.getById(goodsId);
 			return goodsDto.isHot();
-		}).map(orderDetailReq -> orderDetailReq.getNum()).reduce((a, b) -> a + b).get();
+		}).map(orderDetailReq -> orderDetailReq.getNum()).reduce((a, b) -> a + b).orElse(0);
 
 		if(count > 1) {
 			throw new RuntimeException("特价商品每次只能购买一件！！");

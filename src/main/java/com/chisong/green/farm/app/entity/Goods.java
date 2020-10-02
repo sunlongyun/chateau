@@ -152,4 +152,9 @@ public class Goods implements Serializable {
      * 销售分润百分比，基准是纯利润(售价-进价-其他费用)
      */
     private Integer profitRate;
+
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }

@@ -115,4 +115,8 @@ public class SummaryInfo implements Serializable {
      */
     private  Date updateTime;
 
+    /**
+     * 所属app
+     */
+    private Long appInfoId;
 }
