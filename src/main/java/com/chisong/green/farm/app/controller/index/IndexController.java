@@ -1,10 +1,12 @@
 package com.chisong.green.farm.app.controller.index;
 
+import com.chisong.green.farm.app.example.ProvinceCityAreaExample;
 import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.msg.ReceiveMsg;
 import com.chisong.green.farm.app.miniProgram.msg.TextMsg;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerCenterService;
+import com.chisong.green.farm.app.service.ProvinceCityAreaService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,6 +35,18 @@ public class IndexController {
 	@Autowired
 	private AuthBizService authBizService;
 	private String opendId;
+	@Autowired
+	private ProvinceCityAreaService provinceCityAreaService;
+
+	@RequestMapping("/hello")
+	public String hello(){
+		ProvinceCityAreaExample provinceCityAreaExample = new ProvinceCityAreaExample();
+		provinceCityAreaService.getList(provinceCityAreaExample).stream().forEach(provinceCityAreaDto -> {
+			provinceCityAreaDto.setAppInfoId(2L);
+			provinceCityAreaService.save(provinceCityAreaDto);
+		});
+		return "hello";
+	}
 
 	@GetMapping("/")
 	private String index(String signature,String timestamp, String nonce, String echostr){

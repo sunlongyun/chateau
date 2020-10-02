@@ -23,7 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import org.springframework.transaction.config.TxNamespaceHandler;
 
-@SpringBootTest
+@SpringBootTest(classes =ChateauApplication.class )
 @Slf4j
 public class ChateauApplicationTests {
 
@@ -39,6 +39,7 @@ public class ChateauApplicationTests {
 	private AuthBizService authBizService;
 	@Autowired
 	private WxPayService wxPayService;
+
 
 	@Test
 	public void testPay(){
@@ -87,6 +88,15 @@ public class ChateauApplicationTests {
 //		textMsg.setTouser("oqrTq4oTt7NVNNNeGSr2XafYqd-o");
 		textMsg.setAccessToken(authBizService.getAccessToken());
 		customerCenterService.sendToCustomer(textMsg);
+	}
+
+	@Test
+	public void genereate(){
+		ProvinceCityAreaExample provinceCityAreaExample = new ProvinceCityAreaExample();
+		 provinceCityAreaService.getList(provinceCityAreaExample).stream().forEach(provinceCityAreaDto -> {
+			 provinceCityAreaDto.setAppInfoId(2L);
+			 provinceCityAreaService.save(provinceCityAreaDto);
+		 });
 	}
 
 }

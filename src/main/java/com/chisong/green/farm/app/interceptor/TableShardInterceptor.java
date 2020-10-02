@@ -1,14 +1,11 @@
 package com.chisong.green.farm.app.interceptor;
 
 import com.chisong.green.farm.app.utils.AppUtils;
-import java.io.File;
 import java.lang.reflect.Field;
-import java.sql.Connection;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
-import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
@@ -54,42 +51,66 @@ public class TableShardInterceptor implements Interceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 		log.info("TableShardInterceptor -------------- ");
 		MappedStatement mappedStatement =	(MappedStatement)invocation.getArgs()[0];
-//		RowBounds rowBounds = (RowBounds)invocation.getArgs()[2];
 		BoundSql boundSql = mappedStatement.getBoundSql(invocation.getArgs()[1]);
-//		if (invocation.getTarget() instanceof RoutingStatementHandler) {
-//			RoutingStatementHandler routingStatementHandler = (RoutingStatementHandler) invocation.getTarget();
-//			BoundSql boundSql = routingStatementHandler.getBoundSql();
-			String sql = boundSql.getSql();
+		String sql = boundSql.getSql();
+		Long appId = AppUtils.get();
+		log.info("appId == {}", appId);
+		String upperSql = sql.toUpperCase();
+		Pattern pattern = Pattern.compile(".*FROM\\s+APP_INFO.*");
+		Pattern pattern2 = Pattern.compile(".*AND\\s+USER_NAME.*");
+		Pattern pattern3 = Pattern.compile(".*FROM.*SUMMARY_INFO.*");
+		if(pattern.matcher(upperSql).matches()
+			|| pattern2.matcher(upperSql).find()
+			|| pattern3.matcher(upperSql).find()){
+			return invocation.proceed();
+		}
 
-			Long appId = AppUtils.get();
-			String upperSql = sql.toUpperCase();
-			if(!upperSql.contains("APP_INFO") && appId != null){
-				if(upperSql.contains("WHERE")){
-					sql = sql.replaceAll("where|WHERE", "where app_info_id="+ appId +" and ");
-				}else if(upperSql.toUpperCase().contains("ORDER") && upperSql.contains("BY")){
-					sql = sql.replace("ORDER", "where app_info_id="+appId+" ORDER");
-				}else{
-					sql = sql +" where app_info_id="+appId;
-				}
-				log.info("sql == {}", sql);
-				try {
-					Field field = BoundSql.class.getDeclaredField("sql");
-					field.setAccessible(true);
-					field.set(boundSql, sql);
-					field.setAccessible(false);
-				}catch(Exception ex){
-					log.error("反射字段处理失败", ex);
-				}
-			}
-//		}
+		if(upperSql.contains("WHERE")){
+			sql = sql.replaceAll("where|WHERE", "where app_info_id="+ appId +" and ");
+		}else if(upperSql.toUpperCase().contains("ORDER") && upperSql.contains("BY")){
+			sql = sql.replace("ORDER", "where app_info_id="+appId+" ORDER");
+		}else{
+			sql = sql +" where app_info_id="+appId;
+		}
+		log.info("sql == {}", sql);
+		try {
+			Field field = BoundSql.class.getDeclaredField("sql");
+			field.setAccessible(true);
+			field.set(boundSql, sql);
+			field.setAccessible(false);
+		}catch(Exception ex){
+			log.error("反射字段处理失败", ex);
+		}
+
 		MappedStatement newMappedStatement = generalMappedStatement(mappedStatement, new BoundSqlSqlSource(boundSql));
 		MetaObject msObject = MetaObject.forObject(newMappedStatement, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, REFLECTOR_FACTORY);
 		msObject.setValue("sqlSource.boundSql.sql", sql);
 		invocation.getArgs()[0] = newMappedStatement;
 
+
 		return invocation.proceed();
 	}
 
+	public static void main(String[] args) {
+		Pattern pattern2 = Pattern.compile(".*AND\\s+USER_NAME.*");
+		String sql ="select\n"
+			+ "         \n"
+			+ "        'false' as QUERYID,\n"
+			+ "         \n"
+			+ "        id, nick_name, password, user_name, country, recommend_id, status, company_name,supplier_account,\n"
+			+ "        supplier_id, type, province, city, avatar_url, mobile, union_id, open_id, create_time, update_time,\n"
+			+ "         validity,app_info_id\n"
+			+ "     \n"
+			+ "        from customer_info\n"
+			+ "         \n"
+			+ "             \n"
+			+ "         WHERE (  validity = ?\n"
+			+ "                                \n"
+			+ "                        \n"
+			+ "                            \n"
+			+ "                                    and user_name = ? )";
+		log.info("{}",pattern2.matcher(sql.toUpperCase()).matches());
+	}
 	/**
 	 * 创建新的 MappedStatement
 	 *
