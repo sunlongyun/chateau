@@ -17,6 +17,7 @@ import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.GoodsService;
 import com.chisong.green.farm.app.service.GoodsSpecsService;
 import com.chisong.green.farm.app.service.ShoppingCartService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.exception.BizException;
 import java.util.Date;
@@ -204,6 +205,8 @@ public class CartController {
 				GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(specsId);
 				cartItemDto.setSpecsName(goodsSpecsDto.getName());
 			}
+			Long apId = AppUtils.get();
+			cartItemDto.setAppInfoId(apId);
 			cartItemService.save(cartItemDto);
 		}
 

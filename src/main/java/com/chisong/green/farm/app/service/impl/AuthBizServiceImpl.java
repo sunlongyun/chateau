@@ -13,6 +13,7 @@ import com.chisong.green.farm.app.miniProgram.service.AuthService;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.service.ShoppingCartService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.LoginUserInfoUtil;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -90,6 +91,8 @@ public class AuthBizServiceImpl implements AuthBizService {
 			customerInfoDto.setUnionId(loginResponse.getUnionId());
 			customerInfoDto.setOpenId(loginResponse.getOpenid());
 //			BeanUtils.copyProperties(loginResponse,customerInfoDto);
+			Long apId = AppUtils.get();
+			customerInfoDto.setAppInfoId(apId);
 			customerInfoService.save(customerInfoDto);
 		}else{
 			 customerInfoDto =	customerInfoDtoList.get(0);
@@ -105,6 +108,8 @@ public class AuthBizServiceImpl implements AuthBizService {
 		if(CollectionUtils.isEmpty(shoppingCartService.getList(shoppingCartExample))){
 			ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
 			shoppingCartDto.setCustomerInfoId(Integer.valueOf(customerInfoDto.getId()+""));
+			Long apId = AppUtils.get();
+			shoppingCartDto.setAppInfoId(apId);
 			shoppingCartService.save(shoppingCartDto);
 		}
 

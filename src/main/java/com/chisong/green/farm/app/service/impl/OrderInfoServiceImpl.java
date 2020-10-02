@@ -31,6 +31,7 @@ import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
 import com.chisong.green.farm.app.service.SupplierService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.BitUtil;
 import com.chisong.green.farm.exception.BizException;
 import com.github.pagehelper.PageHelper;
@@ -88,6 +89,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	@Transactional
 	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
 		//1.添加订单基本信息
+		Long appId = AppUtils.get();
+		orderInfoDto.setAppInfoId(appId);
 		save(orderInfoDto);
 		//2.添加订单明细信息
 		List<OrderDetailDto> orderDetailDtoList = orderInfoDto.getOrderDetailDtoList();
@@ -112,7 +115,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			GoodsSpecsDto goodsSpecsDto= goodsSpecsService.getById(orderDetailDto.getSpecsId());
 			//计算成本价
 			cost += goodsSpecsDto.getOriginPrice()*orderDetailDto.getNum();
-
+			Long appInfoId = AppUtils.get();
+			orderDetailDto.setAppInfoId(appInfoId);
 			orderDetailService.save(orderDetailDto);
 			//减少库存
 			goodsService.decreaseStock(orderDetailDto.getNum(), orderDetailDto.getSpecsId());
@@ -149,6 +153,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 		orderDeliveryAddressMapping.setAddress(customerDeliveryAddressDto.getDetaiAddress());
 		orderDeliveryAddressMapping.setContact(customerDeliveryAddressDto.getContact());
 		orderDeliveryAddressMapping.setMobile(customerDeliveryAddressDto.getMobile());
+		Long appInfoId = AppUtils.get();
+		orderDeliveryAddressMapping.setAppInfoId(appInfoId);
 		orderDeliveryAddressMappingService.save(orderDeliveryAddressMapping);
 
 

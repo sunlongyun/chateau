@@ -20,6 +20,7 @@ import com.chisong.green.farm.app.service.GoodsTailImagesService;
 import com.chisong.green.farm.app.service.GoodsTopImagesService;
 import com.chisong.green.farm.app.service.GoodsTypeService;
 import com.chisong.green.farm.app.service.PostageTemplateService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.github.pagehelper.PageHelper;
 import com.lianshang.generator.commons.PageInfo;
 import com.lianshang.generator.commons.ServiceImpl;
@@ -205,6 +206,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		goodsDto.setTypeName(firstGoodsType.getName()+" — "+secondeGoodsType.getName());
 
 		if(null == goodsDto.getId()) {
+			Long apId = AppUtils.get();
+			goodsDto.setAppInfoId(apId);
 			save(goodsDto);
 		} else {
 			update(goodsDto);
@@ -258,6 +261,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 				newGoodsSpecsDto.setPrice(newGoodsSpecsDto.getPrice());
 				newGoodsSpecsDto.setOriginPrice(newGoodsSpecsDto.getOriginPrice());
 				newGoodsSpecsDto.setPromotionPrice(newGoodsSpecsDto.getPromotionPrice());
+				Long apId = AppUtils.get();
+				newGoodsSpecsDto.setAppInfoId(apId);
 				goodsSpecsService.save(newGoodsSpecsDto);
 			}
 		});
@@ -293,6 +298,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			GoodsTopImagesDto goodsTopImagesDto = new GoodsTopImagesDto();
 			goodsTopImagesDto.setGoodsId(goodsDto.getId());
 			goodsTopImagesDto.setImageUrl(imageUrl);
+			Long appId = AppUtils.get();
+			goodsTopImagesDto.setAppInfoId(appId);
 			goodsTopImagesService.save(goodsTopImagesDto);
 		});
 	}
@@ -328,6 +335,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			GoodsTailImagesDto goodsTailImagesDto = new GoodsTailImagesDto();
 			goodsTailImagesDto.setGoodsId(goodsDto.getId());
 			goodsTailImagesDto.setImageUrl(imageUrl);
+			Long appId = AppUtils.get();
+			goodsTailImagesDto.setAppInfoId(appId);
 			goodsTailImagesService.save(goodsTailImagesDto);
 		});
 	}

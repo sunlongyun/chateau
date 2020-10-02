@@ -17,6 +17,7 @@ import com.chisong.green.farm.app.mapper.CustomerInfoMapper;
 import com.chisong.green.farm.app.mapper.WithDrawApplyMapper;
 import com.chisong.green.farm.app.service.AccountInfoService;
 
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -81,6 +82,8 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 			accountInfoDto.setNickName(customerInfoDto.getNickName());
 			accountInfoDto.setMobile(customerInfoDto.getMobile());
 			accountInfoDto.setType(1);
+			Long apId = AppUtils.get();
+			accountInfoDto.setAppInfoId(apId);
 			save(accountInfoDto);
 		}
 	}

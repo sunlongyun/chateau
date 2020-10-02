@@ -8,6 +8,7 @@ import com.chisong.green.farm.app.example.CustomerDeliveryAddressExample;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +93,8 @@ public class AddressController {
 			customerInfoDto.setMobile(customerDeliveryAddressDto.getMobile());
 			customerInfoService.update(customerInfoDto);
 		}
+		Long apId = AppUtils.get();
+		customerDeliveryAddressDto.setAppInfoId(apId);
 		customerDeliveryAddressService.save(customerDeliveryAddressDto);
 		return CCResponse.success();
 	}

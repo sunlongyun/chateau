@@ -12,6 +12,7 @@ import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.time.LocalDateTime;
@@ -89,6 +90,8 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment, Paym
 		paymentDto.setPayOrderNo(orderInfoDto.getOrderNo());
 		paymentDto.setPrePayId(prePayResponse.getPrepayId());
 		paymentDto.setAmount(Integer.parseInt( (orderInfoDto.getTotalAmount()+orderInfoDto.getPostage())+""));
+		Long appInfoId = AppUtils.get();
+		paymentDto.setAppInfoId(appInfoId);
 		this.save(paymentDto);
 	}
 
