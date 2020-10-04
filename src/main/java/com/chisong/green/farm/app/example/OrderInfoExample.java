@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-03
+* @date 2020-10-03
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -753,6 +753,67 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andPayNoIsNotNull() {
             addCriterion("pay_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRefundAmountIn(List<Long> values) {
+            addCriterion("refund_amount in", values, "refundAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRefundAmountNotIn(List<Long> values) {
+            addCriterion("refund_amount not in", values, "refundAmount");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRefundAmountBetween(Long value1, Long value2) {
+            addCriterion("refund_amount between", value1, value2, "refundAmount");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRefundAmountLike(String value) {
+            addCriterion("refund_amount like", value, "refundAmount");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRefundAmountEqualTo(Long value) {
+            addCriterion("refund_amount =", value, "refundAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRefundAmountNotEqualTo(Long value) {
+            addCriterion("refund_amount <>", value, "refundAmount");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRefundAmountGreaterThan(Long value) {
+            addCriterion("refund_amount >", value, "refundAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRefundAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("refund_amount >=", value, "refundAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRefundAmountLessThan(Long value) {
+            addCriterion("refund_amount <", value, "refundAmount");
+            return (Criteria) this;
+        }
+        public Criteria andRefundAmountLessThanOrEqualTo(Long value) {
+            addCriterion("refund_amount <=", value, "refundAmount");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRefundAmountIsNull() {
+            addCriterion("refund_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundAmountIsNotNull() {
+            addCriterion("refund_amount is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -1790,6 +1851,67 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andValidityIsNotNull() {
             addCriterion("validity is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAppInfoIdIn(List<Long> values) {
+            addCriterion("app_info_id in", values, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotIn(List<Long> values) {
+            addCriterion("app_info_id not in", values, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAppInfoIdBetween(Long value1, Long value2) {
+            addCriterion("app_info_id between", value1, value2, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAppInfoIdLike(String value) {
+            addCriterion("app_info_id like", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAppInfoIdEqualTo(Long value) {
+            addCriterion("app_info_id =", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotEqualTo(Long value) {
+            addCriterion("app_info_id <>", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAppInfoIdGreaterThan(Long value) {
+            addCriterion("app_info_id >", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("app_info_id >=", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThan(Long value) {
+            addCriterion("app_info_id <", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThanOrEqualTo(Long value) {
+            addCriterion("app_info_id <=", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAppInfoIdIsNull() {
+            addCriterion("app_info_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppInfoIdIsNotNull() {
+            addCriterion("app_info_id is not null");
             return (Criteria) this;
         }
      }

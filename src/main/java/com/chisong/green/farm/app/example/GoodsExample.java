@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-02
+* @date 2020-10-03
 */
 @Data
 public class GoodsExample implements Serializable {
@@ -1244,6 +1244,67 @@ public class GoodsExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andHotIn(List<Integer> values) {
+            addCriterion("hot in", values, "hot");
+            return (Criteria) this;
+        }
+        public Criteria andHotNotIn(List<Integer> values) {
+            addCriterion("hot not in", values, "hot");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andHotBetween(Integer value1, Integer value2) {
+            addCriterion("hot between", value1, value2, "hot");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andHotLike(String value) {
+            addCriterion("hot like", value, "hot");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andHotEqualTo(Integer value) {
+            addCriterion("hot =", value, "hot");
+            return (Criteria) this;
+        }
+        public Criteria andHotNotEqualTo(Integer value) {
+            addCriterion("hot <>", value, "hot");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andHotGreaterThan(Integer value) {
+            addCriterion("hot >", value, "hot");
+            return (Criteria) this;
+        }
+        public Criteria andHotGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hot >=", value, "hot");
+            return (Criteria) this;
+        }
+        public Criteria andHotLessThan(Integer value) {
+            addCriterion("hot <", value, "hot");
+            return (Criteria) this;
+        }
+        public Criteria andHotLessThanOrEqualTo(Integer value) {
+            addCriterion("hot <=", value, "hot");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andHotIsNull() {
+            addCriterion("hot is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotIsNotNull() {
+            addCriterion("hot is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andPromoteStartTimeIn(List<Date> values) {
             addCriterion("promote_start_time in", values, "promoteStartTime");
             return (Criteria) this;
@@ -1485,6 +1546,67 @@ public class GoodsExample implements Serializable {
 
         public Criteria andUpdateTimeIsNotNull() {
             addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andProfitRateIn(List<Integer> values) {
+            addCriterion("profit_rate in", values, "profitRate");
+            return (Criteria) this;
+        }
+        public Criteria andProfitRateNotIn(List<Integer> values) {
+            addCriterion("profit_rate not in", values, "profitRate");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andProfitRateBetween(Integer value1, Integer value2) {
+            addCriterion("profit_rate between", value1, value2, "profitRate");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andProfitRateLike(String value) {
+            addCriterion("profit_rate like", value, "profitRate");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andProfitRateEqualTo(Integer value) {
+            addCriterion("profit_rate =", value, "profitRate");
+            return (Criteria) this;
+        }
+        public Criteria andProfitRateNotEqualTo(Integer value) {
+            addCriterion("profit_rate <>", value, "profitRate");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andProfitRateGreaterThan(Integer value) {
+            addCriterion("profit_rate >", value, "profitRate");
+            return (Criteria) this;
+        }
+        public Criteria andProfitRateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("profit_rate >=", value, "profitRate");
+            return (Criteria) this;
+        }
+        public Criteria andProfitRateLessThan(Integer value) {
+            addCriterion("profit_rate <", value, "profitRate");
+            return (Criteria) this;
+        }
+        public Criteria andProfitRateLessThanOrEqualTo(Integer value) {
+            addCriterion("profit_rate <=", value, "profitRate");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andProfitRateIsNull() {
+            addCriterion("profit_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitRateIsNotNull() {
+            addCriterion("profit_rate is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -1731,70 +1853,67 @@ public class GoodsExample implements Serializable {
             addCriterion("validity is not null");
             return (Criteria) this;
         }
-
-
-        ///////////////////////
         // in,   not in
-        public Criteria andHotIn(List<Integer> values) {
-            addCriterion("hot in", values, "validity");
+        public Criteria andAppInfoIdIn(List<Long> values) {
+            addCriterion("app_info_id in", values, "appInfoId");
             return (Criteria) this;
         }
-         public Criteria andHotNotIn(List<Integer> values) {
-             addCriterion("hot not in", values, "validity");
-             return (Criteria) this;
-         }
+        public Criteria andAppInfoIdNotIn(List<Long> values) {
+            addCriterion("app_info_id not in", values, "appInfoId");
+            return (Criteria) this;
+        }
 
-         //between
-         public Criteria andHotBetween(Integer value1, Integer value2) {
-             addCriterion("hot between", value1, value2, "validity");
-             return (Criteria) this;
-         }
+        //between
+        public Criteria andAppInfoIdBetween(Long value1, Long value2) {
+            addCriterion("app_info_id between", value1, value2, "appInfoId");
+            return (Criteria) this;
+        }
 
-         //like
-         public Criteria andHotLike(String value) {
-             addCriterion("hot like", value, "validity");
-             return (Criteria) this;
-         }
+        //like
+        public Criteria andAppInfoIdLike(String value) {
+            addCriterion("app_info_id like", value, "appInfoId");
+            return (Criteria) this;
+        }
 
-         // = <>
-         public Criteria andHotEqualTo(Integer value) {
-             addCriterion("hot =", value, "validity");
-             return (Criteria) this;
-         }
-         public Criteria andHotNotEqualTo(Integer value) {
-             addCriterion("hot <>", value, "validity");
-             return (Criteria) this;
-         }
+        // = <>
+        public Criteria andAppInfoIdEqualTo(Long value) {
+            addCriterion("app_info_id =", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotEqualTo(Long value) {
+            addCriterion("app_info_id <>", value, "appInfoId");
+            return (Criteria) this;
+        }
 
 
-         // > >= < <=
-         public Criteria andHotGreaterThan(Integer value) {
-             addCriterion("hot >", value, "validity");
-             return (Criteria) this;
-         }
-         public Criteria andHotGreaterThanOrEqualTo(Integer value) {
-             addCriterion("hot >=", value, "validity");
-             return (Criteria) this;
-         }
-         public Criteria andHotLessThan(Integer value) {
-             addCriterion("hot <", value, "validity");
-             return (Criteria) this;
-         }
-         public Criteria andHotLessThanOrEqualTo(Integer value) {
-             addCriterion("hot <=", value, "validity");
-             return (Criteria) this;
-         }
+        // > >= < <=
+        public Criteria andAppInfoIdGreaterThan(Long value) {
+            addCriterion("app_info_id >", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("app_info_id >=", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThan(Long value) {
+            addCriterion("app_info_id <", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThanOrEqualTo(Long value) {
+            addCriterion("app_info_id <=", value, "appInfoId");
+            return (Criteria) this;
+        }
 
-         //null  not null
-         public Criteria andHotIsNull() {
-             addCriterion("hot is null");
-             return (Criteria) this;
-         }
+        //null  not null
+        public Criteria andAppInfoIdIsNull() {
+            addCriterion("app_info_id is null");
+            return (Criteria) this;
+        }
 
-         public Criteria andHotIsNotNull() {
-             addCriterion("hot is not null");
-             return (Criteria) this;
-         }
+        public Criteria andAppInfoIdIsNotNull() {
+            addCriterion("app_info_id is not null");
+            return (Criteria) this;
+        }
      }
 
     public static class Criteria extends GeneratedCriteria {

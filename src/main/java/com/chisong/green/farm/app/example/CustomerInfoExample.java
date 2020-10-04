@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-02-16
+* @date 2020-10-03
 */
 @Data
 public class CustomerInfoExample implements Serializable {
@@ -1302,6 +1302,67 @@ public class CustomerInfoExample implements Serializable {
 
         public Criteria andValidityIsNotNull() {
             addCriterion("validity is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAppInfoIdIn(List<Long> values) {
+            addCriterion("app_info_id in", values, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotIn(List<Long> values) {
+            addCriterion("app_info_id not in", values, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAppInfoIdBetween(Long value1, Long value2) {
+            addCriterion("app_info_id between", value1, value2, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAppInfoIdLike(String value) {
+            addCriterion("app_info_id like", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAppInfoIdEqualTo(Long value) {
+            addCriterion("app_info_id =", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotEqualTo(Long value) {
+            addCriterion("app_info_id <>", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAppInfoIdGreaterThan(Long value) {
+            addCriterion("app_info_id >", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("app_info_id >=", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThan(Long value) {
+            addCriterion("app_info_id <", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThanOrEqualTo(Long value) {
+            addCriterion("app_info_id <=", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAppInfoIdIsNull() {
+            addCriterion("app_info_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppInfoIdIsNotNull() {
+            addCriterion("app_info_id is not null");
             return (Criteria) this;
         }
      }

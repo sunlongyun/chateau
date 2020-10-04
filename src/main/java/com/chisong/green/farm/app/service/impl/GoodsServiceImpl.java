@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -243,8 +244,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 				goodsSpecsService.deleteById(goodsSpecsDto.getId());
 			}
 		});
-		//添加新增的规格
+
+
 		newGoodsSpecsDtos.stream().forEach(newGoodsSpecsDto -> {
+			//添加新增的规格
 			if(!goodsSpecsDtos.contains(newGoodsSpecsDto)) {
 				newGoodsSpecsDto.setGoodsId(goodsDto.getId());
 				if(null == newGoodsSpecsDto.getPromote()) {
@@ -264,8 +267,17 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 				Long apId = AppUtils.get();
 				newGoodsSpecsDto.setAppInfoId(apId);
 				goodsSpecsService.save(newGoodsSpecsDto);
+			}else{//更新存在的规格
+				GoodsSpecsDto goodsSpecsDto =
+				goodsSpecsDtos.stream().filter(g->g.getName().equals(newGoodsSpecsDto.getName())).findFirst().get();
+				BeanUtils.copyProperties(newGoodsSpecsDto, goodsSpecsDto,
+					"id","goodsId","createTime","updateTime","appInfoId");
+
+				goodsSpecsService.update(goodsSpecsDto);
 			}
 		});
+
+
 	}
 
 	/**
