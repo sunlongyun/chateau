@@ -89,8 +89,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 	@Transactional
 	public String createOrder(OrderInfoDto orderInfoDto, Integer addressId) {
 		//1.添加订单基本信息
-		Long appId = AppUtils.get();
-		orderInfoDto.setAppInfoId(appId);
+		orderInfoDto.setAppInfoId(AppUtils.get());
 		save(orderInfoDto);
 		//2.添加订单明细信息
 		List<OrderDetailDto> orderDetailDtoList = orderInfoDto.getOrderDetailDtoList();

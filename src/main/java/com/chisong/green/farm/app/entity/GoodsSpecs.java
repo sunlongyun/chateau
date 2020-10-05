@@ -93,4 +93,8 @@ public class GoodsSpecs implements Serializable {
      * 所属app
      */
     private Long appInfoId;
+    /**
+     * 计算平台服务费时免费金额
+     */
+    private Integer unFeeAmount =0;
 }

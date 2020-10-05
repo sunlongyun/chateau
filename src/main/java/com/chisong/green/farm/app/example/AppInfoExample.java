@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-10-02
+* @date 2020-10-05
 */
 @Data
 public class AppInfoExample implements Serializable {
@@ -143,6 +143,67 @@ public class AppInfoExample implements Serializable {
 
         public Criteria andIdIsNotNull() {
             addCriterion("id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andOpenIdIn(List<String> values) {
+            addCriterion("open_id in", values, "openId");
+            return (Criteria) this;
+        }
+        public Criteria andOpenIdNotIn(List<String> values) {
+            addCriterion("open_id not in", values, "openId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andOpenIdBetween(String value1, String value2) {
+            addCriterion("open_id between", value1, value2, "openId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andOpenIdLike(String value) {
+            addCriterion("open_id like", value, "openId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andOpenIdEqualTo(String value) {
+            addCriterion("open_id =", value, "openId");
+            return (Criteria) this;
+        }
+        public Criteria andOpenIdNotEqualTo(String value) {
+            addCriterion("open_id <>", value, "openId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andOpenIdGreaterThan(String value) {
+            addCriterion("open_id >", value, "openId");
+            return (Criteria) this;
+        }
+        public Criteria andOpenIdGreaterThanOrEqualTo(String value) {
+            addCriterion("open_id >=", value, "openId");
+            return (Criteria) this;
+        }
+        public Criteria andOpenIdLessThan(String value) {
+            addCriterion("open_id <", value, "openId");
+            return (Criteria) this;
+        }
+        public Criteria andOpenIdLessThanOrEqualTo(String value) {
+            addCriterion("open_id <=", value, "openId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andOpenIdIsNull() {
+            addCriterion("open_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenIdIsNotNull() {
+            addCriterion("open_id is not null");
             return (Criteria) this;
         }
         // in,   not in
@@ -329,6 +390,189 @@ public class AppInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andPaySupplierIn(List<Boolean> values) {
+            addCriterion("pay_supplier in", values, "paySupplier");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierNotIn(List<Boolean> values) {
+            addCriterion("pay_supplier not in", values, "paySupplier");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySupplierBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_supplier between", value1, value2, "paySupplier");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySupplierLike(String value) {
+            addCriterion("pay_supplier like", value, "paySupplier");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySupplierEqualTo(Boolean value) {
+            addCriterion("pay_supplier =", value, "paySupplier");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierNotEqualTo(Boolean value) {
+            addCriterion("pay_supplier <>", value, "paySupplier");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySupplierGreaterThan(Boolean value) {
+            addCriterion("pay_supplier >", value, "paySupplier");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("pay_supplier >=", value, "paySupplier");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierLessThan(Boolean value) {
+            addCriterion("pay_supplier <", value, "paySupplier");
+            return (Criteria) this;
+        }
+        public Criteria andPaySupplierLessThanOrEqualTo(Boolean value) {
+            addCriterion("pay_supplier <=", value, "paySupplier");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySupplierIsNull() {
+            addCriterion("pay_supplier is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySupplierIsNotNull() {
+            addCriterion("pay_supplier is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPayManagerIn(List<Integer> values) {
+            addCriterion("pay_manager in", values, "payManager");
+            return (Criteria) this;
+        }
+        public Criteria andPayManagerNotIn(List<Integer> values) {
+            addCriterion("pay_manager not in", values, "payManager");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPayManagerBetween(Integer value1, Integer value2) {
+            addCriterion("pay_manager between", value1, value2, "payManager");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPayManagerLike(String value) {
+            addCriterion("pay_manager like", value, "payManager");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPayManagerEqualTo(Integer value) {
+            addCriterion("pay_manager =", value, "payManager");
+            return (Criteria) this;
+        }
+        public Criteria andPayManagerNotEqualTo(Integer value) {
+            addCriterion("pay_manager <>", value, "payManager");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPayManagerGreaterThan(Integer value) {
+            addCriterion("pay_manager >", value, "payManager");
+            return (Criteria) this;
+        }
+        public Criteria andPayManagerGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_manager >=", value, "payManager");
+            return (Criteria) this;
+        }
+        public Criteria andPayManagerLessThan(Integer value) {
+            addCriterion("pay_manager <", value, "payManager");
+            return (Criteria) this;
+        }
+        public Criteria andPayManagerLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_manager <=", value, "payManager");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPayManagerIsNull() {
+            addCriterion("pay_manager is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayManagerIsNotNull() {
+            addCriterion("pay_manager is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPaySalerIn(List<Integer> values) {
+            addCriterion("pay_saler in", values, "paySaler");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerNotIn(List<Integer> values) {
+            addCriterion("pay_saler not in", values, "paySaler");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPaySalerBetween(Integer value1, Integer value2) {
+            addCriterion("pay_saler between", value1, value2, "paySaler");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPaySalerLike(String value) {
+            addCriterion("pay_saler like", value, "paySaler");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPaySalerEqualTo(Integer value) {
+            addCriterion("pay_saler =", value, "paySaler");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerNotEqualTo(Integer value) {
+            addCriterion("pay_saler <>", value, "paySaler");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPaySalerGreaterThan(Integer value) {
+            addCriterion("pay_saler >", value, "paySaler");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_saler >=", value, "paySaler");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerLessThan(Integer value) {
+            addCriterion("pay_saler <", value, "paySaler");
+            return (Criteria) this;
+        }
+        public Criteria andPaySalerLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_saler <=", value, "paySaler");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPaySalerIsNull() {
+            addCriterion("pay_saler is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySalerIsNotNull() {
+            addCriterion("pay_saler is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andCreateTimeIn(List<Date> values) {
             addCriterion("create_time in", values, "createTime");
             return (Criteria) this;
@@ -509,6 +753,67 @@ public class AppInfoExample implements Serializable {
 
         public Criteria andValidityIsNotNull() {
             addCriterion("validity is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRateIn(List<Integer> values) {
+            addCriterion("rate in", values, "rate");
+            return (Criteria) this;
+        }
+        public Criteria andRateNotIn(List<Integer> values) {
+            addCriterion("rate not in", values, "rate");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRateBetween(Integer value1, Integer value2) {
+            addCriterion("rate between", value1, value2, "rate");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRateLike(String value) {
+            addCriterion("rate like", value, "rate");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRateEqualTo(Integer value) {
+            addCriterion("rate =", value, "rate");
+            return (Criteria) this;
+        }
+        public Criteria andRateNotEqualTo(Integer value) {
+            addCriterion("rate <>", value, "rate");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRateGreaterThan(Integer value) {
+            addCriterion("rate >", value, "rate");
+            return (Criteria) this;
+        }
+        public Criteria andRateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("rate >=", value, "rate");
+            return (Criteria) this;
+        }
+        public Criteria andRateLessThan(Integer value) {
+            addCriterion("rate <", value, "rate");
+            return (Criteria) this;
+        }
+        public Criteria andRateLessThanOrEqualTo(Integer value) {
+            addCriterion("rate <=", value, "rate");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRateIsNull() {
+            addCriterion("rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateIsNotNull() {
+            addCriterion("rate is not null");
             return (Criteria) this;
         }
      }

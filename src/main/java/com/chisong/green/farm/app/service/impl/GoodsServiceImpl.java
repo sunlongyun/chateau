@@ -137,7 +137,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 				? firstSpecsDtoOptional.get().getPromotionPrice() : firstSpecsDtoOptional.get().getPrice();
 
 			goodsDto.setSpecsId(firstSpecsDtoOptional.get().getId());
-			goodsDto.setSpecsPrice(new BigDecimal(price + ""));
+			goodsDto.setSpecsPrice(Long.parseLong(price + ""));
 
 	}
 
@@ -170,7 +170,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 		//如果有商品参加活动，则默认是参加活动中的最低价格
 		Integer price = goodsDto.getSpecsDtoList().stream().sorted(
 			Comparator.comparingInt(GoodsSpecsDto::getPrice)).findFirst().get().getPrice();
-		goodsDto.setPrice(new BigDecimal(price+""));
+		goodsDto.setPrice(Long.parseLong(price+""));
 
 		if(null != goodsDto.getPromoteStartTime() && null != goodsDto.getPromoteEndTime() && goodsDto.getPromoteStartTime().before(new Date())
 		&& goodsDto.getPromoteEndTime().after(new Date())
@@ -194,7 +194,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods, GoodsDto> 
 			}else{
 				goodsDto.setPromotePrice(Long.parseLong(specs.getPrice()+""));
 			}
-			goodsDto.setPrice(new BigDecimal(specs.getPrice()+""));
+			goodsDto.setPrice(Long.parseLong(specs.getPrice()+""));
 		});
 
 

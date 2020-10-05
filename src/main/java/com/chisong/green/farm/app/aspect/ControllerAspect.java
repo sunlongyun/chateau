@@ -4,6 +4,7 @@ import com.chisong.green.farm.app.controller.response.CCResponse;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.service.CustomerInfoService;
+import com.chisong.green.farm.app.utils.AESUtil;
 import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.JsonUtils;
 import com.chisong.green.farm.app.utils.LoginUserInfoUtil;
@@ -16,6 +17,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,6 +36,9 @@ public class ControllerAspect {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 
+	@Value("${appKey}")
+	private String key;
+
 	@Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping) "
 		+ "|| @annotation(org.springframework.web.bind.annotation.PostMapping) "
 		+ "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)")
@@ -48,7 +53,7 @@ public class ControllerAspect {
 		String userCode = request.getHeader("userCode");
 		String appId = (String)request.getHeader("appId");
 		if(!StringUtils.isEmpty(appId)){
-			AppUtils.set(Long.parseLong(appId));
+			AppUtils.set(Long.parseLong(AESUtil.decryptData(appId,key)));
 		}
 		if(StringUtils.isEmpty(userCode)){
 			return proceedingJoinPoint.proceed();

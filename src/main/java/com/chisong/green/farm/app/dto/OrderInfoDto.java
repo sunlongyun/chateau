@@ -215,4 +215,9 @@ public class OrderInfoDto implements Serializable {
      * 所属app
      */
     private Long appInfoId;
+
+    /**
+     * 费项已结清
+     */
+    private boolean feeSettle;
 }

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * 描述:
- *  订单校验工程
+ *  订单处理工程
  * @AUTHOR 孙龙云
  * @date 2020-08-08 10:28
  */
 @Component
-public class OrderCheckFactory {
+public class OrderHandleFactory {
 	@Autowired
 	private List<CreateOrderReqCheck> createOrderReqCheckList;
 

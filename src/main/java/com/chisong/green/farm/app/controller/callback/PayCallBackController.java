@@ -8,6 +8,7 @@ import com.chisong.green.farm.app.dto.PaymentDto;
 import com.chisong.green.farm.app.dto.RefundOrderDto;
 import com.chisong.green.farm.app.dto.RefundPaymentDto;
 import com.chisong.green.farm.app.example.PaymentExample;
+import com.chisong.green.farm.app.interceptor.PayToOrderInterceptor;
 import com.chisong.green.farm.app.miniProgram.enums.PayStatusEnum;
 import com.chisong.green.farm.app.miniProgram.request.PayOrderQuery;
 import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
@@ -23,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -62,6 +62,9 @@ public class PayCallBackController {
 	@Value("${key}")
 	private String key;
 
+	@Autowired
+	private PayToOrderInterceptor payToOrderInterceptor;
+
 	/**
 	 * 支付成功回调接口
 	 */
@@ -73,7 +76,7 @@ public class PayCallBackController {
 		HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder
 			.getRequestAttributes())
 			.getResponse();
-		httpServletResponse.setHeader("Content-type", "text/html;charset=UTF-8");
+		httpServletResponse.setHeader("Content-type", "application/xml;charset=UTF-8");
 		httpServletResponse.setCharacterEncoding("UTF-8");
 
 		try {
@@ -87,10 +90,10 @@ public class PayCallBackController {
 				sb.append(line);
 			}
 			in.close();
-//			inputStream.close();
+			String xml = sb.toString();
+			log.info("payNotify result  {}", xml);
 			//2、将xml格式字符串格式转为map集合
-			Map<String, String> callbackMap = WXPayUtil.xmlToMap(sb.toString());
-			log.info("支付回调结果:{}", callbackMap);
+			Map<String, String> callbackMap = WXPayUtil.xmlToMap(xml);
 
 			//5、判断回调信息是否成功
 			if("SUCCESS".equals(callbackMap.get("result_code"))) {
@@ -129,16 +132,22 @@ public class PayCallBackController {
 						orderInfoDto.setPayNo(paymentDto.getPayNo());
 						orderInfoDto.setPayedAmount(Long.parseLong(payOrderQueryResultResponse.getTotalFee() + ""));
 						orderInfoService.update(orderInfoDto);
+
+						//拦截处理
+						payToOrderInterceptor.handle(paymentDto.getId());
 					}
 
-					returnOk(httpServletResponse);
-					return;
+//					returnOk(httpServletResponse);
+//					return;
 				}
+				httpServletResponse.getWriter().write("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
 			}
 		} catch(Exception ex) {
 			log.error("支付回调异常:", ex);
 			ex.printStackTrace();
 		}
+//		returnOk(httpServletResponse);
+
 	}
 
 	/**
@@ -247,9 +256,6 @@ public class PayCallBackController {
 	}
 
 	private void returnOk(HttpServletResponse httpServletResponse) throws IOException {
-		httpServletResponse.getWriter().write("<xml>"
-			+ "<return_code><![CDATA[SUCCESS]]></return_code>"
-			+ "<return_msg><![CDATA[OK]]></return_msg>"
-			+ "</xml>");
+		httpServletResponse.getWriter().write("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
 	}
 }

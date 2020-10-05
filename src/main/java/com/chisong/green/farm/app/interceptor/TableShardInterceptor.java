@@ -58,10 +58,9 @@ public class TableShardInterceptor implements Interceptor {
 		String upperSql = sql.toUpperCase();
 		Pattern pattern = Pattern.compile(".*FROM\\s+APP_INFO.*");
 		Pattern pattern2 = Pattern.compile(".*AND\\s+USER_NAME.*");
-		Pattern pattern3 = Pattern.compile(".*FROM.*SUMMARY_INFO.*");
 		if(pattern.matcher(upperSql).matches()
 			|| pattern2.matcher(upperSql).find()
-			|| pattern3.matcher(upperSql).find() || null == appId){
+			|| null == appId){
 			return invocation.proceed();
 		}
 

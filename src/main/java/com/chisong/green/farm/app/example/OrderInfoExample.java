@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-10-03
+* @date 2020-10-05
 */
 @Data
 public class OrderInfoExample implements Serializable {
@@ -1912,6 +1912,67 @@ public class OrderInfoExample implements Serializable {
 
         public Criteria andAppInfoIdIsNotNull() {
             addCriterion("app_info_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andFeeSettleIn(List<Boolean> values) {
+            addCriterion("fee_settle in", values, "feeSettle");
+            return (Criteria) this;
+        }
+        public Criteria andFeeSettleNotIn(List<Boolean> values) {
+            addCriterion("fee_settle not in", values, "feeSettle");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andFeeSettleBetween(Boolean value1, Boolean value2) {
+            addCriterion("fee_settle between", value1, value2, "feeSettle");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andFeeSettleLike(String value) {
+            addCriterion("fee_settle like", value, "feeSettle");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andFeeSettleEqualTo(Boolean value) {
+            addCriterion("fee_settle =", value, "feeSettle");
+            return (Criteria) this;
+        }
+        public Criteria andFeeSettleNotEqualTo(Boolean value) {
+            addCriterion("fee_settle <>", value, "feeSettle");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andFeeSettleGreaterThan(Boolean value) {
+            addCriterion("fee_settle >", value, "feeSettle");
+            return (Criteria) this;
+        }
+        public Criteria andFeeSettleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("fee_settle >=", value, "feeSettle");
+            return (Criteria) this;
+        }
+        public Criteria andFeeSettleLessThan(Boolean value) {
+            addCriterion("fee_settle <", value, "feeSettle");
+            return (Criteria) this;
+        }
+        public Criteria andFeeSettleLessThanOrEqualTo(Boolean value) {
+            addCriterion("fee_settle <=", value, "feeSettle");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andFeeSettleIsNull() {
+            addCriterion("fee_settle is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeSettleIsNotNull() {
+            addCriterion("fee_settle is not null");
             return (Criteria) this;
         }
      }

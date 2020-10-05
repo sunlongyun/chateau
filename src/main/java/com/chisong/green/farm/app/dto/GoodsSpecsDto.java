@@ -93,6 +93,11 @@ public class GoodsSpecsDto implements Serializable {
      */
     private Long appInfoId;
 
+    /**
+     * 计算平台服务费时免费金额
+     */
+    private Integer unFeeAmount =0;
+
     @Override
     public boolean equals(Object o) {
         if(this == o) {

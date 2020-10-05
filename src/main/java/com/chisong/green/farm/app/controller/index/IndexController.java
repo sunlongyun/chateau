@@ -1,11 +1,13 @@
 package com.chisong.green.farm.app.controller.index;
 
+import com.chisong.green.farm.app.dto.MerchantPaymentDto;
 import com.chisong.green.farm.app.example.ProvinceCityAreaExample;
 import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.msg.ReceiveMsg;
 import com.chisong.green.farm.app.miniProgram.msg.TextMsg;
 import com.chisong.green.farm.app.service.AuthBizService;
 import com.chisong.green.farm.app.service.CustomerCenterService;
+import com.chisong.green.farm.app.service.MerchantPaymentService;
 import com.chisong.green.farm.app.service.ProvinceCityAreaService;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,19 +34,21 @@ public class IndexController {
 
 	@Autowired
 	private CustomerCenterService customerCenterService;
-	@Autowired
-	private AuthBizService authBizService;
-	private String opendId;
+
 	@Autowired
 	private ProvinceCityAreaService provinceCityAreaService;
+	@Autowired
+	private MerchantPaymentService merchantPaymentService;
 
 	@RequestMapping("/hello")
 	public String hello(){
-		ProvinceCityAreaExample provinceCityAreaExample = new ProvinceCityAreaExample();
-		provinceCityAreaService.getList(provinceCityAreaExample).stream().forEach(provinceCityAreaDto -> {
-			provinceCityAreaDto.setAppInfoId(2L);
-			provinceCityAreaService.save(provinceCityAreaDto);
-		});
+		MerchantPaymentDto merchantPaymentDto = new MerchantPaymentDto();
+		merchantPaymentDto.setOpenId("11");
+		merchantPaymentDto.setPayType(0);
+		merchantPaymentDto.setStatus(0);
+		merchantPaymentDto.setTradeNo("hello world");
+		merchantPaymentDto.setRemark("hello");
+		merchantPaymentService.save(merchantPaymentDto);
 		return "hello";
 	}
 
@@ -91,7 +95,7 @@ public class IndexController {
 	    ReceiveMsg receiveMsg = ResUtil.getObj(ReceiveMsg.class, body);
 
 		log.info("receiveMsg:{}", receiveMsg);
-		opendId = receiveMsg.getFromUserName();
+		 receiveMsg.getFromUserName();
 
 		log.info("msgId:{}", receiveMsg.getMsgId());
 		return "success";

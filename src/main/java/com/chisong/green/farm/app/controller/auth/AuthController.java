@@ -405,7 +405,12 @@ public class AuthController {
 		// 到手价金额
 		graphics2d.setFont(new Font("宋体", Font.BOLD, 60));
 		graphics2d.setColor(Color.red);
-		graphics2d.drawString((goodsDto.getPromotePrice()/100.0)+"" , 170, y+60);
+		String amount = (goodsDto.getPromotePrice()/100.0)+"";
+		if(!goodsDto.isPromote() || null == goodsDto.getPromotePrice()
+			|| goodsDto.getPromotePrice()<=0 || goodsDto.getPromotePrice()>goodsDto.getPrice()){
+			amount = (goodsDto.getPrice()/100.0)+"";
+		}
+		graphics2d.drawString( amount, 170, y+60);
 
 		if(goodsDto.isPromote()){
 			// 原价
@@ -416,14 +421,15 @@ public class AuthController {
 			// 原价金额
 			graphics2d.setFont(new Font("宋体", Font.PLAIN, 30));
 			graphics2d.setColor(new Color(89, 89, 89));
-			graphics2d.drawString("¥" + (goodsDto.getPrice().divide(new BigDecimal("100")))+"" , 425, y+60);
-			y += 120;
+			graphics2d.drawString("¥" + (new BigDecimal(goodsDto.getPrice()+"").divide(new BigDecimal("100")))+"" , 425,
+				y+60);
+
 			graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);                        // 消除画图锯齿
 			graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		}
-
+		y += 120;
 
 //		y+=100;
 

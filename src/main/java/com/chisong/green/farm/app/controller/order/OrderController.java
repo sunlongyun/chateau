@@ -18,7 +18,7 @@ import com.chisong.green.farm.app.example.OrderDeliveryAddressMappingExample;
 import com.chisong.green.farm.app.example.OrderDetailExample;
 import com.chisong.green.farm.app.example.OrderInfoExample;
 import com.chisong.green.farm.app.example.OrderInfoExample.Criteria;
-import com.chisong.green.farm.app.interceptor.OrderCheckFactory;
+import com.chisong.green.farm.app.interceptor.OrderHandleFactory;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
 import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.service.CustomerDeliveryAddressService;
@@ -35,7 +35,6 @@ import com.chisong.green.farm.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +79,7 @@ public class OrderController {
 	private CustomerDeliveryAddressService customerDeliveryAddressService;
 
 	@Autowired
-	private OrderCheckFactory orderCheckFactory;
+	private OrderHandleFactory orderCheckFactory;
 
 	/**
 	 * 查询订单状态

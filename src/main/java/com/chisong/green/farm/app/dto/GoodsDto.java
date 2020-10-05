@@ -101,11 +101,11 @@ public class GoodsDto implements Serializable {
     * 销售价格，跨境完税价  单位：分
      */
     @AmountUnitChange(showUnit=true)
-    private BigDecimal price;
+    private Long price;
     /**
      * 选中规格的价格
      */
-    private BigDecimal specsPrice;
+    private Long specsPrice;
     /**
      * 选中的规格id
      */

@@ -13,6 +13,7 @@ import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.RefundOrderService;
 import com.chisong.green.farm.app.service.RefundPaymentService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.time.LocalDateTime;
@@ -85,6 +86,7 @@ public class RefundOrderServiceImpl extends ServiceImpl<RefundOrderMapper, Refun
 
 		refundOrderDto.setRefundNo(refundNo);
 		refundOrderDto.setRefundRemark("退款");
+		refundOrderDto.setAppInfoId(AppUtils.get());
 
 		refundOrderService.save(refundOrderDto);
 
