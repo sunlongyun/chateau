@@ -101,7 +101,7 @@ public class PayToOrderImpl implements PayToOrderInterceptor {
 
 		//3.供货商款项
 		Integer supplierFee = 0;
-		if(appInfoDto.getPayManager() == 1){
+		if(appInfoDto.getPayManager() == Boolean.TRUE){
 			supplierFee = supplierFee(orderNo);
 		}
 		log.info("paymentId == {}, supplierFee =={}", paymentId, supplierFee);
@@ -113,7 +113,7 @@ public class PayToOrderImpl implements PayToOrderInterceptor {
 		//4.游客分销费用(转发)
 		Integer shareFee = 0;
 		log.info("isPaySaler == {}", appInfoDto.getPaySaler());
-		if(appInfoDto.getPaySaler() ==1){
+		if(appInfoDto.getPaySaler() == Boolean.TRUE){
 			 shareFee = shareFee(orderNo);
 			if(shareFee>0){
 				saveSharerFee(paymentId,shareFee);
@@ -122,7 +122,7 @@ public class PayToOrderImpl implements PayToOrderInterceptor {
 		log.info("paymentId == {}, shareFee =={}", paymentId, shareFee);
 
 		//5.管理费
-		if(appInfoDto.getPayManager() == 1){
+		if(appInfoDto.getPayManager() ==  Boolean.TRUE){
 			//TODO 平台管理费暂时不需要
 		}
 

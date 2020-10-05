@@ -451,17 +451,17 @@ public class AppInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andPayManagerIn(List<Integer> values) {
+        public Criteria andPayManagerIn(List<Boolean> values) {
             addCriterion("pay_manager in", values, "payManager");
             return (Criteria) this;
         }
-        public Criteria andPayManagerNotIn(List<Integer> values) {
+        public Criteria andPayManagerNotIn(List<Boolean> values) {
             addCriterion("pay_manager not in", values, "payManager");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andPayManagerBetween(Integer value1, Integer value2) {
+        public Criteria andPayManagerBetween(Boolean value1, Boolean value2) {
             addCriterion("pay_manager between", value1, value2, "payManager");
             return (Criteria) this;
         }
@@ -473,30 +473,30 @@ public class AppInfoExample implements Serializable {
         }
 
         // = <>
-        public Criteria andPayManagerEqualTo(Integer value) {
+        public Criteria andPayManagerEqualTo(Boolean value) {
             addCriterion("pay_manager =", value, "payManager");
             return (Criteria) this;
         }
-        public Criteria andPayManagerNotEqualTo(Integer value) {
+        public Criteria andPayManagerNotEqualTo(Boolean value) {
             addCriterion("pay_manager <>", value, "payManager");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andPayManagerGreaterThan(Integer value) {
+        public Criteria andPayManagerGreaterThan(Boolean value) {
             addCriterion("pay_manager >", value, "payManager");
             return (Criteria) this;
         }
-        public Criteria andPayManagerGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPayManagerGreaterThanOrEqualTo(Boolean value) {
             addCriterion("pay_manager >=", value, "payManager");
             return (Criteria) this;
         }
-        public Criteria andPayManagerLessThan(Integer value) {
+        public Criteria andPayManagerLessThan(Boolean value) {
             addCriterion("pay_manager <", value, "payManager");
             return (Criteria) this;
         }
-        public Criteria andPayManagerLessThanOrEqualTo(Integer value) {
+        public Criteria andPayManagerLessThanOrEqualTo(Boolean value) {
             addCriterion("pay_manager <=", value, "payManager");
             return (Criteria) this;
         }
@@ -512,17 +512,17 @@ public class AppInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andPaySalerIn(List<Integer> values) {
+        public Criteria andPaySalerIn(List<Boolean> values) {
             addCriterion("pay_saler in", values, "paySaler");
             return (Criteria) this;
         }
-        public Criteria andPaySalerNotIn(List<Integer> values) {
+        public Criteria andPaySalerNotIn(List<Boolean> values) {
             addCriterion("pay_saler not in", values, "paySaler");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andPaySalerBetween(Integer value1, Integer value2) {
+        public Criteria andPaySalerBetween(Boolean value1, Boolean value2) {
             addCriterion("pay_saler between", value1, value2, "paySaler");
             return (Criteria) this;
         }
@@ -534,30 +534,30 @@ public class AppInfoExample implements Serializable {
         }
 
         // = <>
-        public Criteria andPaySalerEqualTo(Integer value) {
+        public Criteria andPaySalerEqualTo(Boolean value) {
             addCriterion("pay_saler =", value, "paySaler");
             return (Criteria) this;
         }
-        public Criteria andPaySalerNotEqualTo(Integer value) {
+        public Criteria andPaySalerNotEqualTo(Boolean value) {
             addCriterion("pay_saler <>", value, "paySaler");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andPaySalerGreaterThan(Integer value) {
+        public Criteria andPaySalerGreaterThan(Boolean value) {
             addCriterion("pay_saler >", value, "paySaler");
             return (Criteria) this;
         }
-        public Criteria andPaySalerGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPaySalerGreaterThanOrEqualTo(Boolean value) {
             addCriterion("pay_saler >=", value, "paySaler");
             return (Criteria) this;
         }
-        public Criteria andPaySalerLessThan(Integer value) {
+        public Criteria andPaySalerLessThan(Boolean value) {
             addCriterion("pay_saler <", value, "paySaler");
             return (Criteria) this;
         }
-        public Criteria andPaySalerLessThanOrEqualTo(Integer value) {
+        public Criteria andPaySalerLessThanOrEqualTo(Boolean value) {
             addCriterion("pay_saler <=", value, "paySaler");
             return (Criteria) this;
         }
@@ -814,6 +814,189 @@ public class AppInfoExample implements Serializable {
 
         public Criteria andRateIsNotNull() {
             addCriterion("rate is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andSameCityIn(List<Boolean> values) {
+            addCriterion("same_city in", values, "sameCity");
+            return (Criteria) this;
+        }
+        public Criteria andSameCityNotIn(List<Boolean> values) {
+            addCriterion("same_city not in", values, "sameCity");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andSameCityBetween(Boolean value1, Boolean value2) {
+            addCriterion("same_city between", value1, value2, "sameCity");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andSameCityLike(String value) {
+            addCriterion("same_city like", value, "sameCity");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andSameCityEqualTo(Boolean value) {
+            addCriterion("same_city =", value, "sameCity");
+            return (Criteria) this;
+        }
+        public Criteria andSameCityNotEqualTo(Boolean value) {
+            addCriterion("same_city <>", value, "sameCity");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andSameCityGreaterThan(Boolean value) {
+            addCriterion("same_city >", value, "sameCity");
+            return (Criteria) this;
+        }
+        public Criteria andSameCityGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("same_city >=", value, "sameCity");
+            return (Criteria) this;
+        }
+        public Criteria andSameCityLessThan(Boolean value) {
+            addCriterion("same_city <", value, "sameCity");
+            return (Criteria) this;
+        }
+        public Criteria andSameCityLessThanOrEqualTo(Boolean value) {
+            addCriterion("same_city <=", value, "sameCity");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andSameCityIsNull() {
+            addCriterion("same_city is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSameCityIsNotNull() {
+            addCriterion("same_city is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRangeIn(List<Integer> values) {
+            addCriterion("range in", values, "range");
+            return (Criteria) this;
+        }
+        public Criteria andRangeNotIn(List<Integer> values) {
+            addCriterion("range not in", values, "range");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRangeBetween(Integer value1, Integer value2) {
+            addCriterion("range between", value1, value2, "range");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRangeLike(String value) {
+            addCriterion("range like", value, "range");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRangeEqualTo(Integer value) {
+            addCriterion("range =", value, "range");
+            return (Criteria) this;
+        }
+        public Criteria andRangeNotEqualTo(Integer value) {
+            addCriterion("range <>", value, "range");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRangeGreaterThan(Integer value) {
+            addCriterion("range >", value, "range");
+            return (Criteria) this;
+        }
+        public Criteria andRangeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("range >=", value, "range");
+            return (Criteria) this;
+        }
+        public Criteria andRangeLessThan(Integer value) {
+            addCriterion("range <", value, "range");
+            return (Criteria) this;
+        }
+        public Criteria andRangeLessThanOrEqualTo(Integer value) {
+            addCriterion("range <=", value, "range");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRangeIsNull() {
+            addCriterion("range is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRangeIsNotNull() {
+            addCriterion("range is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andTransferDateIn(List<Integer> values) {
+            addCriterion("transfer_date in", values, "transferDate");
+            return (Criteria) this;
+        }
+        public Criteria andTransferDateNotIn(List<Integer> values) {
+            addCriterion("transfer_date not in", values, "transferDate");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andTransferDateBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_date between", value1, value2, "transferDate");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andTransferDateLike(String value) {
+            addCriterion("transfer_date like", value, "transferDate");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andTransferDateEqualTo(Integer value) {
+            addCriterion("transfer_date =", value, "transferDate");
+            return (Criteria) this;
+        }
+        public Criteria andTransferDateNotEqualTo(Integer value) {
+            addCriterion("transfer_date <>", value, "transferDate");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andTransferDateGreaterThan(Integer value) {
+            addCriterion("transfer_date >", value, "transferDate");
+            return (Criteria) this;
+        }
+        public Criteria andTransferDateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("transfer_date >=", value, "transferDate");
+            return (Criteria) this;
+        }
+        public Criteria andTransferDateLessThan(Integer value) {
+            addCriterion("transfer_date <", value, "transferDate");
+            return (Criteria) this;
+        }
+        public Criteria andTransferDateLessThanOrEqualTo(Integer value) {
+            addCriterion("transfer_date <=", value, "transferDate");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andTransferDateIsNull() {
+            addCriterion("transfer_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferDateIsNotNull() {
+            addCriterion("transfer_date is not null");
             return (Criteria) this;
         }
      }

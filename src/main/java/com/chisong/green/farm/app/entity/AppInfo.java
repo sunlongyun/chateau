@@ -43,17 +43,17 @@ public class AppInfo implements Serializable {
     /**
     * 是否需要给供应商结款 0-不需要;1-需要
      */
-    private  Integer paySupplier;
+    private  Boolean paySupplier;
 
     /**
     * 是否需要设置管理费 0-不需要;1-需要
      */
-    private  Integer payManager;
+    private  Boolean payManager;
 
     /**
     * 是否需要设置分销费用 0-不需要;1-需要
      */
-    private  Integer paySaler;
+    private  Boolean paySaler;
 
     private  Date createTime;
 
@@ -68,5 +68,20 @@ public class AppInfo implements Serializable {
     * 平台服务费百分比，最大100
      */
     private  Integer rate;
+
+    /**
+    * 是否同城  1-同城；0-非同城
+     */
+    private  Boolean sameCity;
+
+    /**
+    * 同城公里数 
+     */
+    private  Integer range;
+
+    /**
+    * 到账时间 ，单位天
+     */
+    private  Integer transferDate;
 
 }
