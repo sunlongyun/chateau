@@ -17,4 +17,10 @@ public interface MerchantPaymentService extends IService<MerchantPaymentDto> {
 	 * @param id
 	 */
 	void pay(Long id);
+
+	/**
+	 * 转账
+	 * @param id
+	 */
+	void tranfer(Long id);
 }

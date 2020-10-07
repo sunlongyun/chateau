@@ -1,13 +1,17 @@
 package com.chisong.green.farm.app.controller.index;
 
-import com.chisong.green.farm.app.dto.MerchantPaymentDto;
-import com.chisong.green.farm.app.example.ProvinceCityAreaExample;
+import com.chisong.green.farm.app.dto.AppInfoDto;
+import com.chisong.green.farm.app.interceptor.PayToOrderInterceptor;
 import com.chisong.green.farm.app.miniProgram.ResUtil;
 import com.chisong.green.farm.app.miniProgram.msg.ReceiveMsg;
 import com.chisong.green.farm.app.miniProgram.msg.TextMsg;
-import com.chisong.green.farm.app.service.AuthBizService;
+import com.chisong.green.farm.app.miniProgram.request.PayOrderQuery;
+import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
+import com.chisong.green.farm.app.miniProgram.service.WxPayService;
+import com.chisong.green.farm.app.service.AppInfoService;
 import com.chisong.green.farm.app.service.CustomerCenterService;
 import com.chisong.green.farm.app.service.MerchantPaymentService;
+import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.ProvinceCityAreaService;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,19 +40,19 @@ public class IndexController {
 	private CustomerCenterService customerCenterService;
 
 	@Autowired
-	private ProvinceCityAreaService provinceCityAreaService;
+	private PaymentService paymentService;
+
 	@Autowired
-	private MerchantPaymentService merchantPaymentService;
+	private AppInfoService appInfoService;
+	@Autowired
+	private PayToOrderInterceptor payToOrderInterceptor;
+	@Autowired
+	private WxPayService wxPayService;
 
 	@RequestMapping("/hello")
-	public String hello(){
-		MerchantPaymentDto merchantPaymentDto = new MerchantPaymentDto();
-		merchantPaymentDto.setOpenId("11");
-		merchantPaymentDto.setPayType(0);
-		merchantPaymentDto.setStatus(0);
-		merchantPaymentDto.setTradeNo("hello world");
-		merchantPaymentDto.setRemark("hello");
-		merchantPaymentService.save(merchantPaymentDto);
+	public String hello() {
+		payToOrderInterceptor.handle(379L);
+
 		return "hello";
 	}
 

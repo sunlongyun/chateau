@@ -1,18 +1,15 @@
 package com.chisong.green.farm.app.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
 * <p>
 * 账户流水
 * </p>
 * @author 孙龙云
-* @date 2020-05-23
+* @date 2020-10-07
 */
 @Data
 public class AccountFlowDto implements Serializable {
@@ -32,17 +29,17 @@ public class AccountFlowDto implements Serializable {
     private Integer type;
 
     /**
-    * 状态 0-进行中；1-已完成
+    * 状态 0-进行中；1-已完成；2-失败
      */
     private Integer status;
 
     /**
-    * 收入来源  0-分享赚钱
+    * 收入来源  0-分享赚钱，1-余额提现
      */
     private Integer source;
 
     /**
-    * 流水金额
+    * 流水金额 单位:分
      */
     private Integer amount;
 
@@ -59,11 +56,21 @@ public class AccountFlowDto implements Serializable {
     /**
     * 创建时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /**
-     * 所属app
+    * 所属app
      */
     private Long appInfoId;
+
+    /**
+    * 支付流水号
+     */
+    private String payNo;
+
+    /**
+    * 待入账时间；到时间后，待入账流水自动入账
+     */
+    private Date inAccountTime;
+
 }

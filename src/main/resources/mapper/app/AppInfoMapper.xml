@@ -10,6 +10,9 @@
         <result column="contact_user" property="contactUser" />
         <result column="contact_phone" property="contactPhone" />
         <result column="pay_supplier" property="paySupplier" />
+        <result column="pay_recommend" property="payRecommend" />
+        <result column="recommend_rate" property="recommendRate" />
+        <result column="recommend_customerId" property="recommendCustomerid" />
         <result column="pay_manager" property="payManager" />
         <result column="pay_saler" property="paySaler" />
         <result column="create_time" property="createTime" />
@@ -17,13 +20,13 @@
         <result column="validity" property="validity" />
         <result column="rate" property="rate" />
         <result column="same_city" property="sameCity" />
-        <result column="range" property="range" />
+        <result column="range_limit" property="rangeLimit" />
         <result column="transfer_date" property="transferDate" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, name, contact_user, contact_phone, pay_supplier, pay_manager, pay_saler, create_time, update_time, validity, rate, same_city, range, transfer_date
+        id, open_id, name, contact_user, contact_phone, pay_supplier, pay_recommend, recommend_rate, recommend_customerId, pay_manager, pay_saler, create_time, update_time, validity, rate, same_city, range_limit, transfer_date
     </sql>
 
 

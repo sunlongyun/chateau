@@ -10,4 +10,11 @@ public interface PayToOrderInterceptor {
 	 * @param paymentId
 	 */
 	void handle(Long paymentId);
+
+	/**
+	 * 退款，在结算之前
+	 * @param paymentId
+	 * @param amount
+	 */
+	void refund(Long paymentId, Long amount);
 }

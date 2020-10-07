@@ -54,7 +54,7 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper, Cus
 	@Override
 	public CustomerInfoDto getCustomerInfoDtoByOpenId(String openId) {
 		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
-		customerInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOpenIdEqualTo(openId);
+		customerInfoExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code()).andOpenIdEqualTo(openId).andIdGreaterThan(0L);
 		List<CustomerInfoDto> list = getList(customerInfoExample);
 		if(!CollectionUtils.isEmpty(list)){
 			return list.get(0);

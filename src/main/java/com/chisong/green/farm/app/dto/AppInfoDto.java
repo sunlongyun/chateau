@@ -9,7 +9,7 @@ import lombok.Data;
 * APP名称
 * </p>
 * @author 孙龙云
-* @date 2020-10-05
+* @date 2020-10-07
 */
 @Data
 public class AppInfoDto implements Serializable {
@@ -44,6 +44,21 @@ public class AppInfoDto implements Serializable {
     private Boolean paySupplier;
 
     /**
+    * 商家推荐费，分享平台佣金 0-否，1-是
+     */
+    private Boolean payRecommend;
+
+    /**
+    * 分享平台佣金比例(%),不超过100
+     */
+    private Integer recommendRate;
+
+    /**
+    * 推荐人id
+     */
+    private Long recommendCustomerid;
+
+    /**
     * 是否需要设置管理费 0-不需要;1-需要
      */
     private Boolean payManager;
@@ -75,7 +90,7 @@ public class AppInfoDto implements Serializable {
     /**
     * 同城公里数 
      */
-    private Integer range;
+    private Integer rangeLimit;
 
     /**
     * 到账时间 ，单位天

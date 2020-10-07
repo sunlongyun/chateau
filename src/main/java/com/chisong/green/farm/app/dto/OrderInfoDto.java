@@ -217,7 +217,7 @@ public class OrderInfoDto implements Serializable {
     private Long appInfoId;
 
     /**
-     * 费项已结清
+     * 费项结算时间，结算时间之前一个小时之后都不能执行退款操作
      */
-    private boolean feeSettle;
+    private Date feeTransferTime;
 }

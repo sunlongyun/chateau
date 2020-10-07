@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-05-23
+* @date 2020-10-07
 */
 @Data
 public class AccountFlowExample implements Serializable {
@@ -631,6 +631,189 @@ public class AccountFlowExample implements Serializable {
 
         public Criteria andCreateTimeIsNotNull() {
             addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAppInfoIdIn(List<Long> values) {
+            addCriterion("app_info_id in", values, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotIn(List<Long> values) {
+            addCriterion("app_info_id not in", values, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAppInfoIdBetween(Long value1, Long value2) {
+            addCriterion("app_info_id between", value1, value2, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAppInfoIdLike(String value) {
+            addCriterion("app_info_id like", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAppInfoIdEqualTo(Long value) {
+            addCriterion("app_info_id =", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdNotEqualTo(Long value) {
+            addCriterion("app_info_id <>", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAppInfoIdGreaterThan(Long value) {
+            addCriterion("app_info_id >", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("app_info_id >=", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThan(Long value) {
+            addCriterion("app_info_id <", value, "appInfoId");
+            return (Criteria) this;
+        }
+        public Criteria andAppInfoIdLessThanOrEqualTo(Long value) {
+            addCriterion("app_info_id <=", value, "appInfoId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAppInfoIdIsNull() {
+            addCriterion("app_info_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppInfoIdIsNotNull() {
+            addCriterion("app_info_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPayNoIn(List<String> values) {
+            addCriterion("pay_no in", values, "payNo");
+            return (Criteria) this;
+        }
+        public Criteria andPayNoNotIn(List<String> values) {
+            addCriterion("pay_no not in", values, "payNo");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPayNoBetween(String value1, String value2) {
+            addCriterion("pay_no between", value1, value2, "payNo");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPayNoLike(String value) {
+            addCriterion("pay_no like", value, "payNo");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPayNoEqualTo(String value) {
+            addCriterion("pay_no =", value, "payNo");
+            return (Criteria) this;
+        }
+        public Criteria andPayNoNotEqualTo(String value) {
+            addCriterion("pay_no <>", value, "payNo");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPayNoGreaterThan(String value) {
+            addCriterion("pay_no >", value, "payNo");
+            return (Criteria) this;
+        }
+        public Criteria andPayNoGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_no >=", value, "payNo");
+            return (Criteria) this;
+        }
+        public Criteria andPayNoLessThan(String value) {
+            addCriterion("pay_no <", value, "payNo");
+            return (Criteria) this;
+        }
+        public Criteria andPayNoLessThanOrEqualTo(String value) {
+            addCriterion("pay_no <=", value, "payNo");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPayNoIsNull() {
+            addCriterion("pay_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNoIsNotNull() {
+            addCriterion("pay_no is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andInAccountTimeIn(List<Date> values) {
+            addCriterion("in_account_time in", values, "inAccountTime");
+            return (Criteria) this;
+        }
+        public Criteria andInAccountTimeNotIn(List<Date> values) {
+            addCriterion("in_account_time not in", values, "inAccountTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andInAccountTimeBetween(Date value1, Date value2) {
+            addCriterion("in_account_time between", value1, value2, "inAccountTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andInAccountTimeLike(String value) {
+            addCriterion("in_account_time like", value, "inAccountTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andInAccountTimeEqualTo(Date value) {
+            addCriterion("in_account_time =", value, "inAccountTime");
+            return (Criteria) this;
+        }
+        public Criteria andInAccountTimeNotEqualTo(Date value) {
+            addCriterion("in_account_time <>", value, "inAccountTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andInAccountTimeGreaterThan(Date value) {
+            addCriterion("in_account_time >", value, "inAccountTime");
+            return (Criteria) this;
+        }
+        public Criteria andInAccountTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("in_account_time >=", value, "inAccountTime");
+            return (Criteria) this;
+        }
+        public Criteria andInAccountTimeLessThan(Date value) {
+            addCriterion("in_account_time <", value, "inAccountTime");
+            return (Criteria) this;
+        }
+        public Criteria andInAccountTimeLessThanOrEqualTo(Date value) {
+            addCriterion("in_account_time <=", value, "inAccountTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andInAccountTimeIsNull() {
+            addCriterion("in_account_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInAccountTimeIsNotNull() {
+            addCriterion("in_account_time is not null");
             return (Criteria) this;
         }
      }

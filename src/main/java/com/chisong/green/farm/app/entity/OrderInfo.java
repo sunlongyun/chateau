@@ -165,7 +165,7 @@ public class OrderInfo implements Serializable {
     private Long appInfoId;
 
     /**
-     * 费项已结清
+     * 费项结算时间
      */
-    private boolean feeSettle;
+    private Date feeTransferTime;
 }

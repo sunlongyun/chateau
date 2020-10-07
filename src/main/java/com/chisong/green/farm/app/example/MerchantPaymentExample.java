@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-10-05
+* @date 2020-10-06
 */
 @Data
 public class MerchantPaymentExample implements Serializable {
@@ -936,6 +936,67 @@ public class MerchantPaymentExample implements Serializable {
 
         public Criteria andValidityIsNotNull() {
             addCriterion("validity is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andPreTransferTimeIn(List<Date> values) {
+            addCriterion("pre_transfer_time in", values, "preTransferTime");
+            return (Criteria) this;
+        }
+        public Criteria andPreTransferTimeNotIn(List<Date> values) {
+            addCriterion("pre_transfer_time not in", values, "preTransferTime");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPreTransferTimeBetween(Date value1, Date value2) {
+            addCriterion("pre_transfer_time between", value1, value2, "preTransferTime");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPreTransferTimeLike(String value) {
+            addCriterion("pre_transfer_time like", value, "preTransferTime");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPreTransferTimeEqualTo(Date value) {
+            addCriterion("pre_transfer_time =", value, "preTransferTime");
+            return (Criteria) this;
+        }
+        public Criteria andPreTransferTimeNotEqualTo(Date value) {
+            addCriterion("pre_transfer_time <>", value, "preTransferTime");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPreTransferTimeGreaterThan(Date value) {
+            addCriterion("pre_transfer_time >", value, "preTransferTime");
+            return (Criteria) this;
+        }
+        public Criteria andPreTransferTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("pre_transfer_time >=", value, "preTransferTime");
+            return (Criteria) this;
+        }
+        public Criteria andPreTransferTimeLessThan(Date value) {
+            addCriterion("pre_transfer_time <", value, "preTransferTime");
+            return (Criteria) this;
+        }
+        public Criteria andPreTransferTimeLessThanOrEqualTo(Date value) {
+            addCriterion("pre_transfer_time <=", value, "preTransferTime");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPreTransferTimeIsNull() {
+            addCriterion("pre_transfer_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreTransferTimeIsNotNull() {
+            addCriterion("pre_transfer_time is not null");
             return (Criteria) this;
         }
      }

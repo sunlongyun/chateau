@@ -329,10 +329,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 			//构建收货地址
 			buildAddress(orderInfoDto);
 
-			//半个月之前
-			LocalDateTime monthBefore =    LocalDateTime.now().plus(-15, ChronoUnit.DAYS);
+			//结算之前1个小时之后，不可执行退款
+			LocalDateTime monthBefore =    LocalDateTime.now().plus(-1, ChronoUnit.HOURS);
 			Date date =   Date.from(monthBefore.atZone(ZoneId.systemDefault()).toInstant());
-			boolean canRefund = null !=  orderInfoDto.getSendTime() && orderInfoDto.getSendTime().after(date)
+			boolean canRefund = null !=  orderInfoDto.getFeeTransferTime() && orderInfoDto.getFeeTransferTime().after(date)
 				&& orderInfoDto.getRefundAmount() < orderInfoDto.getPayedAmount();
 
 			orderInfoDto.setCanRefund(canRefund);

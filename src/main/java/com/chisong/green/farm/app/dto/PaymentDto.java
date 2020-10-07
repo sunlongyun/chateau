@@ -9,7 +9,7 @@ import lombok.Data;
 * 
 * </p>
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-10-06
 */
 @Data
 public class PaymentDto implements Serializable {
@@ -57,6 +57,11 @@ public class PaymentDto implements Serializable {
     private Integer status;
 
     /**
+    * 是否结算 1-已结算；0-未结算
+     */
+    private Boolean settel;
+
+    /**
     * 支付时间
      */
     private Date payTime;
@@ -87,7 +92,8 @@ public class PaymentDto implements Serializable {
     private Integer validity;
 
     /**
-     * 所属app
+    * 所属appId
      */
     private Long appInfoId;
+
 }

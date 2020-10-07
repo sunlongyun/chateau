@@ -69,13 +69,10 @@ public class PayCallBackController {
 	 * 支付成功回调接口
 	 */
 	@RequestMapping("/payNotify")
-	public void payNotify() {
+	public void payNotify(HttpServletResponse httpServletResponse) {
 
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 			.getRequest();
-		HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder
-			.getRequestAttributes())
-			.getResponse();
 		httpServletResponse.setHeader("Content-type", "application/xml;charset=UTF-8");
 		httpServletResponse.setCharacterEncoding("UTF-8");
 
@@ -109,7 +106,7 @@ public class PayCallBackController {
 				if(PayStatusEnum.SUCCESS.code().equals(payOrderQueryResultResponse.getTradeState())) {
 					PaymentExample paymentExample = new PaymentExample();
 					paymentExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
-						.andPayNoEqualTo(payOrderQueryResultResponse.getOutTradeNo());
+						.andPayNoEqualTo(outTradeNo);
 
 					List<PaymentDto> paymentDtoList = paymentService.getList(paymentExample);
 					//更新订单状态
@@ -137,16 +134,15 @@ public class PayCallBackController {
 						payToOrderInterceptor.handle(paymentDto.getId());
 					}
 
-//					returnOk(httpServletResponse);
-//					return;
 				}
-				httpServletResponse.getWriter().write("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
+				returnOk(httpServletResponse);
+				return;
 			}
 		} catch(Exception ex) {
 			log.error("支付回调异常:", ex);
 			ex.printStackTrace();
 		}
-//		returnOk(httpServletResponse);
+
 
 	}
 
@@ -154,13 +150,11 @@ public class PayCallBackController {
 	 * 退款结果通知
 	 */
 	@RequestMapping("/refundNotify")
-	public void refundNotify() {
+	public void refundNotify(HttpServletResponse httpServletResponse) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 			.getRequest();
-		HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder
-			.getRequestAttributes())
-			.getResponse();
-		httpServletResponse.setHeader("Content-type", "text/html;charset=UTF-8");
+
+		httpServletResponse.setHeader("Content-type", "application/xml;charset=UTF-8");
 		httpServletResponse.setCharacterEncoding("UTF-8");
 		try {
 			InputStream inputStream = request.getInputStream();
@@ -175,12 +169,13 @@ public class PayCallBackController {
 			in.close();
 			inputStream.close();
 			//2、将xml格式字符串格式转为map集合
-			Map<String, String> callbackMap = WXPayUtil.xmlToMap(sb.toString());
-			log.info("退款回调原始结果:{}", callbackMap);
+			String refundXml =  sb.toString();
+			log.info("refundXml == {}", refundXml);
+			Map<String, String> callbackMap = WXPayUtil.xmlToMap(refundXml);
 			String reqInfoBody = callbackMap.get("req_info");
 			String reqInfoXml =  AESUtil.decryptData(reqInfoBody, key);
 			callbackMap.putAll( WXPayUtil.xmlToMap(reqInfoXml));
-			log.info("解密后的退款结果:{}", callbackMap);
+			log.info("refund result == {}", callbackMap);
 			/**
 			 * 退款状态
 			 */
@@ -239,19 +234,25 @@ public class PayCallBackController {
 			OrderInfoDto orderInfoDto =	orderInfoService.getOrderByNo(refundOrderDto.getOrderNo());
 			orderInfoDto.setRefundAmount(orderInfoDto.getRefundAmount()+Integer.parseInt(settlementRefundFee));
 			orderInfoDto.setIncome(orderInfoDto.getIncome() - Integer.parseInt(settlementRefundFee));
-
+			PaymentDto paymentDto = paymentService.getPaymentDto(orderInfoDto.getPayNo());
 			//未发货的订单，全额退款后，订单取消
 			if(orderInfoDto.getRefundAmount() - orderInfoDto.getPayedAmount()==0
 			 && orderInfoDto.getStatus() == OrderStatusEnum.PAYED.code()){
 				orderInfoDto.setStatus(OrderStatusEnum.CANCELED.code());
 			}
 			orderInfoService.update(orderInfoDto);
+			//退款拦截，退各种费项
+			payToOrderInterceptor.refund(paymentDto.getId(), refundOrderDto.getAmount());
 
+			if(orderInfoDto.getRefundAmount() - orderInfoDto.getPayedAmount()==0){
+				paymentDto.setStatus(5);
+				paymentService.update(paymentDto);
+			}
 			returnOk(httpServletResponse);
+			return;
 		} catch(Exception ex) {
 			log.error("退款回调异常:", ex);
 			ex.printStackTrace();
-
 		}
 	}
 

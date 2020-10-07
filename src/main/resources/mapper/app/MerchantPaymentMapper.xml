@@ -14,15 +14,16 @@
         <result column="pay_id" property="payId" />
         <result column="payment_no" property="paymentNo" />
         <result column="amount" property="amount" />
-        <result column="remark" property="desc" />
+        <result column="remark" property="remark" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
+        <result column="pre_transfer_time" property="preTransferTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, user_type, pay_type, user_name, status, trade_no, pay_id, payment_no, amount, remark, create_time, update_time, validity
+        id, open_id, user_type, pay_type, user_name, status, trade_no, pay_id, payment_no, amount, remark, create_time, update_time, validity, pre_transfer_time
     </sql>
 
 

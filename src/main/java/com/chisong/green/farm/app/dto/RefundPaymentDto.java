@@ -9,7 +9,7 @@ import lombok.Data;
 * 退款流水
 * </p>
 * @author 孙龙云
-* @date 2020-05-04
+* @date 2020-10-06
 */
 @Data
 public class RefundPaymentDto implements Serializable {
@@ -77,7 +77,8 @@ public class RefundPaymentDto implements Serializable {
     private Date updateTime;
 
     /**
-     * 所属app
+    * 所属app
      */
     private Long appInfoId;
+
 }

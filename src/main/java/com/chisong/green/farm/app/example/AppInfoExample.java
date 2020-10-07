@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-10-05
+* @date 2020-10-07
 */
 @Data
 public class AppInfoExample implements Serializable {
@@ -451,6 +451,189 @@ public class AppInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
+        public Criteria andPayRecommendIn(List<Boolean> values) {
+            addCriterion("pay_recommend in", values, "payRecommend");
+            return (Criteria) this;
+        }
+        public Criteria andPayRecommendNotIn(List<Boolean> values) {
+            addCriterion("pay_recommend not in", values, "payRecommend");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andPayRecommendBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_recommend between", value1, value2, "payRecommend");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andPayRecommendLike(String value) {
+            addCriterion("pay_recommend like", value, "payRecommend");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andPayRecommendEqualTo(Boolean value) {
+            addCriterion("pay_recommend =", value, "payRecommend");
+            return (Criteria) this;
+        }
+        public Criteria andPayRecommendNotEqualTo(Boolean value) {
+            addCriterion("pay_recommend <>", value, "payRecommend");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andPayRecommendGreaterThan(Boolean value) {
+            addCriterion("pay_recommend >", value, "payRecommend");
+            return (Criteria) this;
+        }
+        public Criteria andPayRecommendGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("pay_recommend >=", value, "payRecommend");
+            return (Criteria) this;
+        }
+        public Criteria andPayRecommendLessThan(Boolean value) {
+            addCriterion("pay_recommend <", value, "payRecommend");
+            return (Criteria) this;
+        }
+        public Criteria andPayRecommendLessThanOrEqualTo(Boolean value) {
+            addCriterion("pay_recommend <=", value, "payRecommend");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andPayRecommendIsNull() {
+            addCriterion("pay_recommend is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayRecommendIsNotNull() {
+            addCriterion("pay_recommend is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRecommendRateIn(List<Integer> values) {
+            addCriterion("recommend_rate in", values, "recommendRate");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendRateNotIn(List<Integer> values) {
+            addCriterion("recommend_rate not in", values, "recommendRate");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRecommendRateBetween(Integer value1, Integer value2) {
+            addCriterion("recommend_rate between", value1, value2, "recommendRate");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRecommendRateLike(String value) {
+            addCriterion("recommend_rate like", value, "recommendRate");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRecommendRateEqualTo(Integer value) {
+            addCriterion("recommend_rate =", value, "recommendRate");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendRateNotEqualTo(Integer value) {
+            addCriterion("recommend_rate <>", value, "recommendRate");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRecommendRateGreaterThan(Integer value) {
+            addCriterion("recommend_rate >", value, "recommendRate");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendRateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recommend_rate >=", value, "recommendRate");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendRateLessThan(Integer value) {
+            addCriterion("recommend_rate <", value, "recommendRate");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendRateLessThanOrEqualTo(Integer value) {
+            addCriterion("recommend_rate <=", value, "recommendRate");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRecommendRateIsNull() {
+            addCriterion("recommend_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendRateIsNotNull() {
+            addCriterion("recommend_rate is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andRecommendCustomeridIn(List<Long> values) {
+            addCriterion("recommend_customerId in", values, "recommendCustomerid");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendCustomeridNotIn(List<Long> values) {
+            addCriterion("recommend_customerId not in", values, "recommendCustomerid");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andRecommendCustomeridBetween(Long value1, Long value2) {
+            addCriterion("recommend_customerId between", value1, value2, "recommendCustomerid");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andRecommendCustomeridLike(String value) {
+            addCriterion("recommend_customerId like", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andRecommendCustomeridEqualTo(Long value) {
+            addCriterion("recommend_customerId =", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendCustomeridNotEqualTo(Long value) {
+            addCriterion("recommend_customerId <>", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andRecommendCustomeridGreaterThan(Long value) {
+            addCriterion("recommend_customerId >", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendCustomeridGreaterThanOrEqualTo(Long value) {
+            addCriterion("recommend_customerId >=", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendCustomeridLessThan(Long value) {
+            addCriterion("recommend_customerId <", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+        public Criteria andRecommendCustomeridLessThanOrEqualTo(Long value) {
+            addCriterion("recommend_customerId <=", value, "recommendCustomerid");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andRecommendCustomeridIsNull() {
+            addCriterion("recommend_customerId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCustomeridIsNotNull() {
+            addCriterion("recommend_customerId is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
         public Criteria andPayManagerIn(List<Boolean> values) {
             addCriterion("pay_manager in", values, "payManager");
             return (Criteria) this;
@@ -878,64 +1061,64 @@ public class AppInfoExample implements Serializable {
             return (Criteria) this;
         }
         // in,   not in
-        public Criteria andRangeIn(List<Integer> values) {
-            addCriterion("range in", values, "range");
+        public Criteria andRangeLimitIn(List<Integer> values) {
+            addCriterion("range_limit in", values, "rangeLimit");
             return (Criteria) this;
         }
-        public Criteria andRangeNotIn(List<Integer> values) {
-            addCriterion("range not in", values, "range");
+        public Criteria andRangeLimitNotIn(List<Integer> values) {
+            addCriterion("range_limit not in", values, "rangeLimit");
             return (Criteria) this;
         }
 
         //between
-        public Criteria andRangeBetween(Integer value1, Integer value2) {
-            addCriterion("range between", value1, value2, "range");
+        public Criteria andRangeLimitBetween(Integer value1, Integer value2) {
+            addCriterion("range_limit between", value1, value2, "rangeLimit");
             return (Criteria) this;
         }
 
         //like
-        public Criteria andRangeLike(String value) {
-            addCriterion("range like", value, "range");
+        public Criteria andRangeLimitLike(String value) {
+            addCriterion("range_limit like", value, "rangeLimit");
             return (Criteria) this;
         }
 
         // = <>
-        public Criteria andRangeEqualTo(Integer value) {
-            addCriterion("range =", value, "range");
+        public Criteria andRangeLimitEqualTo(Integer value) {
+            addCriterion("range_limit =", value, "rangeLimit");
             return (Criteria) this;
         }
-        public Criteria andRangeNotEqualTo(Integer value) {
-            addCriterion("range <>", value, "range");
+        public Criteria andRangeLimitNotEqualTo(Integer value) {
+            addCriterion("range_limit <>", value, "rangeLimit");
             return (Criteria) this;
         }
 
 
         // > >= < <=
-        public Criteria andRangeGreaterThan(Integer value) {
-            addCriterion("range >", value, "range");
+        public Criteria andRangeLimitGreaterThan(Integer value) {
+            addCriterion("range_limit >", value, "rangeLimit");
             return (Criteria) this;
         }
-        public Criteria andRangeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("range >=", value, "range");
+        public Criteria andRangeLimitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("range_limit >=", value, "rangeLimit");
             return (Criteria) this;
         }
-        public Criteria andRangeLessThan(Integer value) {
-            addCriterion("range <", value, "range");
+        public Criteria andRangeLimitLessThan(Integer value) {
+            addCriterion("range_limit <", value, "rangeLimit");
             return (Criteria) this;
         }
-        public Criteria andRangeLessThanOrEqualTo(Integer value) {
-            addCriterion("range <=", value, "range");
+        public Criteria andRangeLimitLessThanOrEqualTo(Integer value) {
+            addCriterion("range_limit <=", value, "rangeLimit");
             return (Criteria) this;
         }
 
         //null  not null
-        public Criteria andRangeIsNull() {
-            addCriterion("range is null");
+        public Criteria andRangeLimitIsNull() {
+            addCriterion("range_limit is null");
             return (Criteria) this;
         }
 
-        public Criteria andRangeIsNotNull() {
-            addCriterion("range is not null");
+        public Criteria andRangeLimitIsNotNull() {
+            addCriterion("range_limit is not null");
             return (Criteria) this;
         }
         // in,   not in

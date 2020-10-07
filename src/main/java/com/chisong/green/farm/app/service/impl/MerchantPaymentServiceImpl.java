@@ -8,10 +8,13 @@ import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
 import com.chisong.green.farm.app.service.MerchantPaymentService;
 
+import com.chisong.green.farm.app.service.PaymentService;
 import com.lianshang.generator.commons.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -31,7 +34,7 @@ public class MerchantPaymentServiceImpl extends ServiceImpl<MerchantPaymentMappe
 		MerchantPaymentDto merchantPaymentDto = getById(id);
 		if(null == merchantPaymentDto){
 			throw new RuntimeException("付款申请不存在");
-		}else if(merchantPaymentDto.getStatus() ==0){
+		}else if(merchantPaymentDto.getStatus() ==2){
 			throw new RuntimeException("付款记录已设置‘失败’，请重新申请付款");
 		}else if(merchantPaymentDto.getStatus() ==1){
 			return;
@@ -52,6 +55,19 @@ public class MerchantPaymentServiceImpl extends ServiceImpl<MerchantPaymentMappe
 			}else{
 				log.info("付款失败, id:{}",id);
 				throw new RuntimeException("付款失败:"+id);
+			}
+		}
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public void tranfer(Long id) {
+		MerchantPaymentDto merchantPaymentDto = getById(id);
+		if(merchantPaymentDto.getStatus()==0){
+			update(merchantPaymentDto);
+			merchantPaymentDto = getById(id);
+			if(merchantPaymentDto.getStatus()==0){
+				pay(merchantPaymentDto.getId());
 			}
 		}
 	}

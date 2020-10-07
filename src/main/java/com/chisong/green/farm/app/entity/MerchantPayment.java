@@ -10,7 +10,7 @@ import lombok.Data;
 * 商户支付流水
 * </p>
 * @author 孙龙云
-* @date 2020-10-05
+* @date 2020-10-06
 */
 @Data
 public class MerchantPayment implements Serializable {
@@ -31,7 +31,7 @@ public class MerchantPayment implements Serializable {
     private  Integer userType;
 
     /**
-    * 付款类型 1-商家交易款，2-供货商费，3-分销费；4-管理费;5-平台服务费
+    * 付款类型 1-商家交易款，2-供货商费，3-分销费；4-管理费;5-平台服务费；6-余额提现
      */
     private  Integer payType;
 
@@ -84,5 +84,10 @@ public class MerchantPayment implements Serializable {
     * 是否有效 1-有效;0-无效
      */
     private  Boolean validity;
+
+    /**
+    * 预计转账时间
+     */
+    private  Date preTransferTime;
 
 }

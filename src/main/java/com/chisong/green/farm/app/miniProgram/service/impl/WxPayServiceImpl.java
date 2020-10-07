@@ -188,7 +188,7 @@ public class WxPayServiceImpl implements WxPayService {
 	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest) {
 		payToPersonRequest.setMerchantId(mchID);
 		payToPersonRequest.setMerchantAppid(appid);
-		payToPersonRequest.setIp(IPUtil.getIpAddr());
+//		payToPersonRequest.setIp(IPUtil.getIpAddr());
 
 		Map<String, String> reqMap = ReqUtil.getMap(payToPersonRequest);
 		WXPay wxPay = getWxPay();
