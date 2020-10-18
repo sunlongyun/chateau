@@ -3,6 +3,7 @@ package com.chisong.green.farm.app.controller.account;
 import com.chisong.green.farm.app.constants.enums.Validity;
 import com.chisong.green.farm.app.controller.account.request.WithDrawApplyReq;
 import com.chisong.green.farm.app.controller.response.CCResponse;
+import com.chisong.green.farm.app.dto.AccountFlowDto;
 import com.chisong.green.farm.app.dto.AccountInfoDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.example.AccountFlowExample;
@@ -12,6 +13,7 @@ import com.chisong.green.farm.app.service.AccountInfoService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.lianshang.generator.commons.PageInfo;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -79,10 +81,7 @@ public class AccountInfoController {
 	@RequestMapping("details")
 	public CCResponse getDetails(AccountFlowRequest accountFlowRequest){
 		LoginResponse loginResponse = CurrentUserUtils.get();
-		if(null == loginResponse){
-			loginResponse = new LoginResponse();
-			loginResponse.setOpenid("oqrTq4jLQt0I_9F4vQVQLQGDrBbM");
-		}
+
 		CustomerInfoDto customerInfoDto = customerInfoService.getCustomerInfoDtoByOpenId(loginResponse.getOpenid());
 		AccountInfoDto accountInfoDto =
 			accountInfoService.getAccountInfoDtoByCustomerId(Integer.parseInt(customerInfoDto.getId()+
@@ -93,7 +92,7 @@ public class AccountInfoController {
 
 		AccountFlowExample accountFlowExample = new AccountFlowExample();
 		accountFlowExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
-			.andSourceEqualTo(0).andTypeEqualTo(1).andAccountIdEqualTo(accountInfoDto.getId());
+			.andAccountIdEqualTo(accountInfoDto.getId());
 		accountFlowExample.setOrderByClause("id desc");
 
 	 PageInfo pageInfo =	accountFlowService.getPageInfo(accountFlowRequest.getPageNo(),
@@ -119,12 +118,23 @@ public class AccountInfoController {
 			return CCResponse.fail("账户不存在，登录授权后自动开户");
 		}
 		Map<String,Object> summaryInfo = new HashMap<>();
-		summaryInfo.put("accountAmount", accountInfoDto.getTotalAmount()/100);
-		summaryInfo.put("shareAmount", accountInfoDto.getShareAmount()/100);
-		summaryInfo.put("availableAmount", accountInfoDto.getAvailableAmount()/100);
-		summaryInfo.put("recordedAmount", accountInfoDto.getRecordedAmount()/100);
+		summaryInfo.put("accountAmount", BigDecimal.valueOf(accountInfoDto.getTotalAmount()).divide(new BigDecimal(
+			"100"),2,BigDecimal.ROUND_HALF_DOWN));
+		summaryInfo.put("shareAmount",  BigDecimal.valueOf(accountInfoDto.getShareAmount()).divide(new BigDecimal(
+			"100"),2,BigDecimal.ROUND_HALF_DOWN));
+		summaryInfo.put("availableAmount", BigDecimal.valueOf(accountInfoDto.getAvailableAmount()).divide(new BigDecimal(
+			"100"),2,BigDecimal.ROUND_HALF_DOWN));
+		summaryInfo.put("recordedAmount", BigDecimal.valueOf(accountInfoDto.getRecordedAmount()).divide(new BigDecimal(
+			"100"),2,BigDecimal.ROUND_HALF_DOWN));
 		summaryInfo.put("friendsNum", accountInfoDto.getFriendsNum());
 
+		AccountFlowExample accountFlowExample = new AccountFlowExample();
+		accountFlowExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+			.andStatusEqualTo(0).andTypeEqualTo(0).andSourceEqualTo(1);
+		int withDrawing =  accountFlowService.getList(accountFlowExample).stream().map(AccountFlowDto::getAmount)
+			.reduce(Math::addExact).orElse(0);
+		summaryInfo.put("withDrawing", BigDecimal.valueOf(withDrawing).divide(new BigDecimal(
+			"100"),2,BigDecimal.ROUND_HALF_DOWN));
 		return CCResponse.success(summaryInfo);
 	}
 }

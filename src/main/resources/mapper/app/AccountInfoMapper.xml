@@ -188,7 +188,8 @@
 
   <!-- 冻结账户余额-->
   <update id="frozenAmount">
-    update account_info set available_amount -= #{amount}, forezen_amount += #{amount} where id = #{accountId}
+    update account_info set available_amount =available_amount - #{amount}, forezen_amount =forezen_amount+ #{amount}
+     where id =  #{accountId}
     and available_amount >= #{amount}
   </update>
     <!-- 条件-->

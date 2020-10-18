@@ -35,11 +35,8 @@ import org.springframework.util.CollectionUtils;
 @Slf4j
 public class AuthBizServiceImpl implements AuthBizService {
 
-	@Value("${appid}")
-	private String appId;
-	@Value("${secret}")
-	private String secret;
-	public Map<LocalDateTime, String> accessMap = new HashMap<>();
+//	public Map<LocalDateTime, String> accessMap = new HashMap<>();
+	private Map<String, Map<LocalDateTime, String>> appMap = new HashMap<>();
 	@Autowired
 	private AuthService authService;
 	@Autowired
@@ -49,18 +46,20 @@ public class AuthBizServiceImpl implements AuthBizService {
 	@Override
 	public String getAccessToken() {
 		String accessToken = null;
+		Map<LocalDateTime, String> accessMap = appMap.computeIfAbsent(AppUtils.getName(), (key) -> new HashMap<>());
 		if(!accessMap.isEmpty() && LocalDateTime.now().isBefore(accessMap.keySet().iterator().next())) {
 			accessToken = accessMap.values().iterator().next();
 		} else {
 			accessMap.clear();
 			AcccessCodeReq acccessCodeReq = new AcccessCodeReq();
-			acccessCodeReq.setSecret(secret);
-			acccessCodeReq.setAppId(appId);
+			acccessCodeReq.setSecret(AppUtils.getSecret());
+			acccessCodeReq.setAppId(AppUtils.getName());
 			AccessCodeResponse accessCodeResponse = authService.getAccessToken(acccessCodeReq);
 			LocalDateTime localDateTime = LocalDateTime.now();
 			localDateTime  =
 				localDateTime.plusSeconds(accessCodeResponse.getExpiresIn().longValue()).minusMinutes(15);
 			accessMap.put(localDateTime, accessCodeResponse.getAccessToken());
+			appMap.put(AppUtils.getName(), accessMap);
 			accessToken = accessCodeResponse.getAccessToken();
 		}
 		return accessToken;
@@ -69,8 +68,8 @@ public class AuthBizServiceImpl implements AuthBizService {
 	@Override
 	public String login(String jsCode) {
 		LoginReq loginReq = new LoginReq();
-		loginReq.setAppId(appId);
-		loginReq.setSecret(secret);
+		loginReq.setAppId(AppUtils.getName());
+		loginReq.setSecret(AppUtils.getSecret());
 		loginReq.setJsCode(jsCode);
 		LoginResponse loginResponse = authService.codeToSession(loginReq);
 		log.info("loginResponse:{}",loginResponse);

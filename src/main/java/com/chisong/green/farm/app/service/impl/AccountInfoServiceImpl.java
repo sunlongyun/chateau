@@ -11,6 +11,7 @@ import com.chisong.green.farm.app.dto.AccountInfoDto;
 import com.chisong.green.farm.app.entity.CustomerInfo;
 import com.chisong.green.farm.app.entity.WithDrawApply;
 import com.chisong.green.farm.app.example.AccountInfoExample;
+import com.chisong.green.farm.app.example.WithDrawApplyExample;
 import com.chisong.green.farm.app.mapper.AccountFlowMapper;
 import com.chisong.green.farm.app.mapper.AccountInfoMapper;
 import com.chisong.green.farm.app.mapper.CustomerInfoMapper;
@@ -118,13 +119,25 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 		if(null == accountInfoDto){
 			throw new RuntimeException("账户不存在，请先申请开户");
 		}
+		WithDrawApplyExample withDrawApplyExample = new WithDrawApplyExample();
+		withDrawApplyExample.createCriteria().andValidityEqualTo(Validity.AVAIL.code())
+			.andAccountIdEqualTo(accountInfoDto.getId()).andStatusEqualTo(0);
 
-		//1.冻结申请金额
-		int amount = withDrawApplyReq.getAmount().multiply(BigDecimal.valueOf(100)).intValue();
+	    boolean exists = withDrawApplyMapper.selectByExample(withDrawApplyExample).stream().findAny().isPresent();
+		if(exists){
+			throw new RuntimeException("有一笔提现申请正在处理中，请到账后再发起新的请求!");
+		}
+	  //1.冻结申请金额
+		int amount =
+			BigDecimal.valueOf(withDrawApplyReq.getAmount()).multiply(BigDecimal.valueOf(100))
+				.setScale(2,BigDecimal.ROUND_HALF_EVEN).intValue();
+
 		int r =	accountInfoMapper.frozenAmount(amount, accountInfoDto.getId());
 		if(r <=0){
 			throw new RuntimeException("提现申请失败,可能账户余额不足!");
 		}
+		accountInfoDto = getById( accountInfoDto.getId());
+
 		//2.添加提现流水明细
 		saveAccountFlow(accountInfoDto, amount);
 
@@ -144,7 +157,6 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 
 			CustomerInfo customerInfo = new CustomerInfo();
 			customerInfo.setId(Long.parseLong(accountInfoDto.getCusotmerId()+""));
-			customerInfo.setUserName(withDrawApplyReq.getRealName());
 			customerInfo.setMobile(withDrawApplyReq.getMobile());
 			customerInfoMapper.updateById(customerInfo);
 		}
@@ -158,6 +170,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 		withDrawApply.setNickName(accountInfoDto.getNickName());
 		withDrawApply.setRealName(withDrawApplyReq.getRealName());
 		withDrawApply.setMobile(withDrawApplyReq.getMobile());
+		withDrawApply.setAppInfoId(AppUtils.get());
 		withDrawApplyMapper.insert(withDrawApply);
 	}
 
@@ -165,10 +178,12 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 		AccountFlow accountFlow = new AccountFlow();
 		accountFlow.setAccountId(accountInfoDto.getId());
 		accountFlow.setAmount(amount);
-		accountFlow.setOperateName(accountInfoDto.getNickName());
+		String desc="[余额提现]";
+		accountFlow.setOperateName(desc);
 		accountFlow.setSource(1);
 		accountFlow.setStatus(0);
 		accountFlow.setType(0);
+		accountFlow.setAppInfoId(AppUtils.get());
 
 		accountFlowMapper.insert(accountFlow);
 	}

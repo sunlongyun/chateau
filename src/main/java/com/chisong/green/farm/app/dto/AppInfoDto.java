@@ -9,7 +9,7 @@ import lombok.Data;
 * APP名称
 * </p>
 * @author 孙龙云
-* @date 2020-10-07
+* @date 2020-10-17
 */
 @Data
 public class AppInfoDto implements Serializable {
@@ -22,6 +22,16 @@ public class AppInfoDto implements Serializable {
     * 收款openId
      */
     private String openId;
+
+    /**
+    * appId
+     */
+    private String appId;
+
+    /**
+    * APP秘钥
+     */
+    private String appSecret;
 
     /**
     * app名称

@@ -107,7 +107,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment, Paym
 		LoginResponse loginResponse = CurrentUserUtils.get();
 		prePayRequest.setOpenid(loginResponse.getOpenid());
 		prePayRequest.setSpbillCreateIp(clientIP);
-		String title = "食用农产品";
+		String title = "松松付款";
 		prePayRequest.setBody(title);
 		prePayRequest.setTradeType(TRADE_TYPE);
 		prePayRequest.setTotalFee(totalAmount + "");

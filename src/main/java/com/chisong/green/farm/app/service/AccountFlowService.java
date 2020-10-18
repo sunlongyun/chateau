@@ -12,4 +12,9 @@ import com.chisong.green.farm.app.dto.AccountFlowDto;
  */
 public interface AccountFlowService extends IService<AccountFlowDto> {
 
+	/**
+	 * 入账
+	 * @param accountFlowDto
+	 */
+	void inCome(AccountFlowDto accountFlowDto);
 }

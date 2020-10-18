@@ -2,6 +2,7 @@ package com.chisong.green.farm.app.controller.callback;
 
 import com.chisong.green.farm.app.constants.enums.OrderStatusEnum;
 import com.chisong.green.farm.app.constants.enums.Validity;
+import com.chisong.green.farm.app.dto.AppInfoDto;
 import com.chisong.green.farm.app.dto.OrderInfoDto;
 
 import com.chisong.green.farm.app.dto.PaymentDto;
@@ -13,6 +14,7 @@ import com.chisong.green.farm.app.miniProgram.enums.PayStatusEnum;
 import com.chisong.green.farm.app.miniProgram.request.PayOrderQuery;
 import com.chisong.green.farm.app.miniProgram.response.PayOrderQueryResultResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
+import com.chisong.green.farm.app.service.AppInfoService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.RefundOrderService;
@@ -23,6 +25,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +69,8 @@ public class PayCallBackController {
 
 	@Autowired
 	private PayToOrderInterceptor payToOrderInterceptor;
+	@Autowired
+	private AppInfoService appInfoService;
 
 	/**
 	 * 支付成功回调接口
@@ -128,6 +135,15 @@ public class PayCallBackController {
 						orderInfoDto.setStatus(OrderStatusEnum.PAYED.code());
 						orderInfoDto.setPayNo(paymentDto.getPayNo());
 						orderInfoDto.setPayedAmount(Long.parseLong(payOrderQueryResultResponse.getTotalFee() + ""));
+
+						AppInfoDto appInfoDto = appInfoService.getById(orderInfoDto.getAppInfoId());
+						Integer  transferDate = appInfoDto.getTransferDate();
+						if(null == transferDate){
+							transferDate = 15;
+						}
+						orderInfoDto.setFeeTransferTime(Date.from(
+							LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
+								.systemDefault()).toInstant()));
 						orderInfoService.update(orderInfoDto);
 
 						//拦截处理

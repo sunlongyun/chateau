@@ -30,6 +30,7 @@ import com.chisong.green.farm.app.service.OrderDetailService;
 import com.chisong.green.farm.app.service.OrderInfoService;
 import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.SupplierService;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.utils.CurrentUserUtils;
 import com.chisong.green.farm.app.utils.IPUtil;
 import com.lianshang.generator.commons.PageInfo;
@@ -41,6 +42,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,6 +82,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderHandleFactory orderCheckFactory;
+
+	@Value("${key}")
+	private String merchantKey;
 
 	/**
 	 * 查询订单状态
@@ -295,6 +300,8 @@ public class OrderController {
 		dataMap.put("orderNo", orderNo);
 		dataMap.put("prePayId", prePayResponse.getPrepayId());
 		dataMap.put("orderId", orderInfoDto.getId());
+		dataMap.put("appId", AppUtils.getName());
+		dataMap.put("key", merchantKey);
 
 		return CCResponse.success(dataMap);
 	}

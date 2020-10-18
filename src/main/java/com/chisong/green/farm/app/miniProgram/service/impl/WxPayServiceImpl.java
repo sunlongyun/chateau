@@ -16,11 +16,9 @@ import com.chisong.green.farm.app.miniProgram.response.PrePayResponse;
 import com.chisong.green.farm.app.miniProgram.response.RedBagResponse;
 import com.chisong.green.farm.app.miniProgram.response.SendCardResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
-import com.chisong.green.farm.app.utils.IPUtil;
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.chisong.green.farm.app.wpay.util.WpayUtil;
 import com.github.wxpay.sdk.WXPay;
-import com.github.wxpay.sdk.WXPayConstants.SignType;
-import com.github.wxpay.sdk.WXPayUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -29,14 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * 描述: 微信支付
@@ -53,10 +45,10 @@ public class WxPayServiceImpl implements WxPayService {
 	 */
 	@Value("${mchID}")
 	private String mchID;
-	@Value("${appid}")
-	private String appid;
-	@Value("${secret}")
-	private String secret;
+//	@Value("${appid}")
+//	private String appid;
+//	@Value("${secret}")
+//	private String secret;
 	@Value("${notifyUrl}")
 	private String notifyUrl;
 	/**
@@ -85,7 +77,7 @@ public class WxPayServiceImpl implements WxPayService {
 			InputStream certStream = new FileInputStream(file);
 			byte[] bytes = new byte[certStream.available()];
 			certStream.read(bytes);
-			WXPay wxPay = WpayUtil.getWXPay(mchID, appid, key, bytes, notifyUrl);
+			WXPay wxPay = WpayUtil.getWXPay(mchID, AppUtils.getName(), key, bytes, notifyUrl);
 			certStream.close();
 			return wxPay;
 		} catch(Exception ex) {
@@ -187,7 +179,7 @@ public class WxPayServiceImpl implements WxPayService {
 	@Override
 	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest) {
 		payToPersonRequest.setMerchantId(mchID);
-		payToPersonRequest.setMerchantAppid(appid);
+		payToPersonRequest.setMerchantAppid(AppUtils.getName());
 //		payToPersonRequest.setIp(IPUtil.getIpAddr());
 
 		Map<String, String> reqMap = ReqUtil.getMap(payToPersonRequest);

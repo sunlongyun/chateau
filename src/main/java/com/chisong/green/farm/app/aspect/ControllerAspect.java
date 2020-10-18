@@ -1,8 +1,10 @@
 package com.chisong.green.farm.app.aspect;
 
 import com.chisong.green.farm.app.controller.response.CCResponse;
+import com.chisong.green.farm.app.dto.AppInfoDto;
 import com.chisong.green.farm.app.dto.CustomerInfoDto;
 import com.chisong.green.farm.app.miniProgram.response.LoginResponse;
+import com.chisong.green.farm.app.service.AppInfoService;
 import com.chisong.green.farm.app.service.CustomerInfoService;
 import com.chisong.green.farm.app.utils.AESUtil;
 import com.chisong.green.farm.app.utils.AppUtils;
@@ -36,8 +38,14 @@ public class ControllerAspect {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 
+	/**
+	 * 对称秘钥
+	 */
 	@Value("${appKey}")
 	private String key;
+
+	@Autowired
+	private AppInfoService appInfoService;
 
 	@Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping) "
 		+ "|| @annotation(org.springframework.web.bind.annotation.PostMapping) "
@@ -52,8 +60,13 @@ public class ControllerAspect {
 			.getRequest();
 		String userCode = request.getHeader("userCode");
 		String appId = (String)request.getHeader("appId");
+
 		if(!StringUtils.isEmpty(appId)){
-			AppUtils.set(Long.parseLong(AESUtil.decryptData(appId,key)));
+			Long thisAppId = Long.parseLong(AESUtil.decryptData(appId,key));
+			AppUtils.set(thisAppId);
+			AppInfoDto appInfoDto = appInfoService.getById(thisAppId);
+			AppUtils.setName(appInfoDto.getAppId());
+			AppUtils.setSecret(appInfoDto.getAppSecret());
 		}
 		if(StringUtils.isEmpty(userCode)){
 			return proceedingJoinPoint.proceed();
@@ -104,6 +117,8 @@ public class ControllerAspect {
 			}
 			return  CCResponse.fail(errorMsg);
 		} finally {
+			AppUtils.remove();
+			AppUtils.removeName();
 			AppUtils.remove();
 			long end = System.currentTimeMillis();
 			log.info("【响应参数】耗时:[{}]，出参:[{}]", end - start, JsonUtils.object2JsonString(result));

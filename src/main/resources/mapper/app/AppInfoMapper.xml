@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.chisong.green.farm.app.entity.AppInfo">
         <id column="id" property="id" />
         <result column="open_id" property="openId" />
+        <result column="app_id" property="appId" />
+        <result column="app_secret" property="appSecret" />
         <result column="name" property="name" />
         <result column="contact_user" property="contactUser" />
         <result column="contact_phone" property="contactPhone" />
@@ -26,7 +28,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, name, contact_user, contact_phone, pay_supplier, pay_recommend, recommend_rate, recommend_customerId, pay_manager, pay_saler, create_time, update_time, validity, rate, same_city, range_limit, transfer_date
+        id, open_id, app_id, app_secret, name, contact_user, contact_phone, pay_supplier, pay_recommend, recommend_rate, recommend_customerId, pay_manager, pay_saler, create_time, update_time, validity, rate, same_city, range_limit, transfer_date
     </sql>
 
 

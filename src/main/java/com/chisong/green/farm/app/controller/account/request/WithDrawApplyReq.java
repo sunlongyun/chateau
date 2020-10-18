@@ -15,7 +15,7 @@ public class WithDrawApplyReq {
 	/**
 	 * 提现申请金额,单位:元
 	 */
-	private BigDecimal amount;
+	private Integer amount;
 
 	/**
 	 * 当前用户

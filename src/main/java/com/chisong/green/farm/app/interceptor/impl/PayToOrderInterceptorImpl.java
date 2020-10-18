@@ -167,7 +167,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		merchantPaymentDto.setPayId(paymentId);
 		merchantPaymentDto.setPayType(1);
 		merchantPaymentDto.setUserType(1);
-		merchantPaymentDto.setTradeNo("sc"+System.currentTimeMillis()+"_"+paymentId);
+		merchantPaymentDto.setTradeNo("sc"+System.currentTimeMillis()+paymentId);
 		String remark  ="顾客["+orderInfoDto.getCustomerName()+"]购物款结算";
 		merchantPaymentDto.setRemark(remark);
 
@@ -355,6 +355,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 			accountFlowDto.setOperateName(desc);
 			accountFlowDto.setSource(3);
 			accountFlowDto.setType(1);
+			accountFlowDto.setAppInfoId(paymentDto.getAppInfoId());
 			accountFlowService.save(accountFlowDto);
 			accountInfoDto.setRecordedAmount(accountInfoDto.getRecordedAmount()+recommendFee);
 			accountFlowDto.setInAccountTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
@@ -378,7 +379,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 			accountFlowDto.setType(1);
 			accountFlowDto.setInAccountTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
 				.systemDefault()).toInstant()));
-
+			accountFlowDto.setAppInfoId(paymentDto.getAppInfoId());
 			accountFlowService.save(accountFlowDto);
 
 			accountInfoDto.setRecordedAmount(accountInfoDto.getRecordedAmount()+platFee);
@@ -526,6 +527,11 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		log.info("paymentId == {}, firstAmount=={}, secondAmount=={}", paymentId, firstAmount, secondAmount);
 
 		PaymentDto paymentDto = paymentService.getById(paymentId);
+		AppInfoDto appInfoDto = appInfoService.getById(paymentDto.getAppInfoId());
+		Integer transferDate = appInfoDto.getTransferDate();
+		if(null == transferDate){
+			transferDate = 15;
+		}
 		String orderNo = paymentDto.getPayOrderNo();
 		OrderInfoDto orderInfoDto = orderInfoService.getOrderByNo(orderNo);
 		Long customerId = orderInfoDto.getCustomerId();
@@ -553,6 +559,8 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		accountFlowDto.setOperateName("[佣金]"+customerInfoDto.getNickName()+"完成了一笔购物交易.");
 		accountFlowDto.setAppInfoId(paymentDto.getAppInfoId());
 		accountFlowDto.setPayNo(paymentDto.getPayNo());
+		accountFlowDto.setInAccountTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
+			.systemDefault()).toInstant()));
 		accountFlowService.save(accountFlowDto);
 
 
@@ -579,6 +587,8 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		accountFlowDto2.setPayNo(paymentDto.getPayNo());
 		accountFlowDto2.setAppInfoId(paymentDto.getAppInfoId());
 		accountFlowDto2.setOperateName("[佣金]"+customerInfoDto.getNickName()+"完成了一笔购物交易.");
+		accountFlowDto2.setInAccountTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
+			.systemDefault()).toInstant()));
 		accountFlowService.save(accountFlowDto2);
 
 	}

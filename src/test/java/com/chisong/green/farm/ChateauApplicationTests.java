@@ -77,7 +77,7 @@ public class ChateauApplicationTests {
 				+ ".tom235.com:3306/green_farm?useUnicode=true&characterEncoding=utf8", "com.mysql.jdbc.Driver",
 			"chisong", "csz123$%",
 		Arrays.asList(GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.DTO,GenerateFileTypeEnum.ENTITY,
-			GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.MAPPER_XML),"account_flow");
+			GenerateFileTypeEnum.EXAMPLE,GenerateFileTypeEnum.MAPPER_XML),"app_info");
 	}
 
 	@Test

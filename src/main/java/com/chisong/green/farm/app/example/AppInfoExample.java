@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author 孙龙云
-* @date 2020-10-07
+* @date 2020-10-17
 */
 @Data
 public class AppInfoExample implements Serializable {
@@ -204,6 +204,128 @@ public class AppInfoExample implements Serializable {
 
         public Criteria andOpenIdIsNotNull() {
             addCriterion("open_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAppIdIn(List<String> values) {
+            addCriterion("app_id in", values, "appId");
+            return (Criteria) this;
+        }
+        public Criteria andAppIdNotIn(List<String> values) {
+            addCriterion("app_id not in", values, "appId");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAppIdBetween(String value1, String value2) {
+            addCriterion("app_id between", value1, value2, "appId");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAppIdLike(String value) {
+            addCriterion("app_id like", value, "appId");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAppIdEqualTo(String value) {
+            addCriterion("app_id =", value, "appId");
+            return (Criteria) this;
+        }
+        public Criteria andAppIdNotEqualTo(String value) {
+            addCriterion("app_id <>", value, "appId");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAppIdGreaterThan(String value) {
+            addCriterion("app_id >", value, "appId");
+            return (Criteria) this;
+        }
+        public Criteria andAppIdGreaterThanOrEqualTo(String value) {
+            addCriterion("app_id >=", value, "appId");
+            return (Criteria) this;
+        }
+        public Criteria andAppIdLessThan(String value) {
+            addCriterion("app_id <", value, "appId");
+            return (Criteria) this;
+        }
+        public Criteria andAppIdLessThanOrEqualTo(String value) {
+            addCriterion("app_id <=", value, "appId");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAppIdIsNull() {
+            addCriterion("app_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdIsNotNull() {
+            addCriterion("app_id is not null");
+            return (Criteria) this;
+        }
+        // in,   not in
+        public Criteria andAppSecretIn(List<String> values) {
+            addCriterion("app_secret in", values, "appSecret");
+            return (Criteria) this;
+        }
+        public Criteria andAppSecretNotIn(List<String> values) {
+            addCriterion("app_secret not in", values, "appSecret");
+            return (Criteria) this;
+        }
+
+        //between
+        public Criteria andAppSecretBetween(String value1, String value2) {
+            addCriterion("app_secret between", value1, value2, "appSecret");
+            return (Criteria) this;
+        }
+
+        //like
+        public Criteria andAppSecretLike(String value) {
+            addCriterion("app_secret like", value, "appSecret");
+            return (Criteria) this;
+        }
+
+        // = <>
+        public Criteria andAppSecretEqualTo(String value) {
+            addCriterion("app_secret =", value, "appSecret");
+            return (Criteria) this;
+        }
+        public Criteria andAppSecretNotEqualTo(String value) {
+            addCriterion("app_secret <>", value, "appSecret");
+            return (Criteria) this;
+        }
+
+
+        // > >= < <=
+        public Criteria andAppSecretGreaterThan(String value) {
+            addCriterion("app_secret >", value, "appSecret");
+            return (Criteria) this;
+        }
+        public Criteria andAppSecretGreaterThanOrEqualTo(String value) {
+            addCriterion("app_secret >=", value, "appSecret");
+            return (Criteria) this;
+        }
+        public Criteria andAppSecretLessThan(String value) {
+            addCriterion("app_secret <", value, "appSecret");
+            return (Criteria) this;
+        }
+        public Criteria andAppSecretLessThanOrEqualTo(String value) {
+            addCriterion("app_secret <=", value, "appSecret");
+            return (Criteria) this;
+        }
+
+        //null  not null
+        public Criteria andAppSecretIsNull() {
+            addCriterion("app_secret is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppSecretIsNotNull() {
+            addCriterion("app_secret is not null");
             return (Criteria) this;
         }
         // in,   not in

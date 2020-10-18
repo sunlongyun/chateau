@@ -276,7 +276,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
 			GoodsSpecsDto goodsSpecsDto = goodsSpecsService.getById(orderDetailReq.getSpecsId());
 			Long detailPrice  = Long.parseLong(goodsSpecsDto.getPrice()+"") ;
-			if(goodsSpecsDto.getPromote() ==1){
+			if(goodsSpecsDto.getPromote() ==1 && null != goodsSpecsDto.getPromotionPrice()){
 				 detailPrice = Long.parseLong( goodsSpecsDto.getPromotionPrice()+"") ;;
 			}
 
