@@ -1,11 +1,14 @@
 package com.chisong.green.farm.app.service.impl;
 
+import com.chisong.green.farm.app.dto.AppInfoDto;
+import com.chisong.green.farm.app.dto.PaymentDto;
 import com.chisong.green.farm.app.entity.MerchantPayment;
 import com.chisong.green.farm.app.dto.MerchantPaymentDto;
 import com.chisong.green.farm.app.mapper.MerchantPaymentMapper;
 import com.chisong.green.farm.app.miniProgram.request.PayToPersonRequest;
 import com.chisong.green.farm.app.miniProgram.response.PayToPersonResponse;
 import com.chisong.green.farm.app.miniProgram.service.WxPayService;
+import com.chisong.green.farm.app.service.AppInfoService;
 import com.chisong.green.farm.app.service.MerchantPaymentService;
 
 import com.chisong.green.farm.app.service.PaymentService;
@@ -29,6 +32,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class MerchantPaymentServiceImpl extends ServiceImpl<MerchantPaymentMapper,MerchantPayment, MerchantPaymentDto> implements MerchantPaymentService {
 	@Autowired
 	private WxPayService wxPayService;
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private AppInfoService appInfoService;
 	@Override
 	public void pay(Long id) {
 		MerchantPaymentDto merchantPaymentDto = getById(id);
@@ -45,6 +52,18 @@ public class MerchantPaymentServiceImpl extends ServiceImpl<MerchantPaymentMappe
 		payToPersonRequest.setDesc(merchantPaymentDto.getRemark());
 		payToPersonRequest.setAmount(merchantPaymentDto.getAmount());
 		payToPersonRequest.setOpenid(merchantPaymentDto.getOpenId());
+		AppInfoDto appInfoDto =null;
+		if(merchantPaymentDto.getAppInfoId() == null){
+			PaymentDto paymentDto = paymentService.getById(merchantPaymentDto.getPayId());
+			 appInfoDto = appInfoService.getById(paymentDto.getAppInfoId());
+			merchantPaymentDto.setAppInfoId(appInfoDto.getId());
+			this.update(merchantPaymentDto);
+		}else {
+			appInfoDto = appInfoService.getById(merchantPaymentDto.getAppInfoId());
+		}
+
+	   payToPersonRequest.setMerchantAppid(appInfoDto.getAppId());
+
 		PayToPersonResponse payToPersonResponse = wxPayService.payToPerson(payToPersonRequest);
 
 		if(payToPersonResponse != null){

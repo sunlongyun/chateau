@@ -170,6 +170,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		merchantPaymentDto.setTradeNo("sc"+System.currentTimeMillis()+paymentId);
 		String remark  ="顾客["+orderInfoDto.getCustomerName()+"]购物款结算";
 		merchantPaymentDto.setRemark(remark);
+		merchantPaymentDto.setAppInfoId(orderInfoDto.getAppInfoId());
 
 		merchantPaymentDto.setPreTransferTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
 			.systemDefault()).toInstant()));
@@ -394,6 +395,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 	 */
 	private void saveSupplierFee(Long paymentId, Integer supplierFee) {
 		MerchantPaymentDto merchantPaymentDto = new MerchantPaymentDto();
+		PaymentDto paymentDto =	paymentService.getById(paymentId);
 		merchantPaymentDto.setStatus(0);
 		merchantPaymentDto.setAmount(supplierFee);
 		merchantPaymentDto.setOpenId("oqrTq4jLQt0I_9F4vQVQLQGDrBbM");
@@ -402,6 +404,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		merchantPaymentDto.setUserType(1);
 		merchantPaymentDto.setTradeNo("sp_"+System.currentTimeMillis()+paymentId);
 		merchantPaymentDto.setRemark("商品结款");
+		merchantPaymentDto.setAppInfoId(paymentDto.getAppInfoId());
 		//TODO 供货商openId
 		merchantPaymentService.save(merchantPaymentDto);
 	}
@@ -556,7 +559,7 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 		accountFlowDto.setType(1);
 		accountFlowDto.setSource(0);
 		accountFlowDto.setAccountId(accountInfoDto.getId());
-		accountFlowDto.setOperateName("[佣金]"+customerInfoDto.getNickName()+"完成了一笔购物交易.");
+		accountFlowDto.setOperateName("[分享佣金]"+customerInfoDto.getNickName()+"完成了一笔购物交易.");
 		accountFlowDto.setAppInfoId(paymentDto.getAppInfoId());
 		accountFlowDto.setPayNo(paymentDto.getPayNo());
 		accountFlowDto.setInAccountTime(Date.from(LocalDateTime.now().plus(transferDate, ChronoUnit.DAYS).atZone( ZoneId
@@ -604,6 +607,9 @@ public class PayToOrderInterceptorImpl implements PayToOrderInterceptor {
 			Integer profitRate = goodsDto.getProfitRate();
 			if(profitRate == null){
 				profitRate = 0;
+			}
+			if(profitRate == 0){
+				return 0;
 			}
 			log.info("shareRate=={}", profitRate);
 			return BigDecimal.valueOf(orderDetailDto.getPrice())

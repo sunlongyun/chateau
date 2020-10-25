@@ -17,4 +17,10 @@ public interface AccountFlowService extends IService<AccountFlowDto> {
 	 * @param accountFlowDto
 	 */
 	void inCome(AccountFlowDto accountFlowDto);
+
+	/**
+	 * 提现
+	 * @param accountFlowDto
+	 */
+	void withdraw(AccountFlowDto accountFlowDto);
 }

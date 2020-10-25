@@ -29,6 +29,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * 描述: 微信支付
@@ -179,7 +180,10 @@ public class WxPayServiceImpl implements WxPayService {
 	@Override
 	public PayToPersonResponse payToPerson(PayToPersonRequest payToPersonRequest) {
 		payToPersonRequest.setMerchantId(mchID);
-		payToPersonRequest.setMerchantAppid(AppUtils.getName());
+		if(StringUtils.isEmpty(payToPersonRequest.getMerchantAppid())){
+			payToPersonRequest.setMerchantAppid(AppUtils.getName());
+		}
+
 //		payToPersonRequest.setIp(IPUtil.getIpAddr());
 
 		Map<String, String> reqMap = ReqUtil.getMap(payToPersonRequest);

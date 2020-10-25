@@ -1,13 +1,16 @@
 package com.chisong.green.farm.app.service.impl;
 
 import com.chisong.green.farm.app.dto.AccountInfoDto;
+import com.chisong.green.farm.app.dto.MerchantPaymentDto;
 import com.chisong.green.farm.app.entity.AccountFlow;
 import com.chisong.green.farm.app.dto.AccountFlowDto;
 import com.chisong.green.farm.app.mapper.AccountFlowMapper;
 import com.chisong.green.farm.app.service.AccountFlowService;
 
 import com.chisong.green.farm.app.service.AccountInfoService;
+import com.chisong.green.farm.app.service.MerchantPaymentService;
 import com.lianshang.generator.commons.ServiceImpl;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +31,16 @@ public class AccountFlowServiceImpl extends ServiceImpl<AccountFlowMapper,Accoun
 	@Autowired
 	private AccountInfoService accountInfoService;
 
+	@Autowired
+	private MerchantPaymentService merchantPaymentService;
+
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void inCome(AccountFlowDto accountFlowDto) {
 		if(accountFlowDto.getStatus() != 0){
 			log.info("入账失败, flowId={}",accountFlowDto.getId());
+			//throw new RuntimeException("入账失败, flowId="+accountFlowDto.getId())
+			return;
 		}
 
 		this.update(accountFlowDto);
@@ -56,5 +64,40 @@ public class AccountFlowServiceImpl extends ServiceImpl<AccountFlowMapper,Accoun
 
 
 
+	}
+
+	@Override
+	@Transactional
+	public void withdraw(AccountFlowDto accountFlowDto) {
+		if(accountFlowDto.getStatus() != 0 || accountFlowDto.getSource() !=1 ){
+			log.info("提现失败, flowId={}",accountFlowDto.getId());
+			return;
+		}
+
+		accountFlowDto.setStatus(1);
+		this.update(accountFlowDto);
+		AccountInfoDto accountInfoDto = accountInfoService.getById(accountFlowDto.getAccountId());
+		accountInfoDto.setForezenAmount(accountInfoDto.getForezenAmount()-accountFlowDto.getAmount());
+		accountInfoDto.setTotalAmount(accountInfoDto.getTotalAmount() - accountFlowDto.getAmount());
+		if(accountInfoDto.getForezenAmount() <0 || accountInfoDto.getTotalAmount() <0){
+			log.info("提现失败，冻结余额出现负值, accountId={}", accountInfoDto.getId());
+			throw new RuntimeException("提现失败，冻结余额出现负值, accountId="+accountInfoDto.getId());
+		}
+		accountInfoService.update(accountInfoDto);
+
+
+		MerchantPaymentDto merchantPaymentDto = new MerchantPaymentDto();
+		merchantPaymentDto.setStatus(0);
+		merchantPaymentDto.setPreTransferTime(new Date());
+		merchantPaymentDto.setAmount(accountFlowDto.getAmount());
+		merchantPaymentDto.setTradeNo("ws"+System.currentTimeMillis()+accountFlowDto.getId());
+		merchantPaymentDto.setOpenId(accountInfoDto.getOpenId());
+		merchantPaymentDto.setUserType(0);
+		merchantPaymentDto.setPayType(6);
+		merchantPaymentDto.setUserName(accountInfoDto.getRealName());
+		merchantPaymentDto.setRemark("余额提现");
+		merchantPaymentDto.setAppInfoId(accountInfoDto.getAppInfoId());
+
+		merchantPaymentService.save(merchantPaymentDto);
 	}
 }

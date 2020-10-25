@@ -60,7 +60,7 @@ public class TableShardInterceptor implements Interceptor {
 		Pattern pattern2 = Pattern.compile(".*AND\\s+USER_NAME.*");
 		if(pattern.matcher(upperSql).matches()
 			|| pattern2.matcher(upperSql).find()
-			|| null == appId){
+			|| null == appId || upperSql.contains("PROVINCE_CITY_AREA")){
 			return invocation.proceed();
 		}
 

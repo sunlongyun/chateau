@@ -19,11 +19,12 @@
         <result column="update_time" property="updateTime" />
         <result column="validity" property="validity" />
         <result column="pre_transfer_time" property="preTransferTime" />
+        <result column="app_info_id" property="appInfoId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, open_id, user_type, pay_type, user_name, status, trade_no, pay_id, payment_no, amount, remark, create_time, update_time, validity, pre_transfer_time
+        id, open_id, user_type, pay_type, user_name, status, trade_no, pay_id, payment_no, amount, remark, create_time, update_time, validity, pre_transfer_time, app_info_id
     </sql>
 
 

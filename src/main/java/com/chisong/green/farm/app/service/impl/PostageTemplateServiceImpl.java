@@ -7,6 +7,7 @@ import com.chisong.green.farm.app.example.PostageTemplateExample;
 import com.chisong.green.farm.app.mapper.PostageTemplateMapper;
 import com.chisong.green.farm.app.service.PostageTemplateService;
 
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,7 @@ public class PostageTemplateServiceImpl extends ServiceImpl<PostageTemplateMappe
 		//添加新增的
 		postageTemplateDtos.stream().forEach(postageTemplateDto -> {
 			if(!postageTemplateDtoList.contains(postageTemplateDto)){
+				postageTemplateDto.setAppInfoId(AppUtils.get());
 				this.save(postageTemplateDto);
 			}
 		});

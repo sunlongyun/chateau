@@ -60,6 +60,9 @@ public class ControllerAspect {
 			.getRequest();
 		String userCode = request.getHeader("userCode");
 		String appId = (String)request.getHeader("appId");
+	    if(StringUtils.isEmpty(appId)){
+		    appId  = request.getParameter("appId");
+	    }
 
 		if(!StringUtils.isEmpty(appId)){
 			Long thisAppId = Long.parseLong(AESUtil.decryptData(appId,key));

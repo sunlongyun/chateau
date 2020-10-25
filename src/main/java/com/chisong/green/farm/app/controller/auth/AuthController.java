@@ -222,7 +222,8 @@ public class AuthController {
 		HttpEntity<String> req = new HttpEntity<>(content, headers);
 		ResponseEntity<byte[]> postForEntity =	restTemplate.exchange(url, HttpMethod.POST,req,byte[].class);
 		byte[] bytes = postForEntity.getBody();
-
+		String xmlStr = new String(bytes,"UTF-8");
+		log.info("xmlStr == {}", xmlStr);
 		return  bytes;
 	}
 

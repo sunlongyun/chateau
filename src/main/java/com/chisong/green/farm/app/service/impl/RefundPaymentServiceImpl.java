@@ -15,6 +15,7 @@ import com.chisong.green.farm.app.service.PaymentService;
 import com.chisong.green.farm.app.service.RefundOrderService;
 import com.chisong.green.farm.app.service.RefundPaymentService;
 
+import com.chisong.green.farm.app.utils.AppUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -64,6 +65,7 @@ public class RefundPaymentServiceImpl extends ServiceImpl<RefundPaymentMapper, R
 		refundPaymentDto.setRefundNo(refundNo);
 		refundPaymentDto.setRefundOrderNo(applyNo);
 		refundPaymentDto.setPaymentNo(paymentNo);
+		refundPaymentDto.setApplyId(AppUtils.get());
 		refundPaymentService.save(refundPaymentDto);
 
 		//调用微信退款接口

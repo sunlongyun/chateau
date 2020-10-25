@@ -21,6 +21,11 @@ import com.chisong.green.farm.app.service.AccountInfoService;
 import com.chisong.green.farm.app.utils.AppUtils;
 import com.lianshang.generator.commons.ServiceImpl;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import javax.xml.bind.ValidationEvent;
@@ -183,6 +188,8 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper,Accoun
 		accountFlow.setSource(1);
 		accountFlow.setStatus(0);
 		accountFlow.setType(0);
+		//到账时间设置为3天后
+		accountFlow.setInAccountTime(Date.from(LocalDateTime.now().plus(3, ChronoUnit.DAYS).atZone(ZoneOffset.systemDefault()).toInstant()));
 		accountFlow.setAppInfoId(AppUtils.get());
 
 		accountFlowMapper.insert(accountFlow);
